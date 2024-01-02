@@ -1,0 +1,138 @@
+{
+  "name": "WHO OWNS THE MEDIA",
+  "type": "project",
+  "group": 0,
+  "on": true,
+  "children": [
+    {
+      "name": "ΟΜΙΛΟΣ ΑΛΑΦΟΥΖΟΥ",
+      "type": "company",
+      "group": 1,
+      "on": true,
+      "children": [
+        {
+          "name": "ΓΙΑΝΝΗΣ ΑΛΑΦΟΥΖΟΣ",
+          "type": "person",
+          "group": 1,
+          "on": true,
+          "children": [
+            {
+              "name": "ΣΚΑΙ",
+              "type": "subcompany",
+              "group": 8,
+              "on": false,
+              "children": [
+                {
+                  "name": "",
+                  "type": "connector",
+                  "group": 8,
+                  "on": false,
+                  "children": [
+                    { "name": "bwin ΣΠΟΡ FM 94,6", "type": "subcompany", "group": 8, "on": false },
+                    { "name": "ΣΚΑΙ.TVPEDIA", "type": "subcompany", "group": 8, "on": false },
+                    { "name": "ΕΡΓΑ ΔΙΟΝΥΣΟΥ", "type": "subcompany", "group": 8, "on": false },
+                    { "name": "104 FM (πρωην Party FM)", "type": "subcompany", "group": 8, "on": false },
+                    { "name": "ΣΚΑΙ.ΣΕΛΗΝΑΙΑ", "type": "subcompany", "group": 8, "on": false },
+                    { "name": "ΘΑΝΑΛΕ", "type": "subcompany", "group": 8, "on": false },
+                    { "name": "DIGEA", "type": "subcompany", "group": 8, "on": false },
+                    { "name": "ΣΚΑΙ TV", "type": "subcompany", "group": 8, "on": false },
+                    { "name": "www.skai.gr", "type": "subcompany", "group": 8, "on": false },
+                    { "name": "ΣΚΑΙ 100,3 FM", "type": "subcompany", "group": 8, "on": false },
+                    { "name": "www.skairadio.gr", "type": "subcompany", "group": 8, "on": false }
+                  ]
+                },
+                { "name": "", "type": "connector", "group": 8, "on": false }
+              ]
+            },
+            { "name": "ΣΕΛΗΝΑΙΑ", "type": "subcompany", "group": 8, "on": false },
+            { "name": "ΓΗΠΕΔΟ ΕΛΑΙΩΝΑ", "type": "subcompany", "group": 8, "on": false },
+            { "name": "TVPEDIA", "type": "subcompany", "group": 8, "on": false },
+            { "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ ΠΑΕ", "type": "subcompany", "group": 8, "on": false },
+            { "name": "MARINE OIL TRADER 4 SHIPPING LIMITED", "type": "subcompany", "group": 8, "on": false },
+            { "name": "BODYGUARD SHIPPING LTD", "type": "subcompany", "group": 8, "on": false },
+            { "name": "ERMIS MANAGEMENT COMPANY LIMITED", "type": "subcompany", "group": 8, "on": false },
+            { "name": "KYKLADES MARITIME CORPORATION", "type": "subcompany", "group": 8, "on": false },
+            { "name": "OKEANIS MARINE HOLDINGS S.A", "type": "subcompany", "group": 8, "on": false },
+            { "name": "OKEANIS ECO TANKERS CORP", "type": "subcompany", "group": 8, "on": false },
+            { "name": "KOROPI A1: M44 ACADEMIES", "type": "subcompany", "group": 8, "on": false },
+            { "name": "Okeanis Energy", "type": "subcompany", "group": 8, "on": false },
+            { "name": "GREEN TEAM", "type": "subcompany", "group": 8, "on": false },
+            {
+              "name": "ΣΧΟΛΕΣ ΠΟΔΟΣΦΑΙΡΟΥ ΠΑΝΑΘΗΝΑΪΚΟΥ ΑΝΩΝΥΜΗ ΕΤΑΙΡΕΙΑ",
+              "type": "subcompany",
+              "group": 8,
+              "on": false
+            },
+            {
+              "name": "ΑΝΑΠΤΥΞΕΙΣ ΑΚΙΝΗΤΩΝ ΚΑΛΛΙΘΕΑΣ ΜΟΝΟΠΡΟΣΩΠΗ ΑΝΩΝΥΜΗ ΕΤΑΙΡΕΙΑ",
+              "type": "subcompany",
+              "group": 8,
+              "on": false
+            },
+            { "name": "ANAFI SHIPPING LIMITED", "type": "subcompany", "group": 8, "on": false },
+            { "inamed": "ΡΑΔΙΟΦΩΝΙΚΕΣ ΠΑΡΑΓΩΓΕΣ ΜΟΝΟΠΡΟΣΩΠΗ Α.Ε.", "type": "subcompany", "group": 8, "on": false }
+          ]
+        },
+        { "name": "ΘΕΜΙΣΤΟΚΛΗΣ ΑΛΑΦΟΥΖΟΣ", "type": "person", "group": 1, "on": true }
+      ]
+    },
+    {
+      "name": "ΟΜΙΛΟΣ ΚΟΠΕΛΟΥΖΟΥ",
+      "type": "company",
+      "group": 2,
+      "on": true,
+      "children": [{ "name": "ΔΗΜΗΤΡΗΣ ΚΟΠΕΛΟΥΖΟΣ", "type": "person", "group": 2, "on": true }]
+    },
+    {
+      "name": "ΟΜΙΛΟΣ ΝΙΚΑ",
+      "type": "company",
+      "group": 3,
+      "on": true,
+      "children": [{ "name": "ΓΙΑΝΝΗΣ ΝΙΚΑΣ", "type": "person", "group": 3, "on": true }]
+    },
+    {
+      "name": "ΟΜΙΛΟΣ ΜΕΛΙΣΑΝΙΔΗ",
+      "type": "company",
+      "group": 4,
+      "on": true,
+      "children": [{ "name": "ΔΗΜΗΤΡΗΣ ΜΕΛΙΣΑΝΙΔΗΣ", "type": "person", "group": 4, "on": true }]
+    },
+    {
+      "name": "ΟΜΙΛΟΣ ΚΑΝΑΚΑΡΗ",
+      "type": "company",
+      "group": 5,
+      "on": true,
+      "children": [
+        { "name": "ΓΙΑΝΝΗΣ ΚΑΝΑΚΑΡΗΣ", "type": "person", "group": 5, "on": true },
+        { "name": "ΚΩΣΤΑΣ ΚΑΝΑΚΑΡΗΣ", "type": "person", "group": 5, "on": true }
+      ]
+    },
+    {
+      "name": "ΟΜΙΛΟΣ ΛΑΤΣΗ",
+      "type": "company",
+      "group": 6,
+      "on": true,
+      "children": [
+        { "name": "ΓΙΑΝΝΗΣ ΛΑΤΣΗΣ", "type": "person", "group": 6, "on": true },
+        { "name": "ΣΠΥΡΟΣ ΛΑΤΣΗΣ", "type": "person", "group": 6, "on": true }
+      ]
+    },
+    {
+      "name": "ΟΜΙΛΟΣ ΙΩΑΝΝΗΔΗ",
+      "type": "company",
+      "group": 7,
+      "on": true,
+      "children": [{ "name": "ΓΙΑΝΝΗΣ ΙΩΑΝΝΗΔΗΣ", "type": "person", "group": 7, "on": true }]
+    },
+    {
+      "name": "ΟΜΙΛΟΣ ΜΑΡΙΝΑΚΗ",
+      "type": "company",
+      "group": 8,
+      "on": true,
+      "children": [
+        { "name": "ΠΑΡΑΣΚΕΥΑΣ ΜΑΡΙΝΑΚΗΣ", "type": "person", "group": 8, "on": true },
+        { "name": "ΣΠΥΡΟΣ ΜΑΡΙΝΑΚΗΣ", "type": "person", "group": 8, "on": true }
+      ]
+    }
+  ]
+}

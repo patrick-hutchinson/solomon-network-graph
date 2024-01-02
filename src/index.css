@@ -1,0 +1,203 @@
+@font-face {
+  font-family: "SimplexNeue";
+  src: url(./assets/fonts/SimplexNeue-Regular.otf);
+}
+
+:root {
+  --highlightColorHover: #f00;
+  --highlightColorClick: #f00;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  font-family: SimplexNeue;
+  background-color: #fff;
+}
+
+.componentContainer {
+  display: grid;
+  width: 100vw;
+  height: 100vh;
+  grid-template-columns: 32vh 1fr;
+  grid-template-rows: auto 5vh 1fr;
+
+  padding: 10px;
+  margin: 0;
+  box-sizing: border-box;
+  row-gap: 10px;
+}
+
+.infoContainer {
+  /* width: 15vw; */
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+  position: relative;
+  border-right: 1px solid black;
+  grid-row-start: 3;
+  grid-column-start: 1;
+
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+.infoTitle {
+  max-width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 25px;
+}
+
+.textElement {
+  font-family: helvetica;
+  font-size: 8px;
+  text-align: center;
+}
+
+.navigationContainer {
+  width: 100%;
+  grid-row-start: 0;
+  /* grid-row-end: 1; */
+  grid-column-start: 1;
+  grid-column-end: 3;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.navigationContainer > ul {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 5px;
+}
+.navigationContainer > ul > li {
+  margin: 0;
+  padding-right: 10px;
+}
+.personFilters {
+  color: #d6d6d6;
+  font-size: 12px;
+}
+.companyFilters {
+  font-size: 16px;
+}
+.filterItem {
+  display: inline;
+  /* font-size: 12px; */
+  margin-right: 30px;
+  grid-row-start: 0;
+  grid-row-end: 1;
+  grid-column-start: 0;
+  grid-column-end: 3;
+  cursor: pointer;
+}
+.filterItem.clicked {
+  color: var(--highlightColorClick) !important;
+}
+.filterItem.hovered {
+  color: var(--highlightColorHover);
+}
+
+.progress-container {
+  width: 100%;
+  height: 15px;
+  background: transparent;
+  border-bottom: 1px solid black;
+  grid-row-start: 2;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.progress-container > .progressMarks {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  position: relative;
+  /* z-index: 1; */
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #000;
+  position: absolute;
+  z-index: 0;
+  border-top: 6px solid black;
+  top: -6px;
+  /* padding-top: 5px; */
+}
+
+.progress-container > .progressMarks > span {
+  border-right: 1px solid #fff;
+  padding-left: 5px;
+  box-sizing: border-box;
+  font-size: 12px;
+  position: relative;
+  mix-blend-mode: difference;
+  color: #fff;
+  /* padding-top: 4px; */
+  top: -2px;
+}
+
+.graphCanvas {
+  grid-row-start: 3;
+  grid-column-start: 2;
+  grid-column-end: 2;
+  width: 100%;
+  height: 100%;
+}
+
+.buttonContainer {
+  /* position: absolute; */
+  grid-row-start: 3;
+  grid-column-start: 2;
+  max-width: 80px;
+  max-height: 20px;
+  display: flex;
+  /* vertical-align: bottom; */
+  /* justify-content: end; */
+  position: relative;
+  top: 95%;
+  left: 95%;
+}
+.buttonContainer > button {
+  display: inline;
+  margin-right: 10px;
+  background: #fff;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 22px;
+}
+
+foreignObject > h5 {
+  pointer-events: none;
+  font-size: 12px;
+  color: #000;
+  text-align: center;
+  font-family: SimplexNeue;
+  pointer-events: none;
+  line-height: 0.9;
+  /* max-width: 150px; */
+  /* background: #fff; */
+}
+.nameTag {
+  background-color: #f5f5f5;
+  /* color: #af1bf5; */
+  border-radius: 2px;
+}
+
+foreignObject {
+  pointer-events: none;
+  /* transform: translate(-20px, -20px); */
+}
+
+foreignObject > h5 > p {
+  margin: 0;
+  padding: 0;
+}
