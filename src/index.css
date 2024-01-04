@@ -1,6 +1,6 @@
 @font-face {
   font-family: "SimplexNeue";
-  src: url(./assets/fonts/SimplexNeue-Regular.otf);
+  src: url(./assets/fonts/SimplexNeue-Regular.woff2) format("woff2"), url(./assets/fonts/SimplexNeue-Regular.woff) format("woff");
 }
 
 :root {
