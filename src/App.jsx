@@ -32,7 +32,7 @@ function D3Chart() {
   let [zoomTransform, setZoomTransform] = React.useState(
     `translate(${initialZoom.x}, ${initialZoom.y}) scale(${initialZoom.k})`
   );
-  let [zoomValues, setZoomValues] = React.useState([0, 0]);
+  let [zoomValues, setZoomValues] = React.useState([0.25, 1]);
 
   // Set state values for the InfoBox component
   let [nodeInfo, setNodeInfo] = React.useState({
@@ -45,7 +45,7 @@ function D3Chart() {
   //
   // Declare Scales and Values
   // Perhaps size should be based on height
-  let nodeSizesArray = [120, 75, 55, 10, 10];
+  let nodeSizesArray = [120, 75, 55, 1, 10];
   let nodeSizes = d3
     .scaleOrdinal() //
     .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
@@ -189,7 +189,8 @@ function D3Chart() {
 
   // Zooming functionality
   function handleZoom(e) {
-    //NOTICE: //ZOOM This here is a makeshift solution and should be removed.
+    // NOTICE: //ZOOM This here is a makeshift solution and should be removed.
+    // This if st. checks if the value has been reset, if it has, it doesn't update zoomTransform's state. Not great
     if (d3.zoomTransform(chartRef.current).x !== 450) {
       setZoomTransform(d3.zoomTransform(chartRef.current));
 
@@ -198,7 +199,22 @@ function D3Chart() {
     setZoomAmount(e.transform.k);
   }
   console.log(zoomTransform);
-  //
+  let zoom = d3
+    .zoom()
+    .on("zoom", handleZoom) //
+    .scaleExtent(zoomValues);
+  // .translateExtent([
+  //   [width * -3, height * -3],
+  //   [width * 3, height * 3],
+  // ]);
+
+  function zoomIn() {
+    d3.select("svg").transition().call(zoom.scaleBy, 1.33);
+  }
+
+  function zoomOut() {
+    d3.select("svg").transition().call(zoom.scaleBy, 0.66);
+  }
 
   useEffect(() => {
     setReloadCounter((prevReloadCounter) => prevReloadCounter + 1);
@@ -256,10 +272,6 @@ function D3Chart() {
         "collision",
         d3.forceCollide().radius((d) => nodeSizes(d.data.type))
       );
-
-    let newZoomValues = [0.25, 1];
-    setZoomValues(newZoomValues);
-    let zoom = d3.zoom().on("zoom", handleZoom).scaleExtent(newZoomValues);
 
     //NOTICE: //ZOOM This here is a makeshift solution and should be removed.
     let zoomVal;
@@ -346,10 +358,21 @@ function D3Chart() {
       .attr("height", "40px")
       .append("xhtml:h5")
       .attr("class", "nodeTextElement")
+      .call(drag(simulation))
       .html((d) => {
         return `<p>${d.data.name} ${d.children ? `[${d.children.length}]` : "[end]"}</p>`;
       })
       .attr("xmlns", "http://www.w3.org/1999/xhtml");
+
+    // Give all foreignObject elements that are small Nodes a class for easier selection
+    document.querySelectorAll(".smallNode").forEach(function (smallNode) {
+      smallNode.parentElement.querySelector("foreignObject").classList.add("smallText");
+    });
+
+    // Turn on Pointer Events for smaller Text
+    document.querySelectorAll(".smallText").forEach(function (smallTextContainer) {
+      smallTextContainer.querySelector("h5").style.pointerEvents = "all";
+    });
 
     // Style the color of the text
     d3.selectAll("circle").each(function (d) {
@@ -363,6 +386,7 @@ function D3Chart() {
       }
     });
 
+    // Arrow Heads
     // Correctly assign an url("arrowheadX") tag to position the arrowhead based on the target node's radius
     d3.selectAll("line") //
       .attr("marker-end", (d, i) => {
@@ -392,8 +416,17 @@ function D3Chart() {
         return nodeColor;
       });
 
-    // Update the circes
-    // Hovering effects
+    document.querySelectorAll(".zoomButton").forEach(function (zoomButton) {
+      zoomButton.addEventListener("mouseenter", function () {
+        zoomButton.style.color = "#af1bf5";
+      });
+      zoomButton.addEventListener("mouseleave", function () {
+        zoomButton.style.color = "#000";
+      });
+    });
+
+    // UPDATE & INTERACTION
+    // Cirlces
     d3.selectAll("circle")
       .on("mouseover", function (e, d) {
         d3.select(this) //
@@ -427,24 +460,21 @@ function D3Chart() {
 
     //
     function handleNodeClick(event, clickedNode) {
-      //Set the node fill (currently not working)
-      d3.select(this) //
-        .attr("class", (d) => (d3.select(this).classed("isClicked") ? "" : "isClicked"));
-
       //if the clicked node is on and contains on descendants, close all deschendant nodes
       function hideDescendantsIfOpen() {
-        let descendantNodesArray = [];
-        let descendingNodes = clickedNode.descendants();
-        descendingNodes.forEach(function (descendingNode) {
-          if (descendingNode.data.on && descendingNode !== clickedNode) {
-            // toggleNodeVisibility(descendingNode);
-            descendantNodesArray.push(descendingNode);
+        let activeDescendants = [];
+        let descendantNodes = clickedNode.descendants();
+        descendantNodes.forEach(function (descendantNode) {
+          if (descendantNode.data.on && descendantNode !== clickedNode) {
+            // toggleNodeVisibility(descendantNode);
+            activeDescendants.push(descendantNode);
           }
         });
-        toggleNodeVisibility(descendantNodesArray);
+        toggleNodeVisibility(activeDescendants);
       }
       hideDescendantsIfOpen();
 
+      //if a node is clicked, remove any clicked class from the filterItemMenu
       document.querySelectorAll(".filterItem").forEach(function (filterItem) {
         filterItem.classList.remove("clicked");
       });
@@ -490,6 +520,26 @@ function D3Chart() {
       // console.log("ancestorNodes are", findAnscestorNodes(clickedNode));
       // console.log("descendantNodes are", findDescendants(clickedNode));
     }
+
+    // SMALL TEXT NODES
+    d3.selectAll(".smallText > h5") //
+      .on("mouseover", function (e, d) {
+        setNodeInfo((prevNodeInfo) => {
+          return { ...prevNodeInfo, title: d.data.name, description: d.data.description };
+        });
+      })
+      .on("click", function (e, d) {
+        // Find Children
+        function showChildrenNodes(clickedNode) {
+          return clickedNode.children;
+        }
+        let childNodes = showChildrenNodes(d);
+        if (childNodes !== undefined) {
+          toggleNodeVisibility(childNodes);
+        } else {
+          console.log("cannot expand leaf node!");
+        }
+      });
 
     //state is now updated
     console.log(links);
@@ -540,6 +590,14 @@ function D3Chart() {
       <Zoombar className="zoombar" zoomAmount={zoomAmount} zoomRange={zoomValues} />
       <InfoBox className="" nodeInfo={nodeInfo} />
       <svg ref={chartRef}></svg>
+      <div className="zoomButtonContainer">
+        <div className="zoomButton" onClick={zoomIn}>
+          Zoom In +
+        </div>
+        <div className="zoomButton" onClick={zoomOut}>
+          Zoom Out -
+        </div>
+      </div>
     </div>
   );
 }

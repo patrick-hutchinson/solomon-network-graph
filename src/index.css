@@ -180,22 +180,18 @@ foreignObject {
 }
 
 foreignObject > h5 {
-  pointer-events: none;
   font-size: 12px;
   color: #fff;
   text-align: center;
   font-family: SimplexNeue;
-  pointer-events: none;
   line-height: 0.9;
   text-overflow: ellipsis;
   max-height: 30px;
   max-width: 300px;
-  /* white-space: nowrap; */
-  /* max-width: 150px; */
-  /* background: #fff; */
 }
 foreignObject > h5.hovered {
   color: var(--highlightColorHover);
+  cursor: pointer;
 }
 .nameTag {
   background-color: #f5f5f5;
@@ -205,7 +201,10 @@ foreignObject > h5.hovered {
 
 foreignObject {
   pointer-events: none;
-  /* transform: translate(-20px, -20px); */
+}
+
+foreignObject:hover {
+  cursor: pointer;
 }
 
 foreignObject > h5 > p {
@@ -215,4 +214,16 @@ foreignObject > h5 > p {
 
 .smallNode > h5 {
   color: #f00;
+}
+
+.zoomButtonContainer {
+  right: 0px;
+  position: absolute;
+  bottom: 10px;
+  text-align: right;
+  padding-right: 20px;
+}
+.zoomButtonContainer:hover {
+  cursor: pointer;
+  /* color: #af1bf5; */
 }
