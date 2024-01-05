@@ -19,7 +19,14 @@ function D3Chart() {
   // Set state values for the Zoombar component
   let [zoomAmount, setZoomAmount] = React.useState(0);
   //currently not working
-  let [zoomTransform, setZoomTransform] = React.useState({ k: 0.35, x: 200, y: -50 });
+  let initialZoom = {
+    x: 450,
+    y: 350,
+    k: 0.4,
+  };
+  let [zoomTransform, setZoomTransform] = React.useState(
+    `translate(${initialZoom.x},${initialZoom.y}) scale(${initialZoom.k})`
+  );
   let [zoomValues, setZoomValues] = React.useState([0, 0]);
 
   // Set state values for the InfoBox component
@@ -231,18 +238,16 @@ function D3Chart() {
         d3.forceCollide().radius((d) => nodeSizes(d.data.type))
       );
 
-    // Zooming functionality
-    function handleZoom(e) {
-      setZoomTransform(e.transform);
-      d3.selectAll("svg g").attr("transform", e.transform);
-      console.log(e.transform);
-
-      setZoomAmount(e.transform.k);
-    }
-
     let newZoomValues = [0.25, 1];
     setZoomValues(newZoomValues);
     let zoom = d3.zoom().on("zoom", handleZoom).scaleExtent(newZoomValues);
+
+    // Zooming functionality
+    function handleZoom(e) {
+      // setZoomTransform(e.transform);
+      d3.selectAll("svg g").attr("transform", e.transform);
+      setZoomAmount(e.transform.k);
+    }
 
     // Element Creation
     // Create the Canvas
@@ -250,8 +255,9 @@ function D3Chart() {
       .select(chartRef.current) //
       .attr("width", width)
       .attr("height", height)
-      // .attr("style", "outline: thin solid red")
       .call(zoom)
+      // Continue zooming using this as starting point
+      .call(zoom.transform, d3.zoomIdentity.translate(initialZoom.x, initialZoom.y).scale(initialZoom.k))
       .attr("class", "graphCanvas")
       .on("mouseover", function (e) {
         d3.select(this).attr("cursor", "grab"); //
@@ -330,6 +336,7 @@ function D3Chart() {
     d3.selectAll("circle").each(function (d) {
       if (this.classList.contains("smallNode")) {
         d3.select(this.parentElement).select("h5").style("color", nodeColors(d.data.group));
+        // d3.select(this.parentElement).select("h5").style("color", "#000");
       }
       if (d.depth === 0) {
         d3.select(this.parentElement).select("h5").style("color", "#000");
@@ -422,6 +429,11 @@ function D3Chart() {
       document.querySelectorAll(".filterItem").forEach(function (filterItem) {
         filterItem.classList.remove("clicked");
       });
+
+      console.log("the nodes x pos is", event.x);
+
+      // Pan to the clicked node to center it on the screen
+      // d3.select(chartRef.current).attr("transform", `translate(${event.x}, ${event.y}) scale(1)`);
 
       // Find Parent
       function findParentNode(clickedNode) {
