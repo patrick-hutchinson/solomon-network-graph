@@ -19,8 +19,7 @@ function D3Chart() {
   // Set state values for the Zoombar component
   let [zoomAmount, setZoomAmount] = React.useState(0);
   //currently not working
-  let initialZoom = { k: 0.35, x: 200, y: -50 };
-  let [zoomTransform, setZoomTransform] = React.useState(initialZoom);
+  let [zoomTransform, setZoomTransform] = React.useState({ k: 0.35, x: 200, y: -50 });
   let [zoomValues, setZoomValues] = React.useState([0, 0]);
 
   // Set state values for the InfoBox component
@@ -33,15 +32,28 @@ function D3Chart() {
 
   //
   // Declare Scales and Values
+  // Perhaps size should be based on height
+  let nodeSizesArray = [120, 75, 55, 10, 10];
   let nodeSizes = d3
     .scaleOrdinal() //
     .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
-    .range([120, 75, 55, 10, 10]);
+    .range(nodeSizesArray);
 
+  let nodeColorsArray = [
+    "black",
+    "#20AE98",
+    "#DE62D9",
+    "#44B0FF",
+    "#99D934",
+    "#FEA800",
+    "#AF1BF5",
+    "#0E6292",
+    "#FF295B",
+  ];
   let nodeColors = d3
     .scaleOrdinal() //
     .domain([...new Set(nodes.map((d) => d.data.group))])
-    .range(["black", "#AF1BF5", "orange", "gold", "blue", "green", "pink", "red", "grey"]);
+    .range(nodeColorsArray);
 
   // Create a new array of links and nodes, consisting only of nodes (and connecting links) where on:true.
   // This will update on every rerun and be rerendered.
@@ -223,6 +235,7 @@ function D3Chart() {
     function handleZoom(e) {
       setZoomTransform(e.transform);
       d3.selectAll("svg g").attr("transform", e.transform);
+      console.log(e.transform);
 
       setZoomAmount(e.transform.k);
     }
@@ -254,6 +267,27 @@ function D3Chart() {
       .data(activeNodeArray, (d) => d)
       .attr("class", "nodeContainer");
 
+    const arrowheads = svg
+      .append("defs")
+      .selectAll("marker")
+      // this will run through all of the node data and create a def element for each element in nodes.
+      // the refX and fill values will associate through that node. Since it goes through from start to finish,
+      // we can incremement the id number and later match that with the made arrows.
+      .data(nodes)
+      .enter()
+      .append("marker")
+      .attr("id", (d, i) => "arrowhead" + i)
+      //this here just happens to be the magic calculation to place all arrows correctly.
+      //first
+      .attr("refX", (d) => nodeSizes(d.data.type) / 1.5 + 3.5)
+      .attr("refY", 3)
+      .attr("markerWidth", 10)
+      .attr("markerHeight", 10)
+      .attr("orient", "auto-start-reverse")
+      .attr("fill", (d) => nodeColors(d.data.group))
+      .append("path")
+      .attr("d", "M0,0 L0,6 L4,3 z");
+
     // Create/draw the Links
     const link = svg
       .append("g")
@@ -275,35 +309,87 @@ function D3Chart() {
       .append("circle")
       .attr("r", (d) => nodeSizes(d.data.type))
       .attr("stroke", (d) => nodeColors(d.data.group))
-      .attr("fill", "#fff")
+      //if the depth of the node is smaller than three, fill it. Else, white.
+      .attr("fill", (d) => (d.depth < 3 ? nodeColors(d.data.group) : "#fff"))
       .attr("stroke-opacity", (d) => (d.data.on ? 0.6 : 0.1))
       .call(drag(simulation))
+      .attr("class", (d) => (d.depth < 3 ? "largeNode" : "smallNode"));
 
-      //update the circes
-      //hovering effects
+    // Add the Text
+    elementEnter
+      .append("foreignObject")
+      .attr("width", "180px")
+      .attr("height", "40px")
+      .append("xhtml:h5")
+      .attr("class", "nodeTextElement")
+      .html((d) => {
+        return `<p>${d.data.name} ${d.children ? `[${d.children.length}]` : "[end]"}</p>`;
+      })
+      .attr("xmlns", "http://www.w3.org/1999/xhtml");
+
+    //style the color of the text
+    d3.selectAll("circle").each(function (d) {
+      if (this.classList.contains("smallNode")) {
+        d3.select(this.parentElement).select("h5").style("color", nodeColors(d.data.group));
+      }
+    });
+
+    //correctly assign an url("arrowheadX") tag to position the arrowhead based on the target node's radius
+    d3.selectAll("line") //
+      .attr("marker-end", (d, i) => {
+        let markerUrl;
+
+        d3.selectAll("circle").each(function (f) {
+          //add an arrowtop to the line if it the target is a large enough node
+          if (d.target === f) {
+            markerUrl = `url(#arrowhead${i + 1})`;
+          } else {
+            null;
+          }
+        });
+
+        return markerUrl;
+      })
+      .attr("stroke", (d) => {
+        let nodeColor;
+        d3.selectAll("circle").each(function (f) {
+          if (d.target === f) {
+            nodeColor = nodeColors(f.data.group);
+          } else {
+            null;
+          }
+        });
+        return nodeColor;
+      });
+
+    // Update the circes
+    // Hovering effects
+    d3.selectAll("circle")
       .on("mouseover", function (e, d) {
         d3.select(this) //
           .transition()
           .duration("200")
-          .attr("fill", (d) => (d.depth !== 0 ? nodeColors(d.data.group) : "#fff"))
+          .attr("fill", "#fff")
           .attr("cursor", "pointer");
 
-        d3.select(this.parentNode).select("text").attr("fill", "#fff");
+        document.documentElement.style.setProperty("--highlightColorHover", nodeColors(d.data.group));
+        // Change the text color contained in the node
+        e.target.parentElement.querySelector("h5").classList.add("hovered");
+
+        setNodeInfo((prevNodeInfo) => {
+          return { ...prevNodeInfo, title: d.data.name, description: d.data.description };
+        });
       })
       .on("mouseleave", function (e) {
         d3.select(this) //
           .transition()
           .duration("200")
-          .attr("fill", (d) => (d3.select(this).classed("clickedNode") ? nodeColors(d.data.group) : "#fff"))
+          .attr("fill", (d) => (d.depth < 3 ? nodeColors(d.data.group) : "#fff"))
 
           .attr("cursor", "default");
-        d3.select(this.parentNode)
-          .select("text")
-          .attr("fill", (d) => nodeColors(d.data.group));
+        e.target.parentElement.querySelector("h5").classList.remove("hovered");
       })
       .on("click", handleNodeClick);
-
-    circle.exit().remove();
 
     //since the whole graph gets redrawn, the previous zoom position needs to be remembered and assigned to each node.
     d3.selectAll("svg g").attr("transform", zoomTransform);
@@ -313,12 +399,7 @@ function D3Chart() {
     function handleNodeClick(event, clickedNode) {
       //Set the node fill (currently not working)
       d3.select(this) //
-        .attr("class", (d) => (d3.select(this).classed("isCliced") ? "" : "isCliced"));
-
-      // function updateNodeInfo(clickedNode) {
-      setNodeInfo((prevNodeInfo) => {
-        return { ...prevNodeInfo, title: clickedNode.data.name, description: clickedNode.data.description };
-      });
+        .attr("class", (d) => (d3.select(this).classed("isClicked") ? "" : "isClicked"));
 
       //if the clicked node is on and contains on descendants, close all deschendant nodes
       function hideDescendantsIfOpen() {
@@ -379,18 +460,6 @@ function D3Chart() {
 
     //state is now updated
     console.log(links);
-
-    // Add the Text
-    elementEnter
-      .append("foreignObject")
-      .attr("width", "180px")
-      .attr("height", "40px")
-      .append("xhtml:h5")
-      .attr("class", "nodeTextElement")
-      .html((d) => {
-        return `<p>${d.data.name} ${d.children ? `[${d.children.length}]` : "[end]"}</p>`;
-      })
-      .attr("xmlns", "http://www.w3.org/1999/xhtml");
     //
     simulation.on("tick", () => {
       link
@@ -422,6 +491,8 @@ function D3Chart() {
         // }
       });
     });
+
+    circle.exit().remove();
     simulation.nodes(nodes);
   }, [data, nodes, links]);
 

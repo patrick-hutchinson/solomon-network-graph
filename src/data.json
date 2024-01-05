@@ -19,58 +19,49 @@
             {
               "name": "ΣΚΑΙ",
               "type": "subcompany",
-              "group": 8,
+              "group": 1,
               "on": false,
               "children": [
-                {
-                  "name": "",
-                  "type": "connector",
-                  "group": 8,
-                  "on": false,
-                  "children": [
-                    { "name": "bwin ΣΠΟΡ FM 94,6", "type": "subcompany", "group": 8, "on": false },
-                    { "name": "ΣΚΑΙ.TVPEDIA", "type": "subcompany", "group": 8, "on": false },
-                    { "name": "ΕΡΓΑ ΔΙΟΝΥΣΟΥ", "type": "subcompany", "group": 8, "on": false },
-                    { "name": "104 FM (πρωην Party FM)", "type": "subcompany", "group": 8, "on": false },
-                    { "name": "ΣΚΑΙ.ΣΕΛΗΝΑΙΑ", "type": "subcompany", "group": 8, "on": false },
-                    { "name": "ΘΑΝΑΛΕ", "type": "subcompany", "group": 8, "on": false },
-                    { "name": "DIGEA", "type": "subcompany", "group": 8, "on": false },
-                    { "name": "ΣΚΑΙ TV", "type": "subcompany", "group": 8, "on": false },
-                    { "name": "www.skai.gr", "type": "subcompany", "group": 8, "on": false },
-                    { "name": "ΣΚΑΙ 100,3 FM", "type": "subcompany", "group": 8, "on": false },
-                    { "name": "www.skairadio.gr", "type": "subcompany", "group": 8, "on": false }
-                  ]
-                },
-                { "name": "", "type": "connector", "group": 8, "on": false }
+                { "name": "bwin ΣΠΟΡ FM 94,6", "type": "subcompany", "group": 1, "on": false },
+                { "name": "ΣΚΑΙ.TVPEDIA", "type": "subcompany", "group": 1, "on": false },
+                { "name": "ΕΡΓΑ ΔΙΟΝΥΣΟΥ", "type": "subcompany", "group": 1, "on": false },
+                { "name": "104 FM (πρωην Party FM)", "type": "subcompany", "group": 1, "on": false },
+                { "name": "ΣΚΑΙ.ΣΕΛΗΝΑΙΑ", "type": "subcompany", "group": 1, "on": false },
+                { "name": "ΘΑΝΑΛΕ", "type": "subcompany", "group": 1, "on": false },
+                { "name": "DIGEA", "type": "subcompany", "group": 1, "on": false },
+                { "name": "ΣΚΑΙ TV", "type": "subcompany", "group": 1, "on": false },
+                { "name": "www.skai.gr", "type": "subcompany", "group": 1, "on": false },
+                { "name": "ΣΚΑΙ 100,3 FM", "type": "subcompany", "group": 1, "on": false },
+                { "name": "www.skairadio.gr", "type": "subcompany", "group": 1, "on": false }
               ]
             },
-            { "name": "ΣΕΛΗΝΑΙΑ", "type": "subcompany", "group": 8, "on": false },
-            { "name": "ΓΗΠΕΔΟ ΕΛΑΙΩΝΑ", "type": "subcompany", "group": 8, "on": false },
-            { "name": "TVPEDIA", "type": "subcompany", "group": 8, "on": false },
-            { "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ ΠΑΕ", "type": "subcompany", "group": 8, "on": false },
-            { "name": "MARINE OIL TRADER 4 SHIPPING LIMITED", "type": "subcompany", "group": 8, "on": false },
-            { "name": "BODYGUARD SHIPPING LTD", "type": "subcompany", "group": 8, "on": false },
-            { "name": "ERMIS MANAGEMENT COMPANY LIMITED", "type": "subcompany", "group": 8, "on": false },
-            { "name": "KYKLADES MARITIME CORPORATION", "type": "subcompany", "group": 8, "on": false },
-            { "name": "OKEANIS MARINE HOLDINGS S.A", "type": "subcompany", "group": 8, "on": false },
-            { "name": "OKEANIS ECO TANKERS CORP", "type": "subcompany", "group": 8, "on": false },
-            { "name": "KOROPI A1: M44 ACADEMIES", "type": "subcompany", "group": 8, "on": false },
-            { "name": "Okeanis Energy", "type": "subcompany", "group": 8, "on": false },
-            { "name": "GREEN TEAM", "type": "subcompany", "group": 8, "on": false },
+            { "name": "ΣΕΛΗΝΑΙΑ", "type": "subcompany", "group": 1, "on": false },
+            { "name": "ΓΗΠΕΔΟ ΕΛΑΙΩΝΑ", "type": "subcompany", "group": 1, "on": false },
+            { "name": "TVPEDIA", "type": "subcompany", "group": 1, "on": false },
+            { "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ ΠΑΕ", "type": "subcompany", "group": 1, "on": false },
+            { "name": "MARINE OIL TRADER 4 SHIPPING LIMITED", "type": "subcompany", "group": 1, "on": false },
+            { "name": "BODYGUARD SHIPPING LTD", "type": "subcompany", "group": 1, "on": false },
+            { "name": "ERMIS MANAGEMENT COMPANY LIMITED", "type": "subcompany", "group": 1, "on": false },
+            { "name": "KYKLADES MARITIME CORPORATION", "type": "subcompany", "group": 1, "on": false },
+            { "name": "OKEANIS MARINE HOLDINGS S.A", "type": "subcompany", "group": 1, "on": false },
+            { "name": "OKEANIS ECO TANKERS CORP", "type": "subcompany", "group": 1, "on": false },
+            { "name": "KOROPI A1: M44 ACADEMIES", "type": "subcompany", "group": 1, "on": false },
+            { "name": "Okeanis Energy", "type": "subcompany", "group": 1, "on": false },
+            { "name": "GREEN TEAM", "type": "subcompany", "group": 1, "on": false },
             {
               "name": "ΣΧΟΛΕΣ ΠΟΔΟΣΦΑΙΡΟΥ ΠΑΝΑΘΗΝΑΪΚΟΥ ΑΝΩΝΥΜΗ ΕΤΑΙΡΕΙΑ",
               "type": "subcompany",
-              "group": 8,
+              "group": 1,
               "on": false
             },
             {
               "name": "ΑΝΑΠΤΥΞΕΙΣ ΑΚΙΝΗΤΩΝ ΚΑΛΛΙΘΕΑΣ ΜΟΝΟΠΡΟΣΩΠΗ ΑΝΩΝΥΜΗ ΕΤΑΙΡΕΙΑ",
               "type": "subcompany",
-              "group": 8,
+              "group": 1,
               "on": false
             },
-            { "name": "ANAFI SHIPPING LIMITED", "type": "subcompany", "group": 8, "on": false },
-            { "inamed": "ΡΑΔΙΟΦΩΝΙΚΕΣ ΠΑΡΑΓΩΓΕΣ ΜΟΝΟΠΡΟΣΩΠΗ Α.Ε.", "type": "subcompany", "group": 8, "on": false }
+            { "name": "ANAFI SHIPPING LIMITED", "type": "subcompany", "group": 1, "on": false },
+            { "inamed": "ΡΑΔΙΟΦΩΝΙΚΕΣ ΠΑΡΑΓΩΓΕΣ ΜΟΝΟΠΡΟΣΩΠΗ Α.Ε.", "type": "subcompany", "group": 1, "on": false }
           ]
         },
         { "name": "ΘΕΜΙΣΤΟΚΛΗΣ ΑΛΑΦΟΥΖΟΣ", "type": "person", "group": 1, "on": true }
