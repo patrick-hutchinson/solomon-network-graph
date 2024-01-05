@@ -10,6 +10,8 @@ function D3Chart() {
 
   let chartRef = useRef(null);
 
+  let [reloadCounter, setReloadCounter] = React.useState(1);
+
   // Set state values for the data graph
   let [data, setData] = React.useState(solomonData);
   let [root, setRoot] = React.useState(d3.hierarchy(data));
@@ -19,13 +21,15 @@ function D3Chart() {
   // Set state values for the Zoombar component
   let [zoomAmount, setZoomAmount] = React.useState(0);
   //currently not working
-  let initialZoom = {
+
+  let [initialZoom, setInitialZoom] = React.useState({
     x: 450,
     y: 350,
     k: 0.4,
-  };
+  });
+
   let [zoomTransform, setZoomTransform] = React.useState(
-    `translate(${initialZoom.x},${initialZoom.y}) scale(${initialZoom.k})`
+    `translate(${initialZoom.x}, ${initialZoom.y}) scale(${initialZoom.k})`
   );
   let [zoomValues, setZoomValues] = React.useState([0, 0]);
 
@@ -182,7 +186,19 @@ function D3Chart() {
     setLinks(newLinks);
   }
 
+  // Zooming functionality
+  function handleZoom(e) {
+    if (d3.zoomTransform(chartRef.current).x !== 450) {
+      setZoomTransform(d3.zoomTransform(chartRef.current));
+
+      d3.selectAll("svg g").attr("transform", e.transform);
+    }
+    setZoomAmount(e.transform.k);
+  }
+  console.log(zoomTransform);
+
   useEffect(() => {
+    setReloadCounter((prevReloadCounter) => prevReloadCounter + 1);
     // These widths need to be adjusted and grabbed live from js
     const width = 867;
     const height = 700;
@@ -242,11 +258,11 @@ function D3Chart() {
     setZoomValues(newZoomValues);
     let zoom = d3.zoom().on("zoom", handleZoom).scaleExtent(newZoomValues);
 
-    // Zooming functionality
-    function handleZoom(e) {
-      // setZoomTransform(e.transform);
-      d3.selectAll("svg g").attr("transform", e.transform);
-      setZoomAmount(e.transform.k);
+    let zoomVal;
+    if (reloadCounter == 1) {
+      zoomVal = d3.zoomIdentity.translate(initialZoom.x, initialZoom.y).scale(initialZoom.k);
+    } else {
+      zoomVal = zoomTransform;
     }
 
     // Element Creation
@@ -256,8 +272,7 @@ function D3Chart() {
       .attr("width", width)
       .attr("height", height)
       .call(zoom)
-      // Continue zooming using this as starting point
-      .call(zoom.transform, d3.zoomIdentity.translate(initialZoom.x, initialZoom.y).scale(initialZoom.k))
+      .call(zoom.transform, zoomVal)
       .attr("class", "graphCanvas")
       .on("mouseover", function (e) {
         d3.select(this).attr("cursor", "grab"); //
@@ -403,8 +418,8 @@ function D3Chart() {
       .on("click", handleNodeClick);
 
     //since the whole graph gets redrawn, the previous zoom position needs to be remembered and assigned to each node.
+    console.log("assigned zoomt is", zoomTransform);
     d3.selectAll("svg g").attr("transform", zoomTransform);
-    console.log(zoomTransform);
 
     //
     function handleNodeClick(event, clickedNode) {
@@ -430,10 +445,8 @@ function D3Chart() {
         filterItem.classList.remove("clicked");
       });
 
-      console.log("the nodes x pos is", event.x);
-
       // Pan to the clicked node to center it on the screen
-      // d3.select(chartRef.current).attr("transform", `translate(${event.x}, ${event.y}) scale(1)`);
+      //(...)
 
       // Find Parent
       function findParentNode(clickedNode) {
