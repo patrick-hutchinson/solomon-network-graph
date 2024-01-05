@@ -10,6 +10,7 @@ function D3Chart() {
 
   let chartRef = useRef(null);
 
+  //NOTICE: //ZOOM This here is a makeshift solution and should be removed.
   let [reloadCounter, setReloadCounter] = React.useState(1);
 
   // Set state values for the data graph
@@ -188,6 +189,7 @@ function D3Chart() {
 
   // Zooming functionality
   function handleZoom(e) {
+    //NOTICE: //ZOOM This here is a makeshift solution and should be removed.
     if (d3.zoomTransform(chartRef.current).x !== 450) {
       setZoomTransform(d3.zoomTransform(chartRef.current));
 
@@ -196,6 +198,7 @@ function D3Chart() {
     setZoomAmount(e.transform.k);
   }
   console.log(zoomTransform);
+  //
 
   useEffect(() => {
     setReloadCounter((prevReloadCounter) => prevReloadCounter + 1);
@@ -258,6 +261,7 @@ function D3Chart() {
     setZoomValues(newZoomValues);
     let zoom = d3.zoom().on("zoom", handleZoom).scaleExtent(newZoomValues);
 
+    //NOTICE: //ZOOM This here is a makeshift solution and should be removed.
     let zoomVal;
     if (reloadCounter == 1) {
       zoomVal = d3.zoomIdentity.translate(initialZoom.x, initialZoom.y).scale(initialZoom.k);
