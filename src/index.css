@@ -175,6 +175,10 @@ body {
   font-size: 22px;
 }
 
+foreignObject {
+  width: 150px;
+}
+
 foreignObject > h5 {
   pointer-events: none;
   font-size: 12px;
@@ -183,6 +187,10 @@ foreignObject > h5 {
   font-family: SimplexNeue;
   pointer-events: none;
   line-height: 0.9;
+  text-overflow: ellipsis;
+  max-height: 30px;
+  max-width: 300px;
+  /* white-space: nowrap; */
   /* max-width: 150px; */
   /* background: #fff; */
 }

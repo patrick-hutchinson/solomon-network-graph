@@ -26,7 +26,7 @@ function D3Chart() {
   let [nodeInfo, setNodeInfo] = React.useState({
     title: "No Node Selected!",
     date: "dd/mm/yyyy",
-    description: "Click a Datapoint to learn more about it.",
+    description: "Hover a Datapoint to learn more about it.",
     // ...
   });
 
@@ -40,7 +40,7 @@ function D3Chart() {
     .range(nodeSizesArray);
 
   let nodeColorsArray = [
-    "black",
+    "#ffffff",
     "#20AE98",
     "#DE62D9",
     "#44B0FF",
@@ -270,15 +270,14 @@ function D3Chart() {
     const arrowheads = svg
       .append("defs")
       .selectAll("marker")
-      // this will run through all of the node data and create a def element for each element in nodes.
-      // the refX and fill values will associate through that node. Since it goes through from start to finish,
-      // we can incremement the id number and later match that with the made arrows.
+      // Linking the nodes data will create a def element for each element in nodes.
+      // The refX and fill values will associate to each node, creating an arrowhead that fits for each.
+      // Since it goes through from start to finish, we can incremement the id number and later match that with the made arrows.
       .data(nodes)
       .enter()
       .append("marker")
       .attr("id", (d, i) => "arrowhead" + i)
-      //this here just happens to be the magic calculation to place all arrows correctly.
-      //first
+      // Calculation is tailormade to place all arrowheads correctly.
       .attr("refX", (d) => nodeSizes(d.data.type) / 1.5 + 3.5)
       .attr("refY", 3)
       .attr("markerWidth", 10)
@@ -327,20 +326,24 @@ function D3Chart() {
       })
       .attr("xmlns", "http://www.w3.org/1999/xhtml");
 
-    //style the color of the text
+    // Style the color of the text
     d3.selectAll("circle").each(function (d) {
       if (this.classList.contains("smallNode")) {
         d3.select(this.parentElement).select("h5").style("color", nodeColors(d.data.group));
       }
+      if (d.depth === 0) {
+        d3.select(this.parentElement).select("h5").style("color", "#000");
+        d3.select(this).attr("stroke", "#000");
+      }
     });
 
-    //correctly assign an url("arrowheadX") tag to position the arrowhead based on the target node's radius
+    // Correctly assign an url("arrowheadX") tag to position the arrowhead based on the target node's radius
     d3.selectAll("line") //
       .attr("marker-end", (d, i) => {
         let markerUrl;
 
         d3.selectAll("circle").each(function (f) {
-          //add an arrowtop to the line if it the target is a large enough node
+          // Add an arrowtop to the line if it the target is a large enough node
           if (d.target === f) {
             markerUrl = `url(#arrowhead${i + 1})`;
           } else {
@@ -350,6 +353,7 @@ function D3Chart() {
 
         return markerUrl;
       })
+      // Match the stroke color to the node group
       .attr("stroke", (d) => {
         let nodeColor;
         d3.selectAll("circle").each(function (f) {
