@@ -4,7 +4,6 @@ import solomonData from "./data.json";
 import InfoBox from "./assets/Components/InfoBox";
 import Navigation from "./assets/Components/Navigation";
 import Zoombar from "./assets/Components/Zoombar";
-import { filter } from "lodash";
 
 function D3Chart() {
   // http://localhost:5173/
@@ -12,25 +11,30 @@ function D3Chart() {
   let chartRef = useRef(null);
 
   // Set state values for the data graph
-  let [data, setData] = React.useState(solomonData);
-  let [root, setRoot] = React.useState(d3.hierarchy(data));
+  let data = solomonData;
+  let root = d3.hierarchy(data);
   let [links, setLinks] = React.useState(root.links());
   let [nodes, setNodes] = React.useState(root.descendants());
 
   // Set state values for the Zoombar component
   let [zoomAmount, setZoomAmount] = React.useState(0);
-  //currently not working
+
+  let [hasBeenZoomed, setHasBeenZoomed] = React.useState(false);
 
   let [initialZoom, setInitialZoom] = React.useState({
-    x: 250,
-    y: 150,
-    k: 0.6,
+    x: 450,
+    y: 350,
+    k: 0.4,
   });
 
   let [zoomTransform, setZoomTransform] = React.useState(
     `translate(${initialZoom.x}, ${initialZoom.y}) scale(${initialZoom.k})`
   );
-  let [zoomRange, setZoomRange] = React.useState([0.25, 1]);
+
+  let width = window.innerWidth * 0.8;
+  let height = window.innerHeight * 0.95;
+
+  let zoomRange = [0.25, 1];
 
   // Set state values for the InfoBox component
   let [nodeInfo, setNodeInfo] = React.useState({
@@ -40,13 +44,9 @@ function D3Chart() {
     // ...
   });
 
-  // These widths need to be adjusted and grabbed live from js
-  let width = 867;
-  let height = 700;
-  //
   // Declare Scales and Values
   // Perhaps size should be based on height
-  let nodeSizesArray = [10, 75, 55, 1, 10];
+  let nodeSizesArray = [10, 95, 75, 1, 10];
   let nodeSizes = d3
     .scaleOrdinal() //
     .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
@@ -54,14 +54,14 @@ function D3Chart() {
 
   let nodeColorsArray = [
     "transparent",
-    "#20AE98",
+    "#FF295B",
     "#DE62D9",
     "#44B0FF",
     "#99D934",
     "#FEA800",
-    "#AF1BF5",
-    "#0E6292",
-    "#FF295B",
+    // "#AF1BF5",
+    // "#0E6292",
+    // "#FF295B",
   ];
   let nodeColors = d3
     .scaleOrdinal() //
@@ -207,10 +207,11 @@ function D3Chart() {
 
   // Zooming functionality
   function handleZoom(e) {
-    setZoomTransform(d3.zoomTransform(chartRef.current));
-
     d3.selectAll("svg g").attr("transform", e.transform);
+    setZoomTransform(d3.zoomTransform(chartRef.current));
     setZoomAmount(e.transform.k);
+
+    setHasBeenZoomed(true);
   }
   let zoom = d3
     .zoom()
@@ -224,7 +225,6 @@ function D3Chart() {
   function zoomIn() {
     d3.select("svg").transition().call(zoom.scaleBy, 1.33);
   }
-
   function zoomOut() {
     d3.select("svg").transition().call(zoom.scaleBy, 0.66);
   }
@@ -238,18 +238,15 @@ function D3Chart() {
         event.subject.fx = event.subject.x;
         event.subject.fy = event.subject.y;
       }
-
       function dragged(event) {
         event.subject.fx = event.x;
         event.subject.fy = event.y;
       }
-
       function dragended(event) {
         if (!event.active) simulation.alphaTarget(0);
         event.subject.fx = null;
         event.subject.fy = null;
       }
-
       return d3
         .drag()
         .on("start", (event, d) => dragstarted(event, d))
@@ -257,27 +254,22 @@ function D3Chart() {
         .on("end", (event, d) => dragended(event, d));
     };
 
+    //
     // Declare Physics Properties of the Graph
     const simulation = d3
       .forceSimulation(
         nodes.filter((d) => d.data.on === true),
         (d) => d
       )
-      .force(
-        "link",
-        d3
-          .forceLink(links.filter((d) => d.target.data.on === true))
-          .id((d) => d)
-          .distance(50)
-          .strength(1)
-      )
+      .force("link", d3.forceLink(links.filter((d) => d.target.data.on === true)).distance(100))
       .force("charge", d3.forceManyBody().strength(-2000))
-      .force("center", d3.forceCenter(width / 2, height / 2).strength(1))
+      .force("center", d3.forceCenter(width / 2, height / 2).strength(1.1))
       .force(
         "collision",
         d3.forceCollide().radius((d) => nodeSizes(d.data.type))
       );
 
+    //
     // Element Creation
     // Create the Canvas
     const svg = d3
@@ -285,7 +277,12 @@ function D3Chart() {
       .attr("width", width)
       .attr("height", height)
       .call(zoom)
-      .call(zoom.transform, d3.zoomIdentity.translate(initialZoom.x, initialZoom.y).scale(initialZoom.k))
+      .call(
+        // if the page has not been used yet, base off of the initialZoom values. If it has, use the updated values.
+        zoom.transform,
+        hasBeenZoomed ? zoomTransform : d3.zoomIdentity.translate(initialZoom.x, initialZoom.y).scale(initialZoom.k)
+      )
+
       .attr("class", "graphCanvas")
       .on("mouseover", function (e) {
         d3.select(this).attr("cursor", "grab"); //
@@ -455,7 +452,6 @@ function D3Chart() {
       })
       .on("click", handleNodeClick);
 
-    //since the whole graph gets redrawn, the previous zoom position needs to be remembered and assigned to each node.
     d3.selectAll("svg g").attr("transform", zoomTransform);
 
     //

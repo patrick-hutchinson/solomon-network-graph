@@ -22,7 +22,7 @@ body {
   display: grid;
   width: 100vw;
   height: 100vh;
-  grid-template-columns: 32vh 1fr;
+  grid-template-columns: 20vw 1fr;
   grid-template-rows: auto 5vh 1fr;
 
   padding: 10px;
@@ -37,13 +37,24 @@ body {
   height: 100%;
   overflow: scroll;
   position: relative;
-  border-right: 1px solid black;
+  /* border-right: 1px solid black; */
   grid-row-start: 3;
   grid-column-start: 1;
 
   box-sizing: border-box;
   padding: 10px;
+  overflow: scroll;
 }
+/* ::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+} */
 
 .infoTitle {
   max-width: 90%;

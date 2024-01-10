@@ -4,6 +4,11 @@ When hovering a Filter Item, the corresponding node lights up
     //TO DO:
     — Fullscreen Button?
     — Zoom and Pan to node on Click
+    — Fix Physics
+    — If name or year or information is empty, display fallbacl text
+    — Fix Bounds
+    — Add Sector Nodes
+    — Fix zoom jumping issue
 
 Considerations and potiontial potholes:
 
