@@ -11,9 +11,6 @@ function D3Chart() {
 
   let chartRef = useRef(null);
 
-  //NOTICE: //ZOOM This here is a makeshift solution and should be removed.
-  let [reloadCounter, setReloadCounter] = React.useState(1);
-
   // Set state values for the data graph
   let [data, setData] = React.useState(solomonData);
   let [root, setRoot] = React.useState(d3.hierarchy(data));
@@ -25,15 +22,15 @@ function D3Chart() {
   //currently not working
 
   let [initialZoom, setInitialZoom] = React.useState({
-    x: 450,
-    y: 350,
-    k: 0.4,
+    x: 250,
+    y: 150,
+    k: 0.6,
   });
 
   let [zoomTransform, setZoomTransform] = React.useState(
     `translate(${initialZoom.x}, ${initialZoom.y}) scale(${initialZoom.k})`
   );
-  let [zoomValues, setZoomValues] = React.useState([0.25, 1]);
+  let [zoomRange, setZoomRange] = React.useState([0.25, 1]);
 
   // Set state values for the InfoBox component
   let [nodeInfo, setNodeInfo] = React.useState({
@@ -43,17 +40,20 @@ function D3Chart() {
     // ...
   });
 
+  // These widths need to be adjusted and grabbed live from js
+  let width = 867;
+  let height = 700;
   //
   // Declare Scales and Values
   // Perhaps size should be based on height
-  let nodeSizesArray = [120, 75, 55, 1, 10];
+  let nodeSizesArray = [10, 75, 55, 1, 10];
   let nodeSizes = d3
     .scaleOrdinal() //
     .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
     .range(nodeSizesArray);
 
   let nodeColorsArray = [
-    "#ffffff",
+    "transparent",
     "#20AE98",
     "#DE62D9",
     "#44B0FF",
@@ -205,27 +205,21 @@ function D3Chart() {
     });
   }
 
-  // console.log(links);
-
   // Zooming functionality
   function handleZoom(e) {
-    // NOTICE: //ZOOM This here is a makeshift solution and should be removed.
-    // This if st. checks if the value has been reset, if it has, it doesn't update zoomTransform's state. Not great
-    if (d3.zoomTransform(chartRef.current).x !== 450) {
-      setZoomTransform(d3.zoomTransform(chartRef.current));
+    setZoomTransform(d3.zoomTransform(chartRef.current));
 
-      d3.selectAll("svg g").attr("transform", e.transform);
-    }
+    d3.selectAll("svg g").attr("transform", e.transform);
     setZoomAmount(e.transform.k);
   }
   let zoom = d3
     .zoom()
     .on("zoom", handleZoom) //
-    .scaleExtent(zoomValues);
-  // .translateExtent([
-  //   [width * -3, height * -3],
-  //   [width * 3, height * 3],
-  // ]);
+    .scaleExtent(zoomRange)
+    .translateExtent([
+      [width * -4, height * -4],
+      [width * 4, height * 4],
+    ]);
 
   function zoomIn() {
     d3.select("svg").transition().call(zoom.scaleBy, 1.33);
@@ -236,11 +230,6 @@ function D3Chart() {
   }
 
   useEffect(() => {
-    setReloadCounter((prevReloadCounter) => prevReloadCounter + 1);
-    // These widths need to be adjusted and grabbed live from js
-    const width = 867;
-    const height = 700;
-
     //
     // Declare Dragging / Interaction Functionality
     const drag = (simulation) => {
@@ -269,38 +258,25 @@ function D3Chart() {
     };
 
     // Declare Physics Properties of the Graph
-    // Step 1: Create a variable for the link force
-    const linkForce = d3.forceLink().id((d) => d.id);
-
-    // Step 2: Set up the force simulation with the link force
     const simulation = d3
       .forceSimulation(
         nodes.filter((d) => d.data.on === true),
         (d) => d
       )
-      .force("link", linkForce)
+      .force(
+        "link",
+        d3
+          .forceLink(links.filter((d) => d.target.data.on === true))
+          .id((d) => d)
+          .distance(50)
+          .strength(1)
+      )
       .force("charge", d3.forceManyBody().strength(-2000))
       .force("center", d3.forceCenter(width / 2, height / 2).strength(1))
       .force(
         "collision",
         d3.forceCollide().radius((d) => nodeSizes(d.data.type))
       );
-
-    // Step 3: Update link force and restart simulation when activeLinkArray changes
-    function updateLinks() {
-      linkForce.links(links, (d) => d);
-      // simulation.alpha(1).restart();
-    }
-    // Call updateLinks() whenever activeLinkArray is updated
-    updateLinks();
-
-    //NOTICE: //ZOOM This here is a makeshift solution and should be removed.
-    let zoomVal;
-    if (reloadCounter == 1) {
-      zoomVal = d3.zoomIdentity.translate(initialZoom.x, initialZoom.y).scale(initialZoom.k);
-    } else {
-      zoomVal = zoomTransform;
-    }
 
     // Element Creation
     // Create the Canvas
@@ -309,7 +285,7 @@ function D3Chart() {
       .attr("width", width)
       .attr("height", height)
       .call(zoom)
-      .call(zoom.transform, zoomVal)
+      .call(zoom.transform, d3.zoomIdentity.translate(initialZoom.x, initialZoom.y).scale(initialZoom.k))
       .attr("class", "graphCanvas")
       .on("mouseover", function (e) {
         d3.select(this).attr("cursor", "grab"); //
@@ -354,7 +330,6 @@ function D3Chart() {
       .append("g")
       .selectAll("line")
       .data(links, (d) => d)
-      // .join("line")
       .enter()
       .append("line")
       .attr("class", "link")
@@ -599,7 +574,7 @@ function D3Chart() {
         findFilteredNode={findFilteredNode}
         hoverFilteredNode={hoverFilteredNode}
       />
-      <Zoombar className="zoombar" zoomAmount={zoomAmount} zoomRange={zoomValues} />
+      <Zoombar className="zoombar" zoomAmount={zoomAmount} zoomRange={zoomRange} />
       <InfoBox className="" nodeInfo={nodeInfo} />
       <svg ref={chartRef}></svg>
       <div className="zoomButtonContainer">
