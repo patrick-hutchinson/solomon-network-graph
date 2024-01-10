@@ -3,10 +3,12 @@ When hovering a Filter Item, the corresponding node lights up
 
     //TO DO:
     — Zoom and Pan to node on Click
-    — Configure Physics
-    — Fix Bounds
+    <!-- — Configure Physics -->
+    <!-- — Fix Bounds -->
     — Add Sector Nodes
+    — Add funding partner nodes?
     — Change the Center node and links to be ideally not visible
+    — Tidy up styling on smaller nodes
 
 Considerations and potiontial potholes:
 

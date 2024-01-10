@@ -115,9 +115,20 @@ function D3Chart() {
         nodes.filter((d) => d.data.on === true),
         (d) => d
       )
-      .force("link", d3.forceLink(links.filter((d) => d.target.data.on === true)).distance(80))
-      .force("charge", d3.forceManyBody().strength(-2000))
-      .force("center", d3.forceCenter(width / 2, height / 2).strength(1.1))
+      .force(
+        "link",
+        d3.forceLink(links.filter((d) => d.target.data.on === true)).distance((d) => {
+          if (d.source.depth === 0) {
+            return -10;
+          } else if (d.source.depth === 1) {
+            return 100;
+          } else {
+            return 300;
+          }
+        })
+      )
+      .force("charge", d3.forceManyBody().strength(-300))
+      .force("center", d3.forceCenter(width / 2, height / 2).strength(1))
       .force(
         "collision",
         d3.forceCollide().radius((d) => nodeSizes(d.data.type))
@@ -207,7 +218,7 @@ function D3Chart() {
       .attr("class", "nodeTextElement")
       .call(drag(simulation))
       .html((d) => {
-        return `<p>${d.data.name} ${d.children ? `[${d.children.length}]` : "[end]"}</p>`;
+        return `<p>${d.data.name}<br> ${d.children ? `[${d.children.length}]` : "[end]"}</p>`;
       })
       .attr("xmlns", "http://www.w3.org/1999/xhtml");
 
@@ -228,8 +239,16 @@ function D3Chart() {
         // d3.select(this.parentElement).select("h5").style("color", "#000");
       }
       if (d.depth === 0) {
-        d3.select(this.parentElement).select("h5").style("color", "#000");
-        d3.select(this).attr("stroke", "#000");
+        //hide the first node's links
+        d3.select(this.parentElement).attr("display", "none");
+        // d3.select(this.parentElement).select("h5").style("color", "#000");
+        // d3.select(this).attr("stroke", "#000");
+      }
+    });
+    //hide the first node's links
+    d3.selectAll("line").each(function (d) {
+      if (d.source.depth === 0) {
+        d3.select(this).attr("display", "none");
       }
     });
 
