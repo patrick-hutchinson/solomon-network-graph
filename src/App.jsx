@@ -4,6 +4,7 @@ import solomonData from "./data.json";
 import InfoBox from "./assets/Components/InfoBox";
 import Navigation from "./assets/Components/Navigation";
 import Zoombar from "./assets/Components/Zoombar";
+import { filter } from "lodash";
 
 function D3Chart() {
   // http://localhost:5173/
@@ -67,47 +68,74 @@ function D3Chart() {
     .domain([...new Set(nodes.map((d) => d.data.group))])
     .range(nodeColorsArray);
 
-  // Create a new array of links and nodes, consisting only of nodes (and connecting links) where on:true.
-  // This will update on every rerun and be rerendered.
-  let activeNodeArray = [];
-  let activeLinkArray = [];
-  function findOnElements() {
-    function findOnNodes() {
-      nodes.forEach(function (node) {
-        if (node.data.on) {
-          activeNodeArray.push(node);
-        }
-      });
-    }
-    findOnNodes();
-    findOnLinks(activeNodeArray);
-    function findOnLinks(connectingNodes) {
-      links.forEach(function (link) {
-        connectingNodes.forEach(function (connectingNode) {
-          if (link.target === connectingNode) {
-            activeLinkArray.push(link);
-          }
-        });
-      });
-    }
-  }
-  findOnElements();
-
   // Match filterItems with corresponding nodes
   // (See more in Navigation component)
   function findFilteredNode(IDText) {
-    let filteredDescendants;
-    let filteredAncestors;
     nodes.forEach(function (node) {
       if (node.data.name === IDText) {
+        console.log("found the node, its name is ", node);
+        // activateNodes(node);
+        findDescendants(node);
+        findAncestors(node);
         document.documentElement.style.setProperty("--highlightColorClick", nodeColors(node.data.group));
-
-        filteredDescendants = node.descendants();
-        filteredAncestors = node.ancestors();
       }
     });
-    activateNodeVisibility(filteredDescendants);
-    activateNodeVisibility(filteredAncestors);
+  }
+
+  function findDescendants(filterNode) {
+    let descendantNodesArray = [];
+    findDescendantsManually(filterNode).forEach(function (descendantNode) {
+      // if (filterNode !== descendantNode) {
+      descendantNodesArray.push(descendantNode);
+      // }
+    });
+
+    activateNodes(descendantNodesArray);
+  }
+
+  function findAncestors(filterNode) {
+    let ancestorNodesArray = [];
+    findAncestorsManually(filterNode).forEach(function (ancestorNode) {
+      if (filterNode !== ancestorNode) {
+        ancestorNodesArray.push(ancestorNode);
+      }
+    });
+
+    activateNodes(ancestorNodesArray);
+  }
+
+  // finding descendants manually seems to be necessary as:
+  // when the data of a node gets updated, it (seemingly) loses its elligibility for d3 descendant() functions.
+  // perhaps this only works in with the data of the originally generated array, and discrepancies prevent the code from running.
+  // finding nodes manually uses the current state of nodes and seems to be working fine.
+  function findDescendantsManually(node) {
+    let descendants = [];
+    function traverse(currentNode) {
+      descendants.push(currentNode);
+
+      if (currentNode.children) {
+        currentNode.children.forEach((child) => {
+          traverse(child);
+        });
+      }
+    }
+    traverse(node);
+    return descendants;
+  }
+
+  function findAncestorsManually(node) {
+    let ancestors = [];
+    function traverse(currentNode) {
+      if (currentNode.parent) {
+        ancestors.push(currentNode.parent);
+        traverse(currentNode.parent);
+      }
+    }
+    // Include the starting node itself in the ancestors array
+    ancestors.push(node);
+
+    traverse(node);
+    return ancestors;
   }
 
   // Change the text highlighing color in the menu to that of the currently hovered node
@@ -119,73 +147,65 @@ function D3Chart() {
     });
   }
 
-  // Change a the on value of nodes passed into this function.
-  function activateNodeVisibility(connectedNodes) {
-    let connectedNodesData = connectedNodes.map((connectedNode) => {
-      return connectedNode.data;
-    });
-    //
-    setData((prevData) => {
-      // Loop through all objects (which will become Nodes) in the Data
-      function findObjects(obj) {
-        if (obj.children) {
-          obj.children = obj.children.map(findObjects);
-        }
-        // Update the On value if there is a Match
-        if (connectedNodesData.includes(obj)) {
-          return { ...obj, on: "on" };
-        } else {
-          return obj;
-        }
-      }
-      // Rerender both data and root
-      const newData = findObjects(prevData);
-      setData(newData);
-      updateGraph(newData);
+  // Change the on value of nodes passed into this function.
+  function activateNodes(connectedNodes) {
+    setNodes((prevNodes) => {
+      let updatedNodes = prevNodes.map((node) => {
+        // match the node from the data to the input node via index
+        const isConnectedNode = connectedNodes.some((connectedNode) => connectedNode.index === node.index);
 
-      // Retun newData to the stateSetter function
-      return newData;
+        // return the node with the new on value. Return every other node unchanged.
+        return isConnectedNode ? { ...node, data: { ...node.data, on: true } } : node;
+      });
+      // Call updateLinks once after updating all nodes
+      updateLinks(updatedNodes);
+      // Return the updatedNodes to the stateSetter function
+      return updatedNodes;
     });
   }
 
-  // A second, separate functions for toggling instead of always turning on.
-  // Might merge with the previous one.
-  function toggleNodeVisibility(connectedNodes) {
-    let connectedNodesData = connectedNodes.map((connectedNode) => {
-      return connectedNode.data;
-    });
-    //
-    setData((prevData) => {
-      function findObjects(obj) {
-        if (obj.children) {
-          obj.children = obj.children.map(findObjects); // Update the children recursively
-        }
-        if (connectedNodesData.includes(obj)) {
-          return { ...obj, on: !obj.on };
-        } else {
-          return obj;
-        }
-      }
-      // Update both data and root
-      const newData = findObjects(prevData);
-      setData(newData);
-      updateGraph(newData);
+  function deactivateNodes(connectedNodes) {
+    setNodes((prevNodes) => {
+      let updatedNodes = prevNodes.map((node) => {
+        const isConnectedNode = connectedNodes.some((connectedNode) => connectedNode.index === node.index);
 
-      return newData;
+        return isConnectedNode ? { ...node, data: { ...node.data, on: false } } : node;
+      });
+      updateLinks(updatedNodes);
+      return updatedNodes;
     });
   }
 
-  // Update the entire tree, regenrate nodes & links after the underlying data has changed
-  function updateGraph(newData) {
-    const newRoot = d3.hierarchy(newData);
-    setRoot(newRoot);
+  function toggleNodes(connectedNodes) {
+    setNodes((prevNodes) => {
+      let updatedNodes = prevNodes.map((node) => {
+        const isConnectedNode = connectedNodes.some((connectedNode) => connectedNode.index === node.index);
 
-    const newNodes = newRoot.descendants();
-    setNodes(newNodes);
-
-    const newLinks = newRoot.links();
-    setLinks(newLinks);
+        return isConnectedNode ? { ...node, data: { ...node.data, on: !node.data.on } } : node;
+      });
+      updateLinks(updatedNodes);
+      return updatedNodes;
+    });
   }
+
+  function updateLinks(updatedNodes) {
+    setLinks((prevLinks) => {
+      return prevLinks.map((link) => {
+        const findUpdatedNode = (node) => updatedNodes.find((updatedNode) => updatedNode.index === node.index);
+
+        const updatedTargetNode = findUpdatedNode(link.target);
+        const updatedSourceNode = findUpdatedNode(link.source);
+
+        return {
+          ...link,
+          target: updatedTargetNode || link.target,
+          source: updatedSourceNode || link.source,
+        };
+      });
+    });
+  }
+
+  // console.log(links);
 
   // Zooming functionality
   function handleZoom(e) {
@@ -198,7 +218,6 @@ function D3Chart() {
     }
     setZoomAmount(e.transform.k);
   }
-  console.log(zoomTransform);
   let zoom = d3
     .zoom()
     .on("zoom", handleZoom) //
@@ -250,28 +269,30 @@ function D3Chart() {
     };
 
     // Declare Physics Properties of the Graph
+    // Step 1: Create a variable for the link force
+    const linkForce = d3.forceLink().id((d) => d.id);
+
+    // Step 2: Set up the force simulation with the link force
     const simulation = d3
-      .forceSimulation(nodes)
-      .force(
-        "link",
-        d3
-          .forceLink(links)
-          .id((d) => d.id)
-          .distance((d) => {
-            if (d.target.depth === 1) {
-              return 30;
-            } else {
-              return 100;
-            }
-          })
-          .strength((d) => (d.target.depth < 3 ? 1 : 0.5))
+      .forceSimulation(
+        nodes.filter((d) => d.data.on === true),
+        (d) => d
       )
+      .force("link", linkForce)
       .force("charge", d3.forceManyBody().strength(-2000))
       .force("center", d3.forceCenter(width / 2, height / 2).strength(1))
       .force(
         "collision",
         d3.forceCollide().radius((d) => nodeSizes(d.data.type))
       );
+
+    // Step 3: Update link force and restart simulation when activeLinkArray changes
+    function updateLinks() {
+      linkForce.links(links, (d) => d);
+      // simulation.alpha(1).restart();
+    }
+    // Call updateLinks() whenever activeLinkArray is updated
+    updateLinks();
 
     //NOTICE: //ZOOM This here is a makeshift solution and should be removed.
     let zoomVal;
@@ -301,7 +322,10 @@ function D3Chart() {
     //create a container to hold node and text
     let nodeElement = svg
       .selectAll("g")
-      .data(activeNodeArray, (d) => d)
+      .data(
+        nodes.filter((d) => d.data.on === true),
+        (d) => d
+      )
       .attr("class", "nodeContainer");
 
     const arrowheads = svg
@@ -310,7 +334,8 @@ function D3Chart() {
       // Linking the nodes data will create a def element for each element in nodes.
       // The refX and fill values will associate to each node, creating an arrowhead that fits for each.
       // Since it goes through from start to finish, we can incremement the id number and later match that with the made arrows.
-      .data(nodes)
+      .data(nodes, (d) => d)
+      // .join("marker")
       .enter()
       .append("marker")
       .attr("id", (d, i) => "arrowhead" + i)
@@ -328,7 +353,8 @@ function D3Chart() {
     const link = svg
       .append("g")
       .selectAll("line")
-      .data(activeLinkArray, (d) => d)
+      .data(links, (d) => d)
+      // .join("line")
       .enter()
       .append("line")
       .attr("class", "link")
@@ -336,7 +362,7 @@ function D3Chart() {
       .attr("stroke-opacity", 0.6)
       .attr("stroke-width", "1.5");
 
-    link.exit().remove();
+    // link.exit().remove();
 
     let elementEnter = nodeElement.enter().append("g");
 
@@ -409,8 +435,8 @@ function D3Chart() {
         d3.selectAll("circle").each(function (f) {
           if (d.target === f) {
             nodeColor = nodeColors(f.data.group);
-          } else {
-            null;
+            // console.log("node mathces color");
+            // console.log("d target is", d.target, "f is", f);
           }
         });
         return nodeColor;
@@ -432,7 +458,7 @@ function D3Chart() {
         d3.select(this) //
           .transition()
           .duration("200")
-          .attr("fill", "#fff")
+          .attr("fill", "transparent")
           .attr("cursor", "pointer");
 
         document.documentElement.style.setProperty("--highlightColorHover", nodeColors(d.data.group));
@@ -455,24 +481,23 @@ function D3Chart() {
       .on("click", handleNodeClick);
 
     //since the whole graph gets redrawn, the previous zoom position needs to be remembered and assigned to each node.
-    console.log("assigned zoomt is", zoomTransform);
     d3.selectAll("svg g").attr("transform", zoomTransform);
 
     //
     function handleNodeClick(event, clickedNode) {
-      //if the clicked node is on and contains on descendants, close all deschendant nodes
-      function hideDescendantsIfOpen() {
-        let activeDescendants = [];
-        let descendantNodes = clickedNode.descendants();
-        descendantNodes.forEach(function (descendantNode) {
-          if (descendantNode.data.on && descendantNode !== clickedNode) {
-            // toggleNodeVisibility(descendantNode);
-            activeDescendants.push(descendantNode);
+      console.log("clickedNode is", clickedNode);
+      //
+      nodes.forEach(function (node) {
+        if (node.index === clickedNode.children[0].index) {
+          if (node.data.on === true) {
+            //close all descendants
+            hideDescendantsIfOpen(clickedNode);
+          } else {
+            //show all children
+            showChildren(clickedNode);
           }
-        });
-        toggleNodeVisibility(activeDescendants);
-      }
-      hideDescendantsIfOpen();
+        }
+      });
 
       //if a node is clicked, remove any clicked class from the filterItemMenu
       document.querySelectorAll(".filterItem").forEach(function (filterItem) {
@@ -481,44 +506,26 @@ function D3Chart() {
 
       // Pan to the clicked node to center it on the screen
       //(...)
+    }
 
-      // Find Parent
-      function findParentNode(clickedNode) {
-        return clickedNode.parent;
-      }
-      let parentNode = findParentNode(clickedNode);
+    function hideDescendantsIfOpen(clickedNode) {
+      let descendantNodesArray = [];
+      // findClickDescendants(clickedNode);
+      findDescendantsManually(clickedNode).forEach(function (descendantNode) {
+        if (descendantNode !== clickedNode) {
+          descendantNodesArray.push(descendantNode);
+        }
+        deactivateNodes(descendantNodesArray);
+      });
+    }
 
-      // Find Ancenstors
-      function findAnscestorNodes(clickedNode) {
-        return clickedNode.ancestors();
-      }
-      let anscestorNodes = findParentNode(clickedNode);
-
-      // Find Children
-      function showChildrenNodes(clickedNode) {
-        return clickedNode.children;
-      }
-      let childNodes = showChildrenNodes(clickedNode);
+    function showChildren(clickedNode) {
+      let childNodes = clickedNode.children;
       if (childNodes !== undefined) {
-        toggleNodeVisibility(childNodes);
+        activateNodes(childNodes);
       } else {
         console.log("cannot expand leaf node!");
       }
-
-      // Find Descendants
-      function findDescendants(clickedNode) {
-        return clickedNode.descendants();
-      }
-      let descendants = findDescendants(clickedNode);
-      // if (descendants !== undefined) {
-      //   toggleNodeVisibility(descendants);
-      // } else {
-      //   console.log("cannot expand leaf node!");
-      // }
-
-      // console.log("parentNode is", findParentNode(clickedNode).data);
-      // console.log("ancestorNodes are", findAnscestorNodes(clickedNode));
-      // console.log("descendantNodes are", findDescendants(clickedNode));
     }
 
     // SMALL TEXT NODES
@@ -535,14 +542,14 @@ function D3Chart() {
         }
         let childNodes = showChildrenNodes(d);
         if (childNodes !== undefined) {
-          toggleNodeVisibility(childNodes);
+          toggleNodes(childNodes);
         } else {
           console.log("cannot expand leaf node!");
         }
       });
 
     //state is now updated
-    console.log(links);
+    // console.log(links);
     //
     simulation.on("tick", () => {
       link
@@ -551,7 +558,9 @@ function D3Chart() {
         .attr("x2", (d) => d.target.x)
         .attr("y2", (d) => d.target.y);
 
-      circle.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+      circle
+        .attr("cx", (d) => d.x) //
+        .attr("cy", (d) => d.y);
       circle.call(drag(simulation));
 
       elementEnter
@@ -562,8 +571,10 @@ function D3Chart() {
       document.querySelectorAll("foreignObject").forEach(function (foreignObject) {
         let circle = foreignObject.parentElement.querySelector("circle");
         let circleRadius = circle.getAttribute("r");
-        foreignObject.setAttribute("x", circle.getAttribute("cx"));
-        foreignObject.setAttribute("y", circle.getAttribute("cy"));
+        if (circle.getAttribute("cx") !== null || circle.getAttribute("cy") !== null) {
+          foreignObject.setAttribute("x", circle.getAttribute("cx"));
+          foreignObject.setAttribute("y", circle.getAttribute("cy"));
+        }
 
         //only run code if text is contained in a circe
         // here, changing the hardcoded value to, say, the second highest in the nodeWidth scale, might be slightly more dynamic.
@@ -571,13 +582,14 @@ function D3Chart() {
         foreignObject.setAttribute("width", "150");
         foreignObject.setAttribute("height", "150");
         foreignObject.style.transform = `translate(-${150 / 2}px, ${-25}px)`;
+
         // }
       });
     });
 
-    circle.exit().remove();
+    // circle.exit().remove();
     simulation.nodes(nodes);
-  }, [data, nodes, links]);
+  }, [nodes]);
 
   return (
     <div className="componentContainer">

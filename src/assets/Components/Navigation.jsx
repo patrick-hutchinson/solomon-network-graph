@@ -7,6 +7,7 @@ export default function Navigation(props) {
   let personFilterItemArray = [];
   let companyFilterItemArray = [];
 
+  // CREATE THE LIST ITEMS
   // Fills the ul tag with all "person"s contained in data.json
   filterItems.forEach(function (filterItem) {
     if (filterItem.data.type === "person") {
@@ -42,6 +43,8 @@ export default function Navigation(props) {
     </li>
   ));
 
+  //
+  //
   // Highlight current filter item on hover
   let filterMenuItems = document.querySelectorAll(".filterItem");
 
