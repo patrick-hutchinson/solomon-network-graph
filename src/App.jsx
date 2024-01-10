@@ -441,7 +441,7 @@ function D3Chart() {
         e.target.parentElement.querySelector("h5").classList.add("hovered");
 
         setNodeInfo((prevNodeInfo) => {
-          return { ...prevNodeInfo, title: d.data.name, description: d.data.description };
+          return { ...prevNodeInfo, title: d.data.name, date: d.data.date, description: d.data.description };
         });
       })
       .on("mouseleave", function (e) {

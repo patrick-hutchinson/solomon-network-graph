@@ -7,8 +7,8 @@ export default function InfoBox(props) {
     <>
       <div className="infoContainer">
         <h1 className="infoTitle">{props.nodeInfo.title}</h1>
-        <h4>dd/mm/yyyy</h4>
-        <p>{props.nodeInfo.description}</p>
+        <h4>{props.nodeInfo.date}</h4>
+        <p dangerouslySetInnerHTML={{ __html: props.nodeInfo.description }} />
       </div>
     </>
   );
