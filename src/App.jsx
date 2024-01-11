@@ -380,8 +380,8 @@ function D3Chart() {
       link
         .attr("x1", (d) => d.source.x)
         .attr("y1", (d) => d.source.y)
-        .attr("x2", (d) => d.target.x)
-        .attr("y2", (d) => d.target.y);
+        .attr("x2", (d) => (d.target.depth > 2 ? shortenLink(d.source.x, d.target.x) : d.target.x))
+        .attr("y2", (d) => (d.target.depth > 2 ? shortenLink(d.source.y, d.target.y) : d.target.y));
 
       circle
         .attr("cx", (d) => d.x) //
@@ -406,6 +406,10 @@ function D3Chart() {
         foreignObject.style.transform = `translate(-${150 / 2}px, ${-25}px)`;
       });
     });
+
+    function shortenLink(sourceCoord, targetCoord, factor = 0.9) {
+      return sourceCoord + (targetCoord - sourceCoord) * factor;
+    }
 
     // circle.exit().remove();
     simulation.nodes(nodes);
