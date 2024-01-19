@@ -581,7 +581,7 @@ function D3Chart() {
         nodesToEnable.push(node);
       }
       // Find all On Nodes that should be Off
-      else if (nodeIsOn && nodeIsSubcompany && !nodeMatchesFilter) {
+      else if (nodeIsOn && (nodeIsSubcompany || node.data.type === "connector") && !nodeMatchesFilter) {
         nodesToDisable.push(node);
       }
 
