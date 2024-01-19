@@ -9,18 +9,22 @@ export default function Navigation(props) {
 
   // Add the Path Navigation
   let nodePathItems = props.nodePath
+    //skip the connectors
+    .filter((nodePathItem) => nodePathItem.data && nodePathItem.data.name && nodePathItem.data.name.trim() !== "") // Check if data and data.name are defined
     .filter((nodePathItem) => props.nodePath.length > 1 && nodePathItem.depth !== 0)
     .map((nodePathItem) => (
       <li className="filterItem" key={nodePathItem.data.name}>
         {nodePathItem.data.name} /
       </li>
     ));
+
   // Add "ΔΙΚΤΙΟ /" as the first item
   nodePathItems.unshift(
     <li className="filterItem" key="root">
       ΔΙΚΤΙΟ /
     </li>
   );
+
   // Reverse the order of items (excluding "ΔΙΚΤΙΟ /")
   nodePathItems = [nodePathItems[0], ...nodePathItems.slice(1).reverse()];
 
