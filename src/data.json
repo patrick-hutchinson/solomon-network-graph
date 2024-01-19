@@ -21,308 +21,398 @@
           "description": "<p>Ο Γιάννης Αλαφούζος είναι Έλληνας επιχειρηματίας, εφοπλιστής, πρόεδρος της ΠΑΕ Παναθηναϊκός και μέλος της οικογένειας Αλαφούζου από τη Σαντορίνη. Είναι γιος του επιχειρηματία, εφοπλιστή και εκδότη εφημερίδας Αριστείδη Αλαφούζου.</p><p>Στις αρχές της δεκαετίας του 1980, ο Γιάννης Αλαφούζος ακολούθησε τα βήματα του πατέρα του στη ναυτιλία και εργάστηκε για την ναυτιλιακή εταιρεία της οικογένειάς του, Glafki Maritime Company, με τον στόλο πετρελαιοφόρων ΕΡΜΗΣ Ναυτιλιακή και, στη συνέχεια, διατελεί Διευθύνων Σύμβουλος του στόλου της Kyklades Ναυτιλιακή μέχρι σήμερα.</p><p>Το 1989 ανέλαβε τον ειδησεογραφικό ραδιοφωνικό σταθμό ΣΚΑΪ 100.3 και εν συνεχεία ίδρυσε τον ομώνυμο τηλεοπτικό σταθμό τον οποίο πούλησε το 1999 για να μετατραπεί στον σημερινό Alpha TV. Σήμερα είναι πρόεδρος του ομώνυμου ομίλου μέσων ενημέρωσης, που περιλαμβάνει τον τηλεοπτικό σταθμό του ΣΚΑΪ και 2 ραδιοφωνικούς σταθμούς με έδρα το Νέο Φάληρο, τον ΣΚΑΪ 100.3 και τον BwinΣΠΟΡ FM 94.6.</p><p>Τον Μάιο του 2012, ο Γιάννης Αλαφούζος, μαζί με παίκτες και οπαδούς της ΠΑΕ Παναθηναϊκός, ίδρυσαν το σωματείο Παναθηναϊκή Συμμαχία 2012 που πήρε το πλειοψηφικό μερίδιο της ποδοσφαιρικής ομάδας. Τον Σεπτέμβριο του 2012 εξελέγη πρόεδρος του Παναθηναϊκού.</p>",
           "children": [
             {
-              "name": "ΣΚΑΪ",
-              "type": "subcompany",
+              "name": "MME",
+              "type": "sector",
               "group": 1,
               "on": false,
               "date": "",
-              "description": "<p>Η εταιρεία περιλαμβάνει τον όμιλο ΣΚΑΪ, έναν από τους μεγαλύτερους ελληνικούς ομίλους Μέσων Μαζικής Ενημέρωσης. Αποτελείται από έναν τηλεοπτικό σταθμό ελεύθερης λήψης, τους ραδιοφωνικούς σταθμούς: ΣΚΑΪ 100.3 και Sport-fm.gr όπως επίσης το ενημερωτικό www.skai.gr και το ψυχαγωγικό www.skaitv.gr.</p><p>Ιωάννης Αλαφούζος 99,38%</p><p>Γεώργιος Κυριακίδης 0,54%</p><p>Ελένη Σκούρα 0,08%</p>",
+              "description": "",
               "children": [
                 {
-                  "name": "ΣΚΑΪ TV",
-                  "type": "subcompany",
+                  "name": "ΣΚΑΪ",
+                  "type": "mothercompany",
                   "group": 1,
                   "on": false,
                   "date": "",
-                  "description": "Ο ΣΚΑΪ είναι ελληνικός ιδιωτικός τηλεοπτικός σταθμός πανελλαδικής εμβέλειας, με έδρα το Νέο Φάληρο. Λειτούργησε για πρώτη φορά το 1993 μέχρι το 1999, οπότε και πωλήθηκε και μετονομάστηκε στον Alpha. Επανήλθε το 2006, με πρόγραμμα προσανατολισμένο στις ξένες σειρές, στα ντοκιμαντέρ και στα δελτία ειδήσεων."
-                },
-                {
-                  "name": "SKAITV.GR",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": "Το 2006 δημιουργήθηκε η ιστοσελίδα του σταθμού, skai.gr που παρέχει υπηρεσίες ζωντανής αναμετάδοσης, ενώ διατίθεται και ειδησεογραφικό υλικό, καθώς και περιεχόμενο του ραδιοτηλεοπτικού ΣΚΑΪ."
-                },
-                {
-                  "name": "SKAI.GR",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "ΣΚΑΙ 100,3 FM",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": "Ο ΣΚΑΪ 100,3 είναι ιδιωτικός ενημερωτικός ραδιοφωνικός σταθμός που ιδρύθηκε και ξεκίνησε να εκπέμπει το 1989 στη συχνότητα των 100.4 MHz. Σήμερα, εκπέμπει στους 100.3 MHz καλύπτοντας την περιφέρεια Αττικής και μεγάλο μέρος της Περιφερειακής Ενότητας Ευβοίας και έχει έδρα το Νέο Φάληρο, στον Πειραιά."
-                },
-                {
-                  "name": "SKAIRADIO.GR",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "TVPEDIA",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "ΣΕΛΗΝΑΙΑ",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "ΕΡΓΑ ΔΙΟΝΥΣΟΥ",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "104 FM",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": "Ο πρώην Party FM που βρισκόταν στην κατοχή του Μένιου Φουρθιώτη αγοράστηκε από τον Γιάννη Αλαφούζο για 800.000 ευρώ."
-                },
-                {
-                  "name": "bwinΣΠΟΡ FM 94,6",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": "<p>Ο αθλητικός ραδιοφωνικός σταθμός του ομίλου ΣΚΑΪ. Βρίσκεται στα στούντιο του ΣΚΑΪ στο Νέο Φάληρο και εξέπεμψε για πρώτη φορά το 1994 ως Athens FM, ενώ δυο χρόνια αργότερα μετονομάστηκε σε ΣΠΟΡ FM. Το 2008 μετονομάζεται ξανά σε NovaΣΠΟΡ FM 94.6. Το 2014 πωλήθηκε στον όμιλο του ΣΚΑΪ και ξαναπήρε το σημερινό του όνομα.</p><p>ΜΕΤΟΧΟΙ</p><p>ΣΚΑΪ 94,42%</p><p>Χρήστος Σωτηρακόπουλος 2,50%</p><p>Χαράλαμπος Χριστόγλου 2,50%</p><p>ΘΑΝΑΛΕ ΑΕ 2,39%</p><p>Γεώργιος Χελάκης 0,10%</p>"
-                },
-                {
-                  "name": "ΘΑΝΑΛΕ",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": "<p>Η εταιρεία ιδρύθηκε το 2006. Σκοπός της εταιρείας είναι η επένδυση και η συμμετοχή σε εταιρείες που δραστηριοποιούνται στην Ελλάδα και στο εξωτερικό.</p><p>Στις δραστηριότητες της ΘΑΝΑΛΕ συμπεριλαμβάνονται η αγορά χώρων και εγκαταστάσεων για περαιτέρω αξιοποίηση, όπως επίσης και η εγκατάσταση δικτυακών και τηλεπικοινωνιακών υποδομών για την παροχή και διανομή υπηρεσιών που εντάσσονται στους σκοπούς της εταιρείας.</p>"
-                },
-                {
-                  "name": "ΜΕΝΤΑ 88 FM",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": "<p>Βγήκε στον αέρα το 2013 εστιάζοντας στα παλιά ελληνικά τραγούδια και στην παρουσίαση νέων τραγουδοποιών. Μερικά από τα ονόματα που συμμετείχαν στο πρώτο σχήμα είναι οι Μαργαρίτα Μυτιληναίου, Κωνσταντίνος Παντζόγλου, Πάνος Σουρούνης, Θανάσης Βούτσινος, Αντώνης Ανδρικάκης.</p>"
-                },
-                {
-                  "name": "PEPPER 96,6 FM",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": "Ο ραδιοφωνικός σταθμός Radio Pepper 96.6 εκπέμπει από την Αθήνα, Ελλάδα και απευθύνεται σε μια ευρεία γκάμα ακροατών στην περιοχή."
+                  "description": "<p>Η εταιρεία περιλαμβάνει τον όμιλο ΣΚΑΪ, έναν από τους μεγαλύτερους ελληνικούς ομίλους Μέσων Μαζικής Ενημέρωσης. Αποτελείται από έναν τηλεοπτικό σταθμό ελεύθερης λήψης, τους ραδιοφωνικούς σταθμούς: ΣΚΑΪ 100.3 και Sport-fm.gr όπως επίσης το ενημερωτικό www.skai.gr και το ψυχαγωγικό www.skaitv.gr.</p><p>Ιωάννης Αλαφούζος 99,38%</p><p>Γεώργιος Κυριακίδης 0,54%</p><p>Ελένη Σκούρα 0,08%</p>",
+                  "sector": "MME",
+                  "children": [
+                    {
+                      "name": "ΣΚΑΪ TV",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "Ο ΣΚΑΪ είναι ελληνικός ιδιωτικός τηλεοπτικός σταθμός πανελλαδικής εμβέλειας, με έδρα το Νέο Φάληρο. Λειτούργησε για πρώτη φορά το 1993 μέχρι το 1999, οπότε και πωλήθηκε και μετονομάστηκε στον Alpha. Επανήλθε το 2006, με πρόγραμμα προσανατολισμένο στις ξένες σειρές, στα ντοκιμαντέρ και στα δελτία ειδήσεων.",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "SKAITV.GR",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "Το 2006 δημιουργήθηκε η ιστοσελίδα του σταθμού, skai.gr που παρέχει υπηρεσίες ζωντανής αναμετάδοσης, ενώ διατίθεται και ειδησεογραφικό υλικό, καθώς και περιεχόμενο του ραδιοτηλεοπτικού ΣΚΑΪ.",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "SKAI.GR",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": ""
+                    },
+                    {
+                      "name": "ΣΚΑΙ 100,3 FM",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "Ο ΣΚΑΪ 100,3 είναι ιδιωτικός ενημερωτικός ραδιοφωνικός σταθμός που ιδρύθηκε και ξεκίνησε να εκπέμπει το 1989 στη συχνότητα των 100.4 MHz. Σήμερα, εκπέμπει στους 100.3 MHz καλύπτοντας την περιφέρεια Αττικής και μεγάλο μέρος της Περιφερειακής Ενότητας Ευβοίας και έχει έδρα το Νέο Φάληρο, στον Πειραιά.",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "SKAIRADIO.GR",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "TVPEDIA",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "ΣΕΛΗΝΑΙΑ",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "REAL ESTATE"
+                    },
+                    {
+                      "name": "ΕΡΓΑ ΔΙΟΝΥΣΟΥ",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "REAL ESTATE"
+                    },
+                    {
+                      "name": "104 FM",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "Ο πρώην Party FM που βρισκόταν στην κατοχή του Μένιου Φουρθιώτη αγοράστηκε από τον Γιάννη Αλαφούζο για 800.000 ευρώ.",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "bwinΣΠΟΡ FM 94,6",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "<p>Ο αθλητικός ραδιοφωνικός σταθμός του ομίλου ΣΚΑΪ. Βρίσκεται στα στούντιο του ΣΚΑΪ στο Νέο Φάληρο και εξέπεμψε για πρώτη φορά το 1994 ως Athens FM, ενώ δυο χρόνια αργότερα μετονομάστηκε σε ΣΠΟΡ FM. Το 2008 μετονομάζεται ξανά σε NovaΣΠΟΡ FM 94.6. Το 2014 πωλήθηκε στον όμιλο του ΣΚΑΪ και ξαναπήρε το σημερινό του όνομα.</p><p>ΜΕΤΟΧΟΙ</p><p>ΣΚΑΪ 94,42%</p><p>Χρήστος Σωτηρακόπουλος 2,50%</p><p>Χαράλαμπος Χριστόγλου 2,50%</p><p>ΘΑΝΑΛΕ ΑΕ 2,39%</p><p>Γεώργιος Χελάκης 0,10%</p>",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "ΘΑΝΑΛΕ",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "<p>Η εταιρεία ιδρύθηκε το 2006. Σκοπός της εταιρείας είναι η επένδυση και η συμμετοχή σε εταιρείες που δραστηριοποιούνται στην Ελλάδα και στο εξωτερικό.</p><p>Στις δραστηριότητες της ΘΑΝΑΛΕ συμπεριλαμβάνονται η αγορά χώρων και εγκαταστάσεων για περαιτέρω αξιοποίηση, όπως επίσης και η εγκατάσταση δικτυακών και τηλεπικοινωνιακών υποδομών για την παροχή και διανομή υπηρεσιών που εντάσσονται στους σκοπούς της εταιρείας.</p>",
+                      "sector": "ΣΥΜΜΕΤΟΧΩΝ"
+                    },
+                    {
+                      "name": "ΜΕΝΤΑ 88 FM",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "<p>Βγήκε στον αέρα το 2013 εστιάζοντας στα παλιά ελληνικά τραγούδια και στην παρουσίαση νέων τραγουδοποιών. Μερικά από τα ονόματα που συμμετείχαν στο πρώτο σχήμα είναι οι Μαργαρίτα Μυτιληναίου, Κωνσταντίνος Παντζόγλου, Πάνος Σουρούνης, Θανάσης Βούτσινος, Αντώνης Ανδρικάκης.</p>",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "PEPPER 96,6 FM",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "Ο ραδιοφωνικός σταθμός Radio Pepper 96.6 εκπέμπει από την Αθήνα, Ελλάδα και απευθύνεται σε μια ευρεία γκάμα ακροατών στην περιοχή.",
+                      "sector": "MME"
+                    }
+                  ]
                 }
               ]
             },
-            { "name": "OKEANIS ENERGY", "type": "subcompany", "group": 1, "on": false, "date": "", "description": "" },
             {
-              "name": "ΠΑΕ ΠΑΝΑΘΗΝΑΪΚΟΣ",
-              "type": "subcompany",
+              "name": "ΕΝΕΡΓΕΙΑ",
+              "type": "sector",
               "group": 1,
               "on": false,
               "date": "",
-              "description": "<p>Ο Παναθηναϊκός Αθλητικός Όμιλος (Π.Α.Ο.) είναι ελληνικό αθλητικό σωματείο το οποίο εδρεύει στην Αθήνα. Ιδρύθηκε στις 3 Φεβρουαρίου 1908 και είναι από τους μεγαλύτερους αθλητικούς συλλόγους στην Ελλάδα. Το τμήμα ποδοσφαίρου του Π.Α.Ο. αγωνίζεται στο επαγγελματικό πρωτάθλημα της Super League 1.</p><p>ΜΕΤΟΧΟΙ</p><p>Ιωάννης Αλαφούζος 60,39%</p><p>Sortivo International  27,04%</p><p>Παναθηναϊκός ΑΟ 10%</p><p>Παναθηναϊκή Συμμαχία 2012 2,29%</p><p>Λοιποί μικρομέτοχοι 0,28%</p>",
+              "description": "",
               "children": [
-                { "name": "ΓΗΠΕΔΟ ΕΛΑΙΩΝΑ", "type": "subcompany", "group": 1, "on": false },
-                { "name": "GREEN TEAM", "type": "subcompany", "group": 1, "on": false },
-                { "name": "ΣΧΟΛΕΣ ΠΟΔΟΣΦΑΙΡΟΥ ΠΑΝΑΘΗΝΑΪΚΟΥ", "type": "subcompany", "group": 1, "on": false }
+                {
+                  "name": "OKEANIS ENERGY",
+                  "type": "subcompany",
+                  "group": 1,
+                  "on": false,
+                  "date": "",
+                  "description": "",
+                  "sector": "ΕΝΕΡΓΕΙΑ"
+                }
               ]
             },
             {
-              "name": "KOROPI SPORTS ACADEMIES",
-              "type": "subcompany",
+              "name": "ΑΘΛΗΤΙΣΜΟΣ",
+              "type": "sector",
               "group": 1,
               "on": false,
               "date": "",
-              "description": "<p>ΜΕΤΟΧΟΙ</p><p>Ιωάννης Αλαφούζος 97,73%</p><p>Ιωάννης Σπανολιός 2,27%</p>"
-            },
-            {
-              "name": "OKEANIS ECO TANKERS",
-              "type": "subcompany",
-              "group": 1,
-              "on": false,
-              "date": "",
-              "description": "<p>ΜΕΤΟΧΟΙ</p><p>Οικογένεια Αλαφούζου 56,82%</p><p>BNP PARIBAS 6,39%</p><p>THE BANK OF NEW YORK MELLON 3,63%</p><p>AVANZA BANK AB 3,22%</p><p>INTERACTIVE BROKERS LLC 2,34%</p><p>CLEARSTREAM BANKING S.A. 1,88%</p><p>BROWN BROTHERS HARRIMAN (LUX.) 1,49%</p><p>CACEIS BANK SPAIN SA 1,22%</p><p>NORDNET BANK AB 1,09%</p><p>VERDIPAPIRFONDET KLP AKSJENORGE 1%</p><p>OKEANIS ECO TANKERS 2.12%</p>",
+              "description": "",
               "children": [
                 {
-                  "name": "OET CHARTERING INC.",
-                  "type": "subcompany",
+                  "name": "ΠΑΕ ΠΑΝΑΘΗΝΑΪΚΟΣ",
+                  "type": "mothercompany",
                   "group": 1,
                   "on": false,
                   "date": "",
-                  "description": ""
+                  "description": "<p>Ο Παναθηναϊκός Αθλητικός Όμιλος (Π.Α.Ο.) είναι ελληνικό αθλητικό σωματείο το οποίο εδρεύει στην Αθήνα. Ιδρύθηκε στις 3 Φεβρουαρίου 1908 και είναι από τους μεγαλύτερους αθλητικούς συλλόγους στην Ελλάδα. Το τμήμα ποδοσφαίρου του Π.Α.Ο. αγωνίζεται στο επαγγελματικό πρωτάθλημα της Super League 1.</p><p>ΜΕΤΟΧΟΙ</p><p>Ιωάννης Αλαφούζος 60,39%</p><p>Sortivo International  27,04%</p><p>Παναθηναϊκός ΑΟ 10%</p><p>Παναθηναϊκή Συμμαχία 2012 2,29%</p><p>Λοιποί μικρομέτοχοι 0,28%</p>",
+                  "sector": "ΑΘΛΗΤΙΣΜΟΣ",
+                  "children": [
+                    { "name": "ΓΗΠΕΔΟ ΕΛΑΙΩΝΑ", "type": "subcompany", "group": 1, "on": false, "sector": "ΑΘΛΗΤΙΣΜΟΣ" },
+                    { "name": "GREEN TEAM", "type": "subcompany", "group": 1, "on": false, "sector": "ΕΜΠΟΡΙΟ" },
+                    {
+                      "name": "ΣΧΟΛΕΣ ΠΟΔΟΣΦΑΙΡΟΥ ΠΑΝΑΘΗΝΑΪΚΟΥ",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "sector": "ΑΘΛΗΤΙΣΜΟΣ"
+                    }
+                  ]
                 },
                 {
-                  "name": "THERASSIA MARINE",
+                  "name": "KOROPI SPORTS ACADEMIES",
                   "type": "subcompany",
                   "group": 1,
                   "on": false,
                   "date": "",
-                  "description": ""
-                },
+                  "description": "<p>ΜΕΤΟΧΟΙ</p><p>Ιωάννης Αλαφούζος 97,73%</p><p>Ιωάννης Σπανολιός 2,27%</p>",
+                  "sector": "ΑΘΛΗΤΙΣΜΟΣ"
+                }
+              ]
+            },
+            {
+              "name": "ΝΑΥΤΙΛΙΑ",
+              "type": "sector",
+              "group": 1,
+              "on": false,
+              "date": "",
+              "description": "",
+              "children": [
                 {
-                  "name": "MILOS MARINE",
-                  "type": "subcompany",
+                  "name": "OKEANIS ECO TANKERS",
+                  "type": "mothercompany",
                   "group": 1,
                   "on": false,
                   "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "IOS MARITIME",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "OMEGA ONE MARINE",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "OMEGA TWO MARINE",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "OMEGA THREE MARINE",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "OMEGA FOUR MARINE",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "OMEGA FIVE MARINE",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "OMEGA SIX MARINE",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "OMEGA SEVEN MARINE",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "OMEGA NINE MARINE",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "OMEGA TEN MARINE",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "OMEGA ELEVEN MARINE",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "NELLMARE MARINE",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "ANASSA NAVIGATION SA",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "ARETHUSA SHIPPING",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "MOONSPRITE SHIPPING",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "THETA NAVIGATION",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "ARK MARINE SA",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
+                  "description": "<p>ΜΕΤΟΧΟΙ</p><p>Οικογένεια Αλαφούζου 56,82%</p><p>BNP PARIBAS 6,39%</p><p>THE BANK OF NEW YORK MELLON 3,63%</p><p>AVANZA BANK AB 3,22%</p><p>INTERACTIVE BROKERS LLC 2,34%</p><p>CLEARSTREAM BANKING S.A. 1,88%</p><p>BROWN BROTHERS HARRIMAN (LUX.) 1,49%</p><p>CACEIS BANK SPAIN SA 1,22%</p><p>NORDNET BANK AB 1,09%</p><p>VERDIPAPIRFONDET KLP AKSJENORGE 1%</p><p>OKEANIS ECO TANKERS 2.12%</p>",
+                  "sector": "ΝΑΥΤΙΛΙΑ",
+                  "children": [
+                    {
+                      "name": "OET CHARTERING INC.",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΝΑΥΤΙΛΙΑ"
+                    },
+                    {
+                      "name": "THERASSIA MARINE",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΝΑΥΤΙΛΙΑ"
+                    },
+                    {
+                      "name": "MILOS MARINE",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΝΑΥΤΙΛΙΑ"
+                    },
+                    {
+                      "name": "IOS MARITIME",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΝΑΥΤΙΛΙΑ"
+                    },
+                    {
+                      "name": "OMEGA ONE MARINE",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΝΑΥΤΙΛΙΑ"
+                    },
+                    {
+                      "name": "OMEGA TWO MARINE",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΝΑΥΤΙΛΙΑ"
+                    },
+                    {
+                      "name": "OMEGA THREE MARINE",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΝΑΥΤΙΛΙΑ"
+                    },
+                    {
+                      "name": "OMEGA FOUR MARINE",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΝΑΥΤΙΛΙΑ"
+                    },
+                    {
+                      "name": "OMEGA FIVE MARINE",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΝΑΥΤΙΛΙΑ"
+                    },
+                    {
+                      "name": "OMEGA SIX MARINE",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΝΑΥΤΙΛΙΑ"
+                    },
+                    {
+                      "name": "OMEGA SEVEN MARINE",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΝΑΥΤΙΛΙΑ"
+                    },
+                    {
+                      "name": "OMEGA NINE MARINE",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΝΑΥΤΙΛΙΑ"
+                    },
+                    {
+                      "name": "OMEGA TEN MARINE",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΝΑΥΤΙΛΙΑ"
+                    },
+                    {
+                      "name": "OMEGA ELEVEN MARINE",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΝΑΥΤΙΛΙΑ"
+                    },
+                    {
+                      "name": "NELLMARE MARINE",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΝΑΥΤΙΛΙΑ"
+                    },
+                    {
+                      "name": "ANASSA NAVIGATION SA",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΝΑΥΤΙΛΙΑ"
+                    },
+                    {
+                      "name": "ARETHUSA SHIPPING",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΝΑΥΤΙΛΙΑ"
+                    },
+                    {
+                      "name": "MOONSPRITE SHIPPING",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΝΑΥΤΙΛΙΑ"
+                    },
+                    {
+                      "name": "THETA NAVIGATION",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΝΑΥΤΙΛΙΑ"
+                    },
+                    {
+                      "name": "ARK MARINE SA",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΝΑΥΤΙΛΙΑ"
+                    }
+                  ]
                 }
               ]
             }
@@ -337,262 +427,309 @@
           "description": "Ο Θεμιστοκλής Αλαφούζος, ο μικρότερος αδερφός του Γιάννη Αλαφούζου, είναι ο κύριος μέτοχος και διευθύνων σύμβουλος του ομίλου Καθημερινή. Η μητρική εταιρεία Νέες Καθημερινές εκδόσεις συμμετέχει σε άλλες εταιρείες (θυγατρικές) που ασχολούνται με την έκδοση εφημερίδων (Καθημερινή, Καθημερινή Αγγλική Έκδοση και τις αντίστοιχες ιστοσελίδες τους) και περιοδικών (όπως π.χ. Magazine K, Traveling, Vogue Greece, Greece is, Γαστρονόμος κ.λπ.). Πέρα από τα ΜΜΕ έχει μεγάλη επιχειρηματική δραστηριότητα και στο χώρο της ναυτιλίας.",
           "children": [
             {
-              "name": "ΝΕΕΣ ΚΑΘΗΜΕΡΙΝΕΣ ΕΚΔΟΣΕΙΣ",
-              "type": "subcompany",
+              "name": "MME",
+              "type": "sector",
               "group": 1,
               "on": false,
-              "date": "",
-              "description": "",
               "children": [
                 {
-                  "name": "ΚΑΘΗΜΕΡΙΝΗ",
-                  "type": "subcompany",
+                  "name": "ΝΕΕΣ ΚΑΘΗΜΕΡΙΝΕΣ ΕΚΔΟΣΕΙΣ",
+                  "type": "mothercompany",
                   "group": 1,
                   "on": false,
                   "date": "",
-                  "description": "<p>Η Καθημερινή είναι ημερήσια πολιτική και οικονομική εφημερίδα με πανελλαδική κυκλοφορία. Ιδρύθηκε από τον Γεώργιο Α. Βλάχο και το πρώτο της φύλλο κυκλοφόρησε στις 15 Σεπτεμβρίου 1919.</p><p>Διευθυντής της, από το 2007, είναι ο Αλέξης Παπαχελάς.</p>"
-                },
-                {
-                  "name": "KATHIMERINI.GR",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": "<p>Το kathimerini.gr είναι η ψηφιακή έκδοση της Καθημερινής και ιδρύθηκε το 1996.</p>"
-                },
-                {
-                  "name": "EKATHIMERINI.COM",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "MONEYREVIEW.GR",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": "Το moneyreview.gr ιδρύθηκε στις 02 Δεκεμβρίου 2020 με έδρα την Αθήνα. Στοχεύει στην ενημέρωση γύρω από τις εξελίξεις που αφορούν την επιχειρηματικότητα και τις επενδύσεις, το χρηματιστήριο και τις αγορές, τα δημόσια οικονομικά και τη φορολόγηση, την εργασία, τον τουρισμό και την ενέργεια."
-                },
-                {
-                  "name": "ΓΑΣΤΡΟΝΟΜΟΣ",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": "Ο «Γαστρονόμος» κυκλοφορεί κάθε μήνα με την \"Καθημερινή\" της Κυριακής."
-                },
-                {
-                  "name": "GASTRONOMOS.GR",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "VOGUE",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "VOGUE.GR",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "GREECE-IS.COM",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "BLUEKEY.GR",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "HOURS",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "KESTATE.GR",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "OINOXOOS.NET",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "NEW YORK TIMES FRANCE",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": "<p>Η εταιρεία είναι θυγατρική του ομίλου της ΚΑΘΗΜΕΡΙΝΗΣ. Δραστηριοποιείται στην έκδοση, προώθηση, διακίνηση και εμπορική εκμετάλλευση εφημερίδων, περιοδικών, φυλλαδίων και γενικότερα διαφόρων εντύπων, στον σχεδιασμό, συντήρηση και λειτουργία δικτυακών τόπων, καθώς και στην παροχή υπηρεσιών δημοσιογραφικής ύλης.</p><p>ΜΕΤΟΧΟΙ</p><p>Η ΚΑΘΗΜΕΡΙΝΗ 50%</p><p>NEW YORK TIMES FRANCE SA 50%</p>",
+                  "description": "",
+                  "sector": "MME",
                   "children": [
                     {
-                      "name": "THE NEW YORK TIMES INTERNATIONAL EDITION",
+                      "name": "ΚΑΘΗΜΕΡΙΝΗ",
                       "type": "subcompany",
                       "group": 1,
                       "on": false,
                       "date": "",
-                      "description": ""
+                      "description": "<p>Η Καθημερινή είναι ημερήσια πολιτική και οικονομική εφημερίδα με πανελλαδική κυκλοφορία. Ιδρύθηκε από τον Γεώργιο Α. Βλάχο και το πρώτο της φύλλο κυκλοφόρησε στις 15 Σεπτεμβρίου 1919.</p><p>Διευθυντής της, από το 2007, είναι ο Αλέξης Παπαχελάς.</p>",
+                      "sector": "MME"
                     },
                     {
-                      "name": "KATHIMERINI ENGLISH EDITION",
+                      "name": "KATHIMERINI.GR",
                       "type": "subcompany",
                       "group": 1,
                       "on": false,
                       "date": "",
-                      "description": ""
+                      "description": "<p>Το kathimerini.gr είναι η ψηφιακή έκδοση της Καθημερινής και ιδρύθηκε το 1996.</p>",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "EKATHIMERINI.COM",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "MONEYREVIEW.GR",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "Το moneyreview.gr ιδρύθηκε στις 02 Δεκεμβρίου 2020 με έδρα την Αθήνα. Στοχεύει στην ενημέρωση γύρω από τις εξελίξεις που αφορούν την επιχειρηματικότητα και τις επενδύσεις, το χρηματιστήριο και τις αγορές, τα δημόσια οικονομικά και τη φορολόγηση, την εργασία, τον τουρισμό και την ενέργεια.",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "ΓΑΣΤΡΟΝΟΜΟΣ",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "Ο «Γαστρονόμος» κυκλοφορεί κάθε μήνα με την \"Καθημερινή\" της Κυριακής.",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "GASTRONOMOS.GR",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "VOGUE",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "VOGUE.GR",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "GREECE-IS.COM",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "BLUEKEY.GR",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "HOURS",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "KESTATE.GR",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "OINOXOOS.NET",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "NEW YORK TIMES FRANCE",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "<p>Η εταιρεία είναι θυγατρική του ομίλου της ΚΑΘΗΜΕΡΙΝΗΣ. Δραστηριοποιείται στην έκδοση, προώθηση, διακίνηση και εμπορική εκμετάλλευση εφημερίδων, περιοδικών, φυλλαδίων και γενικότερα διαφόρων εντύπων, στον σχεδιασμό, συντήρηση και λειτουργία δικτυακών τόπων, καθώς και στην παροχή υπηρεσιών δημοσιογραφικής ύλης.</p><p>ΜΕΤΟΧΟΙ<br>Η ΚΑΘΗΜΕΡΙΝΗ 50%<br>NEW YORK TIMES FRANCE SA 50%</p>",
+                      "sector": "MME",
+                      "children": [
+                        {
+                          "name": "THE NEW YORK TIMES INTERNATIONAL EDITION",
+                          "type": "subcompany",
+                          "group": 1,
+                          "on": false,
+                          "date": "",
+                          "description": "",
+                          "sector": "MME"
+                        },
+                        {
+                          "name": "KATHIMERINI ENGLISH EDITION",
+                          "type": "subcompany",
+                          "group": 1,
+                          "on": false,
+                          "date": "",
+                          "description": "",
+                          "sector": "MME"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "NEOLAIA.GR",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "<p>Το neolaia.gr δημιουργήθηκε το 2007 από φοιτητές για φοιτητές. Στόχος είναι η ενημέρωση για όλες τις εξελίξεις που αφορούν τη φοιτητική ζωή (σεμινάρια, υποτροφίες, πρακτικές, e-learning προγράμματα), τις Πανελλήνιες, τα νέα Σχολών και Πανεπιστημίων, τις κινητοποιήσεις των φοιτητών και τις αλλαγές που περιλαμβάνουν τα νομοσχέδια των αρμόδιων Υπουργείων.</p><p>ΜΕΤΟΧΟΙ</p><p>Νέες Καθημερινές Εκδόσεις 50%</p><p>Hangover Media 50%</p>",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "ΑΛΚΟ PRINT",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "ΜΟΝΟΠΡΟΣΩΠΗ ΑΝΩΝΥΜΟΣ ΤΕΧΝΙΚΗ ΕΤΑΙΡΙΑ ΕΡΓΩΝ",
+                      "type": "subcompany",
+                      "group": 1,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΚΑΤΑΣΚΕΥΕΣ"
                     }
                   ]
                 },
                 {
-                  "name": "NEOLAIA.GR",
-                  "type": "subcompany",
+                  "name": "ΝΑΥΤΙΛΙΑ",
+                  "type": "sector",
                   "group": 1,
                   "on": false,
-                  "date": "",
-                  "description": "<p>Το neolaia.gr δημιουργήθηκε το 2007 από φοιτητές για φοιτητές. Στόχος είναι η ενημέρωση για όλες τις εξελίξεις που αφορούν τη φοιτητική ζωή (σεμινάρια, υποτροφίες, πρακτικές, e-learning προγράμματα), τις Πανελλήνιες, τα νέα Σχολών και Πανεπιστημίων, τις κινητοποιήσεις των φοιτητών και τις αλλαγές που περιλαμβάνουν τα νομοσχέδια των αρμόδιων Υπουργείων.</p><p>ΜΕΤΟΧΟΙ</p><p>Νέες Καθημερινές Εκδόσεις 50%</p><p>Hangover Media 50%</p>"
-                },
-                {
-                  "name": "ΑΛΚΟ PRINT",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "ΜΟΝΟΠΡΟΣΩΠΗ ΑΝΩΝΥΜΟΣ ΤΕΧΝΙΚΗ ΕΤΑΙΡΙΑ ΕΡΓΩΝ",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                }
-              ]
-            },
-            {
-              "name": "ΑΡΓΟΝΑΥΤΗΣ",
-              "type": "subcompany",
-              "group": 1,
-              "on": false,
-              "date": "",
-              "description": "<p>Ναυτιλιακή εταιρεία της οικογένειας Αλαφούζου και μία από τις μεγαλύτερες ναυτιλικές παγκοσμίως.</p><p>ΜΕΤΟΧΟΙ</p><p>Θεμιστοκλής Αλαφούζος 100%</p>",
-              "children": [
-                {
-                  "name": "SEA SHELL ENTERPRISES",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "SEA PEARL ENTERPRISES",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "BIGAL SHIPPING",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": "",
                   "children": [
                     {
-                      "name": "NISSOS DELOS",
-                      "type": "subcompany",
+                      "name": "ΑΡΓΟΝΑΥΤΗΣ",
+                      "type": "mothercompany",
                       "group": 1,
                       "on": false,
                       "date": "",
-                      "description": ""
-                    }
-                  ]
-                },
-                {
-                  "name": "ZENITH MARITIME",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": "",
-                  "children": [
-                    {
-                      "name": "NISSOS PAROS",
-                      "type": "subcompany",
-                      "group": 1,
-                      "on": false,
-                      "date": "",
-                      "description": ""
-                    }
-                  ]
-                },
-                {
-                  "name": "CHRISTIANA MARINE",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": "",
-                  "children": [
-                    {
-                      "name": "NISSOS CHRISTIANA",
-                      "type": "subcompany",
-                      "group": 1,
-                      "on": false,
-                      "date": "",
-                      "description": ""
-                    }
-                  ]
-                },
-                {
-                  "name": "CLOVER ENTERPRISES",
-                  "type": "subcompany",
-                  "group": 1,
-                  "on": false,
-                  "date": "",
-                  "description": "",
-                  "children": [
-                    {
-                      "name": "NISSOS KOUFONISSI",
-                      "type": "subcompany",
-                      "group": 1,
-                      "on": false,
-                      "date": "",
-                      "description": ""
+                      "description": "<p>Ναυτιλιακή εταιρεία της οικογένειας Αλαφούζου και μία από τις μεγαλύτερες ναυτιλικές παγκοσμίως.</p><p>ΜΕΤΟΧΟΙ</p><p>Θεμιστοκλής Αλαφούζος 100%</p>",
+                      "sector": "ΑΡΓΟΝΑΥΤΗΣ",
+                      "children": [
+                        {
+                          "name": "SEA SHELL ENTERPRISES",
+                          "type": "subcompany",
+                          "group": 1,
+                          "on": false,
+                          "date": "",
+                          "description": "",
+                          "sector": "ΑΡΓΟΝΑΥΤΗΣ"
+                        },
+                        {
+                          "name": "SEA PEARL ENTERPRISES",
+                          "type": "subcompany",
+                          "group": 1,
+                          "on": false,
+                          "date": "",
+                          "description": "",
+                          "sector": "ΑΡΓΟΝΑΥΤΗΣ"
+                        },
+                        {
+                          "name": "BIGAL SHIPPING",
+                          "type": "subcompany",
+                          "group": 1,
+                          "on": false,
+                          "date": "",
+                          "description": "",
+                          "sector": "ΑΡΓΟΝΑΥΤΗΣ",
+                          "children": [
+                            {
+                              "name": "NISSOS DELOS",
+                              "type": "subcompany",
+                              "group": 1,
+                              "on": false,
+                              "date": "",
+                              "description": "",
+                              "sector": "ΑΡΓΟΝΑΥΤΗΣ"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "ZENITH MARITIME",
+                          "type": "subcompany",
+                          "group": 1,
+                          "on": false,
+                          "date": "",
+                          "description": "",
+                          "sector": "ΑΡΓΟΝΑΥΤΗΣ",
+                          "children": [
+                            {
+                              "name": "NISSOS PAROS",
+                              "type": "subcompany",
+                              "group": 1,
+                              "on": false,
+                              "date": "",
+                              "description": "",
+                              "sector": "ΑΡΓΟΝΑΥΤΗΣ"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "CHRISTIANA MARINE",
+                          "type": "subcompany",
+                          "group": 1,
+                          "on": false,
+                          "date": "",
+                          "description": "",
+                          "sector": "ΑΡΓΟΝΑΥΤΗΣ",
+                          "children": [
+                            {
+                              "name": "NISSOS CHRISTIANA",
+                              "type": "subcompany",
+                              "group": 1,
+                              "on": false,
+                              "date": "",
+                              "description": "",
+                              "sector": "ΑΡΓΟΝΑΥΤΗΣ"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "CLOVER ENTERPRISES",
+                          "type": "subcompany",
+                          "group": 1,
+                          "on": false,
+                          "date": "",
+                          "description": "",
+                          "sector": "ΑΡΓΟΝΑΥΤΗΣ",
+                          "children": [
+                            {
+                              "name": "NISSOS KOUFONISSI",
+                              "type": "subcompany",
+                              "group": 1,
+                              "on": false,
+                              "date": "",
+                              "description": "",
+                              "sector": "ΑΡΓΟΝΑΥΤΗΣ"
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 }
@@ -619,189 +756,250 @@
           "description": "<p>ΒΑΓΓΕΛΗΣ ΜΑΡΙΝΑΚΗΣ</p><br><p>Ο Βαγγέλης Μαρινάκης γεννήθηκε τον Ιούλιο του 1967 στον Πειραιά. Ο πατέρας του, Μιλτιάδης Μαρινάκης, ήταν πολιτικός και εφοπλιστής με καταγωγή από την Κρήτη. Σπούδασε διοίκηση διεθνών επιχειρήσεων στο Λονδίνο.</p><p>O Βαγγέλης Μαρινάκης είναι ιδρυτής του ναυτιλιακού ομίλου Capital και βρίσκεται στη λίστα “One Hundred People” του βρετανικού ναυτιλιακού περιοδικού Lloyd’s List από το 2010. Το 2022, ο στόλος της Capital Group ανερχόταν στα 100 πλοία, με τη συνολική αξία να υπολογίζεται στα 9 δισεκατομμύρια δολάρια. Βραβεία της ίδιας έκδοσης ανέδειξαν το 2017 ως την προσωπικότητα της χρονιάς στην ελληνική ναυτιλία.</p><p>Από το 2010 είναι ο ιδιοκτήτης της ΠΑΕ Ολυμπιακός, εξαγοράζοντας την πλειοψηφία των μετοχών της από τον Σωκράτη Κόκκαλη. Το 2017, ο Βαγγέλης Μαρινάκης εξαγόρασε και την Notigham Forest, μία από τις παλαιότερες ποδοσφαιρικές ομάδες στην Αγγλία.</p><p>Πέρα από τη ναυτιλία και τον αθλητισμό, ο Βαγγέλης Μαρινάκης έχει έντονη επιχειρηματική δραστηριότητα και στην εγχώρια βιομηχανία των media. Μέσω του ομίλου Alter Ego ελέγχει, μεταξύ άλλων, το τηλεοπτικό σταθμό Mega, τις εκδόσεις Νέα και Βήμα, καθώς και το ενημερωτικό σάιτ in.gr. Η Alter Ego συμμετέχει, επίσης, στην εταιρεία πρακτόρευσης και διανομής περιοδικών και εφημερίδων Άργος.</p><p>Το 2011, το όνομα του Βαγγέλη Μαρινάκη ενεπλάκη σε σκάνδαλο στημένων αγώνων (γνωστό και ως σκάνδαλο Κοριόπολις). Κατηγορήθηκε, μεταξύ άλλων, για απλή συνέργεια σε εγκληματική οργάνωση και δωροδοκία για αλλοίωση αποτελέσματος αθλητικού αγώνα. Από το σύνολο των 187 υπόπτων, τελικά ένοχοι κρίθηκαν 11 κατηγορούμενοι. Ανάμεσά τους ο Αχιλλέας Μπέος και ο Δημήτρης Μπάκος. Ο Βαγγέλης Μαρινάκης τελικά απαλλάχθηκε από τις κατηγορίες.</p><p>Το καλοκαίρι του 2014, οι ελληνικές αρχές σε κοινή επιχείρηση με την Αμερικάνικη Δίωξη Ναρκωτικών εντόπισαν 2,1 τόνους ηρωίνης στην Αθήνα. Είχαν μεταφερθεί με το πλοίο Noor 1, ιδιοκτησία του εφοπλιστή Μάκη Γιαννουσάκη. Οι ποσότητες εντοπίστηκαν στο σπίτι του Γιαννουσάκη στη Φιλοθέη, σε αποθήκη στο Κορωπί και στα αμπάρια του πλοίου. Πρόκειται για τη μεγαλύτερη μεταφορά ηρωίνης στην ιστορία της Ευρώπης.  Η δίκη ξεκίνησε τον Οκτώβριο του 2015, όπου πρωτόδικα από το σύνολο των 32 κατηγορουμένων, οι 17 αθωώθηκαν. Το 2017, ο Βαγγέλης Μαρινάκης κλήθηκε ως ύποπτος να δώσει εξηγήσεις για συναλλαγές ύψους περίπου 500,000 έκαστη. Πραγματοποιήθηκαν από τη ναυτιλιακή εταιρεία του Μαρινάκη Capital Ship Management προς την εταιρεία του Γιαννουσάκη G-Tankers Petroleum, πλοιοκτήτρια εταιρεία του Noor 1. To 2018, η εισαγγελέας Πειραιά Ειρήνη Τζίβα άσκησε ποινική δίωξη εις βάρος του Βαγγέλη Μαρινάκη, δύο συνεργατών του και ενός ναυτασφαλιστή για συγκρότηση εγκληματικής οργάνωσης, χρηματοδότηση και αποθήκευση ναρκωτικών.</p><p>O Βαγγέλης Μαρινάκη εξελέγη πρώτος σε σταυρούς ως δημοτικός σύμβουλος το 2014 και το 2019 στο Δήμο Πειραιά με τον συνδυασμό Πειραιάς Νικητής του Γιάννη Μώραλη. Είναι παντρεμένος με την Αθανασία Κασσιώτη κι έχει τέσσερα παιδιά.</p>",
           "children": [
             {
-              "name": "POMACON",
-              "type": "subcompany",
+              "name": "REAL ESTATE",
+              "type": "sector",
               "group": 5,
               "on": false,
               "date": "",
               "description": "",
               "children": [
                 {
-                  "name": "ΚΥΚΛΑΔΕΣ",
+                  "name": "POMACON",
+                  "type": "mothercompany",
+                  "group": 5,
+                  "on": false,
+                  "date": "",
+                  "description": "",
+                  "sector": "REAL ESTATE",
+                  "children": [
+                    {
+                      "name": "ΚΥΚΛΑΔΕΣ",
+                      "type": "subcompany",
+                      "group": 5,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "REAL ESTATE"
+                    }
+                  ]
+                },
+                {
+                  "name": "ERAGGON",
                   "type": "subcompany",
                   "group": 5,
                   "on": false,
                   "date": "",
-                  "description": ""
+                  "description": "",
+                  "sector": "REAL ESTATE",
+                  "children": [
+                    {
+                      "name": "AMOR",
+                      "type": "subcompany",
+                      "group": 5,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "REAL ESTATE"
+                    }
+                  ]
+                },
+                {
+                  "name": "ΠΕΙΡΑΪΚΗ ΚΤΗΜΑΤΙΚΗ ΕΚΜΕΤΑΛΛΕΥΣΗ ΑΚΙΝΗΤΩΝ",
+                  "type": "subcompany",
+                  "group": 5,
+                  "on": false,
+                  "date": "",
+                  "description": "",
+                  "sector": "REAL ESTATE"
+                },
+                {
+                  "name": "SMALLRIDGE ΕΠΕΝΔΥΣΕΙΣ",
+                  "type": "subcompany",
+                  "group": 5,
+                  "on": false,
+                  "date": "",
+                  "description": "",
+                  "sector": "REAL ESTATE"
+                },
+                {
+                  "name": "LIONPORT",
+                  "type": "subcompany",
+                  "group": 5,
+                  "on": false,
+                  "date": "",
+                  "description": "<p>METOXOI</p><p>CAVILEN HOLDING LIMITED 100%</p>",
+                  "sector": "REAL ESTATE"
+                }
+              ]
+            },
+            {
+              "name": "MME",
+              "type": "sector",
+              "group": 5,
+              "on": false,
+              "date": "",
+              "description": "",
+              "children": [
+                {
+                  "name": "ALTER EGO",
+                  "type": "mothercompany",
+                  "group": 5,
+                  "on": false,
+                  "date": "",
+                  "description": "<p>ΜΕΤΟΧΟΙ</p><p>Ευάγγελος Μαρινάκης 70,85%</p><p>POMACON 29,15%</p>",
+                  "sector": "MME",
+                  "children": [
+                    {
+                      "name": "MEGA",
+                      "type": "subcompany",
+                      "group": 5,
+                      "on": false,
+                      "date": "",
+                      "description": "Το Mega Channel είναι ο πρώτος ελληνικός ιδιωτικός τηλεοπτικός σταθμός πανελλαδικής εμβέλειας. Εξέπεμψε για πρώτη φορά στις 20 Νοεμβρίου 1989 υπό την ιδιοκτησία της Τηλέτυπος Α.Ε. ενώ από την 1η Νοεμβρίου 2019 ανήκει στην Alter Ego Επιχείρηση Μέσων Μαζικής Ενημέρωσης Α.Ε. και έχει έδρα την Καλλιθέα.",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "MEGATV.com",
+                      "type": "subcompany",
+                      "group": 5,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "Το Βήμα",
+                      "type": "subcompany",
+                      "group": 5,
+                      "on": false,
+                      "date": "",
+                      "description": "<p>Εβδομαδιαία εφημερίδα που εκδίδεται από την Alter Ego και κυκλοφορεί πανελλαδικά. </p><p>Το Βήμα πρωτοεκδόθηκε στις 6 Φεβρουαρίου 1922 υπό το όνομα Ελεύθερον Βήμα. Ιδρυτές του ήταν ο πολιτικός και διπλωμάτης Αλέξανδρος Καραπάνος, ο Γεώργιος Ρούσσος, ο Αλέξανδρος Διομήδης, ο Εμμανουήλ Τσουδερός, ο Γεώργιος Εξηντάρης, ο Κωνσταντίνος Ρέντης και ο Δημήτριος Λαμπράκης</p><p>Μετά το θάνατο του Χρήστου Λαμπράκη, εκδότης ανέλαβε ο Σταύρος Ψυχάρης, και τη θέση του ως Διευθυντή πήρε ο Παντελής Καψής. Κάθε Κυριακή εκδίδεται ως Το Βήμα της Κυριακής.</p>",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "TOVIMA.GR",
+                      "type": "subcompany",
+                      "group": 5,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "TOVIMA.COM",
+                      "type": "subcompany",
+                      "group": 5,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "TA NEA",
+                      "type": "subcompany",
+                      "group": 5,
+                      "on": false,
+                      "date": "",
+                      "description": "Τα Νέα είναι ελληνική ημερήσια απογευματινή εφημερίδα, η οποία εκδίδεται από την Alter Ego Επιχείρηση Μέσων Μαζικής Ενημέρωσης Α.Ε. Για πρώτη φορά εκδόθηκε στις 28 Μαΐου 1931 με την ονομασία Αθηναϊκά Νέα ενώ το 1945 έλαβε τη σημερινή ονομασία της. Κυκλοφορεί αδιάλειπτα από τότε έως και σήμερα και τα πρόσφατα χρόνια αποτελεί σταθερά την πρώτη σε κυκλοφορία ημερήσια απογευματινή εφημερίδα."
+                    },
+                    {
+                      "name": "TANEA.GR",
+                      "type": "subcompany",
+                      "group": 5,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "MOREMEDIA",
+                      "type": "subcompany",
+                      "group": 5,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "MY RADIO",
+                      "type": "subcompany",
+                      "group": 5,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "ONE DIGITAL SERVICES",
+                      "type": "subcompany",
+                      "group": 5,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "RED PRODUCTIONS",
+                      "type": "subcompany",
+                      "group": 5,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    }
+                  ]
+                },
+                {
+                  "name": "FIELDBASIL",
+                  "type": "subcompany",
+                  "group": 5,
+                  "on": false,
+                  "date": "",
+                  "description": "",
+                  "sector": "MME"
+                }
+              ]
+            },
+            {
+              "name": "ΑΘΛΗΤΙΣΜΟΣ",
+              "type": "sector",
+              "group": 5,
+              "on": false,
+              "date": "",
+              "description": "",
+              "children": [
+                {
+                  "name": "ΟΛΥΜΠΙΑΚΟΣ",
+                  "type": "subcompany",
+                  "group": 5,
+                  "on": false,
+                  "date": "",
+                  "description": "<p>Πειραιά. Ιδρύθηκε στις 10 Μαρτίου 1925 και είναι από τους μεγαλύτερους αθλητικούς συλλόγους στην Ελλάδα. Το τμήμα ποδοσφαίρου του Ολυμπιακού Συνδέσμου Φιλάθλων Πειραιώς αγωνίζεται στο επαγγελματικό πρωτάθλημα της Super League 1.</p><p>ΜΕΤΟΧΟΙ</p><p>Ευάγγελος Μαρινάκης 86,42%</p><p>Ολυμπιακός ΣΠΦ 10%</p><p>Σωκράτης Κόκκαλης 2,48%</p><p>Λοιποί μικρομέτοχοι 1.1%</p>",
+                  "sector": "ΑΘΛΗΤΙΣΜΟΣ"
+                }
+              ]
+            },
+            {
+              "name": "ΕΜΠΟΡΙΟ",
+              "type": "sector",
+              "group": 5,
+              "on": false,
+              "date": "",
+              "description": "",
+              "children": [
+                {
+                  "name": "ΘΡΥΛΟΣ ΑΕ",
+                  "type": "subcompany",
+                  "group": 5,
+                  "on": false,
+                  "date": "",
+                  "description": "<p>ΜΕΤΟΧΟΙ</p><p>ΠΑΕ Ολυμπιακός 83,58</p><p>ABISSO HOLDINGS  14,75%</p><p>Λοιποί 1,67%</p>",
+                  "sector": "ΕΜΠΟΡΙΟ"
                 }
               ]
             },
             {
               "name": "ABISSO HOLDINGS",
-              "type": "subcompany",
-              "group": 5,
-              "on": false,
-              "date": "",
-              "description": ""
-            },
-            {
-              "name": "ERAGGON",
-              "type": "subcompany",
-              "group": 5,
-              "on": false,
-              "date": "",
-              "description": "",
-              "children": [
-                {
-                  "name": "AMOR",
-                  "type": "subcompany",
-                  "group": 5,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                }
-              ]
-            },
-            {
-              "name": "ALTER EGO",
-              "type": "subcompany",
-              "group": 5,
-              "on": false,
-              "date": "",
-              "description": "<p>ΜΕΤΟΧΟΙ</p><p>Ευάγγελος Μαρινάκης 70,85%</p><p>POMACON 29,15%</p>",
-              "children": [
-                {
-                  "name": "MEGA",
-                  "type": "subcompany",
-                  "group": 5,
-                  "on": false,
-                  "date": "",
-                  "description": "Το Mega Channel είναι ο πρώτος ελληνικός ιδιωτικός τηλεοπτικός σταθμός πανελλαδικής εμβέλειας. Εξέπεμψε για πρώτη φορά στις 20 Νοεμβρίου 1989 υπό την ιδιοκτησία της Τηλέτυπος Α.Ε. ενώ από την 1η Νοεμβρίου 2019 ανήκει στην Alter Ego Επιχείρηση Μέσων Μαζικής Ενημέρωσης Α.Ε. και έχει έδρα την Καλλιθέα."
-                },
-                {
-                  "name": "MEGATV.com",
-                  "type": "subcompany",
-                  "group": 5,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "Το Βήμα",
-                  "type": "subcompany",
-                  "group": 5,
-                  "on": false,
-                  "date": "",
-                  "description": "<p>Εβδομαδιαία εφημερίδα που εκδίδεται από την Alter Ego και κυκλοφορεί πανελλαδικά. </p><p>Το Βήμα πρωτοεκδόθηκε στις 6 Φεβρουαρίου 1922 υπό το όνομα Ελεύθερον Βήμα. Ιδρυτές του ήταν ο πολιτικός και διπλωμάτης Αλέξανδρος Καραπάνος, ο Γεώργιος Ρούσσος, ο Αλέξανδρος Διομήδης, ο Εμμανουήλ Τσουδερός, ο Γεώργιος Εξηντάρης, ο Κωνσταντίνος Ρέντης και ο Δημήτριος Λαμπράκης</p><p>Μετά το θάνατο του Χρήστου Λαμπράκη, εκδότης ανέλαβε ο Σταύρος Ψυχάρης, και τη θέση του ως Διευθυντή πήρε ο Παντελής Καψής. Κάθε Κυριακή εκδίδεται ως Το Βήμα της Κυριακής.</p>"
-                },
-                {
-                  "name": "TOVIMA.GR",
-                  "type": "subcompany",
-                  "group": 5,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "TOVIMA.COM",
-                  "type": "subcompany",
-                  "group": 5,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "TA NEA",
-                  "type": "subcompany",
-                  "group": 5,
-                  "on": false,
-                  "date": "",
-                  "description": "Τα Νέα είναι ελληνική ημερήσια απογευματινή εφημερίδα, η οποία εκδίδεται από την Alter Ego Επιχείρηση Μέσων Μαζικής Ενημέρωσης Α.Ε. Για πρώτη φορά εκδόθηκε στις 28 Μαΐου 1931 με την ονομασία Αθηναϊκά Νέα ενώ το 1945 έλαβε τη σημερινή ονομασία της. Κυκλοφορεί αδιάλειπτα από τότε έως και σήμερα και τα πρόσφατα χρόνια αποτελεί σταθερά την πρώτη σε κυκλοφορία ημερήσια απογευματινή εφημερίδα."
-                },
-                {
-                  "name": "TANEA.GR",
-                  "type": "subcompany",
-                  "group": 5,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "MOREMEDIA",
-                  "type": "subcompany",
-                  "group": 5,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "MY RADIO",
-                  "type": "subcompany",
-                  "group": 5,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "ONE DIGITAL SERVICES",
-                  "type": "subcompany",
-                  "group": 5,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "RED PRODUCTIONS",
-                  "type": "subcompany",
-                  "group": 5,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                }
-              ]
-            },
-            {
-              "name": "ΟΛΥΜΠΙΑΚΟΣ",
-              "type": "subcompany",
-              "group": 5,
-              "on": false,
-              "date": "",
-              "description": "<p>Πειραιά. Ιδρύθηκε στις 10 Μαρτίου 1925 και είναι από τους μεγαλύτερους αθλητικούς συλλόγους στην Ελλάδα. Το τμήμα ποδοσφαίρου του Ολυμπιακού Συνδέσμου Φιλάθλων Πειραιώς αγωνίζεται στο επαγγελματικό πρωτάθλημα της Super League 1.</p><p>ΜΕΤΟΧΟΙ</p><p>Ευάγγελος Μαρινάκης 86,42%</p><p>Ολυμπιακός ΣΠΦ 10%</p><p>Σωκράτης Κόκκαλης 2,48%</p><p>Λοιποί μικρομέτοχοι 1.1%</p>"
-            },
-            {
-              "name": "ΘΡΥΛΟΣ ΑΕ",
-              "type": "subcompany",
-              "group": 5,
-              "on": false,
-              "date": "",
-              "description": "<p>ΜΕΤΟΧΟΙ</p><p>ΠΑΕ Ολυμπιακός 83,58</p><p>ABISSO HOLDINGS  14,75%</p><p>Λοιποί 1,67%</p>"
-            },
-            {
-              "name": "ΠΕΙΡΑΪΚΗ ΚΤΗΜΑΤΙΚΗ ΕΚΜΕΤΑΛΛΕΥΣΗ ΑΚΙΝΗΤΩΝ",
-              "type": "subcompany",
-              "group": 5,
-              "on": false,
-              "date": "",
-              "description": ""
-            },
-            {
-              "name": "SMALLRIDGE ΕΠΕΝΔΥΣΕΙΣ",
-              "type": "subcompany",
-              "group": 5,
-              "on": false,
-              "date": "",
-              "description": ""
-            },
-            {
-              "name": "LIONPORT",
-              "type": "subcompany",
-              "group": 5,
-              "on": false,
-              "date": "",
-              "description": "<p>METOXOI</p><p>CAVILEN HOLDING LIMITED 100%</p>"
-            },
-            {
-              "name": "FIELDBASIL",
               "type": "subcompany",
               "group": 5,
               "on": false,
@@ -829,103 +1027,151 @@
           "description": "",
           "children": [
             {
-              "name": "BELTERRA HOLDINGS",
-              "type": "subcompany",
+              "name": "ΣΥΜΜΕΤΟΧΩΝ",
+              "type": "sector",
               "group": 3,
               "on": false,
               "date": "",
-              "description": "<p>ΜΕΤΟΧΟΙ</p><p>ΝΙΚΟΣ ΣΑΒΒΙΔΗΣ 91%</p><p>ΚΥΡΙΑΚΗ ΣΑΒΒΙΔΟΥ 9%</p>",
+              "description": "",
               "children": [
                 {
-                  "name": "DIMERA LAND & PROPERTY INVESTMENTS",
-                  "type": "subcompany",
+                  "name": "BELTERRA HOLDINGS",
+                  "type": "mothercompany",
                   "group": 3,
                   "on": false,
                   "date": "",
-                  "description": "<p>ΜΕΤΟΧΟΙ</p><p>ΝΙΚΟΣ ΣΑΒΒΙΔΗΣ 91%</p><p>ΚΥΡΙΑΚΗ ΣΑΒΒΙΔΟΥ 9%</p>"
-                },
-                {
-                  "name": "BELTERRA INVESTMENTS LIMITED",
-                  "type": "subcompany",
-                  "group": 3,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "DIMERA LTD",
-                  "type": "subcompany",
-                  "group": 3,
-                  "on": false,
-                  "date": "",
-                  "description": "<p>ΜΕΤΟΧΟΙ</p><p>BELTERRA HOLDINGS 86,21%</p>",
+                  "description": "<p>ΜΕΤΟΧΟΙ</p><p>ΝΙΚΟΣ ΣΑΒΒΙΔΗΣ 91%</p><p>ΚΥΡΙΑΚΗ ΣΑΒΒΙΔΟΥ 9%</p>",
+                  "sector": "ΣΥΜΜΕΤΟΧΩΝ",
                   "children": [
                     {
-                      "name": "ΠΑΟΚ",
+                      "name": "DIMERA LAND & PROPERTY INVESTMENTS",
                       "type": "subcompany",
                       "group": 3,
                       "on": false,
                       "date": "",
-                      "description": "<p>Ο Πανθεσσαλονίκειος Αθλητικός Όμιλος Κωνσταντινουπολιτών είναι ελληνικό αθλητικό σωματείο το οποίο εδρεύει στη Θεσσαλονίκη. Ιδρύθηκε στις 20 Απριλίου 1926 και είναι από τους μεγαλύτερους αθλητικούς συλλόγους στην Ελλάδα. Το τμήμα ποδοσφαίρου του Π.Α.Ο.Κ. αγωνίζεται στο επαγγελματικό πρωτάθλημα της Super League 1.</p><p>ΜΕΤΟΧΟΙ</p><p>DIMERA LIMITED 81,4%</p><p>ΑΘΛΗΤΙΚΟ ΣΩΜΑΤΕΙΟ ΠΑΟΚ 10%</p>"
+                      "description": "<p>ΜΕΤΟΧΟΙ</p><p>ΝΙΚΟΣ ΣΑΒΒΙΔΗΣ 91%</p><p>ΚΥΡΙΑΚΗ ΣΑΒΒΙΔΟΥ 9%</p>",
+                      "sector": "ΣΥΜΜΕΤΟΧΩΝ"
                     },
                     {
-                      "name": "DIMERA MEDIA INVESTMENTS LIMITED",
+                      "name": "BELTERRA INVESTMENTS LIMITED",
                       "type": "subcompany",
                       "group": 3,
                       "on": false,
                       "date": "",
                       "description": "",
+                      "sector": "REAL ESTATE"
+                    },
+                    {
+                      "name": "DIMERA LTD",
+                      "type": "subcompany",
+                      "group": 3,
+                      "on": false,
+                      "date": "",
+                      "description": "<p>ΜΕΤΟΧΟΙ</p><p>BELTERRA HOLDINGS 86,21%</p>",
+                      "sector": "ΑΘΛΗΤΙΣΜΟΣ",
                       "children": [
                         {
-                          "name": "ΕΘΝΟΣ",
+                          "name": "ΠΑΟΚ",
                           "type": "subcompany",
                           "group": 3,
                           "on": false,
                           "date": "",
-                          "description": "Το Έθνος υπήρξε καθημερινή πανελλαδική απογευματινή πολιτική εφημερίδα που εκδίδετο στην Αθήνα. Κυκλοφόρησε για πρώτη φορά στις 26 Οκτωβρίου 1913 από τον Σπύρο Νικολόπουλο. Από τις 10 Αυγούστου 2020 είναι μια αποκλειστικά διαδικτυακή εφημερίδα."
+                          "description": "<p>Ο Πανθεσσαλονίκειος Αθλητικός Όμιλος Κωνσταντινουπολιτών είναι ελληνικό αθλητικό σωματείο το οποίο εδρεύει στη Θεσσαλονίκη. Ιδρύθηκε στις 20 Απριλίου 1926 και είναι από τους μεγαλύτερους αθλητικούς συλλόγους στην Ελλάδα. Το τμήμα ποδοσφαίρου του Π.Α.Ο.Κ. αγωνίζεται στο επαγγελματικό πρωτάθλημα της Super League 1.</p><p>ΜΕΤΟΧΟΙ</p><p>DIMERA LIMITED 81,4%</p><p>ΑΘΛΗΤΙΚΟ ΣΩΜΑΤΕΙΟ ΠΑΟΚ 10%</p>",
+                          "sector": "ΑΘΛΗΤΙΣΜΟΣ"
                         },
                         {
-                          "name": "ETHNOS.GR",
+                          "name": "DIMERA MEDIA INVESTMENTS LIMITED",
                           "type": "subcompany",
                           "group": 3,
                           "on": false,
                           "date": "",
-                          "description": "Το Έθνος υπήρξε καθημερινή πανελλαδική απογευματινή πολιτική εφημερίδα που εκδίδετο στην Αθήνα. Κυκλοφόρησε για πρώτη φορά στις 26 Οκτωβρίου 1913 από τον Σπύρο Νικολόπουλο. Από τις 10 Αυγούστου 2020 είναι μια αποκλειστικά διαδικτυακή εφημερίδα."
+                          "description": "",
+                          "sector": "ΜΜΕ",
+                          "children": [
+                            {
+                              "name": "ΕΘΝΟΣ",
+                              "type": "subcompany",
+                              "group": 3,
+                              "on": false,
+                              "date": "",
+                              "description": "Το Έθνος υπήρξε καθημερινή πανελλαδική απογευματινή πολιτική εφημερίδα που εκδίδετο στην Αθήνα. Κυκλοφόρησε για πρώτη φορά στις 26 Οκτωβρίου 1913 από τον Σπύρο Νικολόπουλο. Από τις 10 Αυγούστου 2020 είναι μια αποκλειστικά διαδικτυακή εφημερίδα.",
+                              "sector": "ΜΜΕ"
+                            },
+                            {
+                              "name": "ETHNOS.GR",
+                              "type": "subcompany",
+                              "group": 3,
+                              "on": false,
+                              "date": "",
+                              "description": "Το Έθνος υπήρξε καθημερινή πανελλαδική απογευματινή πολιτική εφημερίδα που εκδίδετο στην Αθήνα. Κυκλοφόρησε για πρώτη φορά στις 26 Οκτωβρίου 1913 από τον Σπύρο Νικολόπουλο. Από τις 10 Αυγούστου 2020 είναι μια αποκλειστικά διαδικτυακή εφημερίδα."
+                            },
+                            {
+                              "name": "ΗΜΕΡΗΣΙΑ",
+                              "type": "subcompany",
+                              "group": 3,
+                              "on": false,
+                              "date": "",
+                              "description": "<p>Η Ημερησία ήταν ελληνική καθημερινή πρωινή οικονομική εφημερίδα, πανελλαδικής κυκλοφορίας, που εκδιδόταν στην Αθήνα από το 1947 έως το 2017.</p><p>Η γενική ύλη της εφημερίδας ήταν οικονομικού ενδιαφέροντος (τραπεζικού, εμπορικού, ναυτιλιακού, χρηματιστηριακού κ.λπ.).</p><p>Η εφημερίδα ανήκε στην Πήγασος Εκδοτική Α.Ε. του Γιώργου Μπόμπολα μέχρι το 2017. Στις 26 Ιουλίου 2017, ανακοινώθηκε πως το Έθνος και η Ημερησία, τα έντυπα της Πήγασος, η οποία αντιμετωπίζει οικονομικά προβλήματα από το 2015, θα βγουν σε πλειστηριασμό, για την ανάδειξη νέου ιδιοκτήτη. Ο πλειστηριασμός διεξήχθη και νέος ιδιοκτήτης αναδείχθηκε η Dimera Media Investments Limited, με συνολικό κόστος 3.580.000 ευρώ.</p><p>Από τις 12 Νοεμβρίου 2017 μέχρι τις 9 Αυγούστου 2020 που σταμάτησε η εφημερίδα επανακυκλοφορούσε με το Έθνος της Κυριακής ως ένθετο.</p><p>Στις 10 Δεκεμβρίου 2020 ξεκίνησε η λειτουργία της ιστοσελίδας της Ημερησίας υπό την ιδιοκτησία του Open Digital Group.</p>",
+                              "sector": "ΜΜΕ"
+                            },
+                            {
+                              "name": "OPEN",
+                              "type": "subcompany",
+                              "group": 3,
+                              "on": false,
+                              "date": "",
+                              "description": "<p>Το Open TV ή Open Beyond είναι ένας από τους μεγαλύτερους ελληνικούς ιδιωτικούς τηλεοπτικούς σταθμούς πανελλαδικής εμβέλειας. Ανήκει στον επιχειρηματία Ιβάν Σαββίδη και εδρεύει στον Καρελλά, στη βιομηχανική ζώνη της Παιανίας.</p><p>Ξεκίνησε τη λειτουργία του στις 24 Οκτωβρίου του 2018 αντικαθιστώντας το Epsilon TV μετά την πώλησή του από τον προηγούμενο ιδιοκτήτη, επιχειρηματία και διαφημιστή Φίλιππο Βρυώνη.</p>"
+                            },
+                            {
+                              "name": "TVOPEN.GR",
+                              "type": "subcompany",
+                              "group": 3,
+                              "on": false,
+                              "date": "",
+                              "description": "",
+                              "sector": "ΜΜΕ"
+                            },
+                            {
+                              "name": "IMERISIA.GR",
+                              "type": "subcompany",
+                              "group": 3,
+                              "on": false,
+                              "date": "",
+                              "description": "",
+                              "sector": "ΜΜΕ"
+                            },
+                            {
+                              "name": "DIMERA ΕΚΔΟΤΙΚΗ",
+                              "type": "subcompany",
+                              "group": 3,
+                              "on": false,
+                              "date": "",
+                              "description": ""
+                            }
+                          ]
                         },
                         {
-                          "name": "ΗΜΕΡΗΣΙΑ",
+                          "name": "DIMERA GROUP",
                           "type": "subcompany",
                           "group": 3,
                           "on": false,
                           "date": "",
-                          "description": "<p>Η Ημερησία ήταν ελληνική καθημερινή πρωινή οικονομική εφημερίδα, πανελλαδικής κυκλοφορίας, που εκδιδόταν στην Αθήνα από το 1947 έως το 2017.</p><p>Η γενική ύλη της εφημερίδας ήταν οικονομικού ενδιαφέροντος (τραπεζικού, εμπορικού, ναυτιλιακού, χρηματιστηριακού κ.λπ.).</p><p>Η εφημερίδα ανήκε στην Πήγασος Εκδοτική Α.Ε. του Γιώργου Μπόμπολα μέχρι το 2017. Στις 26 Ιουλίου 2017, ανακοινώθηκε πως το Έθνος και η Ημερησία, τα έντυπα της Πήγασος, η οποία αντιμετωπίζει οικονομικά προβλήματα από το 2015, θα βγουν σε πλειστηριασμό, για την ανάδειξη νέου ιδιοκτήτη. Ο πλειστηριασμός διεξήχθη και νέος ιδιοκτήτης αναδείχθηκε η Dimera Media Investments Limited, με συνολικό κόστος 3.580.000 ευρώ.</p><p>Από τις 12 Νοεμβρίου 2017 μέχρι τις 9 Αυγούστου 2020 που σταμάτησε η εφημερίδα επανακυκλοφορούσε με το Έθνος της Κυριακής ως ένθετο.</p><p>Στις 10 Δεκεμβρίου 2020 ξεκίνησε η λειτουργία της ιστοσελίδας της Ημερησίας υπό την ιδιοκτησία του Open Digital Group.</p>"
+                          "description": "",
+                          "sector": "ΕΜΠΟΡΙΟ",
+                          "children": [
+                            {
+                              "name": "OPEN-MARKET.GR",
+                              "type": "subcompany",
+                              "group": 3,
+                              "on": false,
+                              "date": "",
+                              "description": "",
+                              "sector": "ΕΜΠΟΡΙΟ"
+                            }
+                          ]
                         },
                         {
-                          "name": "OPEN",
-                          "type": "subcompany",
-                          "group": 3,
-                          "on": false,
-                          "date": "",
-                          "description": "<p>Το Open TV ή Open Beyond είναι ένας από τους μεγαλύτερους ελληνικούς ιδιωτικούς τηλεοπτικούς σταθμούς πανελλαδικής εμβέλειας. Ανήκει στον επιχειρηματία Ιβάν Σαββίδη και εδρεύει στον Καρελλά, στη βιομηχανική ζώνη της Παιανίας.</p><p>Ξεκίνησε τη λειτουργία του στις 24 Οκτωβρίου του 2018 αντικαθιστώντας το Epsilon TV μετά την πώλησή του από τον προηγούμενο ιδιοκτήτη, επιχειρηματία και διαφημιστή Φίλιππο Βρυώνη.</p>"
-                        },
-                        {
-                          "name": "TVOPEN.GR",
-                          "type": "subcompany",
-                          "group": 3,
-                          "on": false,
-                          "date": "",
-                          "description": ""
-                        },
-                        {
-                          "name": "IMERISIA.GR",
-                          "type": "subcompany",
-                          "group": 3,
-                          "on": false,
-                          "date": "",
-                          "description": ""
-                        },
-                        {
-                          "name": "DIMERA ΕΚΔΟΤΙΚΗ",
+                          "name": "ΝΕΑ ΠΑΡΑΛΙΑ PROJECT",
                           "type": "subcompany",
                           "group": 3,
                           "on": false,
@@ -934,77 +1180,54 @@
                         }
                       ]
                     },
-                    {
-                      "name": "DIMERA GROUP",
-                      "type": "subcompany",
-                      "group": 3,
-                      "on": false,
-                      "date": "",
-                      "description": "",
-                      "children": [
-                        {
-                          "name": "OPEN-MARKET.GR",
-                          "type": "subcompany",
-                          "group": 3,
-                          "on": false,
-                          "date": "",
-                          "description": ""
-                        }
-                      ]
-                    },
-                    {
-                      "name": "ΝΕΑ ΠΑΡΑΛΙΑ PROJECT",
-                      "type": "subcompany",
-                      "group": 3,
-                      "on": false,
-                      "date": "",
-                      "description": ""
-                    }
-                  ]
-                },
-                {
-                  "name": "ΜΑΚΕΔΟΝΙΑ ΠΑΛΛΑΣ",
-                  "type": "subcompany",
-                  "group": 3,
-                  "on": false,
-                  "date": "",
-                  "description": "<p>METOXOI</p><p>Atlantis Pak 100%</p>",
-                  "children": [
                     {
                       "name": "ΜΑΚΕΔΟΝΙΑ ΠΑΛΛΑΣ",
                       "type": "subcompany",
                       "group": 3,
                       "on": false,
                       "date": "",
-                      "description": ""
-                    }
-                  ]
-                },
-                {
-                  "name": "ΣΟΥΡΩΤΗ",
-                  "type": "subcompany",
-                  "group": 3,
-                  "on": false,
-                  "date": "",
-                  "description": "<p>METOXOI</p><p>BELTERRA INVESTMENTS LIMITED 66,5%</p>",
-                  "children": [
+                      "description": "<p>METOXOI</p><p>Atlantis Pak 100%</p>",
+                      "sector": "ΞΕΝΟΔΟΧΕΙΑ",
+                      "children": [
+                        {
+                          "name": "ΜΑΚΕΔΟΝΙΑ ΠΑΛΛΑΣ",
+                          "type": "subcompany",
+                          "group": 3,
+                          "on": false,
+                          "date": "",
+                          "description": "",
+                          "sector": "ΞΕΝΟΔΟΧΕΙΑ"
+                        }
+                      ]
+                    },
                     {
                       "name": "ΣΟΥΡΩΤΗ",
                       "type": "subcompany",
                       "group": 3,
                       "on": false,
                       "date": "",
-                      "description": ""
+                      "description": "<p>METOXOI</p><p>BELTERRA INVESTMENTS LIMITED 66,5%</p>",
+                      "children": [
+                        {
+                          "name": "ΣΟΥΡΩΤΗ",
+                          "type": "subcompany",
+                          "group": 3,
+                          "on": false,
+                          "date": "",
+                          "description": ""
+                        }
+                      ]
+                    },
+                    {
+                      "name": "ΟΡΓΑΝΙΣΜΟΣ ΛΙΜΕΝΟΣ ΘΕΣΣΑΛΟΝΙΚΗΣ",
+                      "type": "subcompany",
+                      "group": 3,
+                      "on": false,
+                      "date": "",
+                      "description": "<p>Το Λιμάνι της Θεσσαλονίκης είναι η κύρια θαλάσσια πύλη της Νοτιοανατολικής, Κεντρικής και Ανατολικής Ευρώπης σε στρατηγική τοποθεσία στη Βόρεια Ελλάδα κοντά στα μεγάλα διευρωπαϊκά δίκτυα αυτοκινητοδρόμων και σιδηροδρόμων με άμεση πρόσβαση στις χώρες της Νοτιοανατολικής Ευρώπης. Η ΟΛΘ Α.Ε. είναι εισηγμένη στο Χρηματιστήριο Αθηνών από το 2001, διακινεί εμπορευματοκιβώτια, συμβατικό φορτίο κ.ά.</p><p>Στις 23 Μαρτίου 2018 ολοκληρώθηκε η διαδικασία ιδιωτικοποίησης της, με τη μεταβίβαση του πλειοψηφικού πακέτου των μετοχών της ΟΛΘ Α.Ε. στην South Europe Gateway Thessaloniki (SEGT) Ltd.</p><p>ΜΕΤΟΧΟΙ</p><p>SOUTH EUROPE GATEWAY THESSALONIKI 67%</p><p>ΕΛΛΗΝΙΚΗ ΕΤΑΙΡΕΙΑ ΣΥΜΜΕΤΟΧΩΝ & ΠΕΡΙΟΥΣΙΑΣ 7,27%</p><p>Melbery Investments 4,85%</p>",
+                      "sector": "ΥΠΗΡΕΣΙΕΣ"
                     }
                   ]
-                },
-                {
-                  "name": "ΟΡΓΑΝΙΣΜΟΣ ΛΙΜΕΝΟΣ ΘΕΣΣΑΛΟΝΙΚΗΣ",
-                  "type": "subcompany",
-                  "group": 3,
-                  "on": false,
-                  "date": "",
-                  "description": "<p>Το Λιμάνι της Θεσσαλονίκης είναι η κύρια θαλάσσια πύλη της Νοτιοανατολικής, Κεντρικής και Ανατολικής Ευρώπης σε στρατηγική τοποθεσία στη Βόρεια Ελλάδα κοντά στα μεγάλα διευρωπαϊκά δίκτυα αυτοκινητοδρόμων και σιδηροδρόμων με άμεση πρόσβαση στις χώρες της Νοτιοανατολικής Ευρώπης. Η ΟΛΘ Α.Ε. είναι εισηγμένη στο Χρηματιστήριο Αθηνών από το 2001, διακινεί εμπορευματοκιβώτια, συμβατικό φορτίο κ.ά.</p><p>Στις 23 Μαρτίου 2018 ολοκληρώθηκε η διαδικασία ιδιωτικοποίησης της, με τη μεταβίβαση του πλειοψηφικού πακέτου των μετοχών της ΟΛΘ Α.Ε. στην South Europe Gateway Thessaloniki (SEGT) Ltd.</p><p>ΜΕΤΟΧΟΙ</p><p>SOUTH EUROPE GATEWAY THESSALONIKI 67%</p><p>ΕΛΛΗΝΙΚΗ ΕΤΑΙΡΕΙΑ ΣΥΜΜΕΤΟΧΩΝ & ΠΕΡΙΟΥΣΙΑΣ 7,27%</p><p>Melbery Investments 4,85%</p>"
                 }
               ]
             }
@@ -1029,56 +1252,90 @@
           "description": "Ο Γιώργος Μελισσανίδης είναι γιος του Δημήτρη και της Τζένης Μελισσανίδη. Έχει κάνει Ναυτιλιακές Σπουδές στο Southampton Solent University και από νεαρή ηλικία εργάστηκε σε πλοία εταιρείας του πατέρα του. Είναι Πρόεδρος της Aegean Shipping από το 2007 και το 2021 μαζί με τον πατέρα του έκαναν είσοδο στα ελληνικά ΜΜΕ μέσω της Ναυτεμπορικής.",
           "children": [
             {
-              "name": "MEQENA HOLDINGS",
-              "type": "subcompany",
+              "name": "ΑΘΛΗΤΙΣΜΟΣ",
+              "type": "sector",
               "group": 2,
               "on": false,
               "date": "",
               "description": "",
               "children": [
                 {
-                  "name": "DIKEFALOS HOLDINGS CO. LIMITED",
-                  "type": "subcompany",
+                  "name": "MEQENA HOLDINGS",
+                  "type": "mothercompany",
                   "group": 2,
                   "on": false,
                   "date": "",
                   "description": "",
+                  "sector": "ΑΘΛΗΤΙΣΜΟΣ",
                   "children": [
                     {
-                      "name": "ΑΕΚ",
+                      "name": "DIKEFALOS HOLDINGS CO. LIMITED",
                       "type": "subcompany",
                       "group": 2,
                       "on": false,
                       "date": "",
-                      "description": "<p>Η Αθλητική Ένωσις Κωνσταντινουπόλεως είναι ελληνικό αθλητικό σωματείο το οποίο εδρεύει στην Αθήνα. Ιδρύθηκε στις 13 Απριλίου 1924 και είναι από τους μεγαλύτερους αθλητικούς συλλόγους στην Ελλάδα.</p><p>ΜΕΤΟΧΟΙ</p><p>DIKEFALOS HOLDINGS 80,74%</p><p>ΕΝΩΣΗ ΦΙΛΩΝ Α.Ε.Κ. 6,84%</p><p>ΕΡΑΣΙΤΕΧΝΙΚΗ ΑΕΚ 10%</p><p>ΣΤΕΡΓΙΟΣ ΓΑΝΤΖΟΥΛΑΣ 2,42%</p>"
-                    },
+                      "description": "",
+                      "sector": "ΑΘΛΗΤΙΣΜΟΣ",
+                      "children": [
+                        {
+                          "name": "ΑΕΚ",
+                          "type": "subcompany",
+                          "group": 2,
+                          "on": false,
+                          "date": "",
+                          "description": "<p>Η Αθλητική Ένωσις Κωνσταντινουπόλεως είναι ελληνικό αθλητικό σωματείο το οποίο εδρεύει στην Αθήνα. Ιδρύθηκε στις 13 Απριλίου 1924 και είναι από τους μεγαλύτερους αθλητικούς συλλόγους στην Ελλάδα.</p><p>ΜΕΤΟΧΟΙ</p><p>DIKEFALOS HOLDINGS 80,74%</p><p>ΕΝΩΣΗ ΦΙΛΩΝ Α.Ε.Κ. 6,84%</p><p>ΕΡΑΣΙΤΕΧΝΙΚΗ ΑΕΚ 10%</p><p>ΣΤΕΡΓΙΟΣ ΓΑΝΤΖΟΥΛΑΣ 2,42%</p>",
+                          "sector": "ΑΘΛΗΤΙΣΜΟΣ"
+                        },
+                        {
+                          "name": "ΠΑΕ AEK ΜΠΟΥΤΙΚ",
+                          "type": "subcompany",
+                          "group": 2,
+                          "on": false,
+                          "date": "",
+                          "description": "",
+                          "sector": "ΕΜΠΟΡΙΟ"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "ZARDOMA HOLDINGS",
+                  "type": "mothercompany",
+                  "group": 2,
+                  "on": false,
+                  "date": "",
+                  "description": "",
+                  "sector": "ΑΘΛΗΤΙΣΜΟΣ",
+                  "children": [
                     {
-                      "name": "ΠΑΕ AEK ΜΠΟΥΤΙΚ",
+                      "name": "ΜΑΡΚΟΠΟΥΛΟ ΑΘΛΗΤΙΚΕΣ ΕΓΚΑΤΑΣΤΑΣΕΙΣ",
                       "type": "subcompany",
                       "group": 2,
                       "on": false,
                       "date": "",
-                      "description": ""
+                      "description": "<p>ΜΕΤΟΧΟΙ</p><p>ZARDOMA HOLDINGS 90%</p>",
+                      "sector": "ΑΘΛΗΤΙΣΜΟΣ"
                     }
                   ]
                 }
               ]
             },
             {
-              "name": "ZARDOMA HOLDINGS",
-              "type": "subcompany",
+              "name": "ΚΑΤΑΣΚΕΥΕΣ",
+              "type": "sector",
               "group": 2,
               "on": false,
               "date": "",
               "description": "",
               "children": [
                 {
-                  "name": "ΜΑΡΚΟΠΟΥΛΟ ΑΘΛΗΤΙΚΕΣ ΕΓΚΑΤΑΣΤΑΣΕΙΣ",
+                  "name": "ΔΙΚΕΦΑΛΟΣ 1924 ΚΑΤΑΣΚΕΥΑΣΤΙΚΗ",
                   "type": "subcompany",
                   "group": 2,
                   "on": false,
                   "date": "",
-                  "description": "<p>ΜΕΤΟΧΟΙ</p><p>ZARDOMA HOLDINGS 90%</p>"
+                  "description": "<p>ΜΕΤΟΧΟΙ</p><p>ΜΕΛΙΣΣΑΝΙΔΗΣ ΓΙΩΡΓΟΣ 4%</p>"
                 }
               ]
             },
@@ -1091,16 +1348,8 @@
               "description": ""
             },
             {
-              "name": "ΔΙΚΕΦΑΛΟΣ 1924 ΚΑΤΑΣΚΕΥΑΣΤΙΚΗ",
-              "type": "subcompany",
-              "group": 2,
-              "on": false,
-              "date": "",
-              "description": "<p>ΜΕΤΟΧΟΙ</p><p>ΜΕΛΙΣΣΑΝΙΔΗΣ ΓΙΩΡΓΟΣ 4%</p>"
-            },
-            {
               "name": "ZOFRANK HOLDINGS",
-              "type": "subcompany",
+              "type": "mothercompany",
               "group": 2,
               "on": false,
               "date": "",
@@ -1123,18 +1372,27 @@
                   "description": ""
                 },
                 {
-                  "name": "NAFTEMPORIKI.GR",
+                  "name": "HEDASE TRADING",
                   "type": "subcompany",
                   "group": 2,
                   "on": false,
                   "date": "",
                   "description": ""
+                },
+                {
+                  "name": "NAFTEMPORIKI.GR",
+                  "type": "subcompany",
+                  "group": 2,
+                  "on": false,
+                  "date": "",
+                  "description": "",
+                  "sector": "MME"
                 }
               ]
             },
             {
               "name": "GRADY PROPERTIES",
-              "type": "subcompany",
+              "type": "mothercompany",
               "group": 2,
               "on": false,
               "date": "",
@@ -1170,7 +1428,8 @@
                   "group": 2,
                   "on": false,
                   "date": "",
-                  "description": ""
+                  "description": "",
+                  "sector": "ΕΝΕΡΓΕΙΑ"
                 },
                 {
                   "name": "AEGEAN LUBRICANTS",
@@ -1178,7 +1437,8 @@
                   "group": 2,
                   "on": false,
                   "date": "",
-                  "description": ""
+                  "description": "",
+                  "sector": "ΕΝΕΡΓΕΙΑ"
                 }
               ]
             }
@@ -1203,280 +1463,329 @@
           "description": "Γεννήθηκε το 1933. Μετά την αποφοίτησή του από τη Σχολή Ναυτικών Δοκίμων εντάχθηκε στη δύναμη του Πολεμικού Ναυτικού από όπου αποστρατεύτηκε με το βαθμό του επίτιμου υποναυάρχου. Είναι από τα ιδρυτικά μέλη της Εταιρείας και επικεφαλής της διοίκησής της από το 1972. Πέραν της ΜΟΤΟΡ ΟΙΛ (ΕΛΛΑΣ) Α.Ε. έχει αναπτύξει ένα ευρύ φάσμα επιχειρηματικών δραστηριοτήτων στην Ελλάδα και στο εξωτερικό. Επιπρόσθετα, είναι Πρόεδρος Δ.Σ. εταιρείας που δραστηριοποιείται στον Ξενοδοχειακό κλάδο.",
           "children": [
             {
-              "name": "PETROVENTURE HOLDINGS LIMITED",
-              "type": "subcompany",
+              "name": "ΕΝΕΡΓΕΙΑ",
+              "type": "sector",
               "group": 4,
               "on": false,
               "date": "",
               "description": "",
               "children": [
                 {
-                  "name": "MOTOR OIL",
-                  "type": "subcompany",
+                  "name": "PETROVENTURE HOLDINGS LIMITED",
+                  "type": "mothercompany",
                   "group": 4,
                   "on": false,
                   "date": "",
-                  "description": "<p>METOXOI</p><p>PETROVENTURE HOLDINGS 40%</p>",
+                  "description": "",
+                  "sector": "ΕΝΕΡΓΕΙΑ",
                   "children": [
                     {
-                      "name": "AVIN",
+                      "name": "MOTOR OIL",
                       "type": "subcompany",
                       "group": 4,
                       "on": false,
                       "date": "",
-                      "description": "<p>METOXOI</p><p>ΜΟΤΟΡ ΟΙΛ (ΕΛΛΑΣ) ΔΙΥΛΙΣΤΗΡΙΑ ΚΟΡΙΝΘΟΥ Α.Ε. 100%</p>"
-                    },
-                    {
-                      "name": "CYCLON",
-                      "type": "subcompany",
-                      "group": 4,
-                      "on": false,
-                      "date": "",
-                      "description": "<p>METOXOI</p><p>ΜΟΤΟΡ ΟΙΛ (ΕΛΛΑΣ) ΔΙΥΛΙΣΤΗΡΙΑ ΚΟΡΙΝΘΟΥ Α.Ε. 100%</p>"
-                    },
-                    {
-                      "name": "ΜΑΚΡΑΙΩΝ",
-                      "type": "subcompany",
-                      "group": 4,
-                      "on": false,
-                      "date": "",
-                      "description": "<p>AVIN OIL ΒΙΟΜΗΧΑΝΙΚΗ ΕΜΠΟΡΙΚΗ & ΝΑΥΤΙΛΙΑΚΗ ΕΤΑΙΡΙΑ ΠΕΤΡΕΛΑΙΩΝ ΜΟΝΟΠΡΟΣΩΠΗ ΑΝΩΝΥΜΗ</p><p>ΕΤΑΙΡΕΙΑ 100%</p>"
-                    },
-                    {
-                      "name": "OFC ΥΠΗΡΕΣΙΕΣ ΑΕΡΟΠΟΡΙΚΟΥ ΚΑΥΣΙΜΟΥ",
-                      "type": "subcompany",
-                      "group": 4,
-                      "on": false,
-                      "date": "",
-                      "description": "<p>ΜΕΤΟΧΟΙ</p><p>ΜΟΤΟΡ ΟΙΛ (ΕΛΛΑΣ) ΔΙΥΛΙΣΤΗΡΙΑ ΚΟΡΙΝΘΟΥ Α.Ε. 48,97%</p>"
-                    },
-                    {
-                      "name": "OFC ΤΕΧΝΙΚΗ",
-                      "type": "subcompany",
-                      "group": 4,
-                      "on": false,
-                      "date": "",
-                      "description": ""
-                    },
-                    {
-                      "name": "CORAL",
-                      "type": "subcompany",
-                      "group": 4,
-                      "on": false,
-                      "date": "",
-                      "description": ""
-                    },
-                    {
-                      "name": "SHELL & MOH AVIATION FUELS",
-                      "type": "subcompany",
-                      "group": 4,
-                      "on": false,
-                      "date": "",
-                      "description": "<p>ΜΕΤΟΧΟΙ</p><p>CORAL ΑΝΩΝΥΜΗ ΕΤΑΙΡΙΑ ΠΕΤΡΕΛΑΙΟΕΙΔΩΝ ΚΑΙ ΧΗΜΙΚΩΝ ΠΡΟΪΟΝΤΩΝ 49%</p>"
-                    },
-                    {
-                      "name": "ARCELIA HOLDINGS",
-                      "type": "subcompany",
-                      "group": 4,
-                      "on": false,
-                      "date": "",
-                      "description": "<p>ΜΕΤΟΧΟΙ</p><p>L.P.C ΑΝΩΝΥΜΗ ΕΤΑΙΡΙΑ ΕΠΕΞΕΡΓΑΣΙΑΣ ΚΑΙ</p<p>ΕΜΠΟΡΙΑΣ ΛΙΠΑΝΤΙΚΩΝ ΚΑΙ ΠΕΤΡΕΛΑΙΟΕΙΔΩΝ ΠΡΟΙΟΝΤΩΝ 100%</p>"
-                    },
-                    {
-                      "name": "OPTIMA BANK",
-                      "type": "subcompany",
-                      "group": 4,
-                      "on": false,
-                      "date": "",
-                      "description": "<p>ΜΕΤΟΧΟΙ</p><p>IREON INVESTMENTS 9,83%</p><p>CANELO HOLDINGS LIMITED (Ιωάννης Β. Βαρδινογιάννης) 8,157%</p><p>BAYNOUN LIMITED CYPRUS (Ιωάννης Β. Βαρδινογιάννης) 2,007%</p><p>BAYNOUN LIMITED GIBRALTAR 3,587%</p><p>Επενδυτικό Κοινό (λοιποί μέτοχοι <5%) 76%</p>"
-                    },
-                    {
-                      "name": "MEDIAMAX HOLDINGS",
-                      "type": "subcompany",
-                      "group": 4,
-                      "on": false,
-                      "date": "",
-                      "description": "<p>ΜΕΤΟΧΟΙ</p><p>ΜΟΤΟΡ ΟΙΛ (ΕΛΛΑΣ) ΔΙΥΛΙΣΤΗΡΙΑ ΚΟΡΙΝΘΟΥ Α.Ε. 100%</p>",
+                      "description": "<p>METOXOI</p><p>PETROVENTURE HOLDINGS 40%</p>",
+                      "sector": "ΕΝΕΡΓΕΙΑ",
                       "children": [
                         {
-                          "name": "ALPHA TV",
+                          "name": "AVIN",
                           "type": "subcompany",
                           "group": 4,
                           "on": false,
                           "date": "",
-                          "description": "<p>Ο ALPHA είναι ένας από τους μεγαλύτερους ελληνικούς ιδιωτικούς τηλεοπτικούς σταθμούς πανελλαδικής εμβέλειας. Ξεκίνησε την λειτουργία του το 1999, ως ΣΚΑΪ, μετά άλλαξε το όνομά του σε Alpha Sky και αργότερα στο σημερινό Alpha TV. Η έδρα του σταθμού είναι στην Κηφισιά. Το 2002 την διεύθυνση του σταθμού ανέλαβε ο επιχειρηματίας Δημήτρης Κοντομηνάς. Ο Όμιλος Βαρδινογιάννη μέσω της ΜΟΤΟΡ ΟΪΛ αγόρασε αρχικά στα τέλη του 2018 το 50,1% και μετέπειτα ένα χρόνο μετά το 49,9% των μετοχών του καναλιού αποκτώντας τον πλήρη έλεγχο. Εντός του 2022 ο Όμιλος Βαρδινογιάννη πούλησε το 50% του Alpha στην PRIMOS MEDIA.</p><p>ΜΕΤΟΧΟΙ</p><p>MEDIAMAX HOLDINGS LIMITED 25%</p>",
+                          "description": "<p>METOXOI</p><p>ΜΟΤΟΡ ΟΙΛ (ΕΛΛΑΣ) ΔΙΥΛΙΣΤΗΡΙΑ ΚΟΡΙΝΘΟΥ Α.Ε. 100%</p>",
+                          "sector": "ΕΝΕΡΓΕΙΑ"
+                        },
+                        {
+                          "name": "CYCLON",
+                          "type": "subcompany",
+                          "group": 4,
+                          "on": false,
+                          "date": "",
+                          "description": "<p>METOXOI</p><p>ΜΟΤΟΡ ΟΙΛ (ΕΛΛΑΣ) ΔΙΥΛΙΣΤΗΡΙΑ ΚΟΡΙΝΘΟΥ Α.Ε. 100%</p>",
+                          "sector": "ΕΝΕΡΓΕΙΑ"
+                        },
+                        {
+                          "name": "ΜΑΚΡΑΙΩΝ",
+                          "type": "subcompany",
+                          "group": 4,
+                          "on": false,
+                          "date": "",
+                          "description": "<p>AVIN OIL ΒΙΟΜΗΧΑΝΙΚΗ ΕΜΠΟΡΙΚΗ & ΝΑΥΤΙΛΙΑΚΗ ΕΤΑΙΡΙΑ ΠΕΤΡΕΛΑΙΩΝ ΜΟΝΟΠΡΟΣΩΠΗ ΑΝΩΝΥΜΗ</p><p>ΕΤΑΙΡΕΙΑ 100%</p>",
+                          "sector": "ΕΝΕΡΓΕΙΑ"
+                        },
+                        {
+                          "name": "OFC ΥΠΗΡΕΣΙΕΣ ΑΕΡΟΠΟΡΙΚΟΥ ΚΑΥΣΙΜΟΥ",
+                          "type": "subcompany",
+                          "group": 4,
+                          "on": false,
+                          "date": "",
+                          "description": "<p>ΜΕΤΟΧΟΙ</p><p>ΜΟΤΟΡ ΟΙΛ (ΕΛΛΑΣ) ΔΙΥΛΙΣΤΗΡΙΑ ΚΟΡΙΝΘΟΥ Α.Ε. 48,97%</p>",
+                          "sector": "ΕΝΕΡΓΕΙΑ"
+                        },
+                        {
+                          "name": "OFC ΤΕΧΝΙΚΗ",
+                          "type": "subcompany",
+                          "group": 4,
+                          "on": false,
+                          "date": "",
+                          "description": "",
+                          "sector": "ΥΠΗΡΕΣΙΕΣ"
+                        },
+                        {
+                          "name": "CORAL",
+                          "type": "subcompany",
+                          "group": 4,
+                          "on": false,
+                          "date": "",
+                          "description": "",
+                          "sector": "ΕΝΕΡΓΕΙΑ"
+                        },
+                        {
+                          "name": "SHELL & MOH AVIATION FUELS",
+                          "type": "subcompany",
+                          "group": 4,
+                          "on": false,
+                          "date": "",
+                          "description": "<p>ΜΕΤΟΧΟΙ</p><p>CORAL ΑΝΩΝΥΜΗ ΕΤΑΙΡΙΑ ΠΕΤΡΕΛΑΙΟΕΙΔΩΝ ΚΑΙ ΧΗΜΙΚΩΝ ΠΡΟΪΟΝΤΩΝ 49%</p>",
+                          "sector": "ΕΝΕΡΓΕΙΑ"
+                        },
+                        {
+                          "name": "ARCELIA HOLDINGS",
+                          "type": "subcompany",
+                          "group": 4,
+                          "on": false,
+                          "date": "",
+                          "description": "<p>ΜΕΤΟΧΟΙ</p><p>L.P.C ΑΝΩΝΥΜΗ ΕΤΑΙΡΙΑ ΕΠΕΞΕΡΓΑΣΙΑΣ ΚΑΙ</p<p>ΕΜΠΟΡΙΑΣ ΛΙΠΑΝΤΙΚΩΝ ΚΑΙ ΠΕΤΡΕΛΑΙΟΕΙΔΩΝ ΠΡΟΙΟΝΤΩΝ 100%</p>"
+                        },
+                        {
+                          "name": "OPTIMA BANK",
+                          "type": "subcompany",
+                          "group": 4,
+                          "on": false,
+                          "date": "",
+                          "description": "<p>ΜΕΤΟΧΟΙ</p><p>IREON INVESTMENTS 9,83%</p><p>CANELO HOLDINGS LIMITED (Ιωάννης Β. Βαρδινογιάννης) 8,157%</p><p>BAYNOUN LIMITED CYPRUS (Ιωάννης Β. Βαρδινογιάννης) 2,007%</p><p>BAYNOUN LIMITED GIBRALTAR 3,587%</p><p>Επενδυτικό Κοινό (λοιποί μέτοχοι <5%) 76%</p>",
+                          "sector": "ΧΡΗΜΑΤΟΠΙΣΤΩΤΙΚΑ"
+                        },
+                        {
+                          "name": "MEDIAMAX HOLDINGS",
+                          "type": "subcompany",
+                          "group": 4,
+                          "on": false,
+                          "date": "",
+                          "description": "<p>ΜΕΤΟΧΟΙ</p><p>ΜΟΤΟΡ ΟΙΛ (ΕΛΛΑΣ) ΔΙΥΛΙΣΤΗΡΙΑ ΚΟΡΙΝΘΟΥ Α.Ε. 100%</p>",
+                          "sector": "MME",
                           "children": [
                             {
-                              "name": "GREEN PIXEL PRODUCTIONS A.E.",
+                              "name": "ALPHA TV",
                               "type": "subcompany",
                               "group": 4,
                               "on": false,
                               "date": "",
-                              "description": "<p>ΜΕΤΟΧΟΙ</p><p>ALPHA ΔΟΡΥΦΟΡΙΚΗ ΤΗΛΕΟΡΑΣΗ ΑΕ 50%</p>",
+                              "description": "<p>Ο ALPHA είναι ένας από τους μεγαλύτερους ελληνικούς ιδιωτικούς τηλεοπτικούς σταθμούς πανελλαδικής εμβέλειας. Ξεκίνησε την λειτουργία του το 1999, ως ΣΚΑΪ, μετά άλλαξε το όνομά του σε Alpha Sky και αργότερα στο σημερινό Alpha TV. Η έδρα του σταθμού είναι στην Κηφισιά. Το 2002 την διεύθυνση του σταθμού ανέλαβε ο επιχειρηματίας Δημήτρης Κοντομηνάς. Ο Όμιλος Βαρδινογιάννη μέσω της ΜΟΤΟΡ ΟΪΛ αγόρασε αρχικά στα τέλη του 2018 το 50,1% και μετέπειτα ένα χρόνο μετά το 49,9% των μετοχών του καναλιού αποκτώντας τον πλήρη έλεγχο. Εντός του 2022 ο Όμιλος Βαρδινογιάννη πούλησε το 50% του Alpha στην PRIMOS MEDIA.</p><p>ΜΕΤΟΧΟΙ</p><p>MEDIAMAX HOLDINGS LIMITED 25%</p>",
+                              "sector": "MME",
                               "children": [
                                 {
-                                  "name": "KLEIN MIND",
+                                  "name": "GREEN PIXEL PRODUCTIONS A.E.",
                                   "type": "subcompany",
                                   "group": 4,
                                   "on": false,
                                   "date": "",
-                                  "description": "<p>ΜΕΤΟΧΟΙ</p><p>GREEN PIXEL PRODUCTIONS A.E 50,5%</p>"
+                                  "description": "<p>ΜΕΤΟΧΟΙ</p><p>ALPHA ΔΟΡΥΦΟΡΙΚΗ ΤΗΛΕΟΡΑΣΗ ΑΕ 50%</p>",
+                                  "sector": "MME",
+                                  "children": [
+                                    {
+                                      "name": "KLEIN MIND",
+                                      "type": "subcompany",
+                                      "group": 4,
+                                      "on": false,
+                                      "date": "",
+                                      "description": "<p>ΜΕΤΟΧΟΙ</p><p>GREEN PIXEL PRODUCTIONS A.E 50,5%</p>",
+                                      "sector": "MME"
+                                    }
+                                  ]
                                 }
                               ]
+                            },
+                            {
+                              "name": "ALPHATV.GR",
+                              "type": "subcompany",
+                              "group": 4,
+                              "on": false,
+                              "date": "",
+                              "description": "<p>ΜΕΤΟΧΟΙ</p><p>MEDIAMAX HOLDINGS LIMITED 25%</p>",
+                              "sector": "MME"
+                            },
+                            {
+                              "name": "NEVINE HOLDINGS",
+                              "type": "subcompany",
+                              "group": 4,
+                              "on": false,
+                              "date": "",
+                              "description": "<p>ΜΕΤΟΧΟΙ</p><p>MEDIAMAX HOLDINGS LIMITED 50%</p>"
                             }
                           ]
                         },
                         {
-                          "name": "ALPHATV.GR",
+                          "name": "ΕΛΛΑΚΤΩΡ ΑΝΩΝΥΜΗ ΕΤΑΙΡΕΙΑ",
                           "type": "subcompany",
                           "group": 4,
                           "on": false,
                           "date": "",
-                          "description": "<p>ΜΕΤΟΧΟΙ</p><p>MEDIAMAX HOLDINGS LIMITED 25%</p>"
-                        },
-                        {
-                          "name": "NEVINE HOLDINGS",
-                          "type": "subcompany",
-                          "group": 4,
-                          "on": false,
-                          "date": "",
-                          "description": "<p>ΜΕΤΟΧΟΙ</p><p>MEDIAMAX HOLDINGS LIMITED 50%</p>"
+                          "description": "<p>ΜΟΤΟΡ ΟΙΛ (ΕΛΛΑΣ) ΔΙΥΛΙΣΤΗΡΙΑ ΚΟΡΙΝΘΟΥ Α.Ε. 29,87%</p>",
+                          "sector": "ΚΑΤΑΣΚΕΥΕΣ"
                         }
                       ]
-                    },
-                    {
-                      "name": "ΕΛΛΑΚΤΩΡ ΑΝΩΝΥΜΗ ΕΤΑΙΡΕΙΑ",
-                      "type": "subcompany",
-                      "group": 4,
-                      "on": false,
-                      "date": "",
-                      "description": "<p>ΜΟΤΟΡ ΟΙΛ (ΕΛΛΑΣ) ΔΙΥΛΙΣΤΗΡΙΑ ΚΟΡΙΝΘΟΥ Α.Ε. 29,87%</p>"
                     }
                   ]
                 }
               ]
             },
             {
-              "name": "AUDIOMAX HOLDINGS",
-              "type": "subcompany",
+              "name": "MME",
+              "type": "sector",
               "group": 4,
               "on": false,
               "date": "",
               "description": "",
               "children": [
                 {
-                  "name": "TALK RADIO 98,9",
-                  "type": "subcompany",
+                  "name": "AUDIOMAX HOLDINGS",
+                  "type": "mothercompany",
                   "group": 4,
                   "on": false,
                   "date": "",
-                  "description": ""
+                  "description": "",
+                  "sector": "MME",
+                  "children": [
+                    {
+                      "name": "TALK RADIO 98,9",
+                      "type": "subcompany",
+                      "group": 4,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "TALKRADIO989.GR",
+                      "type": "subcompany",
+                      "group": 4,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "ΔΡΟΜΟΣ 89.8",
+                      "type": "subcompany",
+                      "group": 4,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "ΔΙΕΣΗ 101.3",
+                      "type": "subcompany",
+                      "group": 4,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "ZARKONA TRADING",
+                      "type": "subcompany",
+                      "group": 4,
+                      "on": false,
+                      "date": "",
+                      "description": ""
+                    },
+                    {
+                      "name": "ΑΛΚΜΑΙΩΝ ON LINE MEDIA",
+                      "type": "subcompany",
+                      "group": 4,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "NEOACT INVESTMENTS",
+                      "type": "subcompany",
+                      "group": 4,
+                      "on": false,
+                      "date": "",
+                      "description": ""
+                    },
+                    {
+                      "name": "PRODUCTIONS ALTEBARAN",
+                      "type": "subcompany",
+                      "group": 4,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "PERCAPITA",
+                      "type": "subcompany",
+                      "group": 4,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "REAL ESTATE"
+                    },
+                    {
+                      "name": "POD.GR",
+                      "type": "subcompany",
+                      "group": 4,
+                      "on": false,
+                      "date": "",
+                      "description": "<p>ΜΕΤΟΧΟΙ</p><p>AUDIOMAX ΣΥΜΜΕΤΟΧΩΝ Α.Ε. 50,002%</p><p>ΣΤΑΥΡΟΣ ΘΕΟΔΩΡΑΚΗΣ 20,015%</p><p>ΠΑΥΛΟΣ ΤΣΙΜΑΣ 4,997%</p><p>ΜΑΓΙΑ ΤΣΟΚΛΗ 4,997%</p><p>ΔΗΜΗΤΡΗΣ ΚΑΜΠΟΥΡΑΚΗΣ 4,997%</p><p>ΑΝΑΝΤΑ ΙΚΕ 4,997%</p>",
+                      "sector": "MME"
+                    }
+                  ]
                 },
                 {
-                  "name": "TALKRADIO989.GR",
-                  "type": "subcompany",
+                  "name": "EUROPEAN MEDIA SERVICES",
+                  "type": "mothercompany",
                   "group": 4,
                   "on": false,
                   "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "ΔΡΟΜΟΣ 89.8",
-                  "type": "subcompany",
-                  "group": 4,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "ΔΙΕΣΗ 101.3",
-                  "type": "subcompany",
-                  "group": 4,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "ZARKONA TRADING",
-                  "type": "subcompany",
-                  "group": 4,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "ΑΛΚΜΑΙΩΝ ON LINE MEDIA",
-                  "type": "subcompany",
-                  "group": 4,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "NEOACT INVESTMENTS",
-                  "type": "subcompany",
-                  "group": 4,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "PRODUCTIONS ALTEBARAN",
-                  "type": "subcompany",
-                  "group": 4,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "PERCAPITA",
-                  "type": "subcompany",
-                  "group": 4,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "POD.GR",
-                  "type": "subcompany",
-                  "group": 4,
-                  "on": false,
-                  "date": "",
-                  "description": "<p>ΜΕΤΟΧΟΙ</p><p>AUDIOMAX ΣΥΜΜΕΤΟΧΩΝ Α.Ε. 50,002%</p><p>ΣΤΑΥΡΟΣ ΘΕΟΔΩΡΑΚΗΣ 20,015%</p><p>ΠΑΥΛΟΣ ΤΣΙΜΑΣ 4,997%</p><p>ΜΑΓΙΑ ΤΣΟΚΛΗ 4,997%</p><p>ΔΗΜΗΤΡΗΣ ΚΑΜΠΟΥΡΑΚΗΣ 4,997%</p><p>ΑΝΑΝΤΑ ΙΚΕ 4,997%</p>"
-                }
-              ]
-            },
-            {
-              "name": "EUROPEAN MEDIA SERVICES",
-              "type": "subcompany",
-              "group": 4,
-              "on": false,
-              "date": "",
-              "description": "<p>UNITED MEDIA 50%</p><p>AUDIOMAX ΣΥΜΜΕΤΟΧΩΝ 50%</p>",
-              "children": [
-                {
-                  "name": "SPORTDOG.GR",
-                  "type": "subcompany",
-                  "group": 4,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "NEWPOST.GR",
-                  "type": "subcompany",
-                  "group": 4,
-                  "on": false,
-                  "date": "",
-                  "description": "<p>METOXOI</p><p>EUROPEAN MEDIA SERVICES 51%</p><p>ΧΑΤΖΗΣ ΠΑΝΑΓΙΩΤΗΣ (ΤΑΚΗΣ) 49%</p>"
-                },
-                {
-                  "name": "STAR",
-                  "type": "subcompany",
-                  "group": 4,
-                  "on": false,
-                  "date": "",
-                  "description": "<p>Το Star Channel είναι ελληνικός ιδιωτικός τηλεοπτικός σταθμός πανελλαδικής εμβέλειας, με έδρα την Κηφισιά. Ξεκίνησε να εκπέμπει το 1993 και ανήκει στη Νέα Τηλεόραση Α.Ε. της οικογένειας Βαρδινογιάννη. Είναι ενημερωτικού και ψυχαγωγικού χαρακτήρα.</p><p>Η Νέα Τηλεόραση Ανώνυμη Εταιρεία είναι ο δεύτερος από τους δύο πρώτους τηλεοπτικούς φορείς που ιδρύθηκαν στην Ελλάδα (ο πρώτος ήταν η Τηλέτυπος Α.Ε. - Mega Channel). Συστάθηκε στις 24 Αυγούστου 1989, αρχικά ως τηλεοπτικός σταθμός, λαμβάνοντας άδεια πανελλαδικής εμβέλειας. Στη συνέχεια, εξελίχθηκε σε εταιρεία, αφού την άδεια που κατείχε, δεν την αξιοποίησε για να ανοίξει δικό της τηλεοπτικό σταθμό, αλλά αγόρασε εκ των υστέρων και με την καθοδήγηση του Νίκου Μαστοράκη το Κανάλι 29, το οποίο και μετονόμασε σε Star Channel.</p><p>Πρόεδρος του σταθμού είναι ο Κάρολος Αλκαλάϊ, αντιπρόεδρος ο Νικόλαος Τσεβάς, διευθυντής ενημέρωσης και ειδήσεων ο Κώστας Σιακανίκας.</p>"
+                  "description": "<p>UNITED MEDIA 50%</p><p>AUDIOMAX ΣΥΜΜΕΤΟΧΩΝ 50%</p>",
+                  "sector": "MME",
+                  "children": [
+                    {
+                      "name": "SPORTDOG.GR",
+                      "type": "subcompany",
+                      "group": 4,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "NEWPOST.GR",
+                      "type": "subcompany",
+                      "group": 4,
+                      "on": false,
+                      "date": "",
+                      "description": "<p>METOXOI</p><p>EUROPEAN MEDIA SERVICES 51%</p><p>ΧΑΤΖΗΣ ΠΑΝΑΓΙΩΤΗΣ (ΤΑΚΗΣ) 49%</p>",
+                      "sector": "MME"
+                    },
+                    {
+                      "name": "STAR",
+                      "type": "subcompany",
+                      "group": 4,
+                      "on": false,
+                      "date": "",
+                      "description": "<p>Το Star Channel είναι ελληνικός ιδιωτικός τηλεοπτικός σταθμός πανελλαδικής εμβέλειας, με έδρα την Κηφισιά. Ξεκίνησε να εκπέμπει το 1993 και ανήκει στη Νέα Τηλεόραση Α.Ε. της οικογένειας Βαρδινογιάννη. Είναι ενημερωτικού και ψυχαγωγικού χαρακτήρα.</p><p>Η Νέα Τηλεόραση Ανώνυμη Εταιρεία είναι ο δεύτερος από τους δύο πρώτους τηλεοπτικούς φορείς που ιδρύθηκαν στην Ελλάδα (ο πρώτος ήταν η Τηλέτυπος Α.Ε. - Mega Channel). Συστάθηκε στις 24 Αυγούστου 1989, αρχικά ως τηλεοπτικός σταθμός, λαμβάνοντας άδεια πανελλαδικής εμβέλειας. Στη συνέχεια, εξελίχθηκε σε εταιρεία, αφού την άδεια που κατείχε, δεν την αξιοποίησε για να ανοίξει δικό της τηλεοπτικό σταθμό, αλλά αγόρασε εκ των υστέρων και με την καθοδήγηση του Νίκου Μαστοράκη το Κανάλι 29, το οποίο και μετονόμασε σε Star Channel.</p><p>Πρόεδρος του σταθμού είναι ο Κάρολος Αλκαλάϊ, αντιπρόεδρος ο Νικόλαος Τσεβάς, διευθυντής ενημέρωσης και ειδήσεων ο Κώστας Σιακανίκας.</p>",
+                      "sector": "MME"
+                    }
+                  ]
                 }
               ]
             }

@@ -4,34 +4,57 @@ export default function Navigation(props) {
   // Might have to use a copy of the filterItems here
   let [filterItems, setFilterItems] = React.useState(props.filterItems);
 
-  let personFilterItemArray = [];
   let companyFilterItemArray = [];
+  let sectorFilterItemsArray = [];
 
-  // CREATE THE LIST ITEMS
-  // Fills the ul tag with all "person"s contained in data.json
+  // Add the Path Navigation
+  let nodePathItems = props.nodePath
+    .filter((nodePathItem) => props.nodePath.length > 1 && nodePathItem.depth !== 0)
+    .map((nodePathItem) => (
+      <li className="filterItem" key={nodePathItem.data.name}>
+        {nodePathItem.data.name} /
+      </li>
+    ));
+  // Add "ΔΙΚΤΙΟ /" as the first item
+  nodePathItems.unshift(
+    <li className="filterItem" key="root">
+      ΔΙΚΤΙΟ /
+    </li>
+  );
+  // Reverse the order of items (excluding "ΔΙΚΤΙΟ /")
+  nodePathItems = [nodePathItems[0], ...nodePathItems.slice(1).reverse()];
+
+  // Add all "Sectors" as Filter Items
+  // Add an "all" node to begin with
+  sectorFilterItemsArray.push("Όλα");
   filterItems.forEach(function (filterItem) {
-    if (filterItem.data.type === "person") {
-      personFilterItemArray.push(filterItem.data.name);
+    // Add all sectors names to the sectorFilterItemsArray, avoiding duplicates, null and undefined
+    if (
+      !sectorFilterItemsArray.includes(filterItem.data.sector) &&
+      filterItem.data.sector !== "null" &&
+      filterItem.data.sector !== undefined
+    ) {
+      sectorFilterItemsArray.push(filterItem.data.sector);
     }
   });
-  let personFilterItems = personFilterItemArray.map((item) => (
+  let sectorFilterItems = sectorFilterItemsArray.map((item) => (
     <li
-      className="filterItem"
+      className="sectorFilter"
       key={item}
-      onClick={() => props.findFilteredNode(item)}
-      onMouseEnter={() => props.hoverFilteredNode(item)}
+      onClick={() => {
+        props.findFilteredSectorNode(item, sectorFilterItemsArray);
+      }}
     >
-      {item} /
+      {item} |
     </li>
   ));
 
-  // Add companies in a separate row
+  // Add all "Companies" as Filter Items
   filterItems.forEach(function (filterItem) {
     if (filterItem.data.type === "company") {
       companyFilterItemArray.push(filterItem.data.name);
     }
   });
-
   let companyFilterItems = companyFilterItemArray.map((item) => (
     <li
       className="filterItem"
@@ -44,18 +67,17 @@ export default function Navigation(props) {
   ));
 
   //
-  //
   // Highlight current filter item on hover
   let filterMenuItems = document.querySelectorAll(".filterItem");
 
   filterMenuItems.forEach(function (filterItem, filterItemIndex, filterItemArray) {
     filterItem.addEventListener("click", function () {
       if (filterItem === event.target) {
-        filterItem.classList.add("clicked");
+        filterItem.classList.add("highlighted");
       }
       filterItemArray.forEach(function (altFilter) {
         if (altFilter !== event.target) {
-          altFilter.classList.remove("clicked");
+          altFilter.classList.remove("highlighted");
         }
       });
     });
@@ -69,7 +91,8 @@ export default function Navigation(props) {
 
   return (
     <div className="navigationContainer">
-      <ul className="personFilters">{personFilterItems}</ul>
+      <ul className="nodePath">{nodePathItems}</ul>
+      <ul className="sectorFilters">{sectorFilterItems}</ul>
       <ul className="companyFilters">{companyFilterItems}</ul>
     </div>
   );

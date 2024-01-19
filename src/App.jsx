@@ -4,6 +4,7 @@ import solomonData from "./data.json";
 import InfoBox from "./assets/Components/InfoBox";
 import Navigation from "./assets/Components/Navigation";
 import Zoombar from "./assets/Components/Zoombar";
+import { filter } from "lodash";
 
 function D3Chart() {
   // http://localhost:5173/
@@ -25,8 +26,8 @@ function D3Chart() {
   let [hasBeenZoomed, setHasBeenZoomed] = React.useState(false);
 
   let [initialZoom, setInitialZoom] = React.useState({
-    x: 450,
-    y: 350,
+    x: 200,
+    y: 200,
     k: 0.4,
   });
 
@@ -34,17 +35,23 @@ function D3Chart() {
     `translate(${initialZoom.x}, ${initialZoom.y}) scale(${initialZoom.k})`
   );
 
-  let zoomRange = [0.1, 1];
+  let zoomRange = [0.1, 1.5];
 
   // Set state values for the InfoBox component
   let [nodeInfo, setNodeInfo] = React.useState({
-    title: "No Node Selected!",
+    title: "Δεν έχει επιλεγεί κόμβος!",
     date: "dd/mm/yyyy",
-    description: "Hover a Datapoint to learn more about it.",
+    description: "Περάστε πάνω από ένα Σημείο Δεδομένων για να μάθετε περισσότερα γι' αυτό.",
   });
 
+  let [nodePath, setNodePath] = React.useState(["Root"]);
+
+  let [activeSectorFilter, setActiveSectorFilter] = React.useState([]);
+  let activeSectorFilterRef = useRef(activeSectorFilter);
+  let [allActiveNodes, setAllActiveNodes] = React.useState([]);
+
   // Declare Scales and Values
-  let nodeSizesArray = [10, 95, 75, 1, 10];
+  let nodeSizesArray = [10, 135, 95, 75, 1, 75, 10];
   let nodeSizes = d3
     .scaleOrdinal() //
     .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
@@ -55,7 +62,7 @@ function D3Chart() {
     "#FF295B",
     "#DE62D9",
     "#44B0FF",
-    "#99D934",
+    "#20AE98",
     "#FEA800",
     // "#AF1BF5",
     // "#0E6292",
@@ -78,11 +85,11 @@ function D3Chart() {
   let zoom = d3
     .zoom()
     .on("zoom", handleZoom) //
-    .scaleExtent(zoomRange)
-    .translateExtent([
-      [width * -4, height * -4],
-      [width * 4, height * 4],
-    ]);
+    .scaleExtent(zoomRange);
+  // .translateExtent([
+  //   [width * -4, height * -4],
+  //   [width * 4, height * 4],
+  // ]);
 
   // Declare Dragging / Interaction Functionality
   const drag = (simulation) => {
@@ -111,23 +118,22 @@ function D3Chart() {
     //
     // Declare Physics Properties of the Graph
     const simulation = d3
-      .forceSimulation(
-        nodes.filter((d) => d.data.on === true),
-        (d) => d
-      )
+      .forceSimulation(nodes, (d) => d)
       .force(
         "link",
         d3.forceLink(links.filter((d) => d.target.data.on === true)).distance((d) => {
           if (d.source.depth === 0) {
-            return -10;
+            return 100;
           } else if (d.source.depth === 1) {
+            return 100;
+          } else if (d.source.depth < 4) {
             return 100;
           } else {
             return 300;
           }
         })
       )
-      .force("charge", d3.forceManyBody().strength(-300))
+      .force("charge", d3.forceManyBody().strength(-1000))
       .force("center", d3.forceCenter(width / 2, height / 2).strength(1))
       .force(
         "collision",
@@ -175,7 +181,7 @@ function D3Chart() {
       .append("marker")
       .attr("id", (d, i) => "arrowhead" + i)
       // Calculation is tailormade to place all arrowheads correctly.
-      .attr("refX", (d) => nodeSizes(d.data.type) / 1.5 + 3.5)
+      .attr("refX", (d) => nodeSizes(d.data.type) / 30)
       .attr("refY", 3)
       .attr("markerWidth", 10)
       .attr("markerHeight", 10)
@@ -193,8 +199,8 @@ function D3Chart() {
       .append("line")
       .attr("class", "link")
       .attr("stroke", "#999")
-      .attr("stroke-opacity", 0.6)
-      .attr("stroke-width", "1.5");
+      .attr("stroke-opacity", 1)
+      .attr("stroke-width", "2.2");
 
     let elementEnter = nodeElement.enter().append("g");
 
@@ -204,10 +210,24 @@ function D3Chart() {
       .attr("r", (d) => nodeSizes(d.data.type))
       .attr("stroke", (d) => nodeColors(d.data.group))
       //if the depth of the node is smaller than three, fill it. Else, white.
-      .attr("fill", (d) => (d.depth < 3 ? nodeColors(d.data.group) : "#fff"))
+      .attr("fill", (d) =>
+        d.data.type === "group" ||
+        d.data.type === "person" ||
+        d.data.type === "company" ||
+        d.data.type === "mothercompany"
+          ? nodeColors(d.data.group)
+          : "#fff"
+      )
       .attr("stroke-opacity", (d) => (d.data.on ? 0.6 : 0.1))
       .call(drag(simulation))
-      .attr("class", (d) => (d.depth < 3 ? "largeNode" : "smallNode"));
+      .attr("class", (d) =>
+        d.data.type === "group" ||
+        d.data.type === "person" ||
+        d.data.type === "company" ||
+        d.data.type === "mothercompany"
+          ? "largeNode"
+          : "smallNode"
+      );
 
     // Add the Text
     elementEnter
@@ -218,7 +238,7 @@ function D3Chart() {
       .attr("class", "nodeTextElement")
       .call(drag(simulation))
       .html((d) => {
-        return `<p>${d.data.name}<br> ${d.children ? `[${d.children.length}]` : "[end]"}</p>`;
+        return `<p>${d.data.name}<br> ${d.children ? `[${d.children.length}]` : ""}</p>`;
       })
       .attr("xmlns", "http://www.w3.org/1999/xhtml");
 
@@ -235,7 +255,12 @@ function D3Chart() {
     // Style the color of the text
     d3.selectAll("circle").each(function (d) {
       if (this.classList.contains("smallNode")) {
-        d3.select(this.parentElement).select("h5").style("color", nodeColors(d.data.group));
+        if (d.children !== undefined) {
+          d3.select(this.parentElement).select("h5").style("color", nodeColors(d.data.group));
+        } else {
+          d3.select(this.parentElement).select("h5").style("color", "#000");
+        }
+        // d3.select(this.parentElement).select("h5").style("color", nodeColors(d.data.group));
         // d3.select(this.parentElement).select("h5").style("color", "#000");
       }
       if (d.depth === 0) {
@@ -287,7 +312,7 @@ function D3Chart() {
         d3.select(this) //
           .transition()
           .duration("200")
-          .attr("fill", "transparent")
+          .attr("fill", "#fff")
           .attr("cursor", "pointer");
 
         document.documentElement.style.setProperty("--highlightColorHover", nodeColors(d.data.group));
@@ -297,12 +322,23 @@ function D3Chart() {
         setNodeInfo((prevNodeInfo) => {
           return { ...prevNodeInfo, title: d.data.name, date: d.data.date, description: d.data.description };
         });
+        setNodePath(findAncestorsManually(d));
+
+        console.log("the nodes ancestors are", findAncestorsManually(e.target));
       })
       .on("mouseleave", function (e) {
         d3.select(this) //
           .transition()
           .duration("200")
-          .attr("fill", (d) => (d.depth < 3 ? nodeColors(d.data.group) : "#fff"))
+
+          .attr("fill", (d) =>
+            d.data.type === "group" ||
+            d.data.type === "person" ||
+            d.data.type === "company" ||
+            d.data.type === "mothercompany"
+              ? nodeColors(d.data.group)
+              : "#fff"
+          )
 
           .attr("cursor", "default");
         e.target.parentElement.querySelector("h5").classList.remove("hovered");
@@ -314,24 +350,29 @@ function D3Chart() {
 
     // Event Handling
     function handleNodeClick(event, clickedNode) {
-      console.log("clickedNode is", clickedNode);
       //
       nodes.forEach(function (node) {
-        if (node.index === clickedNode.children[0].index) {
-          if (node.data.on === true) {
-            //close all descendants
-            hideDescendantsIfOpen(clickedNode);
-          } else {
-            //show all children
-            showChildren(clickedNode);
+        //check if any of the clicked node's children is on, meaning that the clicked node is already expanded
+        clickedNode.children.forEach(function (clickedNodeChild) {
+          if (node.index === clickedNodeChild.index) {
+            if (node.data.on === true) {
+              // Node is already expanded, close all descendants
+              hideDescendantsIfOpen(clickedNode);
+            } else {
+              // console.log("activeSectorFilter are", activeSectorFilterRef.current);
+              // Node is not expanded, show all children
+              showChildren(clickedNode);
+            }
           }
-        }
+        });
       });
 
       //if a node is clicked, remove any clicked class from the filterItemMenu
       document.querySelectorAll(".filterItem").forEach(function (filterItem) {
-        filterItem.classList.remove("clicked");
+        filterItem.classList.remove("highlighted");
       });
+
+      // handleNodeFiltering();
     }
 
     function hideDescendantsIfOpen(clickedNode) {
@@ -360,19 +401,25 @@ function D3Chart() {
         setNodeInfo((prevNodeInfo) => {
           return { ...prevNodeInfo, title: d.data.name, date: d.data.date, description: d.data.description };
         });
+        // console.log("the nodes ancestors are", findAncestorsManually(d));
+        setNodePath(findAncestorsManually(d));
       })
       .on("click", function (e, clickedNode) {
-        nodes.forEach(function (node) {
-          if (node.index === clickedNode.children[0].index) {
-            if (node.data.on === true) {
-              //close all descendants
-              hideDescendantsIfOpen(clickedNode);
-            } else {
-              //show all children
-              showChildren(clickedNode);
+        if (clickedNode.children !== undefined) {
+          nodes.forEach(function (node) {
+            if (node.index === clickedNode.children[0].index) {
+              if (node.data.on === true) {
+                //close all descendants
+                hideDescendantsIfOpen(clickedNode);
+              } else {
+                //show all children
+                showChildren(clickedNode);
+              }
             }
-          }
-        });
+          });
+        } else {
+          console.log("cannot expant a leaf node, you've reached the end!");
+        }
       });
 
     // Set the position attributes of links and nodes each time the simulation ticks.
@@ -380,8 +427,14 @@ function D3Chart() {
       link
         .attr("x1", (d) => d.source.x)
         .attr("y1", (d) => d.source.y)
-        .attr("x2", (d) => (d.target.depth > 2 ? shortenLink(d.source.x, d.target.x) : d.target.x))
-        .attr("y2", (d) => (d.target.depth > 2 ? shortenLink(d.source.y, d.target.y) : d.target.y));
+        // Shorten the arrow slightly if it is pointing at a lower level node
+        .attr("x2", (d) =>
+          d.target.depth > 0 ? shortenLink(d.source.x, d.target.x) : shortenLinkTwo(d.source.x, d.target.x)
+        )
+        .attr("y2", (d) =>
+          d.target.depth > 0 ? shortenLink(d.source.y, d.target.y) : shortenLinkTwo(d.source.x, d.target.x)
+        );
+      //
 
       circle
         .attr("cx", (d) => d.x) //
@@ -407,7 +460,10 @@ function D3Chart() {
       });
     });
 
-    function shortenLink(sourceCoord, targetCoord, factor = 0.9) {
+    function shortenLink(sourceCoord, targetCoord, factor = 0.8) {
+      return sourceCoord + (targetCoord - sourceCoord) * factor;
+    }
+    function shortenLinkTwo(sourceCoord, targetCoord, factor = 0.85) {
       return sourceCoord + (targetCoord - sourceCoord) * factor;
     }
 
@@ -430,38 +486,186 @@ function D3Chart() {
   function findFilteredNode(IDText) {
     nodes.forEach(function (node) {
       if (node.data.name === IDText) {
-        console.log("found the node, its name is ", node);
+        console.log("found a node, its name is ", node);
         findDescendants(node);
-        findAncestors(node);
-        // panToNode(node);
+        activateAncestors(node);
+        // setTimeout(() => {
+        //   panToNode(node);
+        // }, 1000);
         document.documentElement.style.setProperty("--highlightColorClick", nodeColors(node.data.group));
       }
     });
   }
 
-  // // Apply the zoom transform to the SVG
-  // function panToNode(filterNode) {
-  //   setTimeout(() => {
-  //     const newZoomCoordinates = {
-  //       x: zoomTransform.x,
-  //       y: zoomTransform.y,
-  //       k: 0.3,
-  //     };
+  // Filter system initializazion
+  useEffect(() => {
+    let allListItemElements = document.querySelectorAll(".sectorFilter");
 
-  //     // Create a D3 zoom transform with the new coordinates
-  //     const newZoomTransform = d3.zoomIdentity
-  //       .translate(newZoomCoordinates.x, newZoomCoordinates.y)
-  //       .scale(newZoomCoordinates.k);
+    // Add the acive class to the first element on Start
+    if (allListItemElements.length > 0) {
+      allListItemElements[0].classList.add("active");
+    }
+  }, []);
 
-  //     // Apply the zoom transform with a smooth transition
-  //     d3.select(chartRef.current)
-  //       .transition()
-  //       .duration(750) // Adjust the duration as needed
-  //       .call(zoom.transform, newZoomTransform);
-  //   }, 1000);
-  // }
+  let allListItemElements = document.querySelectorAll(".sectorFilter");
+  // Sector Filtering Click Functionality
+  function findFilteredSectorNode(IDText, allSectorFilters) {
+    // Disable the active class from the first Filter Item if any other one is clicked
+    if (!event.target.innerText.includes("Όλα")) {
+      allListItemElements[0].classList.remove("active");
+    }
+
+    // When clicking the all button, disable all individual filters
+    if (event.target.innerText.includes("Όλα")) {
+      allListItemElements.forEach((altListItem) => {
+        if (event.target !== altListItem) {
+          altListItem.classList.remove("active");
+        }
+      });
+    }
+
+    toggleFilter(IDText, allSectorFilters);
+    // Toggle the clicked Filter Item and Add/Remove it from the clicked filter array
+  }
+
+  function toggleFilter(IDText, allSectorFilters) {
+    let filterIsActive = event.target.classList.contains("active");
+    if (!filterIsActive) {
+      event.target.classList.add("active");
+
+      // Add the clicked filter to the array
+      if (!event.target.innerText.includes("Όλα")) {
+        // array is not full, add to it
+        if (activeSectorFilter.length < allSectorFilters.length) {
+          setActiveSectorFilter((prevActiveSectorFilter) => {
+            return [...prevActiveSectorFilter, IDText];
+          });
+          // array was full, remove all and start fresh
+        } else if (activeSectorFilter.length === allSectorFilters.length) {
+          setActiveSectorFilter((prevActiveSectorFilter) => {
+            return [IDText];
+          });
+        }
+      } else {
+        allSectorFilters.forEach((allSectorFilter) => {
+          if (!activeSectorFilter.includes(allSectorFilter)) {
+            setActiveSectorFilter((prevActiveSectorFilter) => {
+              return [...prevActiveSectorFilter, allSectorFilter];
+            });
+          }
+        });
+      }
+    } else {
+      event.target.classList.remove("active");
+
+      // Remove the clicked filter from the array
+      setActiveSectorFilter((prevActiveSectorFilter) => {
+        return prevActiveSectorFilter.filter((sector) => sector !== IDText);
+      });
+    }
+  }
+
+  // Update the activeSectorFilter Ref
+  useEffect(() => {
+    activeSectorFilterRef.current = activeSectorFilter;
+  }, [activeSectorFilter]);
+
+  //based on the newest state of the activeSectorFilter, hide all nodes that are not part of the active filter
+  // Define the function to handle node filtering
+  const handleNodeFiltering = () => {
+    let nodesToDisable = [];
+    let nodesToEnable = [];
+    console.log(activeSectorFilterRef.current);
+
+    nodes.forEach((node) => {
+      // If Statement declarations
+      let nodeIsOn = node.data.on;
+      let nodeIsSubcompany = node.data.type === "subcompany";
+      let nodeMatchesFilter = activeSectorFilterRef.current.includes(node.data.sector);
+
+      // Find all On Nodes that should stay On
+      if (nodeIsSubcompany && nodeMatchesFilter) {
+        nodesToEnable.push(node);
+      }
+      // Find all On Nodes that should be Off
+      else if (nodeIsOn && nodeIsSubcompany && !nodeMatchesFilter) {
+        nodesToDisable.push(node);
+      }
+
+      // Find all Nodes that are currently off but match the filter
+      if (!nodeIsOn && nodeIsSubcompany && nodeMatchesFilter) {
+        findAncestorsManually(node).forEach((ancestorNode) => {
+          // console.log("ancestornodes are", ancestorNode);
+          if (ancestorNode.depth > 2 && ancestorNode.data.on) {
+            nodesToEnable.push(node);
+          }
+        });
+      }
+    });
+    deactivateNodes(nodesToDisable);
+
+    nodesToEnable.forEach((enabledNode) => activateNodes(findAncestorsManually(enabledNode)));
+    activateNodes(nodesToEnable);
+  };
+
+  // Use the function within the useEffect
+  useEffect(() => {
+    handleNodeFiltering();
+  }, [activeSectorFilter]);
+
+  //Expand all the sector nodes (the actual ones) when a filter is clicked
+  let sectorNodeArray = [];
+  function showAllSectors() {
+    // console.log("showing all sectors!");
+    nodes.forEach(function (node) {
+      if (node.data.type === "sector") {
+        sectorNodeArray.push(node);
+      }
+      activateNodes(sectorNodeArray);
+    });
+  }
+
+  // Apply the zoom transform to the SVG
+  function panToNode(filterNode) {
+    let filterXPositions = [];
+    let filterYPositions = [];
+
+    filterNode.descendants().forEach(function (filterDescendant) {
+      console.log("the filterd's transform is", d3.select(filterDescendant).node());
+      filterXPositions.push(filterDescendant.x);
+      filterYPositions.push(filterDescendant.y);
+    });
+
+    let filterXMin = d3.min(filterXPositions);
+    let filterXMax = d3.max(filterXPositions);
+    let filterYMin = d3.min(filterYPositions);
+    let filterYMax = d3.max(filterYPositions);
+
+    let filterXMidPoint = (filterXMin + filterXMax) / 2;
+    let filterYMidPoint = (filterYMin + filterYMax) / 2;
+
+    const newZoomCoordinates = {
+      x: filterXMidPoint,
+      y: filterYMidPoint,
+      k: zoomTransform.k,
+    };
+
+    // Create a D3 zoom transform with the new coordinates
+    const newZoomTransform = d3.zoomIdentity
+      .translate(newZoomCoordinates.x, newZoomCoordinates.y)
+      .scale(newZoomCoordinates.k);
+
+    // Apply the zoom transform with a smooth transition
+    d3.select(chartRef.current)
+      .transition()
+      .duration(750) // Adjust the duration as needed
+      .call(zoom.transform, newZoomTransform);
+
+    console.log("newZoomT is", newZoomTransform);
+  }
 
   function findDescendants(filterNode) {
+    console.log("running finddescendants");
     let descendantNodesArray = [];
     findDescendantsManually(filterNode).forEach(function (descendantNode) {
       // if (filterNode !== descendantNode) {
@@ -472,12 +676,10 @@ function D3Chart() {
     activateNodes(descendantNodesArray);
   }
 
-  function findAncestors(filterNode) {
+  function activateAncestors(filterNode) {
     let ancestorNodesArray = [];
     findAncestorsManually(filterNode).forEach(function (ancestorNode) {
-      if (filterNode !== ancestorNode) {
-        ancestorNodesArray.push(ancestorNode);
-      }
+      ancestorNodesArray.push(ancestorNode);
     });
 
     activateNodes(ancestorNodesArray);
@@ -581,17 +783,39 @@ function D3Chart() {
     });
   });
 
+  useEffect(() => {
+    document.querySelector(".showInfo").classList.add("hidden");
+    document.querySelector(".closeInfoContainer").addEventListener(
+      "click",
+      () => {
+        document.querySelector(".infoContainer").classList.add("hidden");
+        document.querySelector(".componentContainer").classList.add("hiddenInfo");
+        document.querySelector(".showInfo").classList.remove("hidden");
+      },
+      []
+    );
+    document.querySelector(".showInfo").addEventListener("click", () => {
+      document.querySelector(".infoContainer").classList.remove("hidden");
+      document.querySelector(".componentContainer").classList.remove("hiddenInfo");
+      document.querySelector(".showInfo").classList.add("hidden");
+    });
+  }, []);
+
   return (
     <div className="componentContainer">
       <Navigation
         className="navigationContainer"
         filterItems={nodes}
         findFilteredNode={findFilteredNode}
+        findFilteredSectorNode={findFilteredSectorNode}
         hoverFilteredNode={hoverFilteredNode}
+        showAllSectors={showAllSectors}
+        nodePath={nodePath}
       />
       <Zoombar className="zoombar" zoomAmount={zoomAmount} zoomRange={zoomRange} />
       <InfoBox className="" nodeInfo={nodeInfo} />
-      <svg ref={chartRef}></svg>
+      <svg ref={chartRef}>{/* <div className="showInfo"></div> */}</svg>
+      <div className="showInfo">[Show Info]</div>
       <div className="zoomButtonContainer">
         <div className="zoomButton" onClick={zoomIn}>
           Zoom In +
