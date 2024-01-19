@@ -57,7 +57,7 @@ body {
 
 .closeInfoContainer {
   position: absolute;
-  right: 0;
+  right: 10px;
   top: 5px;
   font-size: 10px;
   -webkit-text-stroke-width: 0.4px;

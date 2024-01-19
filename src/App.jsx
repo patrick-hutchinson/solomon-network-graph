@@ -51,7 +51,7 @@ function D3Chart() {
   let [allActiveNodes, setAllActiveNodes] = React.useState([]);
 
   // Declare Scales and Values
-  let nodeSizesArray = [10, 135, 95, 75, 1, 75, 10];
+  let nodeSizesArray = [10, 135, 95, 75, 75, 0, 0];
   let nodeSizes = d3
     .scaleOrdinal() //
     .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
@@ -122,11 +122,7 @@ function D3Chart() {
       .force(
         "link",
         d3.forceLink(links.filter((d) => d.target.data.on === true)).distance((d) => {
-          if (d.source.depth === 0) {
-            return 100;
-          } else if (d.source.depth === 1) {
-            return 100;
-          } else if (d.source.depth < 4) {
+          if (d.source.depth < 4) {
             return 100;
           } else {
             return 300;
@@ -238,7 +234,7 @@ function D3Chart() {
       .attr("class", "nodeTextElement")
       .call(drag(simulation))
       .html((d) => {
-        return `<p>${d.data.name}<br> ${d.children ? `[${d.children.length}]` : ""}</p>`;
+        return `<p>${d.data.name}<br> ${d.children && d.data.type !== "connector" ? `[${d.children.length}]` : ""}</p>`;
       })
       .attr("xmlns", "http://www.w3.org/1999/xhtml");
 
@@ -429,11 +425,12 @@ function D3Chart() {
         .attr("y1", (d) => d.source.y)
         // Shorten the arrow slightly if it is pointing at a lower level node
         .attr("x2", (d) =>
-          d.target.depth > 0 ? shortenLink(d.source.x, d.target.x) : shortenLinkTwo(d.source.x, d.target.x)
+          d.target.depth > 0 || !d.target.data.type === "connector" ? shortenLink(d.source.x, d.target.x) : d.target.x
         )
         .attr("y2", (d) =>
-          d.target.depth > 0 ? shortenLink(d.source.y, d.target.y) : shortenLinkTwo(d.source.x, d.target.x)
+          d.target.depth > 0 || !d.target.data.type === "connector" ? shortenLink(d.source.y, d.target.y) : d.target.y
         );
+
       //
 
       circle
@@ -461,9 +458,6 @@ function D3Chart() {
     });
 
     function shortenLink(sourceCoord, targetCoord, factor = 0.8) {
-      return sourceCoord + (targetCoord - sourceCoord) * factor;
-    }
-    function shortenLinkTwo(sourceCoord, targetCoord, factor = 0.85) {
       return sourceCoord + (targetCoord - sourceCoord) * factor;
     }
 
