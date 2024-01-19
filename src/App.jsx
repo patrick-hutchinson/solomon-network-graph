@@ -57,17 +57,7 @@ function D3Chart() {
     .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
     .range(nodeSizesArray);
 
-  let nodeColorsArray = [
-    "transparent",
-    "#FF295B",
-    "#DE62D9",
-    "#44B0FF",
-    "#20AE98",
-    "#FEA800",
-    // "#AF1BF5",
-    // "#0E6292",
-    // "#FF295B",
-  ];
+  let nodeColorsArray = ["transparent", "#FF295B", "#DE62D9", "#44B0FF", "#20AE98", "#FEA800"];
   let nodeColors = d3
     .scaleOrdinal() //
     .domain([...new Set(nodes.map((d) => d.data.group))])
@@ -118,18 +108,25 @@ function D3Chart() {
     //
     // Declare Physics Properties of the Graph
     const simulation = d3
-      .forceSimulation(nodes, (d) => d)
+      .forceSimulation(
+        nodes.filter((d) => d.data.on === true),
+        (d) => d
+      )
       .force(
         "link",
-        d3.forceLink(links.filter((d) => d.target.data.on === true)).distance((d) => {
-          if (d.source.depth < 4) {
-            return 100;
+        d3.forceLink(links.filter((d) => d.target.data.on == true)).distance((d) => {
+          if (d.source.depth == 0) {
+            return 0;
+          } else if (d.source.depth == 1) {
+            return 200;
+          } else if (d.source.depth < 4) {
+            return 200;
           } else {
             return 300;
           }
         })
       )
-      .force("charge", d3.forceManyBody().strength(-1000))
+      .force("charge", d3.forceManyBody().strength(-800))
       .force("center", d3.forceCenter(width / 2, height / 2).strength(1))
       .force(
         "collision",
@@ -256,14 +253,10 @@ function D3Chart() {
         } else {
           d3.select(this.parentElement).select("h5").style("color", "#000");
         }
-        // d3.select(this.parentElement).select("h5").style("color", nodeColors(d.data.group));
-        // d3.select(this.parentElement).select("h5").style("color", "#000");
       }
       if (d.depth === 0) {
         //hide the first node's links
         d3.select(this.parentElement).attr("display", "none");
-        // d3.select(this.parentElement).select("h5").style("color", "#000");
-        // d3.select(this).attr("stroke", "#000");
       }
     });
     //hide the first node's links
@@ -386,8 +379,14 @@ function D3Chart() {
       let childNodes = clickedNode.children;
       if (childNodes !== undefined) {
         activateNodes(childNodes);
+        // Check for child nodes with data.type === "connector" and open their children
+        childNodes.forEach((childNode) => {
+          if (childNode.data.type === "connector") {
+            showChildren(childNode);
+          }
+        });
       } else {
-        console.log("cannot expand leaf node!");
+        showChildren(clickedNode);
       }
     }
 
@@ -425,10 +424,10 @@ function D3Chart() {
         .attr("y1", (d) => d.source.y)
         // Shorten the arrow slightly if it is pointing at a lower level node
         .attr("x2", (d) =>
-          d.target.depth > 0 || !d.target.data.type === "connector" ? shortenLink(d.source.x, d.target.x) : d.target.x
+          d.target.data.type !== "connector" ? shortenLink(d.source.x, d.target.x) : (d.source.x, d.target.x)
         )
         .attr("y2", (d) =>
-          d.target.depth > 0 || !d.target.data.type === "connector" ? shortenLink(d.source.y, d.target.y) : d.target.y
+          d.target.data.type !== "connector" ? shortenLink(d.source.y, d.target.y) : (d.source.y, d.target.y)
         );
 
       //
@@ -457,7 +456,7 @@ function D3Chart() {
       });
     });
 
-    function shortenLink(sourceCoord, targetCoord, factor = 0.8) {
+    function shortenLink(sourceCoord, targetCoord, factor = 0.82) {
       return sourceCoord + (targetCoord - sourceCoord) * factor;
     }
 
