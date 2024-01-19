@@ -105,30 +105,26 @@ function D3Chart() {
   };
 
   useEffect(() => {
-    let filteredNodes = nodes.filter((node) => {
-      return node.data.on;
-    });
-    console.log("filteredNodes are", filteredNodes.length);
-    //
+    let allActiveNodes = nodes.filter((node) => node.data.on);
+
     // Declare Physics Properties of the Graph
     const simulation = d3
-      .forceSimulation(
-        nodes.filter((d) => d.data.on === true),
-        (d) => d
-      )
+      .forceSimulation(allActiveNodes, (d) => d)
       .force(
         "link",
-        d3.forceLink(links.filter((d) => d.target.data.on == true)).distance((d) => {
-          if (d.source.depth == 0) {
+        d3.forceLink(links.filter((d) => d.target.data.on === true)).distance((d) => {
+          if (d.source.depth === 0) {
             return 0;
-          } else if (d > 0 && d.source.depth < 4) {
-            return 200;
+          } else if (d.source.depth === 1) {
+            return 300;
+          } else if (d.source.depth > 0 && d.source.depth < 4) {
+            return 200 - allActiveNodes.length * 2;
           } else {
             return 300;
           }
         })
       )
-      .force("charge", d3.forceManyBody().strength(-1000))
+      .force("charge", d3.forceManyBody().strength(-800))
       // .force("center", d3.forceCenter(width / 2, height / 2).strength(1))
       .force(
         "collision",
@@ -176,7 +172,7 @@ function D3Chart() {
       .append("marker")
       .attr("id", (d, i) => "arrowhead" + i)
       // Calculation is tailormade to place all arrowheads correctly.
-      .attr("refX", (d) => nodeSizes(d.data.type) / 30)
+      .attr("refX", (d) => nodeSizes(d.data.type) / 25)
       .attr("refY", 3)
       .attr("markerWidth", 10)
       .attr("markerHeight", 10)
@@ -195,7 +191,7 @@ function D3Chart() {
       .attr("class", "link")
       .attr("stroke", "#999")
       .attr("stroke-opacity", 1)
-      .attr("stroke-width", "2.2");
+      .attr("stroke-width", "3");
 
     let elementEnter = nodeElement.enter().append("g");
 
@@ -361,13 +357,11 @@ function D3Chart() {
       document.querySelectorAll(".filterItem").forEach(function (filterItem) {
         filterItem.classList.remove("highlighted");
       });
-
-      // handleNodeFiltering();
     }
 
     function hideDescendantsIfOpen(clickedNode) {
       let descendantNodesArray = [];
-      // findClickDescendants(clickedNode);
+
       findDescendantsManually(clickedNode).forEach(function (descendantNode) {
         if (descendantNode !== clickedNode) {
           descendantNodesArray.push(descendantNode);
@@ -457,7 +451,7 @@ function D3Chart() {
       });
     });
 
-    function shortenLink(sourceCoord, targetCoord, factor = 0.82) {
+    function shortenLink(sourceCoord, targetCoord, factor = 0.7) {
       return sourceCoord + (targetCoord - sourceCoord) * factor;
     }
 

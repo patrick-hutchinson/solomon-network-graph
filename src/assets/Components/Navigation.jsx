@@ -49,7 +49,11 @@ export default function Navigation(props) {
         props.findFilteredSectorNode(item, sectorFilterItemsArray);
       }}
     >
-      {item} |
+      {item
+        .split(" ")
+        .map((word) => (word.toUpperCase() === "MME" ? word : word.charAt(0) + word.slice(1).toLowerCase()))
+        .join(" ")}{" "}
+      |
     </li>
   ));
 
