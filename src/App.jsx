@@ -105,6 +105,10 @@ function D3Chart() {
   };
 
   useEffect(() => {
+    let filteredNodes = nodes.filter((node) => {
+      return node.data.on;
+    });
+    console.log("filteredNodes are", filteredNodes.length);
     //
     // Declare Physics Properties of the Graph
     const simulation = d3
@@ -117,17 +121,15 @@ function D3Chart() {
         d3.forceLink(links.filter((d) => d.target.data.on == true)).distance((d) => {
           if (d.source.depth == 0) {
             return 0;
-          } else if (d.source.depth == 1) {
-            return 200;
-          } else if (d.source.depth < 4) {
+          } else if (d > 0 && d.source.depth < 4) {
             return 200;
           } else {
             return 300;
           }
         })
       )
-      .force("charge", d3.forceManyBody().strength(-800))
-      .force("center", d3.forceCenter(width / 2, height / 2).strength(1))
+      .force("charge", d3.forceManyBody().strength(-1000))
+      // .force("center", d3.forceCenter(width / 2, height / 2).strength(1))
       .force(
         "collision",
         d3.forceCollide().radius((d) => nodeSizes(d.data.type))
@@ -348,8 +350,7 @@ function D3Chart() {
               // Node is already expanded, close all descendants
               hideDescendantsIfOpen(clickedNode);
             } else {
-              // console.log("activeSectorFilter are", activeSectorFilterRef.current);
-              // Node is not expanded, show all children
+              console.log("activeSectorFilter are", activeSectorFilterRef.current);
               showChildren(clickedNode);
             }
           }
