@@ -17,6 +17,8 @@ function D3Chart() {
   let [links, setLinks] = React.useState(root.links());
   let [nodes, setNodes] = React.useState(root.descendants());
 
+  let nodesRef = useRef(nodes);
+
   let width = window.innerWidth * 0.8;
   let height = window.innerHeight * 0.95;
 
@@ -42,6 +44,7 @@ function D3Chart() {
     title: "Δεν έχει επιλεγεί κόμβος!",
     date: "dd/mm/yyyy",
     description: "Περάστε πάνω από ένα Σημείο Δεδομένων για να μάθετε περισσότερα γι' αυτό.",
+    sector: "",
   });
 
   let [nodePath, setNodePath] = React.useState(["Root"]);
@@ -107,7 +110,6 @@ function D3Chart() {
   // if (isCommandKeyPressed) {
   zoom
     .on("zoom", function (event) {
-      console.log(event.transform);
       handleZoom(event);
     })
     .scaleExtent(zoomRange);
@@ -363,7 +365,13 @@ function D3Chart() {
         e.target.parentElement.querySelector("h5").classList.add("hovered");
 
         setNodeInfo((prevNodeInfo) => {
-          return { ...prevNodeInfo, title: d.data.name, date: d.data.date, description: d.data.description };
+          return {
+            ...prevNodeInfo,
+            title: d.data.name,
+            date: d.data.date,
+            description: d.data.description,
+            sector: d.data.sector,
+          };
         });
         setNodePath(findAncestorsManually(d));
 
@@ -498,7 +506,13 @@ function D3Chart() {
     d3.selectAll(".smallText > h5") //
       .on("mouseover", function (e, d) {
         setNodeInfo((prevNodeInfo) => {
-          return { ...prevNodeInfo, title: d.data.name, date: d.data.date, description: d.data.description };
+          return {
+            ...prevNodeInfo,
+            title: d.data.name,
+            date: d.data.date,
+            description: d.data.description,
+            sector: d.data.sector,
+          };
         });
         // console.log("the nodes ancestors are", findAncestorsManually(d));
         setNodePath(findAncestorsManually(d));
@@ -638,8 +652,8 @@ function D3Chart() {
       });
     }
 
-    toggleFilter(IDText, allSectorFilters);
     // Toggle the clicked Filter Item and Add/Remove it from the clicked filter array
+    toggleFilter(IDText, allSectorFilters);
   }
 
   function toggleFilter(IDText, allSectorFilters) {
@@ -688,14 +702,17 @@ function D3Chart() {
     activeSectorFilterRef.current = activeSectorFilter;
   }, [activeSectorFilter]);
 
-  //based on the newest state of the activeSectorFilter, hide all nodes that are not part of the active filter
-  // Define the function to handle node filtering
-  const handleNodeFiltering = () => {
+  useEffect(() => {
+    nodesRef.current = nodes;
+  }, [nodes]);
+
+  // Based on the newest state of the activeSectorFilter, hide all nodes that are not part of the active filter
+  function handleNodeFiltering() {
     let nodesToDisable = [];
     let nodesToEnable = [];
     console.log(activeSectorFilterRef.current);
 
-    nodes.forEach((node) => {
+    nodesRef.current.forEach((node) => {
       // If Statement declarations
       let nodeIsOn = node.data.on;
       let nodeIsSubcompany = node.data.type === "subcompany";
@@ -706,15 +723,19 @@ function D3Chart() {
         nodesToEnable.push(node);
       }
       // Find all On Nodes that should be Off
-      else if (nodeIsOn && (nodeIsSubcompany || node.data.type === "connector") && !nodeMatchesFilter) {
+      if (nodeIsOn && (nodeIsSubcompany || node.data.type === "connector") && !nodeMatchesFilter) {
         nodesToDisable.push(node);
       }
 
       // Find all Nodes that are currently off but match the filter
+
+      //Could potentially add a check that only expands nodes of trees that area already visible
       if (!nodeIsOn && nodeIsSubcompany && nodeMatchesFilter) {
         findAncestorsManually(node).forEach((ancestorNode) => {
-          // console.log("ancestornodes are", ancestorNode);
-          if (ancestorNode.depth > 2 && ancestorNode.data.on) {
+          console.log("here's the on ancestor node of the clicked", ancestorNode);
+          //this doesn't work because the node data has not updated yet
+          if (ancestorNode.depth == 3 && ancestorNode.data.on) {
+            console.log("turn it on!");
             nodesToEnable.push(node);
           }
         });
@@ -724,7 +745,7 @@ function D3Chart() {
 
     nodesToEnable.forEach((enabledNode) => activateNodes(findAncestorsManually(enabledNode)));
     activateNodes(nodesToEnable);
-  };
+  }
 
   // Use the function within the useEffect
   useEffect(() => {
@@ -914,6 +935,22 @@ function D3Chart() {
       document.querySelector(".infoContainer").classList.remove("hidden");
       document.querySelector(".componentContainer").classList.remove("hiddenInfo");
       document.querySelector(".showInfo").classList.add("hidden");
+    });
+
+    document.querySelectorAll(".dropdownButton").forEach((dropdownButton) => {
+      dropdownButton.addEventListener("click", () => {
+        if (dropdownButton.classList.contains("sectors")) {
+          document.querySelector(".sectorFilters").classList.toggle("visible");
+          document.querySelector(".companyFilters").classList.remove("visible");
+          dropdownButton.querySelector(".dropdownIcon").classList.toggle("active");
+          document.querySelector(".dropdownButton.groups").querySelector(".dropdownIcon").classList.remove("active");
+        } else if (dropdownButton.classList.contains("groups")) {
+          document.querySelector(".companyFilters").classList.toggle("visible");
+          document.querySelector(".sectorFilters").classList.remove("visible");
+          dropdownButton.querySelector(".dropdownIcon").classList.toggle("active");
+          document.querySelector(".dropdownButton.sectors").querySelector(".dropdownIcon").classList.remove("active");
+        }
+      });
     });
   }, []);
 

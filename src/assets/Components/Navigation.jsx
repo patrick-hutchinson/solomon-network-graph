@@ -7,6 +7,8 @@ export default function Navigation(props) {
   let companyFilterItemArray = [];
   let sectorFilterItemsArray = [];
 
+  let isOnDesktop = window.innerWidth > 600;
+
   // Add the Path Navigation
   let nodePathItems = props.nodePath
     //skip the connectors
@@ -53,7 +55,7 @@ export default function Navigation(props) {
         .split(" ")
         .map((word) => (word.toUpperCase() === "MME" ? word : word.charAt(0) + word.slice(1).toLowerCase()))
         .join(" ")}{" "}
-      {index !== sectorFilterItemsArray.length - 1 && "|"}
+      {index !== sectorFilterItemsArray.length - 1 && isOnDesktop && "|"}
     </li>
   ));
 
@@ -70,7 +72,7 @@ export default function Navigation(props) {
       onClick={() => props.findFilteredNode(item)}
       onMouseEnter={() => props.hoverFilteredNode(item)}
     >
-      {item} {index !== companyFilterItemArray.length - 1 && "|"}
+      {item} {index !== companyFilterItemArray.length - 1 && isOnDesktop && "|"}
     </li>
   ));
 
@@ -100,7 +102,19 @@ export default function Navigation(props) {
   return (
     <div className="navigationContainer">
       <ul className="nodePath">{nodePathItems}</ul>
+      <h4 className="dropdownButton sectors">
+        ΦΙΛΤΡΑ
+        <svg className="dropdownIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+          <path d="M24 22h-24l12-20z" />
+        </svg>
+      </h4>
       <ul className="sectorFilters">{sectorFilterItems}</ul>
+      <h4 className="dropdownButton groups">
+        ΟΜΙΛΟI
+        <svg className="dropdownIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+          <path d="M24 22h-24l12-20z" />
+        </svg>
+      </h4>
       <ul className="companyFilters">{companyFilterItems}</ul>
     </div>
   );

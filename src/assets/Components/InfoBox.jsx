@@ -24,6 +24,7 @@ export default function InfoBox(props) {
         <h5 className="infoDate" dangerouslySetInnerHTML={nodeDate}></h5>
 
         <h1 className="infoTitle">{props.nodeInfo.title}</h1>
+        <h5 className="infoSector">Sector: {props.nodeInfo.sector}</h5>
         <p className="infoText" dangerouslySetInnerHTML={nodeDescription} />
       </div>
     </>
