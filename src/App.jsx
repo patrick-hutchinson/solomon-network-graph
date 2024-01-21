@@ -393,6 +393,7 @@ function D3Chart() {
 
     // Event Handling
     function handleNodeClick(event, clickedNode) {
+      let nodesToActivate = [];
       //
       nodes.forEach(function (node) {
         //check if any of the clicked node's children is on, meaning that the clicked node is already expanded
@@ -402,9 +403,32 @@ function D3Chart() {
             if (node.data.on === true) {
               // Node is already expanded, close all descendants
               hideDescendantsIfOpen(clickedNode);
+
+              // Node is not yet visible
             } else {
               console.log("activeSectorFilter are", activeSectorFilterRef.current);
-              showChildren(clickedNode);
+              // If no filter is selected, show all nodes
+              if (activeSectorFilterRef.current.length == 0) {
+                showChildren(clickedNode);
+
+                // If a Filter is selected...
+              } else {
+                // Check if the clicked node's child is a connecter node,
+                // Add the node to the array of nodes to activate, and skip it
+                if (clickedNode.children[0].data.type == "connector") {
+                  nodesToActivate.push(clickedNode.children[0]);
+                  // This here represents the children of the found connector node
+                  clickedNode.children[0].children.forEach((skippedNodeChild) => {
+                    // Check if the children of the found connector node match one of the current filters
+                    if (activeSectorFilterRef.current.includes(skippedNodeChild.data.sector)) {
+                      nodesToActivate.push(skippedNodeChild);
+                    }
+                    activateNodes(nodesToActivate);
+                  });
+                } else {
+                  showChildren(clickedNode);
+                }
+              }
             }
           }
         });
