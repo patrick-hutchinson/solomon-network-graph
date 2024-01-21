@@ -41,7 +41,7 @@ export default function Navigation(props) {
       sectorFilterItemsArray.push(filterItem.data.sector);
     }
   });
-  let sectorFilterItems = sectorFilterItemsArray.map((item) => (
+  let sectorFilterItems = sectorFilterItemsArray.map((item, index) => (
     <li
       className="sectorFilter"
       key={item}
@@ -53,7 +53,7 @@ export default function Navigation(props) {
         .split(" ")
         .map((word) => (word.toUpperCase() === "MME" ? word : word.charAt(0) + word.slice(1).toLowerCase()))
         .join(" ")}{" "}
-      |
+      {index !== sectorFilterItemsArray.length - 1 && "|"}
     </li>
   ));
 
@@ -63,14 +63,14 @@ export default function Navigation(props) {
       companyFilterItemArray.push(filterItem.data.name);
     }
   });
-  let companyFilterItems = companyFilterItemArray.map((item) => (
+  let companyFilterItems = companyFilterItemArray.map((item, index) => (
     <li
       className="filterItem"
       key={item}
       onClick={() => props.findFilteredNode(item)}
       onMouseEnter={() => props.hoverFilteredNode(item)}
     >
-      {item} |
+      {item} {index !== companyFilterItemArray.length - 1 && "|"}
     </li>
   ));
 

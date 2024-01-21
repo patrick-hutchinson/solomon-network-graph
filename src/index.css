@@ -19,6 +19,28 @@ body {
   overflow: hidden !important;
 }
 
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c0c0c0 #ffffff;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 3px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0;
+  border-radius: 10px;
+  border: 0px solid #ffffff;
+}
+
 .componentContainer {
   display: grid;
   width: 100vw;
@@ -31,6 +53,7 @@ body {
   box-sizing: border-box;
   row-gap: 10px;
   overflow: hidden !important;
+  transition: 1s linear ease-in-out;
 }
 .componentContainer.hiddenInfo {
   grid-template-columns: 1fr;
