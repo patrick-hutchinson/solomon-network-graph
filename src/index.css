@@ -329,6 +329,7 @@ foreignObject > h5 > p {
   display: none;
 }
 
+/* Phones */
 @media only screen and (max-width: 600px) {
   .nodePath {
     display: none;
@@ -347,6 +348,75 @@ foreignObject > h5 > p {
     mix-blend-mode: normal;
     border-right: 1px solid #000;
     top: 0px;
+  }
+
+  .infoContainer {
+    display: none;
+  }
+
+  .componentContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .filterItem,
+  .sectorFilter {
+    display: none;
+  }
+
+  .dropdownButton {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+  }
+
+  .dropdownButton.groups {
+    margin-left: 25px;
+  }
+
+  .dropdownIcon {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease-in-out;
+    margin-left: 8px;
+  }
+  .dropdownIcon.active {
+    transform: rotate(0deg);
+  }
+
+  .sectorFilters,
+  .companyFilters {
+    display: none;
+    position: absolute;
+    /* background: #fff; */
+    z-index: 1;
+    padding: 0;
+    margin: 0;
+    font-size: 20px;
+    border-left: 1px solid #000;
+  }
+  .sectorFilters.visible,
+  .companyFilters.visible {
+    display: block;
+  }
+  .sectorFilter,
+  .filterItem {
+    display: block;
+    color: #000;
+    padding-left: 5px;
+    background: #fff;
+  }
+
+  .sectorFilter.active,
+  .filterItem.active {
+    color: #fff;
+    background: #000;
+  }
+}
+
+/* Tablets */
+@media only screen and (min-device-width: 601px) and (max-device-width: 1080px) and (-webkit-min-device-pixel-ratio: 1) {
+  .nodePath {
+    display: none;
   }
 
   .infoContainer {
