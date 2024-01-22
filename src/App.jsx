@@ -17,8 +17,6 @@ function D3Chart() {
   let [links, setLinks] = React.useState(root.links());
   let [nodes, setNodes] = React.useState(root.descendants());
 
-  let nodesRef = useRef(nodes);
-
   let width = window.innerWidth * 0.8;
   let height = window.innerHeight * 0.95;
 
@@ -28,9 +26,9 @@ function D3Chart() {
   let [hasBeenZoomed, setHasBeenZoomed] = React.useState(false);
 
   let [initialZoom, setInitialZoom] = React.useState({
-    x: 0,
-    y: 0,
-    k: 0.5,
+    x: 200,
+    y: 200,
+    k: 0.4,
   });
 
   let [zoomTransform, setZoomTransform] = React.useState(
@@ -66,54 +64,38 @@ function D3Chart() {
     .domain([...new Set(nodes.map((d) => d.data.group))])
     .range(nodeColorsArray);
 
-  // Zooming functionality
-  function handleZoom(e) {
+  function handleZoom(e, newCoordinates) {
     d3.selectAll("svg g").attr("transform", e.transform);
+    setZoomTransform(d3.zoomTransform(chartRef.current));
 
-    setZoomTransform(e.transform);
     setZoomAmount(e.transform.k);
+
     setHasBeenZoomed(true);
   }
-
-  let isCommandKeyPressed = false;
-
-  document.addEventListener("keydown", function (event) {
-    if (event.key === "Meta" || event.key === "Control") {
-      // console.log("pressing cmd key!");
-      isCommandKeyPressed = true;
-    }
-  });
-
-  document.addEventListener("keyup", function (event) {
-    if (event.key === "Meta" || event.key === "Control") {
-      // console.log("lifting cmd key!");
-      isCommandKeyPressed = false;
-    }
-  });
-
-  // document.querySelector("body").addEventListener(
-  //   "wheel",
-  //   function (event) {
-  //     if (!isCommandKeyPressed) {
-  //       event.preventDefault();
-  //     }
-  //   },
-  //   { passive: false }
-  // );
-
-  // function zoomPage() {
-  const zoom = d3.zoom();
-
-  // Set scale extent
-
-  // Add zoom event listener conditionally
-  // if (isCommandKeyPressed) {
-  zoom
-    .on("zoom", function (event) {
-      handleZoom(event);
-    })
+  let zoom = d3
+    .zoom()
+    .on("zoom", handleZoom) //
     .scaleExtent(zoomRange);
-  // }
+  // .translateExtent([
+  //   [width * -4, height * -4],
+  //   [width * 4, height * 4],
+  // ]);
+
+  // let isCommandKeyPressed = false;
+
+  // document.addEventListener("keydown", function (event) {
+  //   if (event.key === "Meta" || event.key === "Control") {
+  //     // console.log("pressing cmd key!");
+  //     isCommandKeyPressed = true;
+  //   }
+  // });
+
+  // document.addEventListener("keyup", function (event) {
+  //   if (event.key === "Meta" || event.key === "Control") {
+  //     // console.log("lifting cmd key!");
+  //     isCommandKeyPressed = false;
+  //   }
+  // });
 
   const drag = (simulation) => {
     function dragstarted(event) {
@@ -145,22 +127,6 @@ function D3Chart() {
       .forceSimulation(allActiveNodes, (d) => d)
       .force(
         "link",
-        // d3.forceLink(links).distance((d) => {
-        //   if (d.source.depth === 0) {
-        //     return -allActiveNodes.length;
-        //   } else if (d.source.depth === 1) {
-        //     //decrease the length of the links as more nodes enter
-        //     return -300 - d.source.children.length * 25;
-        //   } else if (d.source.depth === 2) {
-        //     return 300 - d.source.children.length * 25;
-        //   } else if (d.source.depth === 3) {
-        //     return 300 - d.source.children.length * 25;
-        //   } else if (d.source.depth > 0 && d.source.depth < 4) {
-        //     return 200 - d.source.children.length * 25;
-        //   } else {
-        //     return 300;
-        //   }
-        // })
         d3.forceLink(links).distance((d) => {
           if (d.source.depth === 0) {
             return 0;
@@ -193,18 +159,16 @@ function D3Chart() {
       .select(chartRef.current) //
       .attr("width", width)
       .attr("height", height)
-
+      .call(zoom)
+      .call(
+        // If the page has not been used yet, base zoom off of the initialZoom values. If it has, use the updated values.
+        zoom.transform,
+        hasBeenZoomed ? zoomTransform : d3.zoomIdentity.translate(initialZoom.x, initialZoom.y).scale(initialZoom.k)
+      )
       .attr("class", "graphCanvas")
       .on("mouseover", function (e) {
         d3.select(this).attr("cursor", "grab"); //
       });
-
-    svg
-      .call(zoom)
-      .call(
-        zoom.transform,
-        hasBeenZoomed ? zoomTransform : d3.zoomIdentity.translate(initialZoom.x, initialZoom.y).scale(initialZoom.k)
-      );
 
     // Ensure there is no double rendering of nodes, clear before redrawing
     svg.selectAll("*").remove();
@@ -374,8 +338,6 @@ function D3Chart() {
           };
         });
         setNodePath(findAncestorsManually(d));
-
-        console.log("the nodes ancestors are", findAncestorsManually(e.target));
       })
       .on("mouseleave", function (e) {
         d3.select(this) //
@@ -394,6 +356,7 @@ function D3Chart() {
           .attr("cursor", "default");
         e.target.parentElement.querySelector("h5").classList.remove("hovered");
       })
+
       .on("click", handleNodeClick);
 
     // Apply the current zoomTransform to each node (on each rerender)
@@ -473,31 +436,6 @@ function D3Chart() {
         showChildren(clickedNode);
       }
     }
-
-    // let isMetaKeyPressed = false;
-
-    // document.addEventListener("keydown", function (event) {
-    //   if (event.metaKey) {
-    //     console.log("'Meta' key is pressed globally");
-    //     isMetaKeyPressed = true;
-
-    //     // Prevent scrolling on the container
-    //     // event.preventDefault();
-    //   }
-    // });
-
-    // document.addEventListener("keyup", function (event) {
-    //   if (isMetaKeyPressed) {
-    //     console.log("'Meta' key is released globally");
-    //     isMetaKeyPressed = false;
-    //   }
-    // });
-
-    // document.addEventListener("scroll", (e) => {
-    //   if (isMetaKeyPressed) {
-    //     e.preventDefault();
-    //   }
-    // });
 
     // SMALL TEXT NODES
     d3.selectAll(".smallText > h5") //
@@ -699,17 +637,13 @@ function D3Chart() {
     activeSectorFilterRef.current = activeSectorFilter;
   }, [activeSectorFilter]);
 
-  useEffect(() => {
-    nodesRef.current = nodes;
-  }, [nodes]);
-
   // Based on the newest state of the activeSectorFilter, hide all nodes that are not part of the active filter
   function handleNodeFiltering() {
     let nodesToDisable = [];
     let nodesToEnable = [];
     console.log(activeSectorFilterRef.current);
 
-    nodesRef.current.forEach((node) => {
+    nodes.forEach((node) => {
       // If Statement declarations
       let nodeIsOn = node.data.on;
       let nodeIsSubcompany = node.data.type === "subcompany";
@@ -766,6 +700,8 @@ function D3Chart() {
     let filterXPositions = [];
     let filterYPositions = [];
 
+    let descendantAmount = filterNode.descendants().length;
+
     filterNode.descendants().forEach(function (filterDescendant) {
       console.log("the filterd's transform is", d3.select(filterDescendant).node());
       console.log("filterDescendant", d3.select(filterDescendant).node());
@@ -786,12 +722,12 @@ function D3Chart() {
     const newZoomCoordinates = {
       x: initialZoom.x + width / 3,
       y: initialZoom.y + height / 3,
-      k: 0.18,
+      k: 10 / descendantAmount,
     };
 
     // Create a D3 zoom transform with the new coordinates
     let newZoomTransform = d3.zoomIdentity
-      .translate(width / 2 - filterXMidPoint / 4, height / 2 - filterYMidPoint / 4)
+      .translate(width / 2 - filterXMidPoint / 3.5, height / 2 - filterYMidPoint / 3.5)
       .scale(0.18);
 
     console.log("newZoomTransform is", newZoomTransform);
@@ -904,24 +840,6 @@ function D3Chart() {
     });
   }
 
-  //
-  // Handle the functionality of the zoom buttons
-  function zoomIn() {
-    d3.select("svg").transition().call(zoom.scaleBy, 1.33);
-  }
-  function zoomOut() {
-    d3.select("svg").transition().call(zoom.scaleBy, 0.66);
-  }
-
-  document.querySelectorAll(".zoomButton").forEach(function (zoomButton) {
-    zoomButton.addEventListener("mouseenter", function () {
-      zoomButton.style.color = "#af1bf5";
-    });
-    zoomButton.addEventListener("mouseleave", function () {
-      zoomButton.style.color = "#000";
-    });
-  });
-
   useEffect(() => {
     document.querySelector(".showInfo").classList.add("hidden");
     document.querySelector(".closeInfoContainer").addEventListener(
@@ -956,6 +874,13 @@ function D3Chart() {
     });
   }, []);
 
+  function zoomIn() {
+    d3.select("svg").transition().call(zoom.scaleBy, 1.33);
+  }
+  function zoomOut() {
+    d3.select("svg").transition().call(zoom.scaleBy, 0.66);
+  }
+
   return (
     <div className="componentContainer">
       <Navigation
@@ -972,6 +897,7 @@ function D3Chart() {
       <svg ref={chartRef}>{/* <div className="showInfo"></div> */}</svg>
       <div className="showInfo">[Show Info]</div>
       <div className="zoomButtonContainer">
+        <span className="zoomNotice">(Press CMD/CTRL + Scroll to zoom)</span>
         <div className="zoomButton" onClick={zoomIn}>
           Zoom In +
         </div>

@@ -102,20 +102,26 @@ export default function Navigation(props) {
   return (
     <div className="navigationContainer">
       <ul className="nodePath">{nodePathItems}</ul>
-      <h4 className="dropdownButton sectors">
-        ΦΙΛΤΡΑ
-        <svg className="dropdownIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-          <path d="M24 22h-24l12-20z" />
-        </svg>
-      </h4>
-      <ul className="sectorFilters">{sectorFilterItems}</ul>
-      <h4 className="dropdownButton groups">
-        ΟΜΙΛΟI
-        <svg className="dropdownIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-          <path d="M24 22h-24l12-20z" />
-        </svg>
-      </h4>
-      <ul className="companyFilters">{companyFilterItems}</ul>
+
+      {!isOnDesktop && (
+        <>
+          <h4 className="dropdownButton sectors">
+            ΦΙΛΤΡΑ
+            <svg className="dropdownIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+              <path d="M24 22h-24l12-20z" />
+            </svg>
+          </h4>
+          <ul className="sectorFilters">{sectorFilterItems}</ul>
+
+          <h4 className="dropdownButton groups">
+            ΟΜΙΛΟI
+            <svg className="dropdownIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+              <path d="M24 22h-24l12-20z" />
+            </svg>
+          </h4>
+          <ul className="companyFilters">{companyFilterItems}</ul>
+        </>
+      )}
     </div>
   );
 }
