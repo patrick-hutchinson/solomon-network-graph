@@ -198,7 +198,7 @@ body {
   color: var(--highlightColorHover);
 }
 
-.filterItem.hovered .dividerLine {
+.filterItem:hover .dividerLine {
   color: #000 !important;
 }
 
@@ -212,6 +212,9 @@ body {
   color: #000;
 }
 .sectorFilter:hover .dividerLine {
+  color: #ccc !important;
+}
+.sectorFilter.active .dividerLine {
   color: #ccc !important;
 }
 

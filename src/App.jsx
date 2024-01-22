@@ -17,6 +17,8 @@ function D3Chart() {
   let [links, setLinks] = React.useState(root.links());
   let [nodes, setNodes] = React.useState(root.descendants());
 
+  const nodesRef = useRef(nodes);
+
   let width = window.innerWidth * 0.8;
   let height = window.innerHeight * 0.95;
 
@@ -50,7 +52,10 @@ function D3Chart() {
 
   let [activeSectorFilter, setActiveSectorFilter] = React.useState([]);
   let activeSectorFilterRef = useRef(activeSectorFilter);
-  let [allActiveNodes, setAllActiveNodes] = React.useState([]);
+
+  let [activeGroupFilter, setActiveGroupFilter] = React.useState([]);
+  let activeGroupFilterRef = useRef(activeGroupFilter);
+  // let [allActiveNodes, setAllActiveNodes] = React.useState([]);
 
   // Declare Scales and Values
   let nodeSizesArray = [10, 135, 95, 75, 75, 0, 0];
@@ -123,7 +128,7 @@ function D3Chart() {
   useEffect(() => {
     let allActiveNodes = nodes.filter((node) => node.data.on);
 
-    // Declare Physics Properties of the Graph
+    // ALL FORCES APPLIED AT START, MORE STATIC, MORE STABLE
     const simulation = d3
       .forceSimulation(allActiveNodes, (d) => d)
       .force(
@@ -132,9 +137,9 @@ function D3Chart() {
           if (d.source.depth === 0) {
             return 0;
           } else if (d.source.children) {
-            return 300;
+            return 200;
           } else if (!d.source.children) {
-            return 300;
+            return 500;
           }
         })
       )
@@ -142,7 +147,7 @@ function D3Chart() {
         "charge",
         d3.forceManyBody().strength((d) => {
           if (d.children) {
-            return -100 + d.children.length * 100;
+            return -310 + d.children.length * 10;
           } else if (!d.children) {
             return -500;
           }
@@ -153,6 +158,31 @@ function D3Chart() {
         "collision",
         d3.forceCollide().radius((d) => nodeSizes(d.data.type))
       );
+
+    // FORCE GETS ADDED AS GRAPH BUILDS—MORE DYNAMIC, MORE CHAOTIC
+    // const simulation = d3
+    //   .forceSimulation(
+    //     nodes.filter((d) => d.data.on === true),
+    //     (d) => d
+    //   )
+    //   .force(
+    //     "link",
+    //     d3.forceLink(links.filter((d) => d.target.data.on === true)).distance((d) => {
+    //       if (d.source.depth === 0) {
+    //         return 200;
+    //       } else if (d.source.depth === 1) {
+    //         return 100;
+    //       } else {
+    //         return 300;
+    //       }
+    //     })
+    //   )
+    //   .force("charge", d3.forceManyBody().strength(-1000))
+    //   .force("center", d3.forceCenter(width / 2, height / 2).strength(1))
+    //   .force(
+    //     "collision",
+    //     d3.forceCollide().radius((d) => nodeSizes(d.data.type))
+    //   );
 
     // Element Creation
     // Create the Canvas
@@ -412,9 +442,9 @@ function D3Chart() {
       });
 
       //if a node is clicked, remove any clicked class from the filterItemMenu
-      document.querySelectorAll(".filterItem").forEach(function (filterItem) {
-        filterItem.classList.remove("highlighted");
-      });
+      // document.querySelectorAll(".filterItem").forEach(function (filterItem) {
+      //   filterItem.classList.remove("highlighted");
+      // });
     }
 
     function hideDescendantsIfOpen(clickedNode) {
@@ -555,7 +585,6 @@ function D3Chart() {
   function findFilteredNode(IDText) {
     nodes.forEach(function (node) {
       if (node.data.name === IDText) {
-        console.log("found a node, its name is ", node);
         findDescendants(node);
         activateAncestors(node);
         setTimeout(() => {
@@ -564,6 +593,48 @@ function D3Chart() {
         document.documentElement.style.setProperty("--highlightColorClick", nodeColors(node.data.group));
       }
     });
+
+    let filterIsActive = event.target.classList.contains("active");
+    if (!filterIsActive) {
+      event.target.classList.add("active");
+      // Code for when the filter is active
+
+      // add the group number of the filter node to the active group array
+      setActiveGroupFilter((prevActiveGroupFilter) => {
+        const updatedFilter = [...prevActiveGroupFilter];
+
+        const matchingNode = nodes.find((node) => node.data.name === IDText);
+        if (matchingNode) {
+          updatedFilter.push(matchingNode.data.group);
+        }
+
+        return updatedFilter;
+      });
+    } else {
+      event.target.classList.remove("active");
+      setActiveGroupFilter((prevActiveGroupFilter) => {
+        const updatedFilter = [...prevActiveGroupFilter];
+
+        const matchingNode = nodes.find((node) => node.data.name === IDText);
+        if (matchingNode) {
+          setActiveGroupFilter((prevActiveGroupFilter) => {
+            const updatedFilter = [...prevActiveGroupFilter];
+
+            // Check if the groupNumber already exists in the array
+            const groupNumberExists = updatedFilter.includes(matchingNode.data.group);
+
+            // If it exists, filter it out; otherwise, add it to the array
+            const filteredFilter = groupNumberExists
+              ? updatedFilter.filter((groupNumber) => groupNumber !== matchingNode.data.group)
+              : updatedFilter.concat(matchingNode.data.group);
+
+            return filteredFilter;
+          });
+        }
+
+        return updatedFilter;
+      });
+    }
   }
 
   // Filter system initializazion
@@ -643,11 +714,13 @@ function D3Chart() {
   useEffect(() => {
     activeSectorFilterRef.current = activeSectorFilter;
   }, [activeSectorFilter]);
+  useEffect(() => {
+    activeGroupFilterRef.current = activeGroupFilter;
+  }, [activeGroupFilter]);
 
-  // Use the function within the useEffect
   useEffect(() => {
     handleNodeFiltering();
-  }, [activeSectorFilter]);
+  }, [activeSectorFilter, activeGroupFilter]);
 
   // Based on the newest state of the activeSectorFilter, hide all nodes that are not part of the active filter
   function handleNodeFiltering() {
@@ -655,41 +728,43 @@ function D3Chart() {
     let nodesToEnable = [];
 
     nodes.forEach((node) => {
+      // The sector filter could only apply to nodes that are currently activated by the group filter.
+      // Add the Statement into the if Statement if desired;
+      console.log("allowed groups as per the filter are", activeGroupFilter);
+      let groupIsAllowed = activeGroupFilter.includes(node.data.group);
       // If Statement declarations
       let nodeIsOn = node.data.on;
       let nodeIsSubcompany = node.data.type === "subcompany";
+      let nodeIsConnector = node.data.type === "connector";
       let nodeMatchesFilter = activeSectorFilterRef.current.includes(node.data.sector);
 
+      // Find all On Nodes that should stay On
       // Find all On Nodes that should stay On
       if (nodeIsSubcompany && nodeMatchesFilter) {
         nodesToEnable.push(node);
       }
       // Find all On Nodes that should be Off
-      if (
-        nodeIsOn &&
-        (nodeIsSubcompany || (node.data.type === "connector" && !node.children[0].data.on)) &&
-        !nodeMatchesFilter
-      ) {
+      if (nodeIsOn && (nodeIsSubcompany || (nodeIsConnector && !node.children[0].data.on)) && !nodeMatchesFilter) {
         nodesToDisable.push(node);
       }
 
-      // Find all Nodes that are currently off but match the filter
-
-      //Could potentially add a check that only expands nodes of trees that area already visible
-      if (!nodeIsOn && nodeIsSubcompany && nodeMatchesFilter) {
-        findAncestorsManually(node).forEach((ancestorNode) => {
-          console.log("here's the on ancestor node of the clicked", ancestorNode);
-          //this doesn't work because the node data has not updated yet
-          if (ancestorNode.depth == 3 && ancestorNode.data.on) {
+      if (!nodeIsOn && nodeMatchesFilter && nodeIsSubcompany) {
+        if (groupIsAllowed) {
+          findAncestorsManually(node).forEach((ancestorNode) => {
             nodesToEnable.push(node);
-          }
-        });
+          });
+        }
+      }
+      // The node is not part of the group filter
+      if (node.depth > 2 && !groupIsAllowed) {
+        console.log("statement 4 fired!");
+        nodesToDisable.push(node);
       }
     });
-    deactivateNodes(nodesToDisable);
 
     nodesToEnable.forEach((enabledNode) => activateNodes(findAncestorsManually(enabledNode)));
     activateNodes(nodesToEnable);
+    deactivateNodes(nodesToDisable);
   }
 
   //Expand all the sector nodes (the actual ones) when a filter is clicked
@@ -709,11 +784,13 @@ function D3Chart() {
     let filterXPositions = [];
     let filterYPositions = [];
 
-    let descendantAmount = filterNode.descendants().length;
+    let descendantAmount;
+
+    if (filterNode.descendants() && filterNode.descendants().length > 0) {
+      descendantAmount = filterNode.descendants().length;
+    }
 
     filterNode.descendants().forEach(function (filterDescendant) {
-      console.log("the filterd's transform is", d3.select(filterDescendant).node());
-      console.log("filterDescendant", d3.select(filterDescendant).node());
       filterXPositions.push(filterDescendant.x);
       filterYPositions.push(filterDescendant.y);
     });
@@ -736,7 +813,7 @@ function D3Chart() {
 
     // Create a D3 zoom transform with the new coordinates
     let newZoomTransform = d3.zoomIdentity
-      .translate(width / 2 - filterXMidPoint / 3.5, height / 2 - filterYMidPoint / 3.5)
+      .translate(width / 2 - filterXMidPoint / 4, height / 2 - filterYMidPoint / 5)
       .scale(0.18);
 
     console.log("newZoomTransform is", newZoomTransform);
@@ -908,10 +985,10 @@ function D3Chart() {
       <div className="zoomButtonContainer">
         <span className="zoomNotice">(Press CMD/CTRL + Scroll to zoom)</span>
         <div className="zoomButton" onClick={zoomIn}>
-          Zoom In +
+          +
         </div>
         <div className="zoomButton" onClick={zoomOut}>
-          Zoom Out -
+          -
         </div>
       </div>
     </div>

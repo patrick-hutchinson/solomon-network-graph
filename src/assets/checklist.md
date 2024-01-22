@@ -4,7 +4,6 @@ When hovering a Filter Item, the corresponding node lights up
     //TO DO:
     — Zoom and Pan to node on Click
     <!-- — Change the Center node and links to be ideally not visible -->
-    — Check if there are as many sectors as on values in json to make sure all is complete
     — Change zoom to be Ctrl/Cmd + Scroll
     — Check note from call with loonatiks and fix all notes
 
@@ -20,3 +19,7 @@ What doesn't work:
 Restraining the sector filtering system to only already expanded nodes.
 To me, it could be desirable for the filter to only apply to areas which have already been opened, (i.e where the child of a node filterable node in question is visible.)
 this does not work because the function which is in charge of comparing all nodes to the ones that would be applicable by the filter is using an old nodes version—This leads to inaccurate on/off values.
+
+Issues:
+Command + Click to Zoom
+Passing the newest state of Nodes to handleNodeFiltering();

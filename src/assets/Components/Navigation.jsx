@@ -81,16 +81,16 @@ export default function Navigation(props) {
   let filterMenuItems = document.querySelectorAll(".filterItem");
 
   filterMenuItems.forEach(function (filterItem, filterItemIndex, filterItemArray) {
-    filterItem.addEventListener("click", function () {
-      if (filterItem === event.target) {
-        filterItem.classList.add("highlighted");
-      }
-      filterItemArray.forEach(function (altFilter) {
-        if (altFilter !== event.target) {
-          altFilter.classList.remove("highlighted");
-        }
-      });
-    });
+    // filterItem.addEventListener("click", function () {
+    //   if (filterItem === event.target) {
+    //     filterItem.classList.add("highlighted");
+    //   }
+    //   filterItemArray.forEach(function (altFilter) {
+    //     if (altFilter !== event.target) {
+    //       altFilter.classList.remove("highlighted");
+    //     }
+    //   });
+    // });
     filterItem.addEventListener("mouseenter", function () {
       filterItem.classList.add("hovered");
     });
