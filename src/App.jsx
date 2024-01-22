@@ -43,6 +43,7 @@ function D3Chart() {
     date: "dd/mm/yyyy",
     description: "Περάστε πάνω από ένα Σημείο Δεδομένων για να μάθετε περισσότερα γι' αυτό.",
     sector: "",
+    shareholders: "",
   });
 
   let [nodePath, setNodePath] = React.useState(["Root"]);
@@ -335,6 +336,7 @@ function D3Chart() {
             date: d.data.date,
             description: d.data.description,
             sector: d.data.sector,
+            shareholders: d.data.shareholders ? d.data.shareholders : "null",
           };
         });
         setNodePath(findAncestorsManually(d));
@@ -368,41 +370,45 @@ function D3Chart() {
       //
       nodes.forEach(function (node) {
         //check if any of the clicked node's children is on, meaning that the clicked node is already expanded
-        clickedNode.children.forEach(function (clickedNodeChild) {
-          if (node.index === clickedNodeChild.index) {
-            // Node is already visible
-            if (node.data.on === true) {
-              // Node is already expanded, close all descendants
-              hideDescendantsIfOpen(clickedNode);
+        if (clickedNode.children) {
+          clickedNode.children.forEach(function (clickedNodeChild) {
+            if (node.index === clickedNodeChild.index) {
+              // Node is already visible
+              if (node.data.on === true) {
+                // Node is already expanded, close all descendants
+                hideDescendantsIfOpen(clickedNode);
 
-              // Node is not yet visible
-            } else {
-              console.log("activeSectorFilter are", activeSectorFilterRef.current);
-              // If no filter is selected, show all nodes
-              if (activeSectorFilterRef.current.length == 0) {
-                showChildren(clickedNode);
-
-                // If a Filter is selected...
+                // Node is not yet visible
               } else {
-                // Check if the clicked node's child is a connecter node,
-                // Add the node to the array of nodes to activate, and skip it
-                if (clickedNode.children[0].data.type == "connector") {
-                  nodesToActivate.push(clickedNode.children[0]);
-                  // This here represents the children of the found connector node
-                  clickedNode.children[0].children.forEach((skippedNodeChild) => {
-                    // Check if the children of the found connector node match one of the current filters
-                    if (activeSectorFilterRef.current.includes(skippedNodeChild.data.sector)) {
-                      nodesToActivate.push(skippedNodeChild);
-                    }
-                    activateNodes(nodesToActivate);
-                  });
-                } else {
+                console.log("activeSectorFilter are", activeSectorFilterRef.current);
+                // If no filter is selected, show all nodes
+                if (activeSectorFilterRef.current.length == 0) {
                   showChildren(clickedNode);
+
+                  // If a Filter is selected...
+                } else {
+                  // Check if the clicked node's child is a connecter node,
+                  // Add the node to the array of nodes to activate, and skip it
+                  if (clickedNode.children[0].data.type == "connector") {
+                    nodesToActivate.push(clickedNode.children[0]);
+                    // This here represents the children of the found connector node
+                    clickedNode.children[0].children.forEach((skippedNodeChild) => {
+                      // Check if the children of the found connector node match one of the current filters
+                      if (activeSectorFilterRef.current.includes(skippedNodeChild.data.sector)) {
+                        nodesToActivate.push(skippedNodeChild);
+                      }
+                      activateNodes(nodesToActivate);
+                    });
+                  } else {
+                    showChildren(clickedNode);
+                  }
                 }
               }
             }
-          }
-        });
+          });
+        } else {
+          console.log("Cannot expand leaf node, you've reached the end!");
+        }
       });
 
       //if a node is clicked, remove any clicked class from the filterItemMenu
@@ -447,6 +453,7 @@ function D3Chart() {
             date: d.data.date,
             description: d.data.description,
             sector: d.data.sector,
+            shareholders: d.data.shareholders ? d.data.shareholders : "null",
           };
         });
         // console.log("the nodes ancestors are", findAncestorsManually(d));
@@ -637,11 +644,15 @@ function D3Chart() {
     activeSectorFilterRef.current = activeSectorFilter;
   }, [activeSectorFilter]);
 
+  // Use the function within the useEffect
+  useEffect(() => {
+    handleNodeFiltering();
+  }, [activeSectorFilter]);
+
   // Based on the newest state of the activeSectorFilter, hide all nodes that are not part of the active filter
   function handleNodeFiltering() {
     let nodesToDisable = [];
     let nodesToEnable = [];
-    console.log(activeSectorFilterRef.current);
 
     nodes.forEach((node) => {
       // If Statement declarations
@@ -654,7 +665,11 @@ function D3Chart() {
         nodesToEnable.push(node);
       }
       // Find all On Nodes that should be Off
-      if (nodeIsOn && (nodeIsSubcompany || node.data.type === "connector") && !nodeMatchesFilter) {
+      if (
+        nodeIsOn &&
+        (nodeIsSubcompany || (node.data.type === "connector" && !node.children[0].data.on)) &&
+        !nodeMatchesFilter
+      ) {
         nodesToDisable.push(node);
       }
 
@@ -666,7 +681,6 @@ function D3Chart() {
           console.log("here's the on ancestor node of the clicked", ancestorNode);
           //this doesn't work because the node data has not updated yet
           if (ancestorNode.depth == 3 && ancestorNode.data.on) {
-            console.log("turn it on!");
             nodesToEnable.push(node);
           }
         });
@@ -677,11 +691,6 @@ function D3Chart() {
     nodesToEnable.forEach((enabledNode) => activateNodes(findAncestorsManually(enabledNode)));
     activateNodes(nodesToEnable);
   }
-
-  // Use the function within the useEffect
-  useEffect(() => {
-    handleNodeFiltering();
-  }, [activeSectorFilter]);
 
   //Expand all the sector nodes (the actual ones) when a filter is clicked
   let sectorNodeArray = [];
