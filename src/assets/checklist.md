@@ -20,5 +20,3 @@ What doesn't work:
 Restraining the sector filtering system to only already expanded nodes.
 To me, it could be desirable for the filter to only apply to areas which have already been opened, (i.e where the child of a node filterable node in question is visible.)
 this does not work because the function which is in charge of comparing all nodes to the ones that would be applicable by the filter is using an old nodes version—This leads to inaccurate on/off values.
-
-If the path is too long, it runs off of the screen. replace with ellipsis

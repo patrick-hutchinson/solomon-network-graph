@@ -8,13 +8,14 @@ export default function InfoBox(props) {
   let shareholderDivs = null;
 
   let descrContainsShareholders = false;
+  let containsSector = false;
 
   if (Array.isArray(props.nodeInfo.shareholders)) {
     descrContainsShareholders = true;
     shareholderDivs = props.nodeInfo.shareholders.map((shareholderItem) => (
       <div key={shareholderItem.shareholder}>
         <br />
-        <h4 className="shareholder">{shareholderItem.shareholder}:</h4>,
+        <h4 className="shareholder">{shareholderItem.shareholder}:</h4>
         <h4 className="percentage"> {shareholderItem.percentage}</h4>
       </div>
     ));
@@ -42,12 +43,14 @@ export default function InfoBox(props) {
         <div className="closeInfoContainer">[X]</div>
         <h5 className="infoDate" dangerouslySetInnerHTML={nodeDate}></h5>
         <h1 className="infoTitle">{props.nodeInfo.title}</h1>
-        <h5 className="infoSector">Sector: {props.nodeInfo.sector}</h5>
+        <h5 className="infoSector">
+          {props.nodeInfo.sector ? "Sector:" : ""} {props.nodeInfo.sector}
+        </h5>
         <p className="infoText" dangerouslySetInnerHTML={nodeDescription} />
         <br />
         <div className="shareholderContainer">
           <h4 className="shareholderTitle">{descrContainsShareholders ? "ΜΕΤΟΧΟΙ" : ""}</h4>
-          <p className="shareholders">{shareholderDivs}</p>
+          <div className="shareholders">{shareholderDivs}</div>
         </div>
       </div>
     </>

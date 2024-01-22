@@ -55,7 +55,7 @@ export default function Navigation(props) {
         .split(" ")
         .map((word) => (word.toUpperCase() === "MME" ? word : word.charAt(0) + word.slice(1).toLowerCase()))
         .join(" ")}{" "}
-      {index !== sectorFilterItemsArray.length - 1 && isOnDesktop && "|"}
+      {index !== sectorFilterItemsArray.length - 1 && isOnDesktop && <span className="dividerLine">|</span>}
     </li>
   ));
 
@@ -72,7 +72,7 @@ export default function Navigation(props) {
       onClick={() => props.findFilteredNode(item)}
       onMouseEnter={() => props.hoverFilteredNode(item)}
     >
-      {item} {index !== companyFilterItemArray.length - 1 && isOnDesktop && "|"}
+      {item} {index !== companyFilterItemArray.length - 1 && isOnDesktop && <span className="dividerLine">|</span>}
     </li>
   ));
 
