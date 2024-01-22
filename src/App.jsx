@@ -780,19 +780,21 @@ function D3Chart() {
 
     let filterXMidPoint = (filterXMin + filterXMax) / 2;
     let filterYMidPoint = (filterYMin + filterYMax) / 2;
+    console.log("filterXMidPoint", filterXMidPoint);
+    console.log("filterYMidPoint", filterYMidPoint);
 
     const newZoomCoordinates = {
       x: initialZoom.x + width / 3,
       y: initialZoom.y + height / 3,
-      k: 0.2,
+      k: 0.18,
     };
 
     // Create a D3 zoom transform with the new coordinates
-    const newZoomTransform = d3.zoomIdentity
-      .translate(newZoomCoordinates.x, newZoomCoordinates.y)
-      .scale(newZoomCoordinates.k);
+    let newZoomTransform = d3.zoomIdentity
+      .translate(width / 2 - filterXMidPoint / 4, height / 2 - filterYMidPoint / 4)
+      .scale(0.18);
 
-    console.log("zooming towards", newZoomTransform);
+    console.log("newZoomTransform is", newZoomTransform);
 
     // Apply the zoom transform with a smooth transition
     d3.select(chartRef.current)
