@@ -29,7 +29,7 @@ function D3Chart() {
 
   let [initialZoom, setInitialZoom] = React.useState({
     x: 0,
-    y: 500,
+    y: 0,
     k: 0.5,
   });
 
@@ -474,9 +474,6 @@ function D3Chart() {
       }
     }
 
-    // Now, you can remove the mousedown event listener from the SVG element
-
-    // If you want to handle keydown events globally as well
     // let isMetaKeyPressed = false;
 
     // document.addEventListener("keydown", function (event) {
@@ -616,9 +613,9 @@ function D3Chart() {
         console.log("found a node, its name is ", node);
         findDescendants(node);
         activateAncestors(node);
-        // setTimeout(() => {
-        //   panToNode(node);
-        // }, 1000);
+        setTimeout(() => {
+          panToNode(node);
+        }, 500);
         document.documentElement.style.setProperty("--highlightColorClick", nodeColors(node.data.group));
       }
     });
@@ -771,6 +768,7 @@ function D3Chart() {
 
     filterNode.descendants().forEach(function (filterDescendant) {
       console.log("the filterd's transform is", d3.select(filterDescendant).node());
+      console.log("filterDescendant", d3.select(filterDescendant).node());
       filterXPositions.push(filterDescendant.x);
       filterYPositions.push(filterDescendant.y);
     });
@@ -784,15 +782,17 @@ function D3Chart() {
     let filterYMidPoint = (filterYMin + filterYMax) / 2;
 
     const newZoomCoordinates = {
-      x: filterXMidPoint,
-      y: filterYMidPoint,
-      k: zoomTransform.k,
+      x: initialZoom.x + width / 3,
+      y: initialZoom.y + height / 3,
+      k: 0.2,
     };
 
     // Create a D3 zoom transform with the new coordinates
     const newZoomTransform = d3.zoomIdentity
       .translate(newZoomCoordinates.x, newZoomCoordinates.y)
       .scale(newZoomCoordinates.k);
+
+    console.log("zooming towards", newZoomTransform);
 
     // Apply the zoom transform with a smooth transition
     d3.select(chartRef.current)

@@ -4,8 +4,6 @@ When hovering a Filter Item, the corresponding node lights up
     //TO DO:
     — Zoom and Pan to node on Click
     <!-- — Change the Center node and links to be ideally not visible -->
-    <!-- — Tidy up styling on smaller nodes -->
-        — Add Sector Nodes
     — Check if there are as many sectors as on values in json to make sure all is complete
     — Change zoom to be Ctrl/Cmd + Scroll
     — Check note from call with loonatiks and fix all notes
