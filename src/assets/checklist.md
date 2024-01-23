@@ -7,6 +7,14 @@ When hovering a Filter Item, the corresponding node lights up
     — Change zoom to be Ctrl/Cmd + Scroll
     — Check note from call with loonatiks and fix all notes
 
+    — Add: If any node is clicked, add it to the groupsAllowedArray
+    — Modify the filtersystem so that all nodes expand when clicking a group in the beginning (as all filters are active)
+
+    — Modify the filtersystem so that, if no group is clicked, all sectors are expanded?
+
+    // If a node is clicked and expanded, add it to the activeGroupFilter
+    — I fear this doesn't work properly yet, as the group will still be set as active if the first level node is clicked, or if a node is clicked that hides all—In that case the group filter should be removed again
+
 Considerations and potiontial potholes:
 
 Finding the node corresponding to the filter item by comparing node name might cause issues (if two nodes with identical nodes exist.)

@@ -399,19 +399,23 @@ function D3Chart() {
       let nodesToActivate = [];
       //
       nodes.forEach(function (node) {
+        // If Statement Declarations
+        let nodeWillBeExpanded = node.data.on === false;
+        let nodeWillBeClosed = node.data.on === true;
         //check if any of the clicked node's children is on, meaning that the clicked node is already expanded
         if (clickedNode.children) {
           clickedNode.children.forEach(function (clickedNodeChild) {
             if (node.index === clickedNodeChild.index) {
               // Node is already visible
-              if (node.data.on === true) {
+              if (nodeWillBeClosed) {
                 // Node is already expanded, close all descendants
                 hideDescendantsIfOpen(clickedNode);
 
                 // Node is not yet visible
-              } else {
+              } else if (nodeWillBeExpanded) {
                 console.log("activeSectorFilter are", activeSectorFilterRef.current);
-                // If no filter is selected, show all nodes
+
+                // Show all children if there is no Sector Filter added
                 if (activeSectorFilterRef.current.length == 0) {
                   showChildren(clickedNode);
 
@@ -439,12 +443,37 @@ function D3Chart() {
         } else {
           console.log("Cannot expand leaf node, you've reached the end!");
         }
-      });
 
-      //if a node is clicked, remove any clicked class from the filterItemMenu
-      // document.querySelectorAll(".filterItem").forEach(function (filterItem) {
-      //   filterItem.classList.remove("highlighted");
-      // });
+        // If a node is clicked and expanded, add it to the activeGroupFilter
+        updateActiveGroupFilter();
+
+        function updateActiveGroupFilter() {
+          clickedNode.children.forEach(function (clickedNodeChild) {
+            if (node.index === clickedNodeChild.index) {
+              if (clickedNode.depth < 3) {
+                if (nodeWillBeExpanded) {
+                  console.log("Adding node to the filter list!");
+                  setActiveGroupFilter((prevActiveGroupFilter) => {
+                    const updatedFilter = [...new Set(prevActiveGroupFilter)];
+
+                    if (!updatedFilter.includes(clickedNode.data.group)) {
+                      updatedFilter.push(clickedNode.data.group);
+                    }
+
+                    return updatedFilter;
+                  });
+                } else if (nodeWillBeClosed) {
+                  console.log("Deactivating the filter for the clicked node!");
+                  setActiveGroupFilter((prevActiveGroupFilter) => {
+                    const updatedFilter = prevActiveGroupFilter.filter((group) => group !== clickedNode.data.group);
+                    return updatedFilter;
+                  });
+                }
+              }
+            }
+          });
+        }
+      });
     }
 
     function hideDescendantsIfOpen(clickedNode) {
@@ -717,12 +746,50 @@ function D3Chart() {
   useEffect(() => {
     activeSectorFilterRef.current = activeSectorFilter;
   }, [activeSectorFilter]);
-  useEffect(() => {
-    activeGroupFilterRef.current = activeGroupFilter;
-  }, [activeGroupFilter]);
 
   useEffect(() => {
+    // In this function, based on activeGroupFilter:
+    // Give the filter the active class if its groupnumber is contained in the array
+    // Give the filter the correct color if its groupnumber is contained in the array
+    nodes.forEach((node) => {
+      const isTopLevel = node.depth === 1;
+      const filterItems = document.querySelectorAll(".companyFilters > .filterItem");
+
+      filterItems.forEach((groupFilterItem) => {
+        const includesNodeName = groupFilterItem.innerText.includes(node.data.name);
+
+        if (isTopLevel && activeGroupFilter.includes(node.data.group)) {
+          if (includesNodeName) {
+            console.log("that worked!");
+            groupFilterItem.classList.add("active");
+            addNodeColor();
+          }
+        } else if (isTopLevel && !activeGroupFilter.includes(node.data.group)) {
+          if (includesNodeName) {
+            console.log("that worked!");
+            groupFilterItem.classList.remove("active");
+            addNodeColor();
+          }
+        }
+
+        function addNodeColor() {
+          if (groupFilterItem.classList.contains("active")) {
+            groupFilterItem.style.color = nodeColors(node.data.group);
+          } else {
+            groupFilterItem.style.color = "";
+          }
+        }
+      });
+    });
+
+    // if (groupFilterItem.classList.contains("active")) {
+    //   groupFilterItem.style.color = nodeColors(node.data.group);
+    // }
+
     handleNodeFiltering();
+
+    console.log("active group filters are", activeGroupFilter);
+    // toggleGroupFilterColors();
   }, [activeSectorFilter, activeGroupFilter]);
 
   // Based on the newest state of the activeSectorFilter, hide all nodes that are not part of the active filter
@@ -733,7 +800,7 @@ function D3Chart() {
     nodes.forEach((node) => {
       // The sector filter could only apply to nodes that are currently activated by the group filter.
       // Add the Statement into the if Statement if desired;
-      console.log("allowed groups as per the filter are", activeGroupFilter);
+
       let groupIsAllowed = activeGroupFilter.includes(node.data.group);
       // If Statement declarations
       let nodeIsOn = node.data.on;
@@ -741,30 +808,15 @@ function D3Chart() {
       let nodeIsConnector = node.data.type === "connector";
       let nodeMatchesFilter = activeSectorFilterRef.current.includes(node.data.sector);
 
-      const connectorHasOnChild =
+      // Check if there is a Connectornode which contains a child that should be on according to the sectorfilter Array
+      let connectorLacksOnChild =
         nodeIsConnector &&
         !node.children.some((childNode) => {
           // Check if the sector of the child node is included in the activeSectorFilter
           return activeSectorFilterRef.current.includes(childNode.data.sector);
         });
 
-      // Find all On Nodes that should stay On
-      // Find all On Nodes that should stay On
-      if (nodeIsSubcompany && nodeMatchesFilter) {
-        nodesToEnable.push(node);
-      }
-      // Find all On Nodes that should be Off
-      // if (nodeIsOn && (nodeIsSubcompany || (nodeIsConnector && !node.children[0].data.on)) && !nodeMatchesFilter) {
-      //   nodesToDisable.push(node);
-      // }
-
-      // if ((nodeIsConnector && !groupIsAllowed) || (nodeIsSubcompany && !nodeMatchesFilter)) {
-      //   nodesToDisable.push(node);
-      // }
-
-      // if the child contains a node with a sector that is allowed (then switch to does not)
-
-      if ((!groupIsAllowed && node.depth > 2) || (nodeIsSubcompany && !nodeMatchesFilter) || connectorHasOnChild) {
+      if ((!groupIsAllowed && node.depth > 2) || (nodeIsSubcompany && !nodeMatchesFilter) || connectorLacksOnChild) {
         nodesToDisable.push(node);
       }
       if (!nodeIsOn && nodeMatchesFilter && nodeIsSubcompany) {
