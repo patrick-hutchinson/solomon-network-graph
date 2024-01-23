@@ -606,6 +606,7 @@ function D3Chart() {
         const matchingNode = nodes.find((node) => node.data.name === IDText);
         if (matchingNode) {
           updatedFilter.push(matchingNode.data.group);
+          event.target.style.color = nodeColors(matchingNode.data.group);
         }
 
         return updatedFilter;
@@ -634,6 +635,8 @@ function D3Chart() {
 
         return updatedFilter;
       });
+
+      event.target.style.color = "#000";
     }
   }
 
