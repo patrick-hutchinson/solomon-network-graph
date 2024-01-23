@@ -741,16 +741,32 @@ function D3Chart() {
       let nodeIsConnector = node.data.type === "connector";
       let nodeMatchesFilter = activeSectorFilterRef.current.includes(node.data.sector);
 
+      const connectorHasOnChild =
+        nodeIsConnector &&
+        !node.children.some((childNode) => {
+          // Check if the sector of the child node is included in the activeSectorFilter
+          return activeSectorFilterRef.current.includes(childNode.data.sector);
+        });
+
       // Find all On Nodes that should stay On
       // Find all On Nodes that should stay On
       if (nodeIsSubcompany && nodeMatchesFilter) {
         nodesToEnable.push(node);
       }
       // Find all On Nodes that should be Off
-      if (nodeIsOn && (nodeIsSubcompany || (nodeIsConnector && !node.children[0].data.on)) && !nodeMatchesFilter) {
+      // if (nodeIsOn && (nodeIsSubcompany || (nodeIsConnector && !node.children[0].data.on)) && !nodeMatchesFilter) {
+      //   nodesToDisable.push(node);
+      // }
+
+      // if ((nodeIsConnector && !groupIsAllowed) || (nodeIsSubcompany && !nodeMatchesFilter)) {
+      //   nodesToDisable.push(node);
+      // }
+
+      // if the child contains a node with a sector that is allowed (then switch to does not)
+
+      if ((!groupIsAllowed && node.depth > 2) || (nodeIsSubcompany && !nodeMatchesFilter) || connectorHasOnChild) {
         nodesToDisable.push(node);
       }
-
       if (!nodeIsOn && nodeMatchesFilter && nodeIsSubcompany) {
         if (groupIsAllowed) {
           findAncestorsManually(node).forEach((ancestorNode) => {
@@ -759,10 +775,10 @@ function D3Chart() {
         }
       }
       // The node is not part of the group filter
-      if (node.depth > 2 && !groupIsAllowed) {
-        console.log("statement 4 fired!");
-        nodesToDisable.push(node);
-      }
+      // if (node.depth > 2 && !groupIsAllowed) {
+      //   console.log("statement 4 fired!");
+      //   nodesToDisable.push(node);
+      // }
     });
 
     nodesToEnable.forEach((enabledNode) => activateNodes(findAncestorsManually(enabledNode)));
