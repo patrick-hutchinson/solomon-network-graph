@@ -4,23 +4,46 @@ import solomonData from "./data.json";
 import InfoBox from "./assets/Components/InfoBox";
 import Navigation from "./assets/Components/Navigation";
 import Zoombar from "./assets/Components/Zoombar";
-import { filter } from "lodash";
 
 function D3Chart() {
   // http://localhost:5173/
 
   let chartRef = useRef(null);
 
+  let [data, setData] = React.useState([]); // Initialize with an array
   // Set state values for the data graph
-  let data = solomonData;
   let root = d3.hierarchy(data);
   let [links, setLinks] = React.useState(root.links());
   let [nodes, setNodes] = React.useState(root.descendants());
+
+  React.useEffect(() => {
+    console.log("fetching data!");
+    fetch("https://raw.githubusercontent.com/patrick-hutchinson/solomon-network-graph/main/src/data.json")
+      .then((res) => res.json())
+      .then((dataArray) => {
+        setData(dataArray);
+        console.log("data is now", dataArray);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
+  // Create hierarchy and set links and nodes when data changes
+  React.useEffect(() => {
+    console.log("data 0 is", data);
+    const root = d3.hierarchy(data); // Wrap data in an object with a "children" property
+    console.log("the root is", root);
+    setLinks(root.links());
+    setNodes(root.descendants());
+  }, [data]);
 
   const nodesRef = useRef(nodes);
 
   let width = window.innerWidth * 0.8;
   let height = window.innerHeight * 0.95;
+
+  let [isFirstLoad, setIsFirstLoad] = React.useState(true);
 
   // Set state values for the Zoombar component
   let [zoomAmount, setZoomAmount] = React.useState(0);
@@ -30,7 +53,7 @@ function D3Chart() {
   let [initialZoom, setInitialZoom] = React.useState({
     x: 200,
     y: 200,
-    k: 0.4,
+    k: 0.7,
   });
 
   let [zoomTransform, setZoomTransform] = React.useState(
@@ -50,7 +73,22 @@ function D3Chart() {
 
   let [nodePath, setNodePath] = React.useState(["Root"]);
 
-  let [activeSectorFilter, setActiveSectorFilter] = React.useState([]);
+  let [activeSectorFilter, setActiveSectorFilter] = React.useState([
+    "Όλα",
+    "MME",
+    "ΕΝΕΡΓΕΙΑ",
+    "ΑΘΛΗΤΙΣΜΟΣ",
+    "ΝΑΥΤΙΛΙΑ",
+    "ΑΡΓΟΝΑΥΤΗΣ",
+    "REAL ESTATE",
+    "ΕΜΠΟΡΙΟ",
+    "ΣΥΜΜΕΤΟΧΩΝ",
+    "ΞΕΝΟΔΟΧΕΙΑ",
+    "ΥΠΗΡΕΣΙΕΣ",
+    "ΚΑΤΑΣΚΕΥΕΣ",
+    "MME",
+    "ΧΡΗΜΑΤΟΠΙΣΤΩΤΙΚΑ",
+  ]);
   let activeSectorFilterRef = useRef(activeSectorFilter);
 
   let [activeGroupFilter, setActiveGroupFilter] = React.useState([]);
@@ -70,7 +108,7 @@ function D3Chart() {
     .domain([...new Set(nodes.map((d) => d.data.group))])
     .range(nodeColorsArray);
 
-  function handleZoom(e, newCoordinates) {
+  function handleZoom(e) {
     d3.selectAll("svg g").attr("transform", e.transform);
     setZoomTransform(d3.zoomTransform(chartRef.current));
 
@@ -82,10 +120,10 @@ function D3Chart() {
     .zoom()
     .on("zoom", handleZoom) //
     .scaleExtent(zoomRange);
-  // .translateExtent([
-  //   [width * -4, height * -4],
-  //   [width * 4, height * 4],
-  // ]);
+
+  function filter(event) {
+    return (!event.ctrlKey || event.type === "wheel") && !event.button;
+  }
 
   // let isCommandKeyPressed = false;
 
@@ -137,7 +175,7 @@ function D3Chart() {
           if (d.source.depth === 0) {
             return 0;
           } else if (d.source.children) {
-            return 200;
+            return 10;
           } else if (!d.source.children) {
             return 500;
           }
@@ -702,6 +740,15 @@ function D3Chart() {
   }
 
   function toggleFilter(IDText, allSectorFilters) {
+    console.log("allSectorFilters is", allSectorFilters);
+    if (isFirstLoad) {
+      allSectorFilters.forEach((allSectorFilter) => {
+        setActiveSectorFilter((prevActiveSectorFilter) => {
+          return [...prevActiveSectorFilter, allSectorFilter];
+        });
+      });
+    }
+
     let filterIsActive = event.target.classList.contains("active");
     if (!filterIsActive) {
       event.target.classList.add("active");
@@ -813,6 +860,7 @@ function D3Chart() {
         nodeIsConnector &&
         !node.children.some((childNode) => {
           // Check if the sector of the child node is included in the activeSectorFilter
+          // or if the type of the child node is "subcompany"
           return activeSectorFilterRef.current.includes(childNode.data.sector);
         });
 
@@ -1028,6 +1076,12 @@ function D3Chart() {
           document.querySelector(".dropdownButton.sectors").querySelector(".dropdownIcon").classList.remove("active");
         }
       });
+    });
+
+    window.addEventListener("click", function () {
+      if (isFirstLoad === true) {
+        setIsFirstLoad(false);
+      }
     });
   }, []);
 

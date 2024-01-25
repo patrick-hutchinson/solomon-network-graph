@@ -1,21 +1,26 @@
-Bonus:
-When hovering a Filter Item, the corresponding node lights up
-
     //TO DO:
     — Zoom and Pan to node on Click
-    <!-- — Change the Center node and links to be ideally not visible -->
-    — Change zoom to be Ctrl/Cmd + Scroll
-    — Check note from call with loonatiks and fix all notes
 
-    — Add: If any node is clicked, add it to the groupsAllowedArray
-    — Modify the filtersystem so that all nodes expand when clicking a group in the beginning (as all filters are active)
-
-    — Modify the filtersystem so that, if no group is clicked, all sectors are expanded?
 
     // If a node is clicked and expanded, add it to the activeGroupFilter
     — I fear this doesn't work properly yet, as the group will still be set as active if the first level node is clicked, or if a node is clicked that hides all—In that case the group filter should be removed again
 
-Considerations and potiontial potholes:
+    —size is based on amount of descendants
+
+—length of arrows should be shorter
+—ideally nothing crossing
+
+—try to fetch the json from a url
+
+—cmd scrolling for zoom
+
+(—see if center node can be removed)
+
+— ATM when clicking a node the entire tree expands (issue occurs since all sector filters get added on initial load)
+
+//
+//
+//Considerations and potiontial potholes:
 
 Finding the node corresponding to the filter item by comparing node name might cause issues (if two nodes with identical nodes exist.)
 If that is the case and only the main node should be shown, add a second check that only allows for nodes with a
