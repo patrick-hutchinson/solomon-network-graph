@@ -10,8 +10,6 @@
 —length of arrows should be shorter
 —ideally nothing crossing
 
-—try to fetch the json from a url
-
 —cmd scrolling for zoom
 
 (—see if center node can be removed)

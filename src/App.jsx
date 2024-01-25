@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import solomonData from "./data.json";
 import InfoBox from "./assets/Components/InfoBox";
 import Navigation from "./assets/Components/Navigation";
 import Zoombar from "./assets/Components/Zoombar";
@@ -38,6 +37,11 @@ function D3Chart() {
     setNodes(root.descendants());
   }, [data]);
 
+  React.useEffect(() => {
+    console.log("updated filterinfo");
+    setFilterInfo(nodes);
+  }, [nodes]);
+
   const nodesRef = useRef(nodes);
 
   let width = window.innerWidth * 0.8;
@@ -73,6 +77,8 @@ function D3Chart() {
 
   let [nodePath, setNodePath] = React.useState(["Root"]);
 
+  let [filterInfo, setFilterInfo] = React.useState(nodes);
+
   let [activeSectorFilter, setActiveSectorFilter] = React.useState([
     "Όλα",
     "MME",
@@ -101,6 +107,13 @@ function D3Chart() {
     .scaleOrdinal() //
     .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
     .range(nodeSizesArray);
+
+  const allNodes = root.descendants();
+  // Find the minimum and maximum number of descendants
+  const [minDescendants, maxDescendants] = d3.extent(allNodes, (node) => node.descendants().length);
+
+  // Create the scale based on the range of descendants
+  const descendantsScale = d3.scaleLinear().domain([minDescendants, maxDescendants]).range([40, 500]);
 
   let nodeColorsArray = ["transparent", "#FF295B", "#DE62D9", "#44B0FF", "#20AE98", "#FEA800"];
   let nodeColors = d3
@@ -194,7 +207,9 @@ function D3Chart() {
       .force("center", d3.forceCenter(width / 2, height / 2).strength(1))
       .force(
         "collision",
-        d3.forceCollide().radius((d) => nodeSizes(d.data.type))
+        d3
+          .forceCollide()
+          .radius((d) => (d.depth !== 1 ? nodeSizes(d.data.type) : descendantsScale(findDescendantsManually(d).length)))
       );
 
     // FORCE GETS ADDED AS GRAPH BUILDS—MORE DYNAMIC, MORE CHAOTIC
@@ -289,7 +304,9 @@ function D3Chart() {
     // Create the circles
     let circle = elementEnter
       .append("circle")
-      .attr("r", (d) => nodeSizes(d.data.type))
+      // if the node is not the group node, apply the nodeSizes table. Else, base size on amount of descendants
+      .attr("r", (d) => (d.depth !== 1 ? nodeSizes(d.data.type) : descendantsScale(findDescendantsManually(d).length)))
+
       .attr("stroke", (d) => nodeColors(d.data.group))
       //if the depth of the node is smaller than three, fill it. Else, white.
       .attr("fill", (d) =>
@@ -1096,7 +1113,7 @@ function D3Chart() {
     <div className="componentContainer">
       <Navigation
         className="navigationContainer"
-        filterItems={nodes}
+        filterItems={filterInfo}
         findFilteredNode={findFilteredNode}
         findFilteredSectorNode={findFilteredSectorNode}
         hoverFilteredNode={hoverFilteredNode}

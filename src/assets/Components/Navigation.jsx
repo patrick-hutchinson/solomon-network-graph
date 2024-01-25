@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Navigation(props) {
   // Might have to use a copy of the filterItems here
-  let [filterItems, setFilterItems] = React.useState(props.filterItems);
+  // let [filterItems, setFilterItems] = React.useState(props.filterItems);
 
   let companyFilterItemArray = [];
   let sectorFilterItemsArray = [];
@@ -33,7 +33,7 @@ export default function Navigation(props) {
   // Add all "Sectors" as Filter Items
   // Add an "all" node to begin with
   sectorFilterItemsArray.push("Όλα");
-  filterItems.forEach(function (filterItem) {
+  props.filterItems.forEach(function (filterItem) {
     // Add all sectors names to the sectorFilterItemsArray, avoiding duplicates, null and undefined
     if (
       !sectorFilterItemsArray.includes(filterItem.data.sector) &&
@@ -60,7 +60,7 @@ export default function Navigation(props) {
   ));
 
   // Add all "Companies" as Filter Items
-  filterItems.forEach(function (filterItem) {
+  props.filterItems.forEach(function (filterItem) {
     if (filterItem.data.type === "company") {
       companyFilterItemArray.push(filterItem.data.name);
     }
