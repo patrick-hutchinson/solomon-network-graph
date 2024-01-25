@@ -2,7 +2,6 @@ import React from "react";
 
 export default function Navigation(props) {
   // Might have to use a copy of the filterItems here
-  // let [filterItems, setFilterItems] = React.useState(props.filterItems);
 
   let companyFilterItemArray = [];
   let sectorFilterItemsArray = [];
@@ -81,16 +80,6 @@ export default function Navigation(props) {
   let filterMenuItems = document.querySelectorAll(".filterItem");
 
   filterMenuItems.forEach(function (filterItem, filterItemIndex, filterItemArray) {
-    // filterItem.addEventListener("click", function () {
-    //   if (filterItem === event.target) {
-    //     filterItem.classList.add("highlighted");
-    //   }
-    //   filterItemArray.forEach(function (altFilter) {
-    //     if (altFilter !== event.target) {
-    //       altFilter.classList.remove("highlighted");
-    //     }
-    //   });
-    // });
     filterItem.addEventListener("mouseenter", function () {
       filterItem.classList.add("hovered");
     });

@@ -79,6 +79,11 @@ function D3Chart() {
 
   let [filterInfo, setFilterInfo] = React.useState(nodes);
 
+  // For the Filtering System, it is necessary to track if the graph is being updated because of the Filtering-System or
+  // a click of a node. If a node is clicked, the graph should only expand its children—If top group filter is clicked,
+  // it should expand all.
+  let [updateComedFromClickedNode, setUpdateComedFromClickedNode] = React.useState(false);
+
   let [activeSectorFilter, setActiveSectorFilter] = React.useState([
     "Όλα",
     "MME",
@@ -451,47 +456,23 @@ function D3Chart() {
 
     // Event Handling
     function handleNodeClick(event, clickedNode) {
+      setUpdateComedFromClickedNode(true);
       let nodesToActivate = [];
       //
       nodes.forEach(function (node) {
         // If Statement Declarations
         let nodeWillBeExpanded = node.data.on === false;
         let nodeWillBeClosed = node.data.on === true;
+
+        let sectorFilterisActive = activeSectorFilterRef.current.length !== 0;
         //check if any of the clicked node's children is on, meaning that the clicked node is already expanded
         if (clickedNode.children) {
           clickedNode.children.forEach(function (clickedNodeChild) {
             if (node.index === clickedNodeChild.index) {
-              // Node is already visible
               if (nodeWillBeClosed) {
-                // Node is already expanded, close all descendants
                 hideDescendantsIfOpen(clickedNode);
-
-                // Node is not yet visible
               } else if (nodeWillBeExpanded) {
-                console.log("activeSectorFilter are", activeSectorFilterRef.current);
-
-                // Show all children if there is no Sector Filter added
-                if (activeSectorFilterRef.current.length == 0) {
-                  showChildren(clickedNode);
-
-                  // If a Filter is selected...
-                } else {
-                  // Check if the clicked node's child is a connecter node,
-                  // Add the node to the array of nodes to activate, and skip it
-                  if (clickedNode.children[0].data.type == "connector") {
-                    nodesToActivate.push(clickedNode.children[0]);
-                    // This here represents the children of the found connector node
-                    clickedNode.children[0].children.forEach((skippedNodeChild) => {
-                      // Check if the children of the found connector node match one of the current filters
-                      if (activeSectorFilterRef.current.includes(skippedNodeChild.data.sector)) {
-                        nodesToActivate.push(skippedNodeChild);
-                      }
-                      activateNodes(nodesToActivate);
-                    });
-                  } else {
-                    showChildren(clickedNode);
-                  }
-                }
+                skipConnecerAndAddChildren();
               }
             }
           });
@@ -505,9 +486,9 @@ function D3Chart() {
         function updateActiveGroupFilter() {
           clickedNode.children.forEach(function (clickedNodeChild) {
             if (node.index === clickedNodeChild.index) {
+              //Only handlegroupFilter is the node is one of the 2 lower levels
               if (clickedNode.depth < 3) {
                 if (nodeWillBeExpanded) {
-                  console.log("Adding node to the filter list!");
                   setActiveGroupFilter((prevActiveGroupFilter) => {
                     const updatedFilter = [...new Set(prevActiveGroupFilter)];
 
@@ -529,6 +510,22 @@ function D3Chart() {
           });
         }
       });
+
+      function skipConnecerAndAddChildren() {
+        if (clickedNode.children[0].data.type == "connector") {
+          nodesToActivate.push(clickedNode.children[0]);
+          // This here represents the children of the found connector node
+          clickedNode.children[0].children.forEach((skippedNodeChild) => {
+            // Check if the children of the found connector node match one of the current filters
+            if (activeSectorFilterRef.current.includes(skippedNodeChild.data.sector)) {
+              nodesToActivate.push(skippedNodeChild);
+            }
+            activateNodes(nodesToActivate);
+          });
+        } else {
+          showChildren(clickedNode);
+        }
+      }
     }
 
     function hideDescendantsIfOpen(clickedNode) {
@@ -667,6 +664,7 @@ function D3Chart() {
   // Match filterItems with corresponding nodes
   // (See more in Navigation component)
   function findFilteredNode(IDText) {
+    setUpdateComedFromClickedNode(false);
     nodes.forEach(function (node) {
       if (node.data.name === IDText) {
         findDescendants(node);
@@ -738,6 +736,7 @@ function D3Chart() {
 
   // Sector Filtering Click Functionality
   function findFilteredSectorNode(IDText, allSectorFilters) {
+    setUpdateComedFromClickedNode(false);
     // Disable the active class from the first Filter Item if any other one is clicked
     if (!event.target.innerText.includes("Όλα")) {
       allListItemElements[0].classList.remove("active");
@@ -858,6 +857,7 @@ function D3Chart() {
 
   // Based on the newest state of the activeSectorFilter, hide all nodes that are not part of the active filter
   function handleNodeFiltering() {
+    console.log("filtering some nodes!");
     let nodesToDisable = [];
     let nodesToEnable = [];
 
@@ -884,7 +884,7 @@ function D3Chart() {
       if ((!groupIsAllowed && node.depth > 2) || (nodeIsSubcompany && !nodeMatchesFilter) || connectorLacksOnChild) {
         nodesToDisable.push(node);
       }
-      if (!nodeIsOn && nodeMatchesFilter && nodeIsSubcompany) {
+      if (!nodeIsOn && nodeMatchesFilter && nodeIsSubcompany && !updateComedFromClickedNode) {
         if (groupIsAllowed) {
           findAncestorsManually(node).forEach((ancestorNode) => {
             nodesToEnable.push(node);
