@@ -50,8 +50,8 @@ function D3Chart() {
   let [hasBeenZoomed, setHasBeenZoomed] = React.useState(false);
 
   let [initialZoom, setInitialZoom] = React.useState({
-    x: 200,
-    y: 200,
+    x: 0,
+    y: 500,
     k: 0.7,
   });
 
@@ -187,11 +187,22 @@ function D3Chart() {
           .distance((d) => {
             if (d.source.depth === 0) {
               return 0;
-            } else if (d.target.data.type !== "subcompany") {
-              console.log("bigNode");
+            } else if (
+              // Spacing for: smaller groups, large nodes
+              (d.target.data.group === 5 || d.target.data.group === 2 || d.target.data.group === 3) &&
+              d.target.data.type !== "subcompany" &&
+              d.target.data.type !== "connector"
+            ) {
+              return 200;
+            } else if (
+              // Spacing for: larger groups, large nodes
+              (d.target.data.group === 1 || d.target.data.group === 4) &&
+              d.target.data.type !== "subcompany" &&
+              d.target.data.type !== "connector"
+            ) {
               return 100;
             } else {
-              console.log("smallNode");
+              console.log("endnode");
               return 300;
             }
           })
@@ -200,11 +211,24 @@ function D3Chart() {
       .force(
         "charge",
         d3.forceManyBody().strength((d) => {
-          if (d.data.type !== "subcompany" && d.children) {
-            return -150 + d.children.length * 3;
+          if (d.depth === 0) {
+            return 0;
+          } else if (d.depth === 2 || d.depth === 2) {
+            return -2000;
+          } else if (
+            (d.data.group === 5 || d.data.group === 2 || d.data.group === 3) &&
+            d.data.type !== "subcompany" &&
+            d.data.type !== "connector"
+          ) {
+            return -200;
           } else {
-            return -300;
+            return -100;
           }
+          // if (d.data.type !== "subcompany" && d.children) {
+          //   return -150 + d.children.length * 3;
+          // } else {
+          //   return -300;
+          // }
         })
       )
       // .force("center", d3.forceCenter(width / 2, height / 2).strength(1))
