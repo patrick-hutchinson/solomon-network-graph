@@ -175,8 +175,6 @@ function D3Chart() {
   useEffect(() => {
     let allActiveNodes = nodes.filter((node) => node.data.on);
 
-    // let nodeIsLarge =
-
     // ALL FORCES APPLIED AT START, MORE STATIC, MORE STABLE
     const simulation = d3
       .forceSimulation(nodes, (d) => d)
@@ -185,12 +183,39 @@ function D3Chart() {
         d3
           .forceLink(links)
           .distance((d) => {
+            let targetNodeIsLarge = d.target.data.type !== "subcompany";
+            let sourceNodeIsLarge = d.source.data.type !== "subcompany";
+            let targetNodeIsConnector = d.target.data.type === "connector";
+            let sourceNodeIsConnector = d.source.data.type === "connector";
+
+            // 5 is pink
+            // 4 is yellow
+            // 3 is blue
+            // 2 is green
+            // 1 is red
+
             if (d.source.depth === 0) {
               return 0;
+            } else if (sourceNodeIsLarge && targetNodeIsConnector) {
+              return 40;
+            } else if (d.source.data.type === "connector" && targetNodeIsLarge) {
+              return 380;
+            } else if (d.source.data.group === 5 && d.source.data.type === "sector" && targetNodeIsLarge) {
+              return 300;
+            } else if (d.source.data.group === 5 && sourceNodeIsLarge && d.target.data.type === "sector") {
+              return 300;
+            } else if (d.source.data.group === 2 && d.source.data.type === "sector" && targetNodeIsLarge) {
+              return 500;
+            } else if (d.source.data.group === 1 && sourceNodeIsLarge && d.target.data.type === "sector") {
+              return 300;
+            } else if (d.source.data.group === 1 && d.source.data.type === "sector" && targetNodeIsLarge) {
+              return 300;
+            } else if (d.source.data.group === 4 && sourceNodeIsLarge && targetNodeIsLarge) {
+              return 300;
             } else if (
               // Spacing for: smaller groups, large nodes
               (d.target.data.group === 5 || d.target.data.group === 2 || d.target.data.group === 3) &&
-              d.target.data.type !== "subcompany" &&
+              targetNodeIsLarge &&
               d.target.data.type !== "connector"
             ) {
               return 200;
@@ -213,8 +238,10 @@ function D3Chart() {
         d3.forceManyBody().strength((d) => {
           if (d.depth === 0) {
             return 0;
-          } else if (d.depth === 2 || d.depth === 2) {
-            return -2000;
+          } else if (d.data.group === 5 && d.data.type !== "subcompany") {
+            return -500;
+          } else if (d.depth === 1 || d.depth === 2) {
+            return -1000;
           } else if (
             (d.data.group === 5 || d.data.group === 2 || d.data.group === 3) &&
             d.data.type !== "subcompany" &&
@@ -224,11 +251,6 @@ function D3Chart() {
           } else {
             return -100;
           }
-          // if (d.data.type !== "subcompany" && d.children) {
-          //   return -150 + d.children.length * 3;
-          // } else {
-          //   return -300;
-          // }
         })
       )
       // .force("center", d3.forceCenter(width / 2, height / 2).strength(1))
