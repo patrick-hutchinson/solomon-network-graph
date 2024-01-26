@@ -15,13 +15,13 @@ function D3Chart() {
   let [links, setLinks] = React.useState(root.links());
   let [nodes, setNodes] = React.useState(root.descendants());
 
+  // Fetch the Data
   React.useEffect(() => {
-    console.log("fetching data!");
     fetch("https://raw.githubusercontent.com/patrick-hutchinson/solomon-network-graph/main/src/data.json")
       .then((res) => res.json())
       .then((dataArray) => {
         setData(dataArray);
-        console.log("data is now", dataArray);
+        console.log("data fetched, data is", dataArray);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -30,19 +30,14 @@ function D3Chart() {
 
   // Create hierarchy and set links and nodes when data changes
   React.useEffect(() => {
-    console.log("data 0 is", data);
     const root = d3.hierarchy(data); // Wrap data in an object with a "children" property
-    console.log("the root is", root);
     setLinks(root.links());
     setNodes(root.descendants());
   }, [data]);
 
   React.useEffect(() => {
-    console.log("updated filterinfo");
     setFilterInfo(nodes);
   }, [nodes]);
-
-  const nodesRef = useRef(nodes);
 
   let width = window.innerWidth * 0.8;
   let height = window.innerHeight * 0.95;
@@ -82,7 +77,7 @@ function D3Chart() {
   // For the Filtering System, it is necessary to track if the graph is being updated because of the Filtering-System or
   // a click of a node. If a node is clicked, the graph should only expand its children—If top group filter is clicked,
   // it should expand all.
-  let [updateComedFromClickedNode, setUpdateComedFromClickedNode] = React.useState(false);
+  let [updateCameFromClickedNode, setUpdateCameFromClickedNode] = React.useState(false);
 
   let [activeSectorFilter, setActiveSectorFilter] = React.useState([
     "Όλα",
@@ -118,7 +113,8 @@ function D3Chart() {
   const [minDescendants, maxDescendants] = d3.extent(allNodes, (node) => node.descendants().length);
 
   // Create the scale based on the range of descendants
-  const descendantsScale = d3.scaleLinear().domain([minDescendants, maxDescendants]).range([40, 500]);
+  let startingNodeSizes = [100, 500];
+  const descendantsScale = d3.scaleLinear().domain([minDescendants, maxDescendants]).range(startingNodeSizes);
 
   let nodeColorsArray = ["transparent", "#FF295B", "#DE62D9", "#44B0FF", "#20AE98", "#FEA800"];
   let nodeColors = d3
@@ -139,25 +135,16 @@ function D3Chart() {
     .on("zoom", handleZoom) //
     .scaleExtent(zoomRange);
 
-  function filter(event) {
-    return (!event.ctrlKey || event.type === "wheel") && !event.button;
+  function defaultFilter(event) {
+    return !event.ctrlKey && !event.button;
   }
 
-  // let isCommandKeyPressed = false;
+  function defaultTouchable() {
+    return navigator.maxTouchPoints || "ontouchstart" in this;
+  }
 
-  // document.addEventListener("keydown", function (event) {
-  //   if (event.key === "Meta" || event.key === "Control") {
-  //     // console.log("pressing cmd key!");
-  //     isCommandKeyPressed = true;
-  //   }
-  // });
-
-  // document.addEventListener("keyup", function (event) {
-  //   if (event.key === "Meta" || event.key === "Control") {
-  //     // console.log("lifting cmd key!");
-  //     isCommandKeyPressed = false;
-  //   }
-  // });
+  let filter = defaultFilter,
+    touchable = defaultTouchable;
 
   const drag = (simulation) => {
     function dragstarted(event) {
@@ -179,37 +166,48 @@ function D3Chart() {
       .on("start", (event, d) => dragstarted(event, d))
       .on("drag", (event, d) => dragged(event, d))
       .on("end", (event, d) => dragended(event, d));
+    // .filter(touchable)
+    // .on("start", (event, d) => dragstarted(event, d))
+    // .on("drag", (event, d) => dragged(event, d))
+    // .on("end", (event, d) => dragended(event, d));
   };
 
   useEffect(() => {
     let allActiveNodes = nodes.filter((node) => node.data.on);
 
+    // let nodeIsLarge =
+
     // ALL FORCES APPLIED AT START, MORE STATIC, MORE STABLE
     const simulation = d3
-      .forceSimulation(allActiveNodes, (d) => d)
+      .forceSimulation(nodes, (d) => d)
       .force(
         "link",
-        d3.forceLink(links).distance((d) => {
-          if (d.source.depth === 0) {
-            return 0;
-          } else if (d.source.children) {
-            return 10;
-          } else if (!d.source.children) {
-            return 500;
-          }
-        })
+        d3
+          .forceLink(links)
+          .distance((d) => {
+            if (d.source.depth === 0) {
+              return 0;
+            } else if (d.target.data.type !== "subcompany") {
+              console.log("bigNode");
+              return 100;
+            } else {
+              console.log("smallNode");
+              return 300;
+            }
+          })
+          .strength(0.8)
       )
       .force(
         "charge",
         d3.forceManyBody().strength((d) => {
-          if (d.children) {
-            return -310 + d.children.length * 10;
-          } else if (!d.children) {
-            return -500;
+          if (d.data.type !== "subcompany" && d.children) {
+            return -150 + d.children.length * 3;
+          } else {
+            return -300;
           }
         })
       )
-      .force("center", d3.forceCenter(width / 2, height / 2).strength(1))
+      // .force("center", d3.forceCenter(width / 2, height / 2).strength(1))
       .force(
         "collision",
         d3
@@ -217,30 +215,7 @@ function D3Chart() {
           .radius((d) => (d.depth !== 1 ? nodeSizes(d.data.type) : descendantsScale(findDescendantsManually(d).length)))
       );
 
-    // FORCE GETS ADDED AS GRAPH BUILDS—MORE DYNAMIC, MORE CHAOTIC
-    // const simulation = d3
-    //   .forceSimulation(
-    //     nodes.filter((d) => d.data.on === true),
-    //     (d) => d
-    //   )
-    //   .force(
-    //     "link",
-    //     d3.forceLink(links.filter((d) => d.target.data.on === true)).distance((d) => {
-    //       if (d.source.depth === 0) {
-    //         return 200;
-    //       } else if (d.source.depth === 1) {
-    //         return 100;
-    //       } else {
-    //         return 300;
-    //       }
-    //     })
-    //   )
-    //   .force("charge", d3.forceManyBody().strength(-1000))
-    //   .force("center", d3.forceCenter(width / 2, height / 2).strength(1))
-    //   .force(
-    //     "collision",
-    //     d3.forceCollide().radius((d) => nodeSizes(d.data.type))
-    //   );
+    // You might also want to customize other forces or add more forces based on your specific needs.
 
     // Element Creation
     // Create the Canvas
@@ -370,7 +345,7 @@ function D3Chart() {
         d3.select(this.parentElement).attr("display", "none");
       }
     });
-    //hide the first node's links
+    // hide the first node's links
     d3.selectAll("line").each(function (d) {
       if (d.source.depth === 0) {
         d3.select(this).attr("display", "none");
@@ -456,7 +431,7 @@ function D3Chart() {
 
     // Event Handling
     function handleNodeClick(event, clickedNode) {
-      setUpdateComedFromClickedNode(true);
+      setUpdateCameFromClickedNode(true);
       let nodesToActivate = [];
       //
       nodes.forEach(function (node) {
@@ -661,10 +636,9 @@ function D3Chart() {
     });
   }
 
-  // Match filterItems with corresponding nodes
-  // (See more in Navigation component)
+  // Handle Functionality when clicking a GROUP Filter
   function findFilteredNode(IDText) {
-    setUpdateComedFromClickedNode(false);
+    setUpdateCameFromClickedNode(false);
     nodes.forEach(function (node) {
       if (node.data.name === IDText) {
         findDescendants(node);
@@ -722,21 +696,11 @@ function D3Chart() {
     }
   }
 
-  // Filter system initializazion
-  useEffect(() => {
-    let allListItemElements = document.querySelectorAll(".sectorFilter");
-
-    // Add the acive class to the first element on Start
-    if (allListItemElements.length > 0) {
-      allListItemElements[0].classList.add("active");
-    }
-  }, []);
-
   let allListItemElements = document.querySelectorAll(".sectorFilter");
 
-  // Sector Filtering Click Functionality
+  // Handle Functionality when clicking a SECTOR Filter
   function findFilteredSectorNode(IDText, allSectorFilters) {
-    setUpdateComedFromClickedNode(false);
+    setUpdateCameFromClickedNode(false);
     // Disable the active class from the first Filter Item if any other one is clicked
     if (!event.target.innerText.includes("Όλα")) {
       allListItemElements[0].classList.remove("active");
@@ -810,6 +774,16 @@ function D3Chart() {
     activeSectorFilterRef.current = activeSectorFilter;
   }, [activeSectorFilter]);
 
+  // Filter system initializazion
+  useEffect(() => {
+    let allListItemElements = document.querySelectorAll(".sectorFilter");
+
+    // Add the acive class to the first element on Start
+    if (allListItemElements.length > 0) {
+      allListItemElements[0].classList.add("active");
+    }
+  }, []);
+
   useEffect(() => {
     // In this function, based on activeGroupFilter:
     // Give the filter the active class if its groupnumber is contained in the array
@@ -844,10 +818,6 @@ function D3Chart() {
         }
       });
     });
-
-    // if (groupFilterItem.classList.contains("active")) {
-    //   groupFilterItem.style.color = nodeColors(node.data.group);
-    // }
 
     handleNodeFiltering();
 
@@ -884,18 +854,13 @@ function D3Chart() {
       if ((!groupIsAllowed && node.depth > 2) || (nodeIsSubcompany && !nodeMatchesFilter) || connectorLacksOnChild) {
         nodesToDisable.push(node);
       }
-      if (!nodeIsOn && nodeMatchesFilter && nodeIsSubcompany && !updateComedFromClickedNode) {
+      if (!nodeIsOn && nodeMatchesFilter && nodeIsSubcompany && !updateCameFromClickedNode) {
         if (groupIsAllowed) {
           findAncestorsManually(node).forEach((ancestorNode) => {
             nodesToEnable.push(node);
           });
         }
       }
-      // The node is not part of the group filter
-      // if (node.depth > 2 && !groupIsAllowed) {
-      //   console.log("statement 4 fired!");
-      //   nodesToDisable.push(node);
-      // }
     });
 
     nodesToEnable.forEach((enabledNode) => activateNodes(findAncestorsManually(enabledNode)));

@@ -6,7 +6,13 @@ export default function Navigation(props) {
   let companyFilterItemArray = [];
   let sectorFilterItemsArray = [];
 
-  let isOnDesktop = window.innerWidth > 600;
+  let isOnMobile = window.innerWidth < 600;
+
+  let isOnTablet = window.matchMedia(
+    "(min-device-width: 601px) and (max-device-width: 1080px) and (-webkit-min-device-pixel-ratio: 1)"
+  ).matches;
+
+  let isOnDesktop = !isOnMobile && !isOnTablet;
 
   // Add the Path Navigation
   let nodePathItems = props.nodePath
@@ -91,23 +97,25 @@ export default function Navigation(props) {
   return (
     <div className="navigationContainer">
       <ul className="nodePath">{nodePathItems}</ul>
-      {!isOnDesktop && (
-        <h4 className="dropdownButton sectors">
-          ΦΙΛΤΡΑ
-          <svg className="dropdownIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-            <path d="M24 22h-24l12-20z" />
-          </svg>
-        </h4>
-      )}
+      {isOnMobile ||
+        (isOnTablet && (
+          <h4 className="dropdownButton sectors">
+            ΦΙΛΤΡΑ
+            <svg className="dropdownIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+              <path d="M24 22h-24l12-20z" />
+            </svg>
+          </h4>
+        ))}
       <ul className="sectorFilters">{sectorFilterItems}</ul>
-      {!isOnDesktop && (
-        <h4 className="dropdownButton groups">
-          ΟΜΙΛΟI
-          <svg className="dropdownIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-            <path d="M24 22h-24l12-20z" />
-          </svg>
-        </h4>
-      )}
+      {isOnMobile ||
+        (isOnTablet && (
+          <h4 className="dropdownButton groups">
+            ΟΜΙΛΟI
+            <svg className="dropdownIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+              <path d="M24 22h-24l12-20z" />
+            </svg>
+          </h4>
+        ))}
       <ul className="companyFilters">{companyFilterItems}</ul>
     </div>
   );
