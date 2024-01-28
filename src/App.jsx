@@ -76,6 +76,14 @@ function D3Chart() {
 
   let [filterInfo, setFilterInfo] = React.useState(nodes);
 
+  let isOnMobile = window.innerWidth < 600;
+
+  let isOnTablet = window.matchMedia(
+    "(min-device-width: 601px) and (max-device-width: 1080px) and (-webkit-min-device-pixel-ratio: 1)"
+  ).matches;
+
+  let isOnDesktop = !isOnMobile && !isOnTablet;
+
   // For the Filtering System, it is necessary to track if the graph is being updated because of the Filtering-System or
   // a click of a node. If a node is clicked, the graph should only expand its children—If top group filter is clicked,
   // it should expand all.
@@ -131,12 +139,16 @@ function D3Chart() {
   // This function handles Zooming and is blocked if commandKey is not pressed.
   // Zoom and Pan if the Command key is pressed
   function handleZoom(e) {
+    console.log("Zooming w/ command, allowing zoom and pan");
     d3.selectAll("svg g").attr("transform", e.transform);
     setZoomTransform(d3.zoomTransform(chartRef.current));
 
     setZoomAmount(e.transform.k);
 
     setHasBeenZoomed(true);
+  }
+  function handlePan(e) {
+    console.log("Zooming w/o command, only allowing pan");
   }
 
   function handlePan(e) {
@@ -166,10 +178,6 @@ function D3Chart() {
       .on("start", (event, d) => dragstarted(event, d))
       .on("drag", (event, d) => dragged(event, d))
       .on("end", (event, d) => dragended(event, d));
-    // .filter(touchable)
-    // .on("start", (event, d) => dragstarted(event, d))
-    // .on("drag", (event, d) => dragged(event, d))
-    // .on("end", (event, d) => dragended(event, d));
   };
 
   useEffect(() => {
@@ -272,11 +280,18 @@ function D3Chart() {
       .attr("width", width)
       .attr("height", height)
 
-      .call(
-        zoom.filter(function (event) {
-          return cmdKeyFilter(event);
-        })
-      )
+      .call(function (selection) {
+        if (isOnDesktop) {
+          selection.call(
+            zoom.filter(function (event) {
+              return cmdKeyFilter(event);
+            })
+          );
+        } else {
+          selection.call(zoom);
+        }
+      })
+
       .call(
         zoom.transform,
         hasBeenZoomed ? zoomTransform : d3.zoomIdentity.translate(initialZoom.x, initialZoom.y).scale(initialZoom.k)
@@ -1134,10 +1149,10 @@ function D3Chart() {
   }, []);
 
   function zoomIn() {
-    d3.select("svg").transition().call(zoom.scaleBy, 1.33);
+    d3.select(".graphCanvas").transition().call(zoom.scaleBy, 1.33);
   }
   function zoomOut() {
-    d3.select("svg").transition().call(zoom.scaleBy, 0.66);
+    d3.select(".graphCanvas").transition().call(zoom.scaleBy, 0.66);
   }
 
   return (
