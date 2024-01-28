@@ -386,16 +386,84 @@ foreignObject > h5 > p {
   display: none;
 }
 
-/*
-
-
- 
-Phones */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 600px),
+  only screen and (min-device-width: 601px) and (max-device-width: 1080px) and (-webkit-min-device-pixel-ratio: 1) {
   .nodePath {
     display: none;
   }
 
+  .infoContainer {
+    display: none;
+  }
+
+  .componentContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .dropdownButton {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    /* position: absolute; */
+  }
+
+  .dropdownIcon {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease-in-out;
+    margin-left: 8px;
+  }
+  .dropdownIcon.active {
+    transform: rotate(0deg);
+  }
+
+  .sectorFilters,
+  .companyFilters {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    padding: 0;
+    margin: 0;
+    font-size: 20px;
+    border-left: 1px solid #000;
+    border: 1px solid black;
+    border-top: none;
+  }
+  .sectorFilters.visible,
+  .companyFilters.visible {
+    display: block;
+  }
+  .sectorFilter,
+  .filterItem {
+    display: block;
+    color: #fff;
+    padding-left: 5px;
+    background: #000;
+    padding-bottom: 4px;
+    padding-top: 5px;
+  }
+
+  .companyFilters > .filterItem {
+    padding-bottom: 2px;
+    padding-top: 8px;
+  }
+
+  .sectorFilter.active,
+  .filterItem.active {
+    color: #000;
+    background: #fff;
+  }
+
+  .zoomNotice {
+    display: none;
+  }
+  .zoomButtonContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Phones */
+@media only screen and (max-width: 600px) {
   .progress-container {
     height: 20px;
   }
@@ -411,152 +479,22 @@ Phones */
     top: 0px;
   }
 
-  .infoContainer {
-    display: none;
-  }
-
-  .componentContainer {
-    grid-template-columns: 1fr;
-  }
-
-  .filterItem,
-  .sectorFilter {
-    display: none;
-  }
-
-  .dropdownButton {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
-  }
-
   .dropdownButton.groups {
-    margin-left: 25px;
-  }
-
-  .dropdownIcon {
-    transform: rotate(180deg);
-    transition: transform 0.3s ease-in-out;
-    margin-left: 8px;
-  }
-  .dropdownIcon.active {
-    transform: rotate(0deg);
-  }
-
-  .sectorFilters,
-  .companyFilters {
-    display: none;
-    position: absolute;
-    /* background: #fff; */
-    z-index: 1;
-    padding: 0;
-    margin: 0;
-    font-size: 20px;
-    border-left: 1px solid #000;
+    margin-left: 25%;
   }
   .sectorFilters.visible,
   .companyFilters.visible {
-    display: block;
-  }
-  .sectorFilter,
-  .filterItem {
-    display: block;
-    color: #000;
-    padding-left: 5px;
-    background: #fff;
-  }
-
-  .sectorFilter.active,
-  .filterItem.active {
-    color: #fff;
-    background: #000;
-  }
-
-  .zoomNotice {
-    display: none;
-  }
-  .zoomButtonContainer {
-    grid-template-columns: 1fr;
+    width: 95vw;
   }
 }
 
-/*
-
-
-
-Tablets */
+/* Tablets */
 @media only screen and (min-device-width: 601px) and (max-device-width: 1080px) and (-webkit-min-device-pixel-ratio: 1) {
-  .nodePath {
-    display: none;
-  }
-
-  .infoContainer {
-    display: none;
-  }
-
-  .componentContainer {
-    grid-template-columns: 1fr;
-  }
-
-  .filterItem,
-  .sectorFilter {
-    display: none;
-  }
-
-  .dropdownButton {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
-  }
-
   .dropdownButton.groups {
-    margin-left: 25px;
-  }
-
-  .dropdownIcon {
-    transform: rotate(180deg);
-    transition: transform 0.3s ease-in-out;
-    margin-left: 8px;
-  }
-  .dropdownIcon.active {
-    transform: rotate(0deg);
-  }
-
-  .sectorFilters,
-  .companyFilters {
-    display: none;
-    position: absolute;
-    /* background: #fff; */
-    z-index: 1;
-    padding: 0;
-    margin: 0;
-    font-size: 20px;
-    border-left: 1px solid #000;
+    margin-left: 10%;
   }
   .sectorFilters.visible,
   .companyFilters.visible {
-    display: block;
-  }
-  .sectorFilter,
-  .filterItem {
-    display: block;
-    color: #000;
-    padding-left: 5px;
-    background: #fff;
-  }
-
-  .sectorFilter.active,
-  .filterItem.active {
-    color: #fff;
-    background: #000;
-  }
-
-  .zoomNotice {
-    display: none;
-  }
-  .zoomButtonContainer {
-    grid-template-columns: 1fr;
+    width: 33vw;
   }
 }

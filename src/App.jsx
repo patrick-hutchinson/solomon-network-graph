@@ -9,6 +9,8 @@ function D3Chart() {
 
   let chartRef = useRef(null);
 
+  let [isCommandKeyPressed, setIsCommandKeyPressed] = React.useState(false);
+
   let [data, setData] = React.useState([]); // Initialize with an array
   // Set state values for the data graph
   let root = d3.hierarchy(data);
@@ -122,6 +124,12 @@ function D3Chart() {
     .domain([...new Set(nodes.map((d) => d.data.group))])
     .range(nodeColorsArray);
 
+  function cmdKeyFilter(event) {
+    // console.log("the cmd key is not pressed");
+    return event.ctrlKey || event.metaKey; // Check for ctrlKey or cmdKey
+  }
+  // This function handles Zooming and is blocked if commandKey is not pressed.
+  // Zoom and Pan if the Command key is pressed
   function handleZoom(e) {
     d3.selectAll("svg g").attr("transform", e.transform);
     setZoomTransform(d3.zoomTransform(chartRef.current));
@@ -130,21 +138,13 @@ function D3Chart() {
 
     setHasBeenZoomed(true);
   }
-  let zoom = d3
-    .zoom()
-    .on("zoom", handleZoom) //
-    .scaleExtent(zoomRange);
 
-  function defaultFilter(event) {
-    return !event.ctrlKey && !event.button;
+  function handlePan(e) {
+    console.log("command key is not pressed, handling pan");
+    // Logic for panning
   }
-
-  function defaultTouchable() {
-    return navigator.maxTouchPoints || "ontouchstart" in this;
-  }
-
-  let filter = defaultFilter,
-    touchable = defaultTouchable;
+  let zoom = d3.zoom().on("zoom", handleZoom).scaleExtent(zoomRange);
+  let pan = d3.zoom().on("zoom", handlePan).scaleExtent(zoomRange);
 
   const drag = (simulation) => {
     function dragstarted(event) {
@@ -210,7 +210,9 @@ function D3Chart() {
               return 300;
             } else if (d.source.data.group === 1 && d.source.data.type === "sector" && targetNodeIsLarge) {
               return 300;
-            } else if (d.source.data.group === 4 && sourceNodeIsLarge && targetNodeIsLarge) {
+            } else if (d.source.data.group === 1 && d.source.data.type === "sector" && targetNodeIsLarge) {
+              return 300;
+            } else if (d.source.data.group === 3 && sourceNodeIsLarge && targetNodeIsLarge) {
               return 300;
             } else if (
               // Spacing for: smaller groups, large nodes
@@ -239,7 +241,7 @@ function D3Chart() {
           if (d.depth === 0) {
             return 0;
           } else if (d.data.group === 5 && d.data.type !== "subcompany") {
-            return -500;
+            return -200;
           } else if (d.depth === 1 || d.depth === 2) {
             return -1000;
           } else if (
@@ -269,12 +271,17 @@ function D3Chart() {
       .select(chartRef.current) //
       .attr("width", width)
       .attr("height", height)
-      .call(zoom)
+
       .call(
-        // If the page has not been used yet, base zoom off of the initialZoom values. If it has, use the updated values.
+        zoom.filter(function (event) {
+          return cmdKeyFilter(event);
+        })
+      )
+      .call(
         zoom.transform,
         hasBeenZoomed ? zoomTransform : d3.zoomIdentity.translate(initialZoom.x, initialZoom.y).scale(initialZoom.k)
       )
+
       .attr("class", "graphCanvas")
       .on("mouseover", function (e) {
         d3.select(this).attr("cursor", "grab"); //
@@ -1074,6 +1081,19 @@ function D3Chart() {
   }
 
   useEffect(() => {
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Meta" || event.key === "Control") {
+        console.log("pressing cmd key!");
+        setIsCommandKeyPressed(true);
+      }
+    });
+
+    document.addEventListener("keyup", function (event) {
+      if (event.key === "Meta" || event.key === "Control") {
+        console.log("lifting cmd key!");
+        setIsCommandKeyPressed(false);
+      }
+    });
     document.querySelector(".showInfo").classList.add("hidden");
     document.querySelector(".closeInfoContainer").addEventListener(
       "click",
