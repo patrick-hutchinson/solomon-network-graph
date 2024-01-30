@@ -7,6 +7,5 @@ DO:
 
 — Fix cmd+scroll to allow pan
 — Clicking on a Group Filter only expands that group
-— Zoom buttons not working properly on mobile and tablet
 
 —cmd scrolling for zoom

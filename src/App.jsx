@@ -9,8 +9,6 @@ function D3Chart() {
 
   let chartRef = useRef(null);
 
-  let [isCommandKeyPressed, setIsCommandKeyPressed] = React.useState(false);
-
   let [data, setData] = React.useState([]); // Initialize with an array
   // Set state values for the data graph
   let root = d3.hierarchy(data);
@@ -46,6 +44,9 @@ function D3Chart() {
 
   let [isFirstLoad, setIsFirstLoad] = React.useState(true);
 
+  let [isCommandKeyPressed, setIsCommandKeyPressed] = React.useState(false);
+  let isCommandKeyPressedRef = useRef(isCommandKeyPressed);
+
   // Set state values for the Zoombar component
   let [zoomAmount, setZoomAmount] = React.useState(0);
 
@@ -77,16 +78,11 @@ function D3Chart() {
   let [filterInfo, setFilterInfo] = React.useState(nodes);
 
   let isOnMobile = window.innerWidth < 600;
-
   let isOnTablet = window.matchMedia(
     "(min-device-width: 601px) and (max-device-width: 1080px) and (-webkit-min-device-pixel-ratio: 1)"
   ).matches;
-
   let isOnDesktop = !isOnMobile && !isOnTablet;
 
-  // For the Filtering System, it is necessary to track if the graph is being updated because of the Filtering-System or
-  // a click of a node. If a node is clicked, the graph should only expand its children—If top group filter is clicked,
-  // it should expand all.
   let [updateCameFromClickedNode, setUpdateCameFromClickedNode] = React.useState(false);
 
   let [activeSectorFilter, setActiveSectorFilter] = React.useState([
@@ -108,8 +104,6 @@ function D3Chart() {
   let activeSectorFilterRef = useRef(activeSectorFilter);
 
   let [activeGroupFilter, setActiveGroupFilter] = React.useState([]);
-  let activeGroupFilterRef = useRef(activeGroupFilter);
-  // let [allActiveNodes, setAllActiveNodes] = React.useState([]);
 
   // Declare Scales and Values
   let nodeSizesArray = [10, 135, 95, 75, 75, 0, 0];
@@ -117,6 +111,12 @@ function D3Chart() {
     .scaleOrdinal() //
     .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
     .range(nodeSizesArray);
+
+  let arrowThicknessArray = [2, 2, 4, 3, 2.5, 2, 2];
+  let arrowThickness = d3
+    .scaleOrdinal() //
+    .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
+    .range(arrowThicknessArray);
 
   const allNodes = root.descendants();
   // Find the minimum and maximum number of descendants
@@ -132,14 +132,9 @@ function D3Chart() {
     .domain([...new Set(nodes.map((d) => d.data.group))])
     .range(nodeColorsArray);
 
-  function cmdKeyFilter(event) {
-    // console.log("the cmd key is not pressed");
-    return event.ctrlKey || event.metaKey; // Check for ctrlKey or cmdKey
-  }
-  // This function handles Zooming and is blocked if commandKey is not pressed.
-  // Zoom and Pan if the Command key is pressed
   function handleZoom(e) {
-    console.log("Zooming w/ command, allowing zoom and pan");
+    console.log("Zooming and Panning!");
+
     d3.selectAll("svg g").attr("transform", e.transform);
     setZoomTransform(d3.zoomTransform(chartRef.current));
 
@@ -147,16 +142,17 @@ function D3Chart() {
 
     setHasBeenZoomed(true);
   }
-  function handlePan(e) {
-    console.log("Zooming w/o command, only allowing pan");
+
+  function filter(event) {
+    return (
+      (event.type !== "wheel" && event.type !== "dblclick") ||
+      (event.type === "wheel" && (event.ctrlKey || event.metaKey))
+    );
   }
 
-  function handlePan(e) {
-    console.log("command key is not pressed, handling pan");
-    // Logic for panning
-  }
-  let zoom = d3.zoom().on("zoom", handleZoom).scaleExtent(zoomRange);
-  let pan = d3.zoom().on("zoom", handlePan).scaleExtent(zoomRange);
+  let defaultFilter = filter;
+
+  let zoom = d3.zoom().filter(defaultFilter).on("zoom", handleZoom).scaleExtent(zoomRange);
 
   const drag = (simulation) => {
     function dragstarted(event) {
@@ -190,37 +186,61 @@ function D3Chart() {
         "link",
         d3
           .forceLink(links)
+          .id((d) => d.id)
           .distance((d) => {
             let targetNodeIsLarge = d.target.data.type !== "subcompany";
             let sourceNodeIsLarge = d.source.data.type !== "subcompany";
             let targetNodeIsConnector = d.target.data.type === "connector";
             let sourceNodeIsConnector = d.source.data.type === "connector";
 
-            // 5 is pink
-            // 4 is yellow
-            // 3 is blue
-            // 2 is green
             // 1 is red
+            // 2 is green
+            // 3 is blue
+            // 4 is yellow
+            // 5 is pink
 
-            if (d.source.depth === 0) {
-              return 0;
-            } else if (sourceNodeIsLarge && targetNodeIsConnector) {
+            if (d.target.depth === 0) {
+              return 100;
+            }
+            if (d.target.depth === 1) {
+              return 100;
+            }
+            if (sourceNodeIsLarge && targetNodeIsConnector) {
               return 40;
-            } else if (d.source.data.type === "connector" && targetNodeIsLarge) {
+            }
+            if (d.source.data.type === "connector" && targetNodeIsLarge) {
               return 380;
-            } else if (d.source.data.group === 5 && d.source.data.type === "sector" && targetNodeIsLarge) {
+            }
+            // Group One
+            if (d.source.data.group === 1 && d.source.depth == 1) {
+              return 400;
+            } else if (d.source.data.group === 1 && sourceNodeIsLarge && d.target.data.type === "sector") {
+              return 200;
+            } else if (d.source.data.group === 1 && d.source.data.type === "sector" && targetNodeIsLarge) {
+              return 200;
+            }
+            // Group Two
+            if (d.source.data.group === 2 && d.source.depth == 1) {
+              return 400;
+            } else if (d.source.data.group === 2 && d.source.data.type === "sector" && targetNodeIsLarge) {
+              return 500;
+            }
+            if (d.source.data.group === 3 && d.source.depth == 1) {
+              return 400;
+            } else if (d.source.data.group === 3 && sourceNodeIsLarge && targetNodeIsLarge) {
+              return 300;
+            }
+            if (d.source.data.group === 4 && d.source.depth == 1) {
+              return 300;
+            }
+            if (d.source.data.group === 5 && d.source.depth == 1) {
+              return 300;
+            }
+            if (d.source.data.group === 5 && d.source.data.type === "sector" && targetNodeIsLarge) {
               return 300;
             } else if (d.source.data.group === 5 && sourceNodeIsLarge && d.target.data.type === "sector") {
               return 300;
-            } else if (d.source.data.group === 2 && d.source.data.type === "sector" && targetNodeIsLarge) {
-              return 500;
-            } else if (d.source.data.group === 1 && sourceNodeIsLarge && d.target.data.type === "sector") {
-              return 300;
-            } else if (d.source.data.group === 1 && d.source.data.type === "sector" && targetNodeIsLarge) {
-              return 300;
-            } else if (d.source.data.group === 1 && d.source.data.type === "sector" && targetNodeIsLarge) {
-              return 300;
-            } else if (d.source.data.group === 3 && sourceNodeIsLarge && targetNodeIsLarge) {
+            } else if (d.source.data.group === 4 && sourceNodeIsLarge && targetNodeIsLarge) {
               return 300;
             } else if (
               // Spacing for: smaller groups, large nodes
@@ -241,23 +261,13 @@ function D3Chart() {
               return 300;
             }
           })
-          .strength(0.8)
+          .strength(1)
       )
       .force(
         "charge",
         d3.forceManyBody().strength((d) => {
           if (d.depth === 0) {
-            return 0;
-          } else if (d.data.group === 5 && d.data.type !== "subcompany") {
-            return -200;
-          } else if (d.depth === 1 || d.depth === 2) {
-            return -1000;
-          } else if (
-            (d.data.group === 5 || d.data.group === 2 || d.data.group === 3) &&
-            d.data.type !== "subcompany" &&
-            d.data.type !== "connector"
-          ) {
-            return -200;
+            return 10;
           } else {
             return -100;
           }
@@ -271,26 +281,13 @@ function D3Chart() {
           .radius((d) => (d.depth !== 1 ? nodeSizes(d.data.type) : descendantsScale(findDescendantsManually(d).length)))
       );
 
-    // You might also want to customize other forces or add more forces based on your specific needs.
-
     // Element Creation
     // Create the Canvas
     const svg = d3
       .select(chartRef.current) //
       .attr("width", width)
       .attr("height", height)
-
-      .call(function (selection) {
-        if (isOnDesktop) {
-          selection.call(
-            zoom.filter(function (event) {
-              return cmdKeyFilter(event);
-            })
-          );
-        } else {
-          selection.call(zoom);
-        }
-      })
+      .call(zoom)
 
       .call(
         zoom.transform,
@@ -345,7 +342,7 @@ function D3Chart() {
       .attr("class", "link")
       .attr("stroke", "#999")
       .attr("stroke-opacity", 1)
-      .attr("stroke-width", "3");
+      .attr("stroke-width", (d) => arrowThickness(d.target.data.type));
 
     let elementEnter = nodeElement.enter().append("g");
 
@@ -408,17 +405,17 @@ function D3Chart() {
           d3.select(this.parentElement).select("h5").style("color", "#000");
         }
       }
-      if (d.depth === 0) {
-        //hide the first node's links
-        d3.select(this.parentElement).attr("display", "none");
-      }
+      // if (d.depth === 0) {
+      //   //hide the first node's links
+      //   d3.select(this.parentElement).attr("display", "none");
+      // }
     });
     // hide the first node's links
-    d3.selectAll("line").each(function (d) {
-      if (d.source.depth === 0) {
-        d3.select(this).attr("display", "none");
-      }
-    });
+    // d3.selectAll("line").each(function (d) {
+    //   if (d.source.depth === 0) {
+    //     d3.select(this).attr("display", "none");
+    //   }
+    // });
 
     // Arrow Heads
     // Correctly assign an url("arrowheadX") tag to position the arrowhead based on the target node's radius
@@ -842,6 +839,10 @@ function D3Chart() {
     activeSectorFilterRef.current = activeSectorFilter;
   }, [activeSectorFilter]);
 
+  useEffect(() => {
+    isCommandKeyPressedRef.current = isCommandKeyPressed;
+  }, [isCommandKeyPressed]);
+
   // Filter system initializazion
   useEffect(() => {
     let allListItemElements = document.querySelectorAll(".sectorFilter");
@@ -1098,17 +1099,16 @@ function D3Chart() {
   useEffect(() => {
     document.addEventListener("keydown", function (event) {
       if (event.key === "Meta" || event.key === "Control") {
-        console.log("pressing cmd key!");
         setIsCommandKeyPressed(true);
       }
     });
 
     document.addEventListener("keyup", function (event) {
       if (event.key === "Meta" || event.key === "Control") {
-        console.log("lifting cmd key!");
         setIsCommandKeyPressed(false);
       }
     });
+
     document.querySelector(".showInfo").classList.add("hidden");
     document.querySelector(".closeInfoContainer").addEventListener(
       "click",
