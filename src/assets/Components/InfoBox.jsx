@@ -19,8 +19,6 @@ export default function InfoBox(props) {
         <h4 className="percentage"> {shareholderItem.percentage}</h4>
       </div>
     ));
-
-    console.log(shareholderDivs);
   } else {
     descrContainsShareholders = false;
   }

@@ -21,18 +21,27 @@ function D3Chart() {
       .then((res) => res.json())
       .then((dataArray) => {
         setData(dataArray);
-        console.log("data fetched, data is", dataArray);
+        // setDataLoaded(true);
+        console.log("Data Set");
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
   }, []);
 
+  let [dataLoaded, setDataLoaded] = React.useState(false);
+
   // Create hierarchy and set links and nodes when data changes
   React.useEffect(() => {
-    const root = d3.hierarchy(data); // Wrap data in an object with a "children" property
+    let root = d3.hierarchy(data); // Wrap data in an object with a "children" property
     setLinks(root.links());
     setNodes(root.descendants());
+
+    console.log(data);
+    console.log("Nodes Updated");
+    if (data.length !== 0) {
+      setDataLoaded(true);
+    }
   }, [data]);
 
   React.useEffect(() => {
@@ -43,9 +52,6 @@ function D3Chart() {
   let height = window.innerHeight * 0.95;
 
   let [isFirstLoad, setIsFirstLoad] = React.useState(true);
-
-  let [isCommandKeyPressed, setIsCommandKeyPressed] = React.useState(false);
-  let isCommandKeyPressedRef = useRef(isCommandKeyPressed);
 
   // Set state values for the Zoombar component
   let [zoomAmount, setZoomAmount] = React.useState(0);
@@ -85,23 +91,37 @@ function D3Chart() {
 
   let [updateCameFromClickedNode, setUpdateCameFromClickedNode] = React.useState(false);
 
-  let [activeSectorFilter, setActiveSectorFilter] = React.useState([
-    "Όλα",
-    "MME",
-    "ΕΝΕΡΓΕΙΑ",
-    "ΑΘΛΗΤΙΣΜΟΣ",
-    "ΝΑΥΤΙΛΙΑ",
-    "ΑΡΓΟΝΑΥΤΗΣ",
-    "REAL ESTATE",
-    "ΕΜΠΟΡΙΟ",
-    "ΣΥΜΜΕΤΟΧΩΝ",
-    "ΞΕΝΟΔΟΧΕΙΑ",
-    "ΥΠΗΡΕΣΙΕΣ",
-    "ΚΑΤΑΣΚΕΥΕΣ",
-    "MME",
-    "ΧΡΗΜΑΤΟΠΙΣΤΩΤΙΚΑ",
-  ]);
+  let [activeSectorFilter, setActiveSectorFilter] = React.useState([]);
+  React.useEffect(() => {
+    setActiveSectorFilter(() => {
+      const uniqueSectors = new Set();
+
+      uniqueSectors.add("Όλα");
+
+      nodes.forEach((filterItem) => {
+        if (filterItem.data.sector !== undefined) {
+          uniqueSectors.add(filterItem.data.sector);
+        }
+      });
+
+      // Convert the Set back to an array if needed
+      const uniqueSectorsArray = Array.from(uniqueSectors);
+
+      // Log unique sectors
+      console.log("Unique sectors are", uniqueSectorsArray);
+
+      return uniqueSectorsArray;
+    });
+  }, [dataLoaded]);
+
   let activeSectorFilterRef = useRef(activeSectorFilter);
+
+  // Update the activeSectorFilter Ref
+  useEffect(() => {
+    activeSectorFilterRef.current = activeSectorFilter;
+  }, [activeSectorFilter]);
+
+  //we need to set to active group filter to the dynamically added nodes from the navigation component, otherwise it stays empty
 
   let [activeGroupFilter, setActiveGroupFilter] = React.useState([]);
 
@@ -118,13 +138,13 @@ function D3Chart() {
     .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
     .range(arrowThicknessArray);
 
-  const allNodes = root.descendants();
+  let allNodes = root.descendants();
   // Find the minimum and maximum number of descendants
-  const [minDescendants, maxDescendants] = d3.extent(allNodes, (node) => node.descendants().length);
+  let [minDescendants, maxDescendants] = d3.extent(allNodes, (node) => node.descendants().length);
 
   // Create the scale based on the range of descendants
   let startingNodeSizes = [100, 500];
-  const descendantsScale = d3.scaleLinear().domain([minDescendants, maxDescendants]).range(startingNodeSizes);
+  let descendantsScale = d3.scaleLinear().domain([minDescendants, maxDescendants]).range(startingNodeSizes);
 
   let nodeColorsArray = ["transparent", "#FF295B", "#DE62D9", "#44B0FF", "#20AE98", "#FEA800"];
   let nodeColors = d3
@@ -132,9 +152,25 @@ function D3Chart() {
     .domain([...new Set(nodes.map((d) => d.data.group))])
     .range(nodeColorsArray);
 
-  function handleZoom(e) {
-    console.log("Zooming and Panning!");
+  // Show a PopUp when trying to zoom without pressing Command
+  function showZoomNotice(e) {
+    let zoomNoticeCursor = document.querySelector(".zoomNoticeCursor");
+    zoomNoticeCursor.classList.add("visible");
+    console.log(zoomNoticeCursor.getBoundingClientRect().width);
+    zoomNoticeCursor.style.left = e.clientX - zoomNoticeCursor.getBoundingClientRect().width / 2 + "px";
+    zoomNoticeCursor.style.top = e.clientY + zoomNoticeCursor.getBoundingClientRect().height / 2 + "px";
 
+    setTimeout(() => {
+      zoomNoticeCursor.classList.remove("visible");
+    }, 2000);
+  }
+  function updateZoomNotice(e) {
+    let zoomNoticeCursor = document.querySelector(".zoomNoticeCursor");
+    zoomNoticeCursor.style.left = e.clientX - zoomNoticeCursor.getBoundingClientRect().width / 2 + "px";
+    zoomNoticeCursor.style.top = e.clientY + zoomNoticeCursor.getBoundingClientRect().height / 2 + "px";
+  }
+
+  function handleZoom(e) {
     d3.selectAll("svg g").attr("transform", e.transform);
     setZoomTransform(d3.zoomTransform(chartRef.current));
 
@@ -143,18 +179,16 @@ function D3Chart() {
     setHasBeenZoomed(true);
   }
 
-  function filter(event) {
+  function commandFilter(event) {
     return (
       (event.type !== "wheel" && event.type !== "dblclick") ||
       (event.type === "wheel" && (event.ctrlKey || event.metaKey))
     );
   }
 
-  let defaultFilter = filter;
+  let zoom = d3.zoom().filter(commandFilter).on("zoom", handleZoom).scaleExtent(zoomRange);
 
-  let zoom = d3.zoom().filter(defaultFilter).on("zoom", handleZoom).scaleExtent(zoomRange);
-
-  const drag = (simulation) => {
+  let drag = (simulation) => {
     function dragstarted(event) {
       if (!event.active) simulation.alphaTarget(0.2).restart();
       event.subject.fx = event.subject.x;
@@ -178,14 +212,15 @@ function D3Chart() {
 
   useEffect(() => {
     let allActiveNodes = nodes.filter((node) => node.data.on);
+    let allActiveLinks = links.filter((link) => link.source.data.on);
 
     // ALL FORCES APPLIED AT START, MORE STATIC, MORE STABLE
-    const simulation = d3
-      .forceSimulation(nodes, (d) => d)
+    let simulation = d3
+      .forceSimulation(allActiveNodes, (d) => d)
       .force(
         "link",
         d3
-          .forceLink(links)
+          .forceLink(allActiveLinks)
           .id((d) => d.id)
           .distance((d) => {
             let targetNodeIsLarge = d.target.data.type !== "subcompany";
@@ -257,19 +292,20 @@ function D3Chart() {
             ) {
               return 100;
             } else {
-              console.log("endnode");
               return 300;
             }
           })
           .strength(1)
       )
+      .force("x", d3.forceX())
+      .force("y", d3.forceY())
       .force(
         "charge",
         d3.forceManyBody().strength((d) => {
           if (d.depth === 0) {
             return 10;
           } else {
-            return -100;
+            return -8000;
           }
         })
       )
@@ -283,7 +319,7 @@ function D3Chart() {
 
     // Element Creation
     // Create the Canvas
-    const svg = d3
+    let svg = d3
       .select(chartRef.current) //
       .attr("width", width)
       .attr("height", height)
@@ -293,6 +329,11 @@ function D3Chart() {
         zoom.transform,
         hasBeenZoomed ? zoomTransform : d3.zoomIdentity.translate(initialZoom.x, initialZoom.y).scale(initialZoom.k)
       )
+      .on("wheel", showZoomNotice)
+      .on("mousemove", updateZoomNotice)
+      // .on("contextmenu", function (event) {
+      //   event.preventDefault();
+      // })
 
       .attr("class", "graphCanvas")
       .on("mouseover", function (e) {
@@ -311,7 +352,7 @@ function D3Chart() {
       )
       .attr("class", "nodeContainer");
 
-    const arrowheads = svg
+    let arrowheads = svg
       .append("defs")
       .selectAll("marker")
       // Linking the nodes data will create a def element for each element in nodes.
@@ -333,7 +374,7 @@ function D3Chart() {
       .attr("d", "M0,0 L0,6 L4,3 z");
 
     // Create and draw the Links
-    const link = svg
+    let link = svg
       .append("g")
       .selectAll("line")
       .data(links, (d) => d)
@@ -512,7 +553,7 @@ function D3Chart() {
               if (nodeWillBeClosed) {
                 hideDescendantsIfOpen(clickedNode);
               } else if (nodeWillBeExpanded) {
-                skipConnecerAndAddChildren();
+                skipConnectorAndAddChildren();
               }
             }
           });
@@ -530,7 +571,7 @@ function D3Chart() {
               if (clickedNode.depth < 3) {
                 if (nodeWillBeExpanded) {
                   setActiveGroupFilter((prevActiveGroupFilter) => {
-                    const updatedFilter = [...new Set(prevActiveGroupFilter)];
+                    let updatedFilter = [...new Set(prevActiveGroupFilter)];
 
                     if (!updatedFilter.includes(clickedNode.data.group)) {
                       updatedFilter.push(clickedNode.data.group);
@@ -541,7 +582,7 @@ function D3Chart() {
                 } else if (nodeWillBeClosed) {
                   console.log("Deactivating the filter for the clicked node!");
                   setActiveGroupFilter((prevActiveGroupFilter) => {
-                    const updatedFilter = prevActiveGroupFilter.filter((group) => group !== clickedNode.data.group);
+                    let updatedFilter = prevActiveGroupFilter.filter((group) => group !== clickedNode.data.group);
                     return updatedFilter;
                   });
                 }
@@ -551,9 +592,11 @@ function D3Chart() {
         }
       });
 
-      function skipConnecerAndAddChildren() {
+      function skipConnectorAndAddChildren() {
         if (clickedNode.children[0].data.type == "connector") {
+          console.log("next child is a connector node!");
           nodesToActivate.push(clickedNode.children[0]);
+          console.log(nodesToActivate);
           // This here represents the children of the found connector node
           clickedNode.children[0].children.forEach((skippedNodeChild) => {
             // Check if the children of the found connector node match one of the current filters
@@ -722,9 +765,9 @@ function D3Chart() {
 
       // add the group number of the filter node to the active group array
       setActiveGroupFilter((prevActiveGroupFilter) => {
-        const updatedFilter = [...prevActiveGroupFilter];
+        let updatedFilter = [...prevActiveGroupFilter];
 
-        const matchingNode = nodes.find((node) => node.data.name === IDText);
+        let matchingNode = nodes.find((node) => node.data.name === IDText);
         if (matchingNode) {
           updatedFilter.push(matchingNode.data.group);
           event.target.style.color = nodeColors(matchingNode.data.group);
@@ -735,18 +778,18 @@ function D3Chart() {
     } else {
       event.target.classList.remove("active");
       setActiveGroupFilter((prevActiveGroupFilter) => {
-        const updatedFilter = [...prevActiveGroupFilter];
+        let updatedFilter = [...prevActiveGroupFilter];
 
-        const matchingNode = nodes.find((node) => node.data.name === IDText);
+        let matchingNode = nodes.find((node) => node.data.name === IDText);
         if (matchingNode) {
           setActiveGroupFilter((prevActiveGroupFilter) => {
-            const updatedFilter = [...prevActiveGroupFilter];
+            let updatedFilter = [...prevActiveGroupFilter];
 
             // Check if the groupNumber already exists in the array
-            const groupNumberExists = updatedFilter.includes(matchingNode.data.group);
+            let groupNumberExists = updatedFilter.includes(matchingNode.data.group);
 
             // If it exists, filter it out; otherwise, add it to the array
-            const filteredFilter = groupNumberExists
+            let filteredFilter = groupNumberExists
               ? updatedFilter.filter((groupNumber) => groupNumber !== matchingNode.data.group)
               : updatedFilter.concat(matchingNode.data.group);
 
@@ -761,19 +804,19 @@ function D3Chart() {
     }
   }
 
-  let allListItemElements = document.querySelectorAll(".sectorFilter");
+  let sectorFilters = document.querySelectorAll(".sectorFilter");
 
   // Handle Functionality when clicking a SECTOR Filter
-  function findFilteredSectorNode(IDText, allSectorFilters) {
+  function findFilteredSectorNode(IDText, all) {
     setUpdateCameFromClickedNode(false);
     // Disable the active class from the first Filter Item if any other one is clicked
     if (!event.target.innerText.includes("Όλα")) {
-      allListItemElements[0].classList.remove("active");
+      sectorFilters[0].classList.remove("active");
     }
 
     // When clicking the all button, disable all individual filters
     if (event.target.innerText.includes("Όλα")) {
-      allListItemElements.forEach((altListItem) => {
+      sectorFilters.forEach((altListItem) => {
         if (event.target !== altListItem) {
           altListItem.classList.remove("active");
         }
@@ -781,11 +824,10 @@ function D3Chart() {
     }
 
     // Toggle the clicked Filter Item and Add/Remove it from the clicked filter array
-    toggleFilter(IDText, allSectorFilters);
+    toggleFilter(IDText, all);
   }
 
   function toggleFilter(IDText, allSectorFilters) {
-    console.log("allSectorFilters is", allSectorFilters);
     if (isFirstLoad) {
       allSectorFilters.forEach((allSectorFilter) => {
         setActiveSectorFilter((prevActiveSectorFilter) => {
@@ -794,7 +836,9 @@ function D3Chart() {
       });
     }
 
+    // If Statement Desclatations
     let filterIsActive = event.target.classList.contains("active");
+
     if (!filterIsActive) {
       event.target.classList.add("active");
 
@@ -834,22 +878,13 @@ function D3Chart() {
     }
   }
 
-  // Update the activeSectorFilter Ref
-  useEffect(() => {
-    activeSectorFilterRef.current = activeSectorFilter;
-  }, [activeSectorFilter]);
-
-  useEffect(() => {
-    isCommandKeyPressedRef.current = isCommandKeyPressed;
-  }, [isCommandKeyPressed]);
-
   // Filter system initializazion
   useEffect(() => {
-    let allListItemElements = document.querySelectorAll(".sectorFilter");
+    let sectorFilters = document.querySelectorAll(".sectorFilter");
 
-    // Add the acive class to the first element on Start
-    if (allListItemElements.length > 0) {
-      allListItemElements[0].classList.add("active");
+    // Add the active class to the first element on Start, here the "all" Filter
+    if (sectorFilters.length > 0) {
+      sectorFilters[0].classList.add("active");
     }
   }, []);
 
@@ -858,21 +893,21 @@ function D3Chart() {
     // Give the filter the active class if its groupnumber is contained in the array
     // Give the filter the correct color if its groupnumber is contained in the array
     nodes.forEach((node) => {
-      const isTopLevel = node.depth === 1;
-      const filterItems = document.querySelectorAll(".companyFilters > .filterItem");
+      // If Statement Declarations
+      let isTopLevel = node.depth === 1;
+
+      let filterItems = document.querySelectorAll(".groupFilters > .filterItem");
 
       filterItems.forEach((groupFilterItem) => {
-        const includesNodeName = groupFilterItem.innerText.includes(node.data.name);
+        let includesNodeName = groupFilterItem.innerText.includes(node.data.name);
 
         if (isTopLevel && activeGroupFilter.includes(node.data.group)) {
           if (includesNodeName) {
-            console.log("that worked!");
             groupFilterItem.classList.add("active");
             addNodeColor();
           }
         } else if (isTopLevel && !activeGroupFilter.includes(node.data.group)) {
           if (includesNodeName) {
-            console.log("that worked!");
             groupFilterItem.classList.remove("active");
             addNodeColor();
           }
@@ -890,13 +925,11 @@ function D3Chart() {
 
     handleNodeFiltering();
 
-    console.log("active group filters are", activeGroupFilter);
     // toggleGroupFilterColors();
   }, [activeSectorFilter, activeGroupFilter]);
 
   // Based on the newest state of the activeSectorFilter, hide all nodes that are not part of the active filter
   function handleNodeFiltering() {
-    console.log("filtering some nodes!");
     let nodesToDisable = [];
     let nodesToEnable = [];
 
@@ -975,7 +1008,7 @@ function D3Chart() {
     console.log("filterXMidPoint", filterXMidPoint);
     console.log("filterYMidPoint", filterYMidPoint);
 
-    const newZoomCoordinates = {
+    let newZoomCoordinates = {
       x: initialZoom.x + width / 3,
       y: initialZoom.y + height / 3,
       k: 10 / descendantAmount,
@@ -1055,7 +1088,7 @@ function D3Chart() {
     setNodes((prevNodes) => {
       let updatedNodes = prevNodes.map((node) => {
         // match the node from the data to the input node via index
-        const isConnectedNode = connectedNodes.some((connectedNode) => connectedNode.index === node.index);
+        let isConnectedNode = connectedNodes.some((connectedNode) => connectedNode.index === node.index);
 
         // return the node with the new on value. Return every other node unchanged.
         return isConnectedNode ? { ...node, data: { ...node.data, on: true } } : node;
@@ -1070,7 +1103,7 @@ function D3Chart() {
   function deactivateNodes(connectedNodes) {
     setNodes((prevNodes) => {
       let updatedNodes = prevNodes.map((node) => {
-        const isConnectedNode = connectedNodes.some((connectedNode) => connectedNode.index === node.index);
+        let isConnectedNode = connectedNodes.some((connectedNode) => connectedNode.index === node.index);
 
         return isConnectedNode ? { ...node, data: { ...node.data, on: false } } : node;
       });
@@ -1082,10 +1115,10 @@ function D3Chart() {
   function updateLinks(updatedNodes) {
     setLinks((prevLinks) => {
       return prevLinks.map((link) => {
-        const findUpdatedNode = (node) => updatedNodes.find((updatedNode) => updatedNode.index === node.index);
+        let findUpdatedNode = (node) => updatedNodes.find((updatedNode) => updatedNode.index === node.index);
 
-        const updatedTargetNode = findUpdatedNode(link.target);
-        const updatedSourceNode = findUpdatedNode(link.source);
+        let updatedTargetNode = findUpdatedNode(link.target);
+        let updatedSourceNode = findUpdatedNode(link.source);
 
         return {
           ...link,
@@ -1097,18 +1130,6 @@ function D3Chart() {
   }
 
   useEffect(() => {
-    document.addEventListener("keydown", function (event) {
-      if (event.key === "Meta" || event.key === "Control") {
-        setIsCommandKeyPressed(true);
-      }
-    });
-
-    document.addEventListener("keyup", function (event) {
-      if (event.key === "Meta" || event.key === "Control") {
-        setIsCommandKeyPressed(false);
-      }
-    });
-
     document.querySelector(".showInfo").classList.add("hidden");
     document.querySelector(".closeInfoContainer").addEventListener(
       "click",
@@ -1128,13 +1149,13 @@ function D3Chart() {
     document.querySelectorAll(".dropdownButton").forEach((dropdownButton) => {
       dropdownButton.addEventListener("click", () => {
         if (dropdownButton.classList.contains("sectors")) {
-          document.querySelector(".sectorFilters").classList.toggle("visible");
-          document.querySelector(".companyFilters").classList.remove("visible");
+          document.querySelector(".").classList.toggle("visible");
+          document.querySelector(".groupFilters").classList.remove("visible");
           dropdownButton.querySelector(".dropdownIcon").classList.toggle("active");
           document.querySelector(".dropdownButton.groups").querySelector(".dropdownIcon").classList.remove("active");
         } else if (dropdownButton.classList.contains("groups")) {
-          document.querySelector(".companyFilters").classList.toggle("visible");
-          document.querySelector(".sectorFilters").classList.remove("visible");
+          document.querySelector(".groupFilters").classList.toggle("visible");
+          document.querySelector(".").classList.remove("visible");
           dropdownButton.querySelector(".dropdownIcon").classList.toggle("active");
           document.querySelector(".dropdownButton.sectors").querySelector(".dropdownIcon").classList.remove("active");
         }
@@ -1161,6 +1182,7 @@ function D3Chart() {
         className="navigationContainer"
         filterItems={filterInfo}
         findFilteredNode={findFilteredNode}
+        // handleFilteredSectorChange={handleFilteredSectorChange}
         findFilteredSectorNode={findFilteredSectorNode}
         hoverFilteredNode={hoverFilteredNode}
         showAllSectors={showAllSectors}
@@ -1179,6 +1201,7 @@ function D3Chart() {
           -
         </div>
       </div>
+      <div className="zoomNoticeCursor">Please hold the control/command button to zoom</div>
     </div>
   );
 }

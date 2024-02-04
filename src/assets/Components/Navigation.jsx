@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function Navigation(props) {
   // Might have to use a copy of the filterItems here
 
-  let companyFilterItemArray = [];
+  let groupFilterItemArray = [];
   let sectorFilterItemsArray = [];
 
   let isOnMobile = window.innerWidth < 600;
@@ -48,6 +48,7 @@ export default function Navigation(props) {
       sectorFilterItemsArray.push(filterItem.data.sector);
     }
   });
+
   let sectorFilterItems = sectorFilterItemsArray.map((item, index) => (
     <li
       className="sectorFilter"
@@ -58,6 +59,7 @@ export default function Navigation(props) {
     >
       {item
         .split(" ")
+        // Change all words to be lowercased, except for MME
         .map((word) => (word.toUpperCase() === "MME" ? word : word.charAt(0) + word.slice(1).toLowerCase()))
         .join(" ")}{" "}
       {index !== sectorFilterItemsArray.length - 1 && isOnDesktop && <span className="dividerLine">|</span>}
@@ -67,17 +69,17 @@ export default function Navigation(props) {
   // Add all "Companies" as Filter Items
   props.filterItems.forEach(function (filterItem) {
     if (filterItem.data.type === "company") {
-      companyFilterItemArray.push(filterItem.data.name);
+      groupFilterItemArray.push(filterItem.data.name);
     }
   });
-  let companyFilterItems = companyFilterItemArray.map((item, index) => (
+  let groupFilterItems = groupFilterItemArray.map((item, index) => (
     <li
       className="filterItem"
       key={item}
       onClick={() => props.findFilteredNode(item)}
       onMouseEnter={() => props.hoverFilteredNode(item)}
     >
-      {item} {index !== companyFilterItemArray.length - 1 && isOnDesktop && <span className="dividerLine">|</span>}
+      {item} {index !== groupFilterItemArray.length - 1 && isOnDesktop && <span className="dividerLine">|</span>}
     </li>
   ));
 
@@ -114,7 +116,7 @@ export default function Navigation(props) {
           </svg>
         </h4>
       )}
-      <ul className="companyFilters">{companyFilterItems}</ul>
+      <ul className="groupFilters">{groupFilterItems}</ul>
     </div>
   );
 }

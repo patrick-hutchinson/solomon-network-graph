@@ -176,7 +176,7 @@ body {
   overflow: hidden;
   /* max-width: 100vw; */
 }
-.companyFilters {
+.groupFilters {
   font-size: 14px;
 }
 .sectorFilters {
@@ -386,6 +386,24 @@ foreignObject > h5 > p {
   display: none;
 }
 
+.zoomNoticeCursor {
+  opacity: 0;
+  font-size: 13px;
+  background: #fff;
+  color: #000;
+  width: auto;
+  height: auto;
+  border: 1px solid black;
+  border-radius: 4px;
+  position: absolute;
+  pointer-events: none;
+  padding: 3px;
+  transition: opacity 0.3s ease-in-out;
+}
+.zoomNoticeCursor.visible {
+  opacity: 1;
+}
+
 @media only screen and (max-width: 600px),
   only screen and (min-device-width: 601px) and (max-device-width: 1080px) and (-webkit-min-device-pixel-ratio: 1) {
   .nodePath {
@@ -418,7 +436,7 @@ foreignObject > h5 > p {
   }
 
   .sectorFilters,
-  .companyFilters {
+  .groupFilters {
     display: none;
     position: absolute;
     z-index: 1;
@@ -430,7 +448,7 @@ foreignObject > h5 > p {
     border-top: none;
   }
   .sectorFilters.visible,
-  .companyFilters.visible {
+  .groupFilters.visible {
     display: block;
   }
   .sectorFilter,
@@ -443,7 +461,7 @@ foreignObject > h5 > p {
     padding-top: 5px;
   }
 
-  .companyFilters > .filterItem {
+  .groupFilters > .filterItem {
     padding-bottom: 2px;
     padding-top: 8px;
   }
@@ -483,7 +501,7 @@ foreignObject > h5 > p {
     margin-left: 25%;
   }
   .sectorFilters.visible,
-  .companyFilters.visible {
+  .groupFilters.visible {
     width: 95vw;
   }
 }
@@ -494,7 +512,7 @@ foreignObject > h5 > p {
     margin-left: 10%;
   }
   .sectorFilters.visible,
-  .companyFilters.visible {
+  .groupFilters.visible {
     width: 33vw;
   }
 }

@@ -5,7 +5,6 @@ DO:
 —ideally nothing crossing
 —Insure mobile versions work on touch
 
-— Fix cmd+scroll to allow pan
 — Clicking on a Group Filter only expands that group
 
-—cmd scrolling for zoom
+END: Disable rigt click
