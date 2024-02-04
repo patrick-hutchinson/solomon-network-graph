@@ -76,7 +76,7 @@ export default function Navigation(props) {
     <li
       className="filterItem"
       key={item}
-      onClick={() => props.findFilteredNode(item)}
+      onClick={() => props.findFilteredGroup(item)}
       onMouseEnter={() => props.hoverFilteredNode(item)}
     >
       {item} {index !== groupFilterItemArray.length - 1 && isOnDesktop && <span className="dividerLine">|</span>}

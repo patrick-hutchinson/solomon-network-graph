@@ -90,6 +90,7 @@ function D3Chart() {
   let isOnDesktop = !isOnMobile && !isOnTablet;
 
   let [updateCameFromClickedNode, setUpdateCameFromClickedNode] = React.useState(false);
+  let [groupFilterWasClicked, setGroupFilterWasClicked] = React.useState(false);
 
   let [activeSectorFilter, setActiveSectorFilter] = React.useState([]);
   React.useEffect(() => {
@@ -446,17 +447,17 @@ function D3Chart() {
           d3.select(this.parentElement).select("h5").style("color", "#000");
         }
       }
-      // if (d.depth === 0) {
-      //   //hide the first node's links
-      //   d3.select(this.parentElement).attr("display", "none");
-      // }
+      if (d.depth === 0) {
+        //hide the first node's links
+        d3.select(this.parentElement).attr("display", "none");
+      }
     });
     // hide the first node's links
-    // d3.selectAll("line").each(function (d) {
-    //   if (d.source.depth === 0) {
-    //     d3.select(this).attr("display", "none");
-    //   }
-    // });
+    d3.selectAll("line").each(function (d) {
+      if (d.source.depth === 0) {
+        d3.select(this).attr("display", "none");
+      }
+    });
 
     // Arrow Heads
     // Correctly assign an url("arrowheadX") tag to position the arrowhead based on the target node's radius
@@ -538,6 +539,7 @@ function D3Chart() {
     // Event Handling
     function handleNodeClick(event, clickedNode) {
       setUpdateCameFromClickedNode(true);
+      setGroupFilterWasClicked(false);
       let nodesToActivate = [];
       //
       nodes.forEach(function (node) {
@@ -567,7 +569,7 @@ function D3Chart() {
         function updateActiveGroupFilter() {
           clickedNode.children.forEach(function (clickedNodeChild) {
             if (node.index === clickedNodeChild.index) {
-              //Only handlegroupFilter is the node is one of the 2 lower levels
+              // Only handlegroupFilter if the node is one of the 2 lower levels
               if (clickedNode.depth < 3) {
                 if (nodeWillBeExpanded) {
                   setActiveGroupFilter((prevActiveGroupFilter) => {
@@ -745,7 +747,9 @@ function D3Chart() {
   }
 
   // Handle Functionality when clicking a GROUP Filter
-  function findFilteredNode(IDText) {
+  function findFilteredGroup(IDText) {
+    setGroupFilterWasClicked(true);
+    console.log("Running findFilteredGroup");
     setUpdateCameFromClickedNode(false);
     nodes.forEach(function (node) {
       if (node.data.name === IDText) {
@@ -759,10 +763,11 @@ function D3Chart() {
     });
 
     let filterIsActive = event.target.classList.contains("active");
-    if (!filterIsActive) {
-      event.target.classList.add("active");
-      // Code for when the filter is active
 
+    if (!filterIsActive) {
+      // Filter is not active Yet
+      // Add Active Class
+      event.target.classList.add("active");
       // add the group number of the filter node to the active group array
       setActiveGroupFilter((prevActiveGroupFilter) => {
         let updatedFilter = [...prevActiveGroupFilter];
@@ -777,24 +782,18 @@ function D3Chart() {
       });
     } else {
       event.target.classList.remove("active");
+
+      const updateFilter = (filter, group) => {
+        const groupExists = filter.includes(group);
+        return groupExists ? filter.filter((num) => num !== group) : [...filter, group];
+      };
+
       setActiveGroupFilter((prevActiveGroupFilter) => {
         let updatedFilter = [...prevActiveGroupFilter];
 
         let matchingNode = nodes.find((node) => node.data.name === IDText);
         if (matchingNode) {
-          setActiveGroupFilter((prevActiveGroupFilter) => {
-            let updatedFilter = [...prevActiveGroupFilter];
-
-            // Check if the groupNumber already exists in the array
-            let groupNumberExists = updatedFilter.includes(matchingNode.data.group);
-
-            // If it exists, filter it out; otherwise, add it to the array
-            let filteredFilter = groupNumberExists
-              ? updatedFilter.filter((groupNumber) => groupNumber !== matchingNode.data.group)
-              : updatedFilter.concat(matchingNode.data.group);
-
-            return filteredFilter;
-          });
+          updatedFilter = updateFilter(updatedFilter, matchingNode.data.group);
         }
 
         return updatedFilter;
@@ -808,6 +807,7 @@ function D3Chart() {
 
   // Handle Functionality when clicking a SECTOR Filter
   function findFilteredSectorNode(IDText, all) {
+    setGroupFilterWasClicked(false);
     setUpdateCameFromClickedNode(false);
     // Disable the active class from the first Filter Item if any other one is clicked
     if (!event.target.innerText.includes("Όλα")) {
@@ -836,7 +836,7 @@ function D3Chart() {
       });
     }
 
-    // If Statement Desclatations
+    // If Statement Declarations
     let filterIsActive = event.target.classList.contains("active");
 
     if (!filterIsActive) {
@@ -896,24 +896,24 @@ function D3Chart() {
       // If Statement Declarations
       let isTopLevel = node.depth === 1;
 
-      let filterItems = document.querySelectorAll(".groupFilters > .filterItem");
+      let groupFilterItems = document.querySelectorAll(".groupFilters > .filterItem");
 
-      filterItems.forEach((groupFilterItem) => {
+      groupFilterItems.forEach((groupFilterItem) => {
         let includesNodeName = groupFilterItem.innerText.includes(node.data.name);
 
         if (isTopLevel && activeGroupFilter.includes(node.data.group)) {
           if (includesNodeName) {
             groupFilterItem.classList.add("active");
-            addNodeColor();
+            updateNodeColor();
           }
         } else if (isTopLevel && !activeGroupFilter.includes(node.data.group)) {
           if (includesNodeName) {
             groupFilterItem.classList.remove("active");
-            addNodeColor();
+            updateNodeColor();
           }
         }
 
-        function addNodeColor() {
+        function updateNodeColor() {
           if (groupFilterItem.classList.contains("active")) {
             groupFilterItem.style.color = nodeColors(node.data.group);
           } else {
@@ -924,25 +924,20 @@ function D3Chart() {
     });
 
     handleNodeFiltering();
-
-    // toggleGroupFilterColors();
   }, [activeSectorFilter, activeGroupFilter]);
 
-  // Based on the newest state of the activeSectorFilter, hide all nodes that are not part of the active filter
+  // Based on the newest state of the activeSectorFilter and activeGroupFilter, hide all nodes that are not part of the active filter
   function handleNodeFiltering() {
     let nodesToDisable = [];
     let nodesToEnable = [];
 
     nodes.forEach((node) => {
-      // The sector filter could only apply to nodes that are currently activated by the group filter.
-      // Add the Statement into the if Statement if desired;
-
       let groupIsAllowed = activeGroupFilter.includes(node.data.group);
       // If Statement declarations
       let nodeIsOn = node.data.on;
       let nodeIsSubcompany = node.data.type === "subcompany";
       let nodeIsConnector = node.data.type === "connector";
-      let nodeMatchesFilter = activeSectorFilterRef.current.includes(node.data.sector);
+      let nodeMatchesSectorFilter = activeSectorFilterRef.current.includes(node.data.sector);
 
       // Check if there is a Connectornode which contains a child that should be on according to the sectorfilter Array
       let connectorLacksOnChild =
@@ -953,10 +948,20 @@ function D3Chart() {
           return activeSectorFilterRef.current.includes(childNode.data.sector);
         });
 
-      if ((!groupIsAllowed && node.depth > 2) || (nodeIsSubcompany && !nodeMatchesFilter) || connectorLacksOnChild) {
+      if (
+        (!groupIsAllowed && node.depth > 2) ||
+        (nodeIsSubcompany && !nodeMatchesSectorFilter) ||
+        connectorLacksOnChild
+      ) {
         nodesToDisable.push(node);
       }
-      if (!nodeIsOn && nodeMatchesFilter && nodeIsSubcompany && !updateCameFromClickedNode) {
+      if (
+        !nodeIsOn &&
+        nodeMatchesSectorFilter &&
+        nodeIsSubcompany &&
+        !updateCameFromClickedNode &&
+        !groupFilterWasClicked
+      ) {
         if (groupIsAllowed) {
           findAncestorsManually(node).forEach((ancestorNode) => {
             nodesToEnable.push(node);
@@ -1181,7 +1186,7 @@ function D3Chart() {
       <Navigation
         className="navigationContainer"
         filterItems={filterInfo}
-        findFilteredNode={findFilteredNode}
+        findFilteredGroup={findFilteredGroup}
         // handleFilteredSectorChange={handleFilteredSectorChange}
         findFilteredSectorNode={findFilteredSectorNode}
         hoverFilteredNode={hoverFilteredNode}
