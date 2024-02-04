@@ -156,8 +156,9 @@ function D3Chart() {
   // Show a PopUp when trying to zoom without pressing Command
   function showZoomNotice(e) {
     let zoomNoticeCursor = document.querySelector(".zoomNoticeCursor");
+
     zoomNoticeCursor.classList.add("visible");
-    console.log(zoomNoticeCursor.getBoundingClientRect().width);
+
     zoomNoticeCursor.style.left = e.clientX - zoomNoticeCursor.getBoundingClientRect().width / 2 + "px";
     zoomNoticeCursor.style.top = e.clientY + zoomNoticeCursor.getBoundingClientRect().height / 2 + "px";
 
@@ -268,6 +269,10 @@ function D3Chart() {
             }
             if (d.source.data.group === 4 && d.source.depth == 1) {
               return 300;
+            } else if (d.source.data.group === 4 && sourceNodeIsLarge && targetNodeIsLarge) {
+              return 300;
+            } else if (d.source.data.group === 4 && sourceNodeIsConnector && targetNodeIsLarge) {
+              return -100;
             }
             if (d.source.data.group === 5 && d.source.depth == 1) {
               return 300;
@@ -275,8 +280,6 @@ function D3Chart() {
             if (d.source.data.group === 5 && d.source.data.type === "sector" && targetNodeIsLarge) {
               return 300;
             } else if (d.source.data.group === 5 && sourceNodeIsLarge && d.target.data.type === "sector") {
-              return 300;
-            } else if (d.source.data.group === 4 && sourceNodeIsLarge && targetNodeIsLarge) {
               return 300;
             } else if (
               // Spacing for: smaller groups, large nodes
@@ -1195,7 +1198,7 @@ function D3Chart() {
       />
       <Zoombar className="zoombar" zoomAmount={zoomAmount} zoomRange={zoomRange} />
       <InfoBox className="" nodeInfo={nodeInfo} />
-      <svg ref={chartRef}>{/* <div className="showInfo"></div> */}</svg>
+      <svg ref={chartRef}></svg>
       <div className="showInfo">[Show Info]</div>
       <div className="zoomButtonContainer">
         <span className="zoomNotice">(Press CMD/CTRL + Scroll to zoom)</span>
@@ -1206,7 +1209,7 @@ function D3Chart() {
           -
         </div>
       </div>
-      <div className="zoomNoticeCursor">Please hold the control/command button to zoom</div>
+      <div className="zoomNoticeCursor">Hold the control/command button to zoom</div>
     </div>
   );
 }

@@ -1299,7 +1299,7 @@
                         },
                         {
                           "name": "DIMERA MEDIA INVESTMENTS LIMITED",
-                          "type": "mothercompany",
+                          "type": "subcompany",
                           "group": 3,
                           "on": false,
                           "date": "",
