@@ -8,6 +8,5 @@ DO:
 — The zoom popup appears alos when its fully zoomed and you try to continue zooming
 — Ideally remove event listeners
 — Panning and Zooming to Node group only works on first time clicking the group filter
-— Nodes Tend to get too far away from the arrow in the yellow group
 
 END: Disable right click

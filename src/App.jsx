@@ -59,16 +59,16 @@ function D3Chart() {
   let [hasBeenZoomed, setHasBeenZoomed] = React.useState(false);
 
   let [initialZoom, setInitialZoom] = React.useState({
-    x: 0,
-    y: 500,
-    k: 0.7,
+    x: 500,
+    y: 300,
+    k: 0.6,
   });
 
   let [zoomTransform, setZoomTransform] = React.useState(
     `translate(${initialZoom.x}, ${initialZoom.y}) scale(${initialZoom.k})`
   );
 
-  let zoomRange = [0.1, 1.5];
+  let zoomRange = [0.1, 4];
 
   // Set state values for the InfoBox component
   let [nodeInfo, setNodeInfo] = React.useState({
@@ -133,7 +133,7 @@ function D3Chart() {
     .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
     .range(nodeSizesArray);
 
-  let arrowThicknessArray = [2, 2, 4, 3, 2.5, 2, 2];
+  let arrowThicknessArray = [2, 2, 6, 3, 2.5, 2, 2];
   let arrowThickness = d3
     .scaleOrdinal() //
     .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
@@ -179,6 +179,9 @@ function D3Chart() {
     setZoomAmount(e.transform.k);
 
     setHasBeenZoomed(true);
+
+    // let zoomNoticeCursor = document.querySelector(".zoomNoticeCursor");
+    // zoomNoticeCursor.classList.remove("visible");
   }
 
   function commandFilter(event) {
@@ -237,10 +240,10 @@ function D3Chart() {
             // 5 is pink
 
             if (d.target.depth === 0) {
-              return 100;
+              return 40;
             }
             if (d.target.depth === 1) {
-              return 100;
+              return 40;
             }
             if (sourceNodeIsLarge && targetNodeIsConnector) {
               return 40;
@@ -368,7 +371,7 @@ function D3Chart() {
       .append("marker")
       .attr("id", (d, i) => "arrowhead" + i)
       // Calculation is tailormade to place all arrowheads correctly.
-      .attr("refX", (d) => nodeSizes(d.data.type) / 25)
+      .attr("refX", (d) => nodeSizes(d.data.type) / 28)
       .attr("refY", 3)
       .attr("markerWidth", 10)
       .attr("markerHeight", 10)
@@ -1139,15 +1142,12 @@ function D3Chart() {
 
   useEffect(() => {
     document.querySelector(".showInfo").classList.add("hidden");
-    document.querySelector(".closeInfoContainer").addEventListener(
-      "click",
-      () => {
-        document.querySelector(".infoContainer").classList.add("hidden");
-        document.querySelector(".componentContainer").classList.add("hiddenInfo");
-        document.querySelector(".showInfo").classList.remove("hidden");
-      },
-      []
-    );
+
+    document.querySelector(".closeInfoContainer").addEventListener("click", () => {
+      document.querySelector(".infoContainer").classList.add("hidden");
+      document.querySelector(".componentContainer").classList.add("hiddenInfo");
+      document.querySelector(".showInfo").classList.remove("hidden");
+    });
     document.querySelector(".showInfo").addEventListener("click", () => {
       document.querySelector(".infoContainer").classList.remove("hidden");
       document.querySelector(".componentContainer").classList.remove("hiddenInfo");
