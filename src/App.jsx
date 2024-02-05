@@ -15,6 +15,11 @@ function D3Chart() {
   let [links, setLinks] = React.useState(root.links());
   let [nodes, setNodes] = React.useState(root.descendants());
 
+  let nodesRef = useRef(nodes);
+  useEffect(() => {
+    nodesRef.current = nodes;
+  }, [nodes]);
+
   // Fetch the Data
   React.useEffect(() => {
     fetch("https://raw.githubusercontent.com/patrick-hutchinson/solomon-network-graph/main/src/data.json")
@@ -154,6 +159,7 @@ function D3Chart() {
     .range(nodeColorsArray);
 
   // Show a PopUp when trying to zoom without pressing Command
+
   function showZoomNotice(e) {
     let zoomNoticeCursor = document.querySelector(".zoomNoticeCursor");
 
@@ -179,9 +185,6 @@ function D3Chart() {
     setZoomAmount(e.transform.k);
 
     setHasBeenZoomed(true);
-
-    // let zoomNoticeCursor = document.querySelector(".zoomNoticeCursor");
-    // zoomNoticeCursor.classList.remove("visible");
   }
 
   function commandFilter(event) {
@@ -995,6 +998,8 @@ function D3Chart() {
     let filterXPositions = [];
     let filterYPositions = [];
 
+    console.log(filterNode);
+
     let descendantAmount;
 
     if (filterNode.descendants() && filterNode.descendants().length > 0) {
@@ -1013,13 +1018,12 @@ function D3Chart() {
 
     let filterXMidPoint = (filterXMin + filterXMax) / 2;
     let filterYMidPoint = (filterYMin + filterYMax) / 2;
+
     console.log("filterXMidPoint", filterXMidPoint);
     console.log("filterYMidPoint", filterYMidPoint);
 
     // Create a D3 zoom transform with the new coordinates
-    let newZoomTransform = d3.zoomIdentity
-      .translate(width / 2 - filterXMidPoint / 5, height / 2 - filterYMidPoint / 5)
-      .scale(0.3);
+    let newZoomTransform = d3.zoomIdentity.translate(width / 2, height / 2).scale(0.15);
 
     console.log("newZoomTransform is", newZoomTransform);
 

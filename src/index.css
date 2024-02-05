@@ -274,6 +274,15 @@ foreignObject {
   width: 150px;
   transform: translate(-75px, -40px);
   -webkit-transform: translate(-75px, -20px);
+  -moz-transform: translate(-75px, -40px);
+  -ms-transform: translate(-75px, -40px);
+  -o-transform: translate(-75px, -40px);
+}
+@media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
+  foreignObject {
+    transform: translate(-75px, -30px);
+    -webkit-transform: translate(-75px, -32px);
+  }
 }
 
 foreignObject > h5 {
