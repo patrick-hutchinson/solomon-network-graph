@@ -275,7 +275,7 @@ foreignObject {
 }
 
 foreignObject > h5 {
-  font-size: 12px;
+  font-size: 15px;
   color: #fff;
   text-align: center;
   font-family: SimplexNeue;
@@ -352,7 +352,7 @@ foreignObject > h5 > p {
   font-size: 11px;
   -webkit-text-stroke-width: 0.4px;
   -webkit-text-stroke-color: black;
-  top: 158px;
+  top: 140px;
 }
 .showInfo.hidden {
   display: none;

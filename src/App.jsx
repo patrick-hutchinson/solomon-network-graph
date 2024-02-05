@@ -133,7 +133,7 @@ function D3Chart() {
     .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
     .range(nodeSizesArray);
 
-  let arrowThicknessArray = [2, 2, 6, 5, 4, 3, 3];
+  let arrowThicknessArray = [2, 2, 6, 5, 5, 3, 3];
   let arrowThickness = d3
     .scaleOrdinal() //
     .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
@@ -194,25 +194,24 @@ function D3Chart() {
   let zoom = d3.zoom().filter(commandFilter).on("zoom", handleZoom).scaleExtent(zoomRange);
 
   let drag = (simulation) => {
-    function dragstarted(event) {
-      if (!event.active) simulation.alphaTarget(0.2).restart();
-      event.subject.fx = event.subject.x;
-      event.subject.fy = event.subject.y;
+    function dragstarted(event, d) {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
     }
-    function dragged(event) {
-      event.subject.fx = event.x;
-      event.subject.fy = event.y;
+
+    function dragged(event, d) {
+      d.fx = event.x;
+      d.fy = event.y;
     }
-    function dragended(event) {
+
+    function dragended(event, d) {
       if (!event.active) simulation.alphaTarget(0);
-      event.subject.fx = null;
-      event.subject.fy = null;
+      d.fx = null;
+      d.fy = null;
     }
-    return d3
-      .drag()
-      .on("start", (event, d) => dragstarted(event, d))
-      .on("drag", (event, d) => dragged(event, d))
-      .on("end", (event, d) => dragended(event, d));
+
+    return d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended);
   };
 
   useEffect(() => {
@@ -264,6 +263,8 @@ function D3Chart() {
               return 400;
             } else if (d.source.data.group === 2 && d.source.data.type === "sector" && targetNodeIsLarge) {
               return 500;
+            } else if (d.source.data.group === 2 && sourceNodeIsLarge && targetNodeIsLarge) {
+              return 300;
             }
             if (d.source.data.group === 3 && d.source.depth == 1) {
               return 400;
@@ -403,23 +404,18 @@ function D3Chart() {
       .attr("stroke", (d) => nodeColors(d.data.group))
       //if the depth of the node is smaller than three, fill it. Else, white.
       .attr("fill", (d) =>
-        d.data.type === "group" ||
-        d.data.type === "person" ||
-        d.data.type === "company" ||
-        d.data.type === "mothercompany"
+        d.data.type === "person" || d.data.type === "company" || d.data.type === "mothercompany"
           ? nodeColors(d.data.group)
           : "#fff"
       )
       .attr("stroke-opacity", (d) => (d.data.on ? 0.6 : 0.1))
-      .call(drag(simulation))
+
       .attr("class", (d) =>
-        d.data.type === "group" ||
-        d.data.type === "person" ||
-        d.data.type === "company" ||
-        d.data.type === "mothercompany"
+        d.data.type === "person" || d.data.type === "company" || d.data.type === "mothercompany"
           ? "largeNode"
           : "smallNode"
-      );
+      )
+      .call(drag(simulation));
 
     // Add the Text
     elementEnter
@@ -710,7 +706,7 @@ function D3Chart() {
       circle
         .attr("cx", (d) => d.x) //
         .attr("cy", (d) => d.y);
-      circle.call(drag(simulation));
+      // circle.call(drag(simulation));
 
       elementEnter
         .select("text")
@@ -719,7 +715,7 @@ function D3Chart() {
 
       document.querySelectorAll("foreignObject").forEach(function (foreignObject) {
         let circle = foreignObject.parentElement.querySelector("circle");
-        let circleRadius = circle.getAttribute("r");
+
         if (circle.getAttribute("cx") !== null || circle.getAttribute("cy") !== null) {
           foreignObject.setAttribute("x", circle.getAttribute("cx"));
           foreignObject.setAttribute("y", circle.getAttribute("cy"));
