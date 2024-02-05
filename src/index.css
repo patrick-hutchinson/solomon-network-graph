@@ -272,6 +272,8 @@ body {
 
 foreignObject {
   width: 150px;
+  transform: translate(-75px, -40px);
+  -webkit-transform: translate(-75px, -20px);
 }
 
 foreignObject > h5 {

@@ -722,8 +722,9 @@ function D3Chart() {
         }
 
         foreignObject.setAttribute("width", "150");
-        foreignObject.setAttribute("height", "150");
-        foreignObject.style.transform = `translate(-${150 / 2}px, ${-25}px)`;
+        foreignObject.setAttribute("height", "100");
+
+        // foreignObject.style.transform = `translate(${-75}px, ${-40}px)`;
       });
     });
 
