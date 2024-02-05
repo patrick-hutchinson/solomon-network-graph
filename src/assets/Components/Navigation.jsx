@@ -96,11 +96,25 @@ export default function Navigation(props) {
     });
   });
 
+  function handleDropDownClick(event) {
+    if (event.target.classList.contains("sectors")) {
+      document.querySelector(".sectorFilters").classList.toggle("visible");
+      document.querySelector(".groupFilters").classList.remove("visible");
+      event.target.querySelector(".dropdownIcon").classList.toggle("active");
+      document.querySelector(".dropdownButton.groups").querySelector(".dropdownIcon").classList.remove("active");
+    } else if (event.target.classList.contains("groups")) {
+      document.querySelector(".groupFilters").classList.toggle("visible");
+      document.querySelector(".sectorFilters").classList.remove("visible");
+      event.target.querySelector(".dropdownIcon").classList.toggle("active");
+      document.querySelector(".dropdownButton.sectors").querySelector(".dropdownIcon").classList.remove("active");
+    }
+  }
+
   return (
     <div className="navigationContainer">
       <ul className="nodePath">{nodePathItems}</ul>
       {(isOnMobile || isOnTablet) && (
-        <h4 className="dropdownButton sectors">
+        <h4 className="dropdownButton sectors" onClick={handleDropDownClick}>
           ΦΙΛΤΡΑ
           <svg className="dropdownIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
             <path d="M24 22h-24l12-20z" />
@@ -109,7 +123,7 @@ export default function Navigation(props) {
       )}
       <ul className="sectorFilters">{sectorFilterItems}</ul>
       {(isOnMobile || isOnTablet) && (
-        <h4 className="dropdownButton groups">
+        <h4 className="dropdownButton groups" onClick={handleDropDownClick}>
           ΟΜΙΛΟI
           <svg className="dropdownIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
             <path d="M24 22h-24l12-20z" />

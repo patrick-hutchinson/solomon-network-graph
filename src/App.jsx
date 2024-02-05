@@ -133,7 +133,7 @@ function D3Chart() {
     .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
     .range(nodeSizesArray);
 
-  let arrowThicknessArray = [2, 2, 6, 3, 2.5, 2, 2];
+  let arrowThicknessArray = [2, 2, 6, 5, 4, 3, 3];
   let arrowThickness = d3
     .scaleOrdinal() //
     .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
@@ -1019,16 +1019,10 @@ function D3Chart() {
     console.log("filterXMidPoint", filterXMidPoint);
     console.log("filterYMidPoint", filterYMidPoint);
 
-    let newZoomCoordinates = {
-      x: initialZoom.x + width / 3,
-      y: initialZoom.y + height / 3,
-      k: 10 / descendantAmount,
-    };
-
     // Create a D3 zoom transform with the new coordinates
     let newZoomTransform = d3.zoomIdentity
-      .translate(width / 2 - filterXMidPoint / 4, height / 2 - filterYMidPoint / 5)
-      .scale(0.18);
+      .translate(width / 2 - filterXMidPoint / 5, height / 2 - filterYMidPoint / 5)
+      .scale(0.3);
 
     console.log("newZoomTransform is", newZoomTransform);
 
@@ -1140,42 +1134,17 @@ function D3Chart() {
     });
   }
 
-  useEffect(() => {
+  function handleShowInfoClick() {
+    document.querySelector(".infoContainer").classList.remove("hidden");
+    document.querySelector(".componentContainer").classList.remove("hiddenInfo");
     document.querySelector(".showInfo").classList.add("hidden");
+  }
 
-    document.querySelector(".closeInfoContainer").addEventListener("click", () => {
-      document.querySelector(".infoContainer").classList.add("hidden");
-      document.querySelector(".componentContainer").classList.add("hiddenInfo");
-      document.querySelector(".showInfo").classList.remove("hidden");
-    });
-    document.querySelector(".showInfo").addEventListener("click", () => {
-      document.querySelector(".infoContainer").classList.remove("hidden");
-      document.querySelector(".componentContainer").classList.remove("hiddenInfo");
-      document.querySelector(".showInfo").classList.add("hidden");
-    });
-
-    document.querySelectorAll(".dropdownButton").forEach((dropdownButton) => {
-      dropdownButton.addEventListener("click", () => {
-        if (dropdownButton.classList.contains("sectors")) {
-          document.querySelector(".").classList.toggle("visible");
-          document.querySelector(".groupFilters").classList.remove("visible");
-          dropdownButton.querySelector(".dropdownIcon").classList.toggle("active");
-          document.querySelector(".dropdownButton.groups").querySelector(".dropdownIcon").classList.remove("active");
-        } else if (dropdownButton.classList.contains("groups")) {
-          document.querySelector(".groupFilters").classList.toggle("visible");
-          document.querySelector(".").classList.remove("visible");
-          dropdownButton.querySelector(".dropdownIcon").classList.toggle("active");
-          document.querySelector(".dropdownButton.sectors").querySelector(".dropdownIcon").classList.remove("active");
-        }
-      });
-    });
-
-    window.addEventListener("click", function () {
-      if (isFirstLoad === true) {
-        setIsFirstLoad(false);
-      }
-    });
-  }, []);
+  function handleCompClick() {
+    if (isFirstLoad === true) {
+      setIsFirstLoad(false);
+    }
+  }
 
   function zoomIn() {
     d3.select(".graphCanvas").transition().call(zoom.scaleBy, 1.33);
@@ -1185,7 +1154,7 @@ function D3Chart() {
   }
 
   return (
-    <div className="componentContainer">
+    <div className="componentContainer" onClick={handleCompClick}>
       <Navigation
         className="navigationContainer"
         filterItems={filterInfo}
@@ -1199,7 +1168,9 @@ function D3Chart() {
       <Zoombar className="zoombar" zoomAmount={zoomAmount} zoomRange={zoomRange} />
       <InfoBox className="" nodeInfo={nodeInfo} />
       <svg ref={chartRef}></svg>
-      <div className="showInfo">[Show Info]</div>
+      <div className="showInfo hidden" onClick={handleShowInfoClick}>
+        [Show Info]
+      </div>
       <div className="zoomButtonContainer">
         <span className="zoomNotice">(Press CMD/CTRL + Scroll to zoom)</span>
         <div className="zoomButton" onClick={zoomIn}>

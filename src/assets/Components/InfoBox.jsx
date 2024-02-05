@@ -35,10 +35,18 @@ export default function InfoBox(props) {
     nodeDate = { __html: props.nodeInfo.date };
   }
 
+  function handleClick() {
+    document.querySelector(".infoContainer").classList.add("hidden");
+    document.querySelector(".componentContainer").classList.add("hiddenInfo");
+    document.querySelector(".showInfo").classList.remove("hidden");
+  }
+
   return (
     <>
       <div className="infoContainer">
-        <div className="closeInfoContainer">[X]</div>
+        <div className="closeInfoContainer" onClick={handleClick}>
+          [X]
+        </div>
         <h5 className="infoDate" dangerouslySetInnerHTML={nodeDate}></h5>
         <h1 className="infoTitle">{props.nodeInfo.title}</h1>
         <h5 className="infoSector">
