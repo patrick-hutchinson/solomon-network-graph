@@ -1216,7 +1216,7 @@ function D3Chart() {
       <InfoBox className="" nodeInfo={nodeInfo} />
       <svg ref={chartRef}></svg>
       <div className="showInfo hidden" onClick={handleShowInfoClick}>
-        [Show Info]
+        Show Info
       </div>
       <div className="zoomButtonContainer">
         {/* <span className="zoomNotice">(Press CMD/CTRL + Scroll to zoom)</span> */}

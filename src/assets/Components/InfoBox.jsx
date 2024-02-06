@@ -45,7 +45,7 @@ export default function InfoBox(props) {
     <>
       <div className="infoContainer">
         <div className="closeInfoContainer" onClick={handleClick}>
-          [X]
+          X
         </div>
         <h5 className="infoDate" dangerouslySetInnerHTML={nodeDate}></h5>
         <h1 className="infoTitle">{props.nodeInfo.title}</h1>
