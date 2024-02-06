@@ -93,16 +93,18 @@ body {
   cursor: pointer;
   display: block !important;
   white-space: nowrap;
+  justify-content: center;
+  align-self: center;
+  align-items: center;
 }
 .showInfo {
   position: absolute;
-  right: calc(100vw - 80px);
+  right: calc(100vw - 90px);
   white-space: nowrap;
   cursor: pointer;
   font-size: 11px;
   -webkit-text-stroke-width: 0.4px;
   -webkit-text-stroke-color: black;
-  transform-origin: left;
   top: 140px;
 }
 .showInfo.hidden {
@@ -113,7 +115,6 @@ body {
   content: "[";
   margin-right: 0;
   transition: margin-right 0.3s var(--ease-out);
-  transform-origin: left;
 }
 .closeInfoContainer:after,
 .showInfo:after {
@@ -414,6 +415,16 @@ foreignObject > h5 > p {
 }
 .zoomNoticeCursor.visible {
   opacity: 1;
+}
+
+@media only screen and (max-width: 900px) {
+  .componentContainer {
+    grid-template-columns: 0fr 1fr;
+  }
+  .infoContainer {
+    opacity: 0;
+    padding: 0;
+  }
 }
 
 /* Phones and Tablets */
