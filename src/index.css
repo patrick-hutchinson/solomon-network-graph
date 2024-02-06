@@ -45,7 +45,7 @@ body {
   display: grid;
   width: 100vw;
   height: 100vh;
-  grid-template-columns: 20vw 1fr;
+  grid-template-columns: 0.25fr 1fr;
   grid-template-rows: auto 5vh 1fr;
 
   padding: 10px;
@@ -53,10 +53,11 @@ body {
   box-sizing: border-box;
   row-gap: 10px;
   overflow: hidden !important;
-  transition: 1s linear ease-in-out;
+  transition: all 0.4s ease;
 }
+
 .componentContainer.hiddenInfo {
-  grid-template-columns: 1fr;
+  grid-template-columns: 0fr 1fr;
 }
 
 .infoContainer {
@@ -73,9 +74,10 @@ body {
   padding-right: 20px;
 
   border-right: 1px solid #ccc;
+  opacity: 1;
 }
 .infoContainer.hidden {
-  display: none;
+  opacity: 0;
 }
 
 .closeInfoContainer {
@@ -328,18 +330,18 @@ foreignObject > h5 > p {
   text-align: right;
   padding-right: 20px;
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr;
   grid-template-rows: 2;
 }
 
 .zoomButton:nth-child(2) {
-  grid-column-start: 2;
+  grid-column-start: 1;
   grid-row-start: 0;
   text-align: left;
   right: 0;
 }
 .zoomButton:nth-child(3) {
-  grid-column-start: 2;
+  grid-column-start: 1;
   grid-row-start: 2;
   text-align: left;
   right: 0;
@@ -463,6 +465,22 @@ foreignObject > h5 > p {
   }
   .zoomButtonContainer {
     grid-template-columns: 1fr;
+  }
+
+  .zoomButton {
+    font-size: 32px;
+  }
+  .zoomButton:hover {
+    color: #000;
+  }
+  .filterItem:hover .dividerLine {
+    color: #fff !important;
+  }
+  .sectorFilter:hover {
+    color: #fff !important;
+  }
+  .sectorFilter.active:hover {
+    color: #000 !important;
   }
 }
 

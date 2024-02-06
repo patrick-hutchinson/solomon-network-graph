@@ -7,6 +7,12 @@ import Zoombar from "./assets/Components/Zoombar";
 function D3Chart() {
   // http://localhost:5173/
 
+  let isOnMobile = window.innerWidth < 600;
+  let isOnTablet = window.matchMedia(
+    "(min-device-width: 601px) and (max-device-width: 1080px) and (-webkit-min-device-pixel-ratio: 1)"
+  ).matches;
+  let isOnDesktop = !isOnMobile && !isOnTablet;
+
   let chartRef = useRef(null);
 
   let [data, setData] = React.useState([]); // Initialize with an array
@@ -26,8 +32,6 @@ function D3Chart() {
       .then((res) => res.json())
       .then((dataArray) => {
         setData(dataArray);
-        // setDataLoaded(true);
-        console.log("Data Set");
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -42,8 +46,6 @@ function D3Chart() {
     setLinks(root.links());
     setNodes(root.descendants());
 
-    console.log(data);
-    console.log("Nodes Updated");
     if (data.length !== 0) {
       setDataLoaded(true);
     }
@@ -73,7 +75,14 @@ function D3Chart() {
     `translate(${initialZoom.x}, ${initialZoom.y}) scale(${initialZoom.k})`
   );
 
-  let zoomRange = [0.1, 4];
+  let zoomRange;
+  if (isOnMobile) {
+    // Set the zoom range for mobile
+    zoomRange = [0.05, 4];
+  } else {
+    // Set the zoom range for non-mobile (tablet and desktop)
+    zoomRange = [0.1, 4];
+  }
 
   // Set state values for the InfoBox component
   let [nodeInfo, setNodeInfo] = React.useState({
@@ -87,12 +96,6 @@ function D3Chart() {
   let [nodePath, setNodePath] = React.useState(["Root"]);
 
   let [filterInfo, setFilterInfo] = React.useState(nodes);
-
-  let isOnMobile = window.innerWidth < 600;
-  let isOnTablet = window.matchMedia(
-    "(min-device-width: 601px) and (max-device-width: 1080px) and (-webkit-min-device-pixel-ratio: 1)"
-  ).matches;
-  let isOnDesktop = !isOnMobile && !isOnTablet;
 
   let [updateCameFromClickedNode, setUpdateCameFromClickedNode] = React.useState(false);
   let [groupFilterWasClicked, setGroupFilterWasClicked] = React.useState(false);
@@ -113,9 +116,6 @@ function D3Chart() {
       // Convert the Set back to an array if needed
       const uniqueSectorsArray = Array.from(uniqueSectors);
 
-      // Log unique sectors
-      console.log("Unique sectors are", uniqueSectorsArray);
-
       return uniqueSectorsArray;
     });
   }, [dataLoaded]);
@@ -131,8 +131,10 @@ function D3Chart() {
 
   let [activeGroupFilter, setActiveGroupFilter] = React.useState([]);
 
+  let [clickedGroupFilterNode, setClickedGroupFilterNode] = React.useState();
+
   // Declare Scales and Values
-  let nodeSizesArray = [10, 135, 95, 75, 75, 0, 0];
+  let nodeSizesArray = [10, 135, 95, 85, 85, 0, 0];
   let nodeSizes = d3
     .scaleOrdinal() //
     .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
@@ -601,9 +603,7 @@ function D3Chart() {
 
       function skipConnectorAndAddChildren() {
         if (clickedNode.children[0].data.type == "connector") {
-          console.log("next child is a connector node!");
           nodesToActivate.push(clickedNode.children[0]);
-          console.log(nodesToActivate);
           // This here represents the children of the found connector node
           clickedNode.children[0].children.forEach((skippedNodeChild) => {
             // Check if the children of the found connector node match one of the current filters
@@ -657,7 +657,6 @@ function D3Chart() {
             shareholders: d.data.shareholders ? d.data.shareholders : "null",
           };
         });
-        // console.log("the nodes ancestors are", findAncestorsManually(d));
         setNodePath(findAncestorsManually(d));
       })
       .on("click", function (e, clickedNode) {
@@ -755,15 +754,15 @@ function D3Chart() {
   // Handle Functionality when clicking a GROUP Filter
   function findFilteredGroup(IDText) {
     setGroupFilterWasClicked(true);
-    console.log("Running findFilteredGroup");
     setUpdateCameFromClickedNode(false);
     nodes.forEach(function (node) {
       if (node.data.name === IDText) {
         findDescendants(node);
         activateAncestors(node);
-        setTimeout(() => {
-          panToNode(node);
-        }, 500);
+        setClickedGroupFilterNode(node.data.group);
+        // setTimeout(() => {
+        //   panToNode(node);
+        // }, 500);
         document.documentElement.style.setProperty("--highlightColorClick", nodeColors(node.data.group));
       }
     });
@@ -808,6 +807,57 @@ function D3Chart() {
       event.target.style.color = "#000";
     }
   }
+
+  // PANTONODE currently under construction.
+  // The issue is that the node poisition used to calculate the center spots are widely inaccurate
+  React.useEffect(() => {
+    console.log("the nodes state after a group has been expanded is", nodes);
+    console.log("the clicked group filter node is", clickedGroupFilterNode);
+
+    // if (clickedGroupFilterNode) {
+    //   console.log(clickedGroupFilterNode.descendants());
+    // }
+
+    let filterXPositions = [];
+    let filterYPositions = [];
+
+    let descendantAmount;
+
+    if (clickedGroupFilterNode) {
+      nodes.forEach((node) => {
+        if (node.data.group === clickedGroupFilterNode) {
+          if (node.depth === 1) {
+          }
+        }
+      });
+      // if (clickedGroupFilterNode.descendants() && clickedGroupFilterNode.descendants().length > 0) {
+      //   descendantAmount = clickedGroupFilterNode.descendants().length;
+      // }
+      // clickedGroupFilterNode.descendants().forEach(function (filterDescendant) {
+      //   filterXPositions.push(filterDescendant.x);
+      //   filterYPositions.push(filterDescendant.y);
+      // });
+      // let filterXMin = d3.min(filterXPositions);
+      // let filterXMax = d3.max(filterXPositions);
+      // let filterYMin = d3.min(filterYPositions);
+      // let filterYMax = d3.max(filterYPositions);
+      // console.log("filterYPositions:", filterYPositions);
+      // let filterXMidPoint = (filterXMin + filterXMax) / 2;
+      // let filterYMidPoint = (filterYMin + filterYMax) / 2;
+      // console.log("filterXMidPoint", filterXMidPoint);
+      // console.log("filterYMidPoint", filterYMidPoint);
+      // // Create a D3 zoom transform with the new coordinates
+      // let newZoomTransform = d3.zoomIdentity
+      //   .translate(width / 2 - filterXMidPoint / 4, height / 2 - filterYMidPoint / 5)
+      //   .scale(0.18);
+      // console.log("newZoomTransform is", newZoomTransform);
+      // // Apply the zoom transform with a smooth transition
+      // d3.select(chartRef.current)
+      //   .transition()
+      //   .duration(750) // Adjust the duration as needed
+      //   .call(zoom.transform, newZoomTransform);
+    }
+  }, [groupFilterWasClicked]);
 
   let sectorFilters = document.querySelectorAll(".sectorFilter");
 
@@ -984,7 +1034,6 @@ function D3Chart() {
   //Expand all the sector nodes (the actual ones) when a filter is clicked
   let sectorNodeArray = [];
   function showAllSectors() {
-    // console.log("showing all sectors!");
     nodes.forEach(function (node) {
       if (node.data.type === "sector") {
         sectorNodeArray.push(node);
@@ -997,8 +1046,6 @@ function D3Chart() {
   function panToNode(filterNode) {
     let filterXPositions = [];
     let filterYPositions = [];
-
-    console.log(filterNode);
 
     let descendantAmount;
 
@@ -1035,7 +1082,6 @@ function D3Chart() {
   }
 
   function findDescendants(filterNode) {
-    console.log("running finddescendants");
     let descendantNodesArray = [];
     findDescendantsManually(filterNode).forEach(function (descendantNode) {
       // if (filterNode !== descendantNode) {
@@ -1173,7 +1219,7 @@ function D3Chart() {
         [Show Info]
       </div>
       <div className="zoomButtonContainer">
-        <span className="zoomNotice">(Press CMD/CTRL + Scroll to zoom)</span>
+        {/* <span className="zoomNotice">(Press CMD/CTRL + Scroll to zoom)</span> */}
         <div className="zoomButton" onClick={zoomIn}>
           +
         </div>
@@ -1181,7 +1227,7 @@ function D3Chart() {
           -
         </div>
       </div>
-      <div className="zoomNoticeCursor">Hold the control/command button to zoom</div>
+      <div className="zoomNoticeCursor">Pinch or hold the control/command button to zoom</div>
     </div>
   );
 }
