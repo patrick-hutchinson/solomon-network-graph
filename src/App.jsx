@@ -760,9 +760,9 @@ function D3Chart() {
         findDescendants(node);
         activateAncestors(node);
         setClickedGroupFilterNode(node.data.group);
-        // setTimeout(() => {
-        //   panToNode(node);
-        // }, 500);
+        setTimeout(() => {
+          panToNode(node);
+        }, 500);
         document.documentElement.style.setProperty("--highlightColorClick", nodeColors(node.data.group));
       }
     });
