@@ -154,7 +154,7 @@ function D3Chart() {
   let startingNodeSizes = [100, 500];
   let descendantsScale = d3.scaleLinear().domain([minDescendants, maxDescendants]).range(startingNodeSizes);
 
-  let nodeColorsArray = ["transparent", "#FF295B", "#DE62D9", "#44B0FF", "#20AE98", "#FEA800"];
+  let nodeColorsArray = ["transparent", "#FF295B", "#AF1BF5", "#44B0FF", "#20AE98", "#FEA800"];
   let nodeColors = d3
     .scaleOrdinal() //
     .domain([...new Set(nodes.map((d) => d.data.group))])
