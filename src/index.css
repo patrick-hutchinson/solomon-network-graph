@@ -311,6 +311,7 @@ body {
 }
 
 foreignObject {
+  background-color: pink;
   width: 150px;
   transform: translate(-75px, -40px);
   -webkit-transform: translate(-75px, -20px);
@@ -331,8 +332,14 @@ circle.largeNode + foreignObject {
 }
 @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
   circle.largeNode + foreignObject {
-    transform: translate(-75px, -50px);
-    -webkit-transform: translate(-75px, -52px);
+    transform: translate(-75px, -60px);
+    -webkit-transform: translate(-75px, -62px);
+  }
+}
+@media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) and (max-device-width: 600px) {
+  circle.largeNode + foreignObject {
+    transform: translate(-75px, -40px);
+    -webkit-transform: translate(-75px, -42px);
   }
 }
 circle.largeNode + foreignObject > h5 {
@@ -340,9 +347,10 @@ circle.largeNode + foreignObject > h5 {
 }
 
 foreignObject > h5 {
-  font-size: 15px;
+  font-size: 14px;
   color: #fff;
   text-align: center;
+  vertical-align: center;
   font-family: SimplexNeue;
   line-height: 1.2;
   text-overflow: ellipsis;

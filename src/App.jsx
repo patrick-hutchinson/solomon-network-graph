@@ -425,8 +425,13 @@ function D3Chart() {
     // Add the Text
     elementEnter
       .append("foreignObject")
-      .attr("width", "180px")
-      .attr("height", "40px")
+      .attr("width", (d) => {
+        nodeSizes(d);
+      })
+      .attr("height", (d) => {
+        nodeSizes(d);
+      })
+      .attr("height", "150px")
       .append("xhtml:h5")
       .attr("class", "nodeTextElement")
       .call(drag(simulation))
@@ -723,10 +728,13 @@ function D3Chart() {
           foreignObject.setAttribute("y", circle.getAttribute("cy"));
         }
 
-        foreignObject.setAttribute("width", "150");
-        foreignObject.setAttribute("height", "100");
-
-        // foreignObject.style.transform = `translate(${-75}px, ${-40}px)`;
+        let positionVariable;
+        if (foreignObject.textContent.length > 15) {
+          positionVariable = foreignObject.textContent.length;
+        } else {
+          positionVariable = 0;
+        }
+        foreignObject.style.transform = `translate(${-75}px, ${-40 - positionVariable}px)`;
       });
     });
 
