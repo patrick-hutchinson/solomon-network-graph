@@ -60,7 +60,7 @@ export default function Navigation(props) {
       {item
         .split(" ")
         // Change all words to be lowercased, except for MME
-        .map((word) => (word.toUpperCase() === "MME" ? word : word.charAt(0) + word.slice(1).toLowerCase()))
+        .map((word) => (word.toUpperCase() === "ΜΜΕ" ? word : word.charAt(0) + word.slice(1).toLowerCase()))
         .join(" ")}{" "}
       {index !== sectorFilterItemsArray.length - 1 && isOnDesktop && <span className="dividerLine">|</span>}
     </li>

@@ -109,7 +109,7 @@ function D3Chart() {
 
       nodes.forEach((filterItem) => {
         if (filterItem.data.sector !== undefined) {
-          uniqueSectors.add(filterItem.data.sector.toLowerCase()); // Normalize to lowercase
+          uniqueSectors.add(filterItem.data.sector);
         }
       });
 
