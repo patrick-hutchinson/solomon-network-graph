@@ -6,6 +6,9 @@ DO:
 — Ideally remove event listeners
 — Panning and Zooming to Node group only works on first time clicking the group filter
 
+— The DIMERA node in the blue group doesnt conform to the nodeDescendantsIncludesActiveSectorNode function
+— MME Filter exists twice
+
 — Check how to differentiate between Chrome and Safari for -webkit positioning (-40 works for chrome, -20 works for safari)
 
 END: Disable right click

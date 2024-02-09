@@ -109,13 +109,14 @@ function D3Chart() {
 
       nodes.forEach((filterItem) => {
         if (filterItem.data.sector !== undefined) {
-          uniqueSectors.add(filterItem.data.sector);
+          uniqueSectors.add(filterItem.data.sector.toLowerCase()); // Normalize to lowercase
         }
       });
 
-      // Convert the Set back to an array if needed
+      // Convert the Set back to an array
       const uniqueSectorsArray = Array.from(uniqueSectors);
 
+      console.log("uniqueSectorsArray: ", uniqueSectorsArray);
       return uniqueSectorsArray;
     });
   }, [dataLoaded]);
@@ -1000,8 +1001,16 @@ function D3Chart() {
       // If Statement declarations
       let nodeIsOn = node.data.on;
       let nodeIsSubcompany = node.data.type === "subcompany";
+      let nodeIsSector = node.data.type === "sector";
       let nodeIsConnector = node.data.type === "connector";
+      let nodeIsMotherCompany = node.data.type === "mothercompany";
       let nodeMatchesSectorFilter = activeSectorFilterRef.current.includes(node.data.sector);
+
+      function nodeDescendantsIncludesActiveSectorNode() {
+        return findDescendantsManually(node).some((nodeDescendant) => {
+          return activeSectorFilterRef.current.includes(nodeDescendant.data.sector);
+        });
+      }
 
       // Check if there is a Connectornode which contains a child that should be on according to the sectorfilter Array
       let connectorLacksOnChild =
@@ -1012,13 +1021,23 @@ function D3Chart() {
           return activeSectorFilterRef.current.includes(childNode.data.sector);
         });
 
+      // Disabling Nodes
       if (
         (!groupIsAllowed && node.depth > 2) ||
         (nodeIsSubcompany && !nodeMatchesSectorFilter) ||
-        connectorLacksOnChild
+        connectorLacksOnChild ||
+        (node.depth > 2 &&
+          nodeIsMotherCompany &&
+          !nodeMatchesSectorFilter &&
+          !nodeDescendantsIncludesActiveSectorNode()) ||
+        (nodeIsSector &&
+          !activeSectorFilterRef.current.includes(node.data.name) &&
+          !nodeDescendantsIncludesActiveSectorNode()) ||
+        (nodeIsSubcompany && !nodeMatchesSectorFilter && !nodeDescendantsIncludesActiveSectorNode())
       ) {
         nodesToDisable.push(node);
       }
+      // Enabling Nodes
       if (
         !nodeIsOn &&
         nodeMatchesSectorFilter &&
