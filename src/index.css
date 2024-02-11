@@ -245,6 +245,10 @@ body {
   color: #ccc !important;
 }
 
+.filterItem.active .dividerLine {
+  color: #000 !important;
+}
+
 .progress-container {
   width: 100%;
   height: 15px;

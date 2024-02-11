@@ -100,6 +100,11 @@ function D3Chart() {
   let [updateCameFromClickedNode, setUpdateCameFromClickedNode] = React.useState(false);
   let [groupFilterWasClicked, setGroupFilterWasClicked] = React.useState(false);
 
+  let groupFilterWasClickedRef = useRef(groupFilterWasClicked);
+  useEffect(() => {
+    groupFilterWasClickedRef.current = groupFilterWasClicked;
+  }, [groupFilterWasClicked]);
+
   let [activeSectorFilter, setActiveSectorFilter] = React.useState([]);
   React.useEffect(() => {
     setActiveSectorFilter(() => {
@@ -766,8 +771,11 @@ function D3Chart() {
     setUpdateCameFromClickedNode(false);
     nodes.forEach(function (node) {
       if (node.data.name === IDText) {
-        findDescendants(node);
-        activateAncestors(node);
+        console.log("handling GROUPHROUP");
+        console.log(node.index);
+        handleNodeFiltering(node.index);
+        // activateDescendants(node);
+        // activateAncestors(node);
         setClickedGroupFilterNode(node.data.group);
         setTimeout(() => {
           panToNode(node);
@@ -794,6 +802,7 @@ function D3Chart() {
 
         return updatedFilter;
       });
+      //Filter is already active
     } else {
       event.target.classList.remove("active");
 
@@ -816,57 +825,6 @@ function D3Chart() {
       event.target.style.color = "#000";
     }
   }
-
-  // PANTONODE currently under construction.
-  // The issue is that the node poisition used to calculate the center spots are widely inaccurate
-  React.useEffect(() => {
-    console.log("the nodes state after a group has been expanded is", nodes);
-    console.log("the clicked group filter node is", clickedGroupFilterNode);
-
-    // if (clickedGroupFilterNode) {
-    //   console.log(clickedGroupFilterNode.descendants());
-    // }
-
-    let filterXPositions = [];
-    let filterYPositions = [];
-
-    let descendantAmount;
-
-    if (clickedGroupFilterNode) {
-      nodes.forEach((node) => {
-        if (node.data.group === clickedGroupFilterNode) {
-          if (node.depth === 1) {
-          }
-        }
-      });
-      // if (clickedGroupFilterNode.descendants() && clickedGroupFilterNode.descendants().length > 0) {
-      //   descendantAmount = clickedGroupFilterNode.descendants().length;
-      // }
-      // clickedGroupFilterNode.descendants().forEach(function (filterDescendant) {
-      //   filterXPositions.push(filterDescendant.x);
-      //   filterYPositions.push(filterDescendant.y);
-      // });
-      // let filterXMin = d3.min(filterXPositions);
-      // let filterXMax = d3.max(filterXPositions);
-      // let filterYMin = d3.min(filterYPositions);
-      // let filterYMax = d3.max(filterYPositions);
-      // console.log("filterYPositions:", filterYPositions);
-      // let filterXMidPoint = (filterXMin + filterXMax) / 2;
-      // let filterYMidPoint = (filterYMin + filterYMax) / 2;
-      // console.log("filterXMidPoint", filterXMidPoint);
-      // console.log("filterYMidPoint", filterYMidPoint);
-      // // Create a D3 zoom transform with the new coordinates
-      // let newZoomTransform = d3.zoomIdentity
-      //   .translate(width / 2 - filterXMidPoint / 4, height / 2 - filterYMidPoint / 5)
-      //   .scale(0.18);
-      // console.log("newZoomTransform is", newZoomTransform);
-      // // Apply the zoom transform with a smooth transition
-      // d3.select(chartRef.current)
-      //   .transition()
-      //   .duration(750) // Adjust the duration as needed
-      //   .call(zoom.transform, newZoomTransform);
-    }
-  }, [groupFilterWasClicked]);
 
   let sectorFilters = document.querySelectorAll(".sectorFilter");
 
@@ -992,7 +950,8 @@ function D3Chart() {
   }, [activeSectorFilter, activeGroupFilter]);
 
   // Based on the newest state of the activeSectorFilter and activeGroupFilter, hide all nodes that are not part of the active filter
-  function handleNodeFiltering() {
+  function handleNodeFiltering(groupNodeIndex) {
+    console.log("handling nodefiltering!");
     let nodesToDisable = [];
     let nodesToEnable = [];
 
@@ -1006,6 +965,7 @@ function D3Chart() {
       let nodeIsConnector = node.data.type === "connector";
       let nodeIsMotherCompany = node.data.type === "mothercompany";
       let nodeMatchesSectorFilter = activeSectorFilterRef.current.includes(node.data.sector);
+      let nodeMatchesSector = activeSectorFilterRef.current.includes(node.data.name);
 
       function nodeDescendantsIncludesActiveSectorNode() {
         return findDescendantsManually(node).some((nodeDescendant) => {
@@ -1014,48 +974,50 @@ function D3Chart() {
         });
       }
 
-      // Check if there is a Connectornode which contains a child that should be on according to the sectorfilter Array
-      let connectorLacksOnChild =
-        nodeIsConnector &&
-        !node.children.some((childNode) => {
-          // Check if the sector of the child node is included in the activeSectorFilter
-          // or if the type of the child node is "subcompany"
-          return activeSectorFilterRef.current.includes(childNode.data.sector);
-        });
-
       // Disabling Nodes
       if (
         nodeIsOn &&
         // Statement One
         ((!groupIsAllowed && node.depth > 2) ||
           // Statement Two
-          (nodeIsSubcompany && !nodeMatchesSectorFilter && !nodeDescendantsIncludesActiveSectorNode()) ||
-          connectorLacksOnChild ||
-          // Statement Three
           (node.depth > 2 &&
             nodeIsMotherCompany &&
             !nodeMatchesSectorFilter &&
             !nodeDescendantsIncludesActiveSectorNode()) ||
+          //Statement Three
+          (nodeIsSubcompany && !nodeMatchesSectorFilter && !nodeDescendantsIncludesActiveSectorNode()) ||
           // Statement Four
-          (nodeIsSector &&
-            !activeSectorFilterRef.current.includes(node.data.name) &&
-            !nodeDescendantsIncludesActiveSectorNode()))
+          (nodeIsConnector && !nodeDescendantsIncludesActiveSectorNode()) ||
+          // Statement Five
+          (nodeIsSector && !nodeMatchesSector && !nodeDescendantsIncludesActiveSectorNode()))
       ) {
         nodesToDisable.push(node);
-        console.log("disabling node", node);
       }
       // Enabling Nodes
-
       if (
         nodeIsOff &&
         nodeMatchesSectorFilter &&
         nodeIsSubcompany &&
         !updateCameFromClickedNode &&
-        !groupFilterWasClicked
+        !groupFilterWasClicked &&
+        groupIsAllowed
       ) {
-        if (groupIsAllowed) {
-          nodesToEnable.push(node);
-        }
+        nodesToEnable.push(node);
+      }
+
+      // Group filtering
+      if (node.index === groupNodeIndex) {
+        // activateDescendants(node);
+        // activateAncestors(node);
+        // if (groupIsAllowed && nodeMatchesSectorFilter) {
+        // nodesToEnable.push(node);
+        // }
+
+        findDescendantsManually(node).forEach((descendantNode) => {
+          if (activeSectorFilterRef.current.includes(descendantNode.data.sector)) {
+            nodesToEnable.push(descendantNode);
+          }
+        });
       }
     });
 
@@ -1114,7 +1076,7 @@ function D3Chart() {
       .call(zoom.transform, newZoomTransform);
   }
 
-  function findDescendants(filterNode) {
+  function activateDescendants(filterNode) {
     let descendantNodesArray = [];
     findDescendantsManually(filterNode).forEach(function (descendantNode) {
       // if (filterNode !== descendantNode) {
