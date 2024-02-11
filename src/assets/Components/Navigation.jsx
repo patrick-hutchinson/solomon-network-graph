@@ -20,7 +20,7 @@ export default function Navigation(props) {
     .filter((nodePathItem) => nodePathItem.data && nodePathItem.data.name && nodePathItem.data.name.trim() !== "") // Check if data and data.name are defined
     .filter((nodePathItem) => props.nodePath.length > 1 && nodePathItem.depth !== 0)
     .map((nodePathItem) => (
-      <li className="filterItem" key={nodePathItem.data.name}>
+      <li className="filterItem" key={nodePathItem.index}>
         {nodePathItem.data.name} /
       </li>
     ));

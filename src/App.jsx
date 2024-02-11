@@ -997,9 +997,10 @@ function D3Chart() {
     let nodesToEnable = [];
 
     nodes.forEach((node) => {
-      let groupIsAllowed = activeGroupFilter.includes(node.data.group);
       // If Statement declarations
       let nodeIsOn = node.data.on;
+      let nodeIsOff = !nodeIsOn;
+      let groupIsAllowed = activeGroupFilter.includes(node.data.group);
       let nodeIsSubcompany = node.data.type === "subcompany";
       let nodeIsSector = node.data.type === "sector";
       let nodeIsConnector = node.data.type === "connector";
@@ -1008,6 +1009,7 @@ function D3Chart() {
 
       function nodeDescendantsIncludesActiveSectorNode() {
         return findDescendantsManually(node).some((nodeDescendant) => {
+          // console.log(node.data.name, findDescendantsManually(node));
           return activeSectorFilterRef.current.includes(nodeDescendant.data.sector);
         });
       }
@@ -1023,32 +1025,36 @@ function D3Chart() {
 
       // Disabling Nodes
       if (
-        (!groupIsAllowed && node.depth > 2) ||
-        (nodeIsSubcompany && !nodeMatchesSectorFilter) ||
-        connectorLacksOnChild ||
-        (node.depth > 2 &&
-          nodeIsMotherCompany &&
-          !nodeMatchesSectorFilter &&
-          !nodeDescendantsIncludesActiveSectorNode()) ||
-        (nodeIsSector &&
-          !activeSectorFilterRef.current.includes(node.data.name) &&
-          !nodeDescendantsIncludesActiveSectorNode()) ||
-        (nodeIsSubcompany && !nodeMatchesSectorFilter && !nodeDescendantsIncludesActiveSectorNode())
+        nodeIsOn &&
+        // Statement One
+        ((!groupIsAllowed && node.depth > 2) ||
+          // Statement Two
+          (nodeIsSubcompany && !nodeMatchesSectorFilter && !nodeDescendantsIncludesActiveSectorNode()) ||
+          connectorLacksOnChild ||
+          // Statement Three
+          (node.depth > 2 &&
+            nodeIsMotherCompany &&
+            !nodeMatchesSectorFilter &&
+            !nodeDescendantsIncludesActiveSectorNode()) ||
+          // Statement Four
+          (nodeIsSector &&
+            !activeSectorFilterRef.current.includes(node.data.name) &&
+            !nodeDescendantsIncludesActiveSectorNode()))
       ) {
         nodesToDisable.push(node);
+        console.log("disabling node", node);
       }
       // Enabling Nodes
+
       if (
-        !nodeIsOn &&
+        nodeIsOff &&
         nodeMatchesSectorFilter &&
         nodeIsSubcompany &&
         !updateCameFromClickedNode &&
         !groupFilterWasClicked
       ) {
         if (groupIsAllowed) {
-          findAncestorsManually(node).forEach((ancestorNode) => {
-            nodesToEnable.push(node);
-          });
+          nodesToEnable.push(node);
         }
       }
     });
