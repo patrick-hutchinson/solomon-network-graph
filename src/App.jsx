@@ -121,7 +121,6 @@ function D3Chart() {
       // Convert the Set back to an array
       const uniqueSectorsArray = Array.from(uniqueSectors);
 
-      console.log("uniqueSectorsArray: ", uniqueSectorsArray);
       return uniqueSectorsArray;
     });
   }, [dataLoaded]);
@@ -231,7 +230,6 @@ function D3Chart() {
     let allActiveNodes = nodes.filter((node) => node.data.on);
     let allActiveLinks = links.filter((link) => link.source.data.on);
 
-    // ALL FORCES APPLIED AT START, MORE STATIC, MORE STABLE
     let simulation = d3
       .forceSimulation(allActiveNodes, (d) => d)
       .force(
@@ -385,7 +383,7 @@ function D3Chart() {
       .append("marker")
       .attr("id", (d, i) => "arrowhead" + i)
       // Calculation is tailormade to place all arrowheads correctly.
-      .attr("refX", (d) => nodeSizes(d.data.type) / 28)
+      .attr("refX", (d) => nodeSizes(d.data.type) / 32)
       .attr("refY", 3)
       .attr("markerWidth", 10)
       .attr("markerHeight", 10)
@@ -774,11 +772,8 @@ function D3Chart() {
     setUpdateCameFromClickedNode(false);
     nodes.forEach(function (node) {
       if (node.data.name === IDText) {
-        console.log("handling GROUPHROUP");
-        console.log(node.index);
+        // Pass the information into the handleNodeFiltering function
         handleNodeFiltering(node.index);
-        // activateDescendants(node);
-        // activateAncestors(node);
         setClickedGroupFilterNode(node.data.group);
         setTimeout(() => {
           panToNode(node);
@@ -954,7 +949,6 @@ function D3Chart() {
 
   // Based on the newest state of the activeSectorFilter and activeGroupFilter, hide all nodes that are not part of the active filter
   function handleNodeFiltering(groupNodeIndex) {
-    console.log("handling nodefiltering!");
     let nodesToDisable = [];
     let nodesToEnable = [];
 
@@ -972,7 +966,6 @@ function D3Chart() {
 
       function nodeDescendantsIncludesActiveSectorNode() {
         return findDescendantsManually(node).some((nodeDescendant) => {
-          // console.log(node.data.name, findDescendantsManually(node));
           return activeSectorFilterRef.current.includes(nodeDescendant.data.sector);
         });
       }
@@ -1064,13 +1057,8 @@ function D3Chart() {
     let filterXMidPoint = (filterXMin + filterXMax) / 2;
     let filterYMidPoint = (filterYMin + filterYMax) / 2;
 
-    console.log("filterXMidPoint", filterXMidPoint);
-    console.log("filterYMidPoint", filterYMidPoint);
-
     // Create a D3 zoom transform with the new coordinates
     let newZoomTransform = d3.zoomIdentity.translate(width / 2, height / 2).scale(0.15);
-
-    console.log("newZoomTransform is", newZoomTransform);
 
     // Apply the zoom transform with a smooth transition
     d3.select(chartRef.current)
