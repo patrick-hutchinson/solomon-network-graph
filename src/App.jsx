@@ -140,7 +140,9 @@ function D3Chart() {
   let [clickedGroupFilterNode, setClickedGroupFilterNode] = React.useState();
 
   // Declare Scales and Values
-  let nodeSizesArray = [10, 135, 95, 85, 85, 0, 0];
+  let subcompanySize = 105;
+  let sectorSize = 105;
+  let nodeSizesArray = [10, 135, 115, sectorSize, subcompanySize, 0, 0];
   let nodeSizes = d3
     .scaleOrdinal() //
     .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
@@ -324,7 +326,7 @@ function D3Chart() {
           if (d.depth === 0) {
             return 10;
           } else {
-            return -8000;
+            return -9000;
           }
         })
       )
@@ -437,7 +439,8 @@ function D3Chart() {
       .attr("height", (d) => {
         nodeSizes(d);
       })
-      .attr("height", "150px")
+      .attr("height", "180px")
+      .attr("width", "180px")
       .append("xhtml:h5")
       .attr("class", "nodeTextElement")
       .call(drag(simulation))
@@ -740,7 +743,7 @@ function D3Chart() {
         } else {
           positionVariable = 0;
         }
-        foreignObject.style.transform = `translate(${-75}px, ${-40 - positionVariable}px)`;
+        foreignObject.style.transform = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
       });
     });
 
