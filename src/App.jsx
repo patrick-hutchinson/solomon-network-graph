@@ -189,7 +189,7 @@ function D3Chart() {
 
   function handleZoom(e) {
     //only allow panning with two or more fingers
-    if (e.sourceEvent !== null) {
+    if (!isOnDesktop && e.sourceEvent !== null) {
       if (e.sourceEvent.touches.length === 1) {
         return d3.event.sourceEvent.stopPropagation();
       }
@@ -458,7 +458,9 @@ function D3Chart() {
       .attr("class", "nodeTextElement")
       .call(drag(simulation))
       .html((d) => {
-        return `<p>${d.data.name}<br> ${d.children && d.data.type !== "connector" ? `[${d.children.length}]` : ""}</p>`;
+        return `<p>${d.data.name}<br> ${
+          d.children && d.data.type !== "connector" && d.depth !== 1 ? `[${d.children.length}]` : ""
+        }</p>`;
       })
       .attr("xmlns", "http://www.w3.org/1999/xhtml");
 
@@ -528,12 +530,12 @@ function D3Chart() {
         d3.select(this) //
           .transition()
           .duration("200")
-          .attr("fill", "#fff")
+          .attr("fill", (d) => (d.depth === 1 ? nodeColors(d.data.group) : "#fff"))
           .attr("cursor", "pointer");
 
         document.documentElement.style.setProperty("--highlightColorHover", nodeColors(d.data.group));
         // Change the text color contained in the node
-        e.target.parentElement.querySelector("h5").classList.add("hovered");
+        d.depth > 1 ? e.target.parentElement.querySelector("h5").classList.add("hovered") : null;
 
         setNodeInfo((prevNodeInfo) => {
           return {
@@ -710,15 +712,19 @@ function D3Chart() {
         .attr("x1", (d) => {
           if (d.source.data.type === "subcompany") {
             return shortenLinkBeginning(d.source.x, d.target.x);
+          } else if (d.source.data.type === "connector") {
+            return fullLengthLink(d.source.x, d.target.x);
           } else {
-            return d.source.x;
+            return shortenLinkDefault(d.source.x, d.target.x);
           }
         })
         .attr("y1", (d) => {
           if (d.source.data.type === "subcompany") {
             return shortenLinkBeginning(d.source.y, d.target.y);
+          } else if (d.source.data.type === "connector") {
+            return fullLengthLink(d.source.y, d.target.y);
           } else {
-            return d.source.y;
+            return shortenLinkDefault(d.source.y, d.target.y);
           }
         })
         // Shorten the arrow slightly if it is pointing at a lower level node
@@ -780,6 +786,12 @@ function D3Chart() {
     }
 
     function shortenLinkBeginning(sourceCoord, targetCoord, factor = 0.2) {
+      return sourceCoord + (targetCoord - sourceCoord) * factor;
+    }
+    function shortenLinkDefault(sourceCoord, targetCoord, factor = 0.25) {
+      return sourceCoord + (targetCoord - sourceCoord) * factor;
+    }
+    function fullLengthLink(sourceCoord, targetCoord, factor = 0) {
       return sourceCoord + (targetCoord - sourceCoord) * factor;
     }
 
