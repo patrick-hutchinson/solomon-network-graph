@@ -188,6 +188,13 @@ function D3Chart() {
   }
 
   function handleZoom(e) {
+    //only allow panning with two or more fingers
+    if (e.sourceEvent !== null) {
+      if (e.sourceEvent.touches.length === 1) {
+        return d3.event.sourceEvent.stopPropagation();
+      }
+    }
+
     d3.selectAll("svg g").attr("transform", e.transform);
     setZoomTransform(d3.zoomTransform(chartRef.current));
 
@@ -332,7 +339,7 @@ function D3Chart() {
           if (d.depth === 0) {
             return 10;
           } else {
-            return -9000;
+            return -8250;
           }
         })
       )
@@ -579,9 +586,9 @@ function D3Chart() {
         if (clickedNode.children) {
           clickedNode.children.forEach(function (clickedNodeChild) {
             if (node.index === clickedNodeChild.index) {
-              if (nodeWillBeClosed) {
+              if (nodeWillBeClosed && clickedNode.depth > 1) {
                 hideDescendantsIfOpen(clickedNode);
-              } else if (nodeWillBeExpanded) {
+              } else if (nodeWillBeExpanded && clickedNode.depth > 1) {
                 skipConnectorAndAddChildren();
               }
             }
@@ -597,7 +604,7 @@ function D3Chart() {
           clickedNode.children.forEach(function (clickedNodeChild) {
             if (node.index === clickedNodeChild.index) {
               // Only handlegroupFilter if the node is one of the 2 lower levels
-              if (clickedNode.depth < 3) {
+              if (clickedNode.depth < 3 && clickedNode.depth !== 1) {
                 if (nodeWillBeExpanded) {
                   setActiveGroupFilter((prevActiveGroupFilter) => {
                     let updatedFilter = [...new Set(prevActiveGroupFilter)];
