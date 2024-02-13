@@ -238,10 +238,18 @@ function D3Chart() {
           .forceLink(allActiveLinks)
           .id((d) => d.id)
           .distance((d) => {
+            let group1 = d.source.data.group === 1;
+            let group2 = d.source.data.group === 2;
+            let group3 = d.source.data.group === 3;
+            let group4 = d.source.data.group === 4;
+            let group5 = d.source.data.group === 5;
+            let sourceNodeIsRoot = d.source.depth == 1;
             let targetNodeIsLarge = d.target.data.type !== "subcompany";
             let sourceNodeIsLarge = d.source.data.type !== "subcompany";
             let targetNodeIsConnector = d.target.data.type === "connector";
             let sourceNodeIsConnector = d.source.data.type === "connector";
+            let sourceNodeIsSector = d.source.data.type === "sector";
+            let targetNodeIsSector = d.target.data.type === "sector";
 
             // 1 is red
             // 2 is green
@@ -258,43 +266,43 @@ function D3Chart() {
             if (sourceNodeIsLarge && targetNodeIsConnector) {
               return 40;
             }
-            if (d.source.data.type === "connector" && targetNodeIsLarge) {
+            if (sourceNodeIsConnector && targetNodeIsLarge) {
               return 380;
             }
             // Group One
-            if (d.source.data.group === 1 && d.source.depth == 1) {
+            if (group1 && sourceNodeIsRoot) {
               return 400;
-            } else if (d.source.data.group === 1 && sourceNodeIsLarge && d.target.data.type === "sector") {
+            } else if (group1 && sourceNodeIsLarge && targetNodeIsSector) {
               return 200;
-            } else if (d.source.data.group === 1 && d.source.data.type === "sector" && targetNodeIsLarge) {
+            } else if (group1 && sourceNodeIsSector && targetNodeIsLarge) {
               return 200;
             }
             // Group Two
-            if (d.source.data.group === 2 && d.source.depth == 1) {
+            if (group2 && sourceNodeIsRoot) {
               return 400;
-            } else if (d.source.data.group === 2 && d.source.data.type === "sector" && targetNodeIsLarge) {
+            } else if (group2 && sourceNodeIsSector && targetNodeIsLarge) {
               return 500;
-            } else if (d.source.data.group === 2 && sourceNodeIsLarge && targetNodeIsLarge) {
+            } else if (group2 && sourceNodeIsLarge && targetNodeIsLarge) {
               return 300;
             }
-            if (d.source.data.group === 3 && d.source.depth == 1) {
+            if (group3 && sourceNodeIsRoot) {
               return 400;
-            } else if (d.source.data.group === 3 && sourceNodeIsLarge && targetNodeIsLarge) {
+            } else if (group3 && sourceNodeIsLarge && targetNodeIsLarge) {
               return 300;
             }
-            if (d.source.data.group === 4 && d.source.depth == 1) {
+            if (group4 && sourceNodeIsRoot) {
               return 300;
-            } else if (d.source.data.group === 4 && sourceNodeIsLarge && targetNodeIsLarge) {
+            } else if (group4 && sourceNodeIsLarge && targetNodeIsLarge) {
               return 300;
-            } else if (d.source.data.group === 4 && sourceNodeIsConnector && targetNodeIsLarge) {
+            } else if (group4 && sourceNodeIsConnector && targetNodeIsLarge) {
               return -100;
             }
-            if (d.source.data.group === 5 && d.source.depth == 1) {
+            if (group5 && sourceNodeIsRoot) {
               return 300;
             }
-            if (d.source.data.group === 5 && d.source.data.type === "sector" && targetNodeIsLarge) {
+            if (group5 && sourceNodeIsSector && targetNodeIsLarge) {
               return 300;
-            } else if (d.source.data.group === 5 && sourceNodeIsLarge && d.target.data.type === "sector") {
+            } else if (group5 && sourceNodeIsLarge && targetNodeIsSector) {
               return 300;
             } else if (
               // Spacing for: smaller groups, large nodes
@@ -692,8 +700,20 @@ function D3Chart() {
     // Set the position attributes of links and nodes each time the simulation ticks.
     simulation.on("tick", () => {
       link
-        .attr("x1", (d) => d.source.x)
-        .attr("y1", (d) => d.source.y)
+        .attr("x1", (d) => {
+          if (d.source.data.type === "subcompany") {
+            return shortenLinkBeginning(d.source.x, d.target.x);
+          } else {
+            return d.source.x;
+          }
+        })
+        .attr("y1", (d) => {
+          if (d.source.data.type === "subcompany") {
+            return shortenLinkBeginning(d.source.y, d.target.y);
+          } else {
+            return d.source.y;
+          }
+        })
         // Shorten the arrow slightly if it is pointing at a lower level node
         .attr("x2", (d) => {
           if (d.target.data.type === "connector") {
@@ -736,7 +756,7 @@ function D3Chart() {
         }
 
         let positionVariable;
-        if (foreignObject.textContent.length > 15) {
+        if (foreignObject.textContent.length > 1) {
           positionVariable = foreignObject.textContent.length;
         } else {
           positionVariable = 0;
@@ -749,6 +769,10 @@ function D3Chart() {
       return sourceCoord + (targetCoord - sourceCoord) * factor;
     }
     function shortenEndLink(sourceCoord, targetCoord, factor = 0.82) {
+      return sourceCoord + (targetCoord - sourceCoord) * factor;
+    }
+
+    function shortenLinkBeginning(sourceCoord, targetCoord, factor = 0.2) {
       return sourceCoord + (targetCoord - sourceCoord) * factor;
     }
 
@@ -1070,9 +1094,7 @@ function D3Chart() {
   function activateDescendants(filterNode) {
     let descendantNodesArray = [];
     findDescendantsManually(filterNode).forEach(function (descendantNode) {
-      // if (filterNode !== descendantNode) {
       descendantNodesArray.push(descendantNode);
-      // }
     });
 
     activateNodes(descendantNodesArray);
