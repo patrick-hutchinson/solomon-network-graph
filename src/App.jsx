@@ -121,6 +121,7 @@ function D3Chart() {
       // Convert the Set back to an array
       const uniqueSectorsArray = Array.from(uniqueSectors);
 
+      console.log("uniqueSectorsArray: ", uniqueSectorsArray);
       return uniqueSectorsArray;
     });
   }, [dataLoaded]);
@@ -139,9 +140,7 @@ function D3Chart() {
   let [clickedGroupFilterNode, setClickedGroupFilterNode] = React.useState();
 
   // Declare Scales and Values
-  let subcompanySize = 105;
-  let sectorSize = 105;
-  let nodeSizesArray = [10, 135, 115, sectorSize, subcompanySize, 0, 0];
+  let nodeSizesArray = [10, 135, 95, 85, 85, 0, 0];
   let nodeSizes = d3
     .scaleOrdinal() //
     .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
@@ -188,7 +187,6 @@ function D3Chart() {
   }
 
   function handleZoom(e) {
-    //only allow panning with two or more fingers
     if (!isOnDesktop && e.sourceEvent !== null) {
       if (e.sourceEvent.touches.length === 1) {
         return d3.event.sourceEvent.stopPropagation();
