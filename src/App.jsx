@@ -772,6 +772,7 @@ function D3Chart() {
         } else {
           positionVariable = 0;
         }
+        foreignObject.style["-webkit-transform"] = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
         foreignObject.style.transform = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
       });
     });
