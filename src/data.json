@@ -24,7 +24,7 @@
               "name": "ΜΜΕ",
               "type": "sector",
               "group": 1,
-              "on": false,
+              "on": true,
               "date": "",
               "description": "",
               "children": [
@@ -206,7 +206,7 @@
               "name": "ΕΝΕΡΓΕΙΑ",
               "type": "sector",
               "group": 1,
-              "on": false,
+              "on": true,
               "date": "",
               "description": "",
               "children": [
@@ -225,7 +225,7 @@
               "name": "ΑΘΛΗΤΙΣΜΟΣ",
               "type": "sector",
               "group": 1,
-              "on": false,
+              "on": true,
               "date": "",
               "description": "",
               "children": [
@@ -301,7 +301,7 @@
               "name": "ΝΑΥΤΙΛΙΑ",
               "type": "sector",
               "group": 1,
-              "on": false,
+              "on": true,
               "date": "",
               "description": "",
               "children": [
@@ -534,7 +534,7 @@
               "name": "ΜΜΕ",
               "type": "sector",
               "group": 1,
-              "on": false,
+              "on": true,
               "children": [
                 {
                   "name": "ΝΕΕΣ ΚΑΘΗΜΕΡΙΝΕΣ ΕΚΔΟΣΕΙΣ",
@@ -764,7 +764,7 @@
               "name": "ΝΑΥΤΙΛΙΑ",
               "type": "sector",
               "group": 1,
-              "on": false,
+              "on": true,
               "children": [
                 {
                   "name": "ΑΡΓΟΝΑΥΤΗΣ",
@@ -907,7 +907,7 @@
               "name": "REAL ESTATE",
               "type": "sector",
               "group": 5,
-              "on": false,
+              "on": true,
               "date": "",
               "description": "",
               "children": [
@@ -985,7 +985,7 @@
               "name": "ΜΜΕ",
               "type": "sector",
               "group": 5,
-              "on": false,
+              "on": true,
               "date": "",
               "description": "",
               "children": [
@@ -1126,7 +1126,7 @@
               "name": "ΑΘΛΗΤΙΣΜΟΣ",
               "type": "sector",
               "group": 5,
-              "on": false,
+              "on": true,
               "date": "",
               "description": "",
               "children": [
@@ -1151,7 +1151,7 @@
               "name": "ΕΜΠΟΡΙΟ",
               "type": "sector",
               "group": 5,
-              "on": false,
+              "on": true,
               "date": "",
               "description": "",
               "children": [
@@ -1212,7 +1212,7 @@
               "name": "ΣΥΜΜΕΤΟΧΩΝ",
               "type": "sector",
               "group": 3,
-              "on": false,
+              "on": true,
               "date": "",
               "description": "",
               "children": [
@@ -1507,7 +1507,7 @@
               "name": "ΑΘΛΗΤΙΣΜΟΣ",
               "type": "sector",
               "group": 2,
-              "on": false,
+              "on": true,
               "date": "",
               "description": "",
               "children": [
@@ -1601,7 +1601,7 @@
               "name": "ΚΑΤΑΣΚΕΥΕΣ",
               "type": "sector",
               "group": 2,
-              "on": false,
+              "on": true,
               "date": "",
               "description": "",
               "children": [
@@ -1772,7 +1772,7 @@
               "name": "ΕΝΕΡΓΕΙΑ",
               "type": "sector",
               "group": 4,
-              "on": false,
+              "on": true,
               "date": "",
               "description": "",
               "children": [
@@ -2076,7 +2076,7 @@
               "name": "ΜΜΕ",
               "type": "sector",
               "group": 4,
-              "on": false,
+              "on": true,
               "date": "",
               "description": "",
               "children": [

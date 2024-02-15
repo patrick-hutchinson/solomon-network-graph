@@ -772,8 +772,11 @@ function D3Chart() {
         } else {
           positionVariable = 0;
         }
-        foreignObject.style["-webkit-transform"] = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
         foreignObject.style.transform = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
+        foreignObject.style["-webkit-transform"] = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
+        foreignObject.style["-moz-transform"] = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
+        foreignObject.style["-o-transform"] = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
+        foreignObject.style["-ms-transform"] = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
       });
     });
 
@@ -1016,9 +1019,9 @@ function D3Chart() {
       if (
         nodeIsOn &&
         // Statement One
-        ((!groupIsAllowed && node.depth > 2) ||
+        ((!groupIsAllowed && node.depth > 3) ||
           // Statement Two
-          (node.depth > 2 &&
+          (node.depth > 3 &&
             nodeIsMotherCompany &&
             !nodeMatchesSectorFilter &&
             !nodeDescendantsIncludesActiveSectorNode()) ||
