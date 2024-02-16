@@ -508,6 +508,7 @@ foreignObject > h5 > p {
   .groupFilters > .filterItem {
     padding-bottom: 2px;
     padding-top: 8px;
+    letter-spacing: 10px;
   }
 
   .sectorFilter.active,

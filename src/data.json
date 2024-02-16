@@ -1181,12 +1181,23 @@
               ]
             },
             {
-              "name": "ABISSO HOLDINGS",
-              "type": "mothercompany",
+              "name": "none",
+              "type": "sector",
               "group": 5,
-              "on": false,
+              "on": true,
               "date": "",
-              "description": ""
+              "description": "",
+              "children": [
+                {
+                  "name": "ABISSO HOLDINGS",
+                  "type": "mothercompany",
+                  "group": 5,
+                  "on": false,
+                  "date": "",
+                  "description": "",
+                  "sector": "none"
+                }
+              ]
             }
           ]
         }
@@ -1622,127 +1633,137 @@
               ]
             },
             {
-              "name": "BOTREXO HOLDINGS",
-              "type": "mothercompany",
+              "name": "none",
+              "type": "sector",
               "group": 2,
-              "on": false,
-              "date": "",
-              "description": ""
-            },
-            {
-              "name": "ZOFRANK HOLDINGS",
-              "type": "mothercompany",
-              "group": 2,
-              "on": false,
+              "on": true,
               "date": "",
               "description": "",
-              "shareholders": [
-                {
-                  "shareholder": "ΜΕΛΙΣΣΑΝΙΔΗΣ ΓΙΩΡΓΟΣ",
-                  "percentage": "100%"
-                }
-              ],
               "children": [
                 {
-                  "name": "PHALETRA",
-                  "type": "subcompany",
+                  "name": "BOTREXO HOLDINGS",
+                  "type": "mothercompany",
                   "group": 2,
                   "on": false,
                   "date": "",
                   "description": ""
                 },
                 {
-                  "name": "TOMOSIDA TRADING",
-                  "type": "subcompany",
-                  "group": 2,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "HEDASE TRADING",
-                  "type": "subcompany",
-                  "group": 2,
-                  "on": false,
-                  "date": "",
-                  "description": ""
-                },
-                {
-                  "name": "NAFTEMPORIKI.GR",
-                  "type": "subcompany",
+                  "name": "ZOFRANK HOLDINGS",
+                  "type": "mothercompany",
                   "group": 2,
                   "on": false,
                   "date": "",
                   "description": "",
-                  "sector": "ΜΜΕ"
-                }
-              ]
-            },
-            {
-              "name": "GRADY PROPERTIES",
-              "type": "mothercompany",
-              "group": 2,
-              "on": false,
-              "date": "",
-              "description": "",
-              "shareholders": [
+                  "shareholders": [
+                    {
+                      "shareholder": "ΜΕΛΙΣΣΑΝΙΔΗΣ ΓΙΩΡΓΟΣ",
+                      "percentage": "100%"
+                    }
+                  ],
+                  "children": [
+                    {
+                      "name": "PHALETRA",
+                      "type": "subcompany",
+                      "group": 2,
+                      "on": false,
+                      "date": "",
+                      "description": ""
+                    },
+                    {
+                      "name": "TOMOSIDA TRADING",
+                      "type": "subcompany",
+                      "group": 2,
+                      "on": false,
+                      "date": "",
+                      "description": ""
+                    },
+                    {
+                      "name": "HEDASE TRADING",
+                      "type": "subcompany",
+                      "group": 2,
+                      "on": false,
+                      "date": "",
+                      "description": ""
+                    },
+                    {
+                      "name": "NAFTEMPORIKI.GR",
+                      "type": "subcompany",
+                      "group": 2,
+                      "on": false,
+                      "date": "",
+                      "description": "",
+                      "sector": "ΜΜΕ"
+                    }
+                  ]
+                },
                 {
-                  "shareholder": "ΜΕΛΙΣΣΑΝΙΔΗΣ ΓΙΩΡΓΟΣ",
-                  "percentage": "100%"
-                }
-              ],
-              "children": [
-                {
-                  "name": "",
-                  "type": "connector",
+                  "name": "GRADY PROPERTIES",
+                  "type": "mothercompany",
                   "group": 2,
                   "on": false,
                   "date": "",
+                  "description": "",
+                  "shareholders": [
+                    {
+                      "shareholder": "ΜΕΛΙΣΣΑΝΙΔΗΣ ΓΙΩΡΓΟΣ",
+                      "percentage": "100%"
+                    }
+                  ],
                   "children": [
                     {
-                      "name": "VEGATA HOLDINGS",
-                      "type": "subcompany",
+                      "name": "",
+                      "type": "connector",
                       "group": 2,
                       "on": false,
                       "date": "",
-                      "description": "",
-                      "sector": "none"
-                    },
-                    {
-                      "name": "VAMBINCO HOLDINGS",
-                      "type": "subcompany",
-                      "group": 2,
-                      "on": false,
-                      "date": "",
-                      "description": "",
-                      "sector": "none"
-                    },
-                    {
-                      "name": "YEONAMA HOLDINGS",
-                      "type": "subcompany",
-                      "group": 2,
-                      "on": false,
-                      "date": "",
-                      "description": "",
-                      "sector": "none"
-                    },
-                    {
-                      "name": "AEGEAN NET FUELS",
-                      "type": "subcompany",
-                      "group": 2,
-                      "on": false,
-                      "date": "",
-                      "description": "",
-                      "sector": "ΕΝΕΡΓΕΙΑ"
-                    },
-                    {
-                      "name": "AEGEAN LUBRICANTS",
-                      "type": "subcompany",
-                      "group": 2,
-                      "on": false,
-                      "date": "",
-                      "description": "",
-                      "sector": "ΕΝΕΡΓΕΙΑ"
+                      "children": [
+                        {
+                          "name": "VEGATA HOLDINGS",
+                          "type": "subcompany",
+                          "group": 2,
+                          "on": false,
+                          "date": "",
+                          "description": "",
+                          "sector": "none"
+                        },
+                        {
+                          "name": "VAMBINCO HOLDINGS",
+                          "type": "subcompany",
+                          "group": 2,
+                          "on": false,
+                          "date": "",
+                          "description": "",
+                          "sector": "none"
+                        },
+                        {
+                          "name": "YEONAMA HOLDINGS",
+                          "type": "subcompany",
+                          "group": 2,
+                          "on": false,
+                          "date": "",
+                          "description": "",
+                          "sector": "none"
+                        },
+                        {
+                          "name": "AEGEAN NET FUELS",
+                          "type": "subcompany",
+                          "group": 2,
+                          "on": false,
+                          "date": "",
+                          "description": "",
+                          "sector": "ΕΝΕΡΓΕΙΑ"
+                        },
+                        {
+                          "name": "AEGEAN LUBRICANTS",
+                          "type": "subcompany",
+                          "group": 2,
+                          "on": false,
+                          "date": "",
+                          "description": "",
+                          "sector": "ΕΝΕΡΓΕΙΑ"
+                        }
+                      ]
                     }
                   ]
                 }

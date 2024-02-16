@@ -135,7 +135,7 @@ function D3Chart() {
 
   //we need to set to active group filter to the dynamically added nodes from the navigation component, otherwise it stays empty
 
-  let [activeGroupFilter, setActiveGroupFilter] = React.useState([]);
+  let [activeGroupFilter, setActiveGroupFilter] = React.useState([1, 2, 3, 4, 5]);
 
   let [clickedGroupFilterNode, setClickedGroupFilterNode] = React.useState();
 
@@ -586,9 +586,9 @@ function D3Chart() {
         if (clickedNode.children) {
           clickedNode.children.forEach(function (clickedNodeChild) {
             if (node.index === clickedNodeChild.index) {
-              if (nodeWillBeClosed && clickedNode.depth > 1) {
+              if (nodeWillBeClosed) {
                 hideDescendantsIfOpen(clickedNode);
-              } else if (nodeWillBeExpanded && clickedNode.depth > 1) {
+              } else if (nodeWillBeExpanded) {
                 skipConnectorAndAddChildren();
               }
             }
@@ -604,7 +604,7 @@ function D3Chart() {
           clickedNode.children.forEach(function (clickedNodeChild) {
             if (node.index === clickedNodeChild.index) {
               // Only handlegroupFilter if the node is one of the 2 lower levels
-              if (clickedNode.depth < 3 && clickedNode.depth !== 1) {
+              if (clickedNode.depth < 3) {
                 if (nodeWillBeExpanded) {
                   setActiveGroupFilter((prevActiveGroupFilter) => {
                     let updatedFilter = [...new Set(prevActiveGroupFilter)];
@@ -1017,31 +1017,28 @@ function D3Chart() {
 
       // Disabling Nodes
       if (
-        nodeIsOn &&
-        // Statement One
-        ((!groupIsAllowed && node.depth > 3) ||
-          // Statement Two
-          (node.depth > 3 &&
-            nodeIsMotherCompany &&
-            !nodeMatchesSectorFilter &&
-            !nodeDescendantsIncludesActiveSectorNode()) ||
-          //Statement Three
-          (nodeIsSubcompany && !nodeMatchesSectorFilter && !nodeDescendantsIncludesActiveSectorNode()) ||
-          // Statement Four
-          (nodeIsConnector && !nodeDescendantsIncludesActiveSectorNode()) ||
-          // Statement Five
-          (nodeIsSector && !nodeMatchesSector && !nodeDescendantsIncludesActiveSectorNode()))
+        (node.depth > 3 &&
+          nodeIsMotherCompany &&
+          !nodeMatchesSectorFilter &&
+          !nodeDescendantsIncludesActiveSectorNode()) ||
+        //Statement Three
+        (nodeIsSubcompany && !nodeMatchesSectorFilter && !nodeDescendantsIncludesActiveSectorNode()) ||
+        // Statement Four
+        (nodeIsConnector && !nodeDescendantsIncludesActiveSectorNode())
+        // Statement Five
+        // (nodeIsSector && !nodeMatchesSector && !nodeDescendantsIncludesActiveSectorNode())
       ) {
         nodesToDisable.push(node);
       }
       // Enabling Nodes
+
+      // Only handle if Sector Filter was clicked
       if (
         nodeIsOff &&
         nodeMatchesSectorFilter &&
-        nodeIsSubcompany &&
         !updateCameFromClickedNode &&
         !groupFilterWasClicked &&
-        groupIsAllowed
+        !isFirstLoad
       ) {
         nodesToEnable.push(node);
       }

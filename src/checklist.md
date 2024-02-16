@@ -8,3 +8,11 @@ DO:
 d.depth > 1 ? e.target.parentElement.querySelector("h5").classList.add("hovered") : null; might cause issues?
 
 END: Disable right click
+
+Desired behaviour:
+At start,
+All groups are active, meaning they are all showing their sector nodes. Disabling a group hides their sector node, meaning it is currently not eligable to be filterd.
+
+Filters work on all active groups.
+
+The issue: There is no distinction between a group being eligible to be filtered and a button to expand the entire group
