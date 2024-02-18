@@ -68,7 +68,7 @@ function D3Chart() {
   let [initialZoom, setInitialZoom] = React.useState({
     x: 500,
     y: 300,
-    k: 0.6,
+    k: 0.1,
   });
 
   let [zoomTransform, setZoomTransform] = React.useState(
@@ -81,7 +81,7 @@ function D3Chart() {
     zoomRange = [0.05, 4];
   } else {
     // Set the zoom range for non-mobile (tablet and desktop)
-    zoomRange = [0.1, 4];
+    zoomRange = [0.1, 1];
   }
 
   // Set state values for the InfoBox component
@@ -106,24 +106,9 @@ function D3Chart() {
   }, [groupFilterWasClicked]);
 
   let [activeSectorFilter, setActiveSectorFilter] = React.useState([]);
-  React.useEffect(() => {
-    setActiveSectorFilter(() => {
-      const uniqueSectors = new Set();
 
-      uniqueSectors.add("Όλα");
-
-      nodes.forEach((filterItem) => {
-        if (filterItem.data.sector !== undefined) {
-          uniqueSectors.add(filterItem.data.sector);
-        }
-      });
-
-      // Convert the Set back to an array
-      const uniqueSectorsArray = Array.from(uniqueSectors);
-
-      console.log("uniqueSectorsArray: ", uniqueSectorsArray);
-      return uniqueSectorsArray;
-    });
+  useEffect(() => {
+    setActiveSectorFilter(["ΜΜΕ"]);
   }, [dataLoaded]);
 
   let activeSectorFilterRef = useRef(activeSectorFilter);
@@ -337,7 +322,11 @@ function D3Chart() {
           if (d.depth === 0) {
             return 10;
           } else {
+<<<<<<< Updated upstream
             return -8250;
+=======
+            return -7000;
+>>>>>>> Stashed changes
           }
         })
       )
@@ -581,11 +570,10 @@ function D3Chart() {
         let nodeWillBeExpanded = node.data.on === false;
         let nodeWillBeClosed = node.data.on === true;
 
-        let sectorFilterisActive = activeSectorFilterRef.current.length !== 0;
         //check if any of the clicked node's children is on, meaning that the clicked node is already expanded
         if (clickedNode.children) {
           clickedNode.children.forEach(function (clickedNodeChild) {
-            if (node.index === clickedNodeChild.index) {
+            if (node.index === clickedNodeChild.index && clickedNode.depth !== 1) {
               if (nodeWillBeClosed) {
                 hideDescendantsIfOpen(clickedNode);
               } else if (nodeWillBeExpanded) {
@@ -604,7 +592,7 @@ function D3Chart() {
           clickedNode.children.forEach(function (clickedNodeChild) {
             if (node.index === clickedNodeChild.index) {
               // Only handlegroupFilter if the node is one of the 2 lower levels
-              if (clickedNode.depth < 3) {
+              if (clickedNode.depth < 3 && clickedNode.depth !== 1) {
                 if (nodeWillBeExpanded) {
                   setActiveGroupFilter((prevActiveGroupFilter) => {
                     let updatedFilter = [...new Set(prevActiveGroupFilter)];
@@ -817,7 +805,10 @@ function D3Chart() {
     setUpdateCameFromClickedNode(false);
     nodes.forEach(function (node) {
       if (node.data.name === IDText) {
+<<<<<<< Updated upstream
         // Pass the information into the handleNodeFiltering function
+=======
+>>>>>>> Stashed changes
         handleNodeFiltering(node.index);
         setClickedGroupFilterNode(node.data.group);
         setTimeout(() => {
@@ -871,6 +862,10 @@ function D3Chart() {
 
   let sectorFilters = document.querySelectorAll(".sectorFilter");
 
+  if (sectorFilters.length > 1) {
+    sectorFilters[1].classList.add("active");
+  }
+
   // Handle Functionality when clicking a SECTOR Filter
   function findFilteredSectorNode(IDText, all) {
     setGroupFilterWasClicked(false);
@@ -894,13 +889,14 @@ function D3Chart() {
   }
 
   function toggleFilter(IDText, allSectorFilters) {
-    if (isFirstLoad) {
-      allSectorFilters.forEach((allSectorFilter) => {
-        setActiveSectorFilter((prevActiveSectorFilter) => {
-          return [...prevActiveSectorFilter, allSectorFilter];
-        });
-      });
-    }
+    // if (isFirstLoad) {
+    //   console.log("running this function");
+    //   allSectorFilters.forEach((allSectorFilter) => {
+    //     setActiveSectorFilter((prevActiveSectorFilter) => {
+    //       return [...prevActiveSectorFilter, allSectorFilter];
+    //     });
+    //   });
+    // }
 
     // If Statement Declarations
     let filterIsActive = event.target.classList.contains("active");
@@ -944,16 +940,6 @@ function D3Chart() {
     }
   }
 
-  // Filter system initializazion
-  useEffect(() => {
-    let sectorFilters = document.querySelectorAll(".sectorFilter");
-
-    // Add the active class to the first element on Start, here the "all" Filter
-    if (sectorFilters.length > 0) {
-      sectorFilters[0].classList.add("active");
-    }
-  }, []);
-
   useEffect(() => {
     // In this function, based on activeGroupFilter:
     // Give the filter the active class if its groupnumber is contained in the array
@@ -994,6 +980,10 @@ function D3Chart() {
 
   // Based on the newest state of the activeSectorFilter and activeGroupFilter, hide all nodes that are not part of the active filter
   function handleNodeFiltering(groupNodeIndex) {
+<<<<<<< Updated upstream
+=======
+    console.log("handling nodefiltering!");
+>>>>>>> Stashed changes
     let nodesToDisable = [];
     let nodesToEnable = [];
 
@@ -1017,6 +1007,7 @@ function D3Chart() {
 
       // Disabling Nodes
       if (
+<<<<<<< Updated upstream
         (node.depth > 3 &&
           nodeIsMotherCompany &&
           !nodeMatchesSectorFilter &&
@@ -1027,18 +1018,41 @@ function D3Chart() {
         (nodeIsConnector && !nodeDescendantsIncludesActiveSectorNode())
         // Statement Five
         // (nodeIsSector && !nodeMatchesSector && !nodeDescendantsIncludesActiveSectorNode())
+=======
+        nodeIsOn &&
+        // Statement One
+        ((!groupIsAllowed && node.depth > 3) ||
+          // Statement Two
+          (node.depth > 3 &&
+            nodeIsMotherCompany &&
+            !nodeMatchesSectorFilter &&
+            !nodeDescendantsIncludesActiveSectorNode()) ||
+          //Statement Three
+          (nodeIsSubcompany && !nodeMatchesSectorFilter && !nodeDescendantsIncludesActiveSectorNode()) ||
+          // Statement Four
+          (nodeIsConnector && !nodeDescendantsIncludesActiveSectorNode()) ||
+          // Statement Five
+          (nodeIsSector && !nodeMatchesSector && !nodeDescendantsIncludesActiveSectorNode()))
+>>>>>>> Stashed changes
       ) {
         nodesToDisable.push(node);
       }
       // Enabling Nodes
+<<<<<<< Updated upstream
 
       // Only handle if Sector Filter was clicked
+=======
+>>>>>>> Stashed changes
       if (
         nodeIsOff &&
         nodeMatchesSectorFilter &&
         !updateCameFromClickedNode &&
         !groupFilterWasClicked &&
+<<<<<<< Updated upstream
         !isFirstLoad
+=======
+        groupIsAllowed
+>>>>>>> Stashed changes
       ) {
         nodesToEnable.push(node);
       }
