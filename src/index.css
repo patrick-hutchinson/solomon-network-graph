@@ -314,13 +314,6 @@ body {
   font-size: 22px;
 }
 
-<<<<<<< Updated upstream
-=======
-foreignObject {
-  background-color: pink;
-}
-
->>>>>>> Stashed changes
 /* Chrome only  */
 @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) and (min-device-width: 600px) {
   circle.largeNode + foreignObject {
@@ -340,6 +333,11 @@ circle.largeNode + foreignObject > h5 {
   font-size: 22px;
 }
 
+foreignObject {
+  transform-origin: top left;
+  transform: translateX(-90px) translateY(-30px);
+}
+
 foreignObject > h5 {
   font-size: 22px;
   color: #fff;
@@ -348,8 +346,8 @@ foreignObject > h5 {
   font-family: SimplexNeue;
   line-height: 1.2;
   text-overflow: ellipsis;
-  max-height: 30px;
-  max-width: 300px;
+  /* max-height: 30px; */
+  /* max-width: 300px; */
 }
 foreignObject > h5.hovered {
   color: var(--highlightColorHover);

@@ -68,7 +68,7 @@ function D3Chart() {
   let [initialZoom, setInitialZoom] = React.useState({
     x: 500,
     y: 300,
-    k: 0.1,
+    k: 0.4,
   });
 
   let [zoomTransform, setZoomTransform] = React.useState(
@@ -221,11 +221,11 @@ function D3Chart() {
     let allActiveLinks = links.filter((link) => link.source.data.on);
 
     let simulation = d3
-      .forceSimulation(allActiveNodes, (d) => d)
+      .forceSimulation(nodes)
       .force(
         "link",
         d3
-          .forceLink(allActiveLinks)
+          .forceLink(links)
           .id((d) => d.id)
           .distance((d) => {
             let group1 = d.source.data.group === 1;
@@ -322,11 +322,7 @@ function D3Chart() {
           if (d.depth === 0) {
             return 10;
           } else {
-<<<<<<< Updated upstream
-            return -8250;
-=======
             return -7000;
->>>>>>> Stashed changes
           }
         })
       )
@@ -441,12 +437,13 @@ function D3Chart() {
       })
       .attr("height", "180px")
       .attr("width", "180px")
+
       .append("xhtml:h5")
       .attr("class", "nodeTextElement")
       .call(drag(simulation))
       .html((d) => {
         return `<p>${d.data.name}<br> ${
-          d.children && d.data.type !== "connector" && d.depth !== 1 ? `[${d.children.length}]` : ""
+          d.children && d.data.type !== "connector" && d.depth > 2 ? `[${d.children.length}]` : ""
         }</p>`;
       })
       .attr("xmlns", "http://www.w3.org/1999/xhtml");
@@ -590,7 +587,7 @@ function D3Chart() {
 
         function updateActiveGroupFilter() {
           clickedNode.children.forEach(function (clickedNodeChild) {
-            if (node.index === clickedNodeChild.index) {
+            if (clickedNodeChild.index === node.index) {
               // Only handlegroupFilter if the node is one of the 2 lower levels
               if (clickedNode.depth < 3 && clickedNode.depth !== 1) {
                 if (nodeWillBeExpanded) {
@@ -605,16 +602,34 @@ function D3Chart() {
                   });
                 } else if (nodeWillBeClosed) {
                   console.log("Deactivating the filter for the clicked node!");
-                  setActiveGroupFilter((prevActiveGroupFilter) => {
-                    let updatedFilter = prevActiveGroupFilter.filter((group) => group !== clickedNode.data.group);
-                    return updatedFilter;
-                  });
+
+                  // Add a statement here: If there is no other node with a depth of 3 of the same group open
+                  // if the group of the clickednode contains on nodes at depth 3 that are not the child of the clicked node
+
+                  // Essentially, only if both of the lavel 2 red nodes dont have active chilrdren
+                  console.log("allBranchesAreClosed:", allBranchesAreClosed(clickedNode));
+                  if (allBranchesAreClosed(clickedNode)) {
+                    setActiveGroupFilter((prevActiveGroupFilter) => {
+                      let updatedFilter = prevActiveGroupFilter.filter((group) => group !== clickedNode.data.group);
+                      return updatedFilter;
+                    });
+                  }
                 }
               }
             }
           });
         }
       });
+      function allBranchesAreClosed(clickedNode) {
+        return nodes.some((node) => {
+          return (
+            node.data.group === clickedNode.data.group &&
+            node.depth === 3 &&
+            node.data.on === false &&
+            !clickedNode.children.includes(node)
+          );
+        });
+      }
 
       function skipConnectorAndAddChildren() {
         if (clickedNode.children[0].data.type == "connector") {
@@ -762,7 +777,7 @@ function D3Chart() {
         }
         foreignObject.style.transform = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
         foreignObject.style["-webkit-transform"] = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
-        foreignObject.style["-moz-transform"] = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
+        foreignObject.style["-moz-transform"] = `translate(${-90}px ${-40 - positionVariable * 1.1}px)`;
         foreignObject.style["-o-transform"] = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
         foreignObject.style["-ms-transform"] = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
       });
@@ -778,7 +793,7 @@ function D3Chart() {
     function shortenLinkBeginning(sourceCoord, targetCoord, factor = 0.2) {
       return sourceCoord + (targetCoord - sourceCoord) * factor;
     }
-    function shortenLinkDefault(sourceCoord, targetCoord, factor = 0.25) {
+    function shortenLinkDefault(sourceCoord, targetCoord, factor = 0.15) {
       return sourceCoord + (targetCoord - sourceCoord) * factor;
     }
     function fullLengthLink(sourceCoord, targetCoord, factor = 0) {
@@ -805,10 +820,6 @@ function D3Chart() {
     setUpdateCameFromClickedNode(false);
     nodes.forEach(function (node) {
       if (node.data.name === IDText) {
-<<<<<<< Updated upstream
-        // Pass the information into the handleNodeFiltering function
-=======
->>>>>>> Stashed changes
         handleNodeFiltering(node.index);
         setClickedGroupFilterNode(node.data.group);
         setTimeout(() => {
@@ -861,9 +872,10 @@ function D3Chart() {
   }
 
   let sectorFilters = document.querySelectorAll(".sectorFilter");
-
-  if (sectorFilters.length > 1) {
-    sectorFilters[1].classList.add("active");
+  if (isFirstLoad) {
+    if (sectorFilters.length > 1) {
+      sectorFilters[1].classList.add("active");
+    }
   }
 
   // Handle Functionality when clicking a SECTOR Filter
@@ -980,10 +992,7 @@ function D3Chart() {
 
   // Based on the newest state of the activeSectorFilter and activeGroupFilter, hide all nodes that are not part of the active filter
   function handleNodeFiltering(groupNodeIndex) {
-<<<<<<< Updated upstream
-=======
     console.log("handling nodefiltering!");
->>>>>>> Stashed changes
     let nodesToDisable = [];
     let nodesToEnable = [];
 
@@ -1007,21 +1016,9 @@ function D3Chart() {
 
       // Disabling Nodes
       if (
-<<<<<<< Updated upstream
-        (node.depth > 3 &&
-          nodeIsMotherCompany &&
-          !nodeMatchesSectorFilter &&
-          !nodeDescendantsIncludesActiveSectorNode()) ||
-        //Statement Three
-        (nodeIsSubcompany && !nodeMatchesSectorFilter && !nodeDescendantsIncludesActiveSectorNode()) ||
-        // Statement Four
-        (nodeIsConnector && !nodeDescendantsIncludesActiveSectorNode())
-        // Statement Five
-        // (nodeIsSector && !nodeMatchesSector && !nodeDescendantsIncludesActiveSectorNode())
-=======
         nodeIsOn &&
         // Statement One
-        ((!groupIsAllowed && node.depth > 3) ||
+        ((!groupIsAllowed && node.depth > 2) ||
           // Statement Two
           (node.depth > 3 &&
             nodeIsMotherCompany &&
@@ -1030,41 +1027,23 @@ function D3Chart() {
           //Statement Three
           (nodeIsSubcompany && !nodeMatchesSectorFilter && !nodeDescendantsIncludesActiveSectorNode()) ||
           // Statement Four
-          (nodeIsConnector && !nodeDescendantsIncludesActiveSectorNode()) ||
-          // Statement Five
-          (nodeIsSector && !nodeMatchesSector && !nodeDescendantsIncludesActiveSectorNode()))
->>>>>>> Stashed changes
+          (nodeIsConnector && !nodeDescendantsIncludesActiveSectorNode()))
       ) {
         nodesToDisable.push(node);
       }
       // Enabling Nodes
-<<<<<<< Updated upstream
-
-      // Only handle if Sector Filter was clicked
-=======
->>>>>>> Stashed changes
       if (
         nodeIsOff &&
         nodeMatchesSectorFilter &&
         !updateCameFromClickedNode &&
         !groupFilterWasClicked &&
-<<<<<<< Updated upstream
-        !isFirstLoad
-=======
         groupIsAllowed
->>>>>>> Stashed changes
       ) {
         nodesToEnable.push(node);
       }
 
       // Group filtering
       if (node.index === groupNodeIndex) {
-        // activateDescendants(node);
-        // activateAncestors(node);
-        // if (groupIsAllowed && nodeMatchesSectorFilter) {
-        // nodesToEnable.push(node);
-        // }
-
         findDescendantsManually(node).forEach((descendantNode) => {
           if (activeSectorFilterRef.current.includes(descendantNode.data.sector)) {
             nodesToEnable.push(descendantNode);
@@ -1123,28 +1102,6 @@ function D3Chart() {
       .call(zoom.transform, newZoomTransform);
   }
 
-  function activateDescendants(filterNode) {
-    let descendantNodesArray = [];
-    findDescendantsManually(filterNode).forEach(function (descendantNode) {
-      descendantNodesArray.push(descendantNode);
-    });
-
-    activateNodes(descendantNodesArray);
-  }
-
-  function activateAncestors(filterNode) {
-    let ancestorNodesArray = [];
-    findAncestorsManually(filterNode).forEach(function (ancestorNode) {
-      ancestorNodesArray.push(ancestorNode);
-    });
-
-    activateNodes(ancestorNodesArray);
-  }
-
-  // finding descendants manually seems to be necessary as:
-  // when the data of a node gets updated, it (seemingly) loses its elligibility for d3 descendant() functions.
-  // perhaps this only works in with the data of the originally generated array, and discrepancies prevent the code from running.
-  // finding nodes manually uses the current state of nodes and seems to be working fine.
   function findDescendantsManually(node) {
     let descendants = [];
     function traverse(currentNode) {
