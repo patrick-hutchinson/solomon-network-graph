@@ -431,6 +431,10 @@ foreignObject > h5 > p {
   opacity: 1;
 }
 
+.zoomNoticeCursor.blocked {
+  opacity: 0 !important;
+}
+
 @media only screen and (max-width: 900px) {
   .componentContainer {
     grid-template-columns: 0fr 1fr;

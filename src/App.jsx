@@ -155,15 +155,14 @@ function D3Chart() {
 
   function showZoomNotice(e) {
     let zoomNoticeCursor = document.querySelector(".zoomNoticeCursor");
-
     zoomNoticeCursor.classList.add("visible");
-
-    zoomNoticeCursor.style.left = e.clientX - zoomNoticeCursor.getBoundingClientRect().width / 2 + "px";
-    zoomNoticeCursor.style.top = e.clientY + zoomNoticeCursor.getBoundingClientRect().height / 2 + "px";
 
     setTimeout(() => {
       zoomNoticeCursor.classList.remove("visible");
     }, 2000);
+
+    zoomNoticeCursor.style.left = e.clientX - zoomNoticeCursor.getBoundingClientRect().width / 2 + "px";
+    zoomNoticeCursor.style.top = e.clientY + zoomNoticeCursor.getBoundingClientRect().height / 2 + "px";
   }
   function updateZoomNotice(e) {
     let zoomNoticeCursor = document.querySelector(".zoomNoticeCursor");
@@ -177,14 +176,35 @@ function D3Chart() {
         return d3.event.sourceEvent.stopPropagation();
       }
     }
+    let zoomNoticeCursor = document.querySelector(".zoomNoticeCursor");
+    zoomNoticeCursor.classList.remove("visible");
 
     d3.selectAll("svg g").attr("transform", e.transform);
     setZoomTransform(d3.zoomTransform(chartRef.current));
 
     setZoomAmount(e.transform.k);
-
     setHasBeenZoomed(true);
   }
+
+  document.addEventListener("keyup", (e) => {
+    let zoomNoticeCursor = document.querySelector(".zoomNoticeCursor");
+    if (e.keyCode === 224) {
+      zoomNoticeCursor.classList.add("blocked");
+
+      setTimeout(() => {
+        console.log("removing blockage");
+        zoomNoticeCursor.classList.remove("visible");
+        zoomNoticeCursor.classList.remove("blocked");
+      }, 2000);
+    }
+  });
+
+  // document.addEventListener("keydown", (e) => {
+  //   // let zoomNoticeCursor = document.querySelector(".zoomNoticeCursor");
+  //   if (e.keyCode === 224) {
+  //     console.log("pressed command key!");
+  //   }
+  // });
 
   function commandFilter(event) {
     return (
@@ -221,11 +241,11 @@ function D3Chart() {
     let allActiveLinks = links.filter((link) => link.source.data.on);
 
     let simulation = d3
-      .forceSimulation(nodes)
+      .forceSimulation(allActiveNodes, (d) => d)
       .force(
         "link",
         d3
-          .forceLink(links)
+          .forceLink(allActiveLinks, (d) => d)
           .id((d) => d.id)
           .distance((d) => {
             let group1 = d.source.data.group === 1;
@@ -348,9 +368,9 @@ function D3Chart() {
       )
       .on("wheel", showZoomNotice)
       .on("mousemove", updateZoomNotice)
-      // .on("contextmenu", function (event) {
-      //   event.preventDefault();
-      // })
+      .on("contextmenu", function (event) {
+        event.preventDefault();
+      })
 
       .attr("class", "graphCanvas")
       .on("mouseover", function (e) {
@@ -793,7 +813,7 @@ function D3Chart() {
     function shortenLinkBeginning(sourceCoord, targetCoord, factor = 0.2) {
       return sourceCoord + (targetCoord - sourceCoord) * factor;
     }
-    function shortenLinkDefault(sourceCoord, targetCoord, factor = 0.15) {
+    function shortenLinkDefault(sourceCoord, targetCoord, factor = 0.25) {
       return sourceCoord + (targetCoord - sourceCoord) * factor;
     }
     function fullLengthLink(sourceCoord, targetCoord, factor = 0) {
@@ -1189,6 +1209,16 @@ function D3Chart() {
       setIsFirstLoad(false);
     }
   }
+  function handleCompWheel() {
+    if (isFirstLoad === true) {
+      setIsFirstLoad(false);
+    }
+  }
+  function handleCompMouseMove() {
+    if (isFirstLoad === true) {
+      setIsFirstLoad(false);
+    }
+  }
 
   function zoomIn() {
     d3.select(".graphCanvas").transition().call(zoom.scaleBy, 1.33);
@@ -1198,7 +1228,12 @@ function D3Chart() {
   }
 
   return (
-    <div className="componentContainer" onClick={handleCompClick}>
+    <div
+      className="componentContainer"
+      onClick={handleCompClick}
+      onWheel={handleCompWheel}
+      onMouseMove={handleCompMouseMove}
+    >
       <Navigation
         className="navigationContainer"
         filterItems={filterInfo}
