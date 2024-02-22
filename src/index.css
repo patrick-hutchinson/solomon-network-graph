@@ -354,7 +354,7 @@ foreignObject > h5 {
   transform: translate(-50%, -50%);
   /* max-height: 30px; */
   /* max-width: 300px; */;
-  width: 200px; // needs to be set by js
+  width: 200px; /* needs to be set by js */
   backface-visibility: visible;
   will-change: transform
 }
