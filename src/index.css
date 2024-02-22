@@ -317,15 +317,15 @@ body {
 /* Chrome only  */
 @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) and (min-device-width: 600px) {
   circle.largeNode + foreignObject {
-    transform: translate(-90px, -60px);
-    -webkit-transform: translate(-90px, -60px);
+    /* transform: translate(-90px, -60px); */
+    /* -webkit-transform: translate(-90px, -60px); */
   }
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) and (max-device-width: 600px) {
   circle.largeNode + foreignObject {
-    transform: translate(-90px, -40px);
-    -webkit-transform: translate(-90px, -40px);
+    /* transform: translate(-90px, -40px); */
+    /* -webkit-transform: translate(-90px, -40px); */
   }
 }
 
@@ -334,11 +334,16 @@ circle.largeNode + foreignObject > h5 {
 }
 
 foreignObject {
-  transform-origin: top left;
-  transform: translateX(-90px) translateY(-30px);
+  overflow: visible;
+  width: 0;
+  height: 0;
+  -webkit-transform: translate3d(0, 0, 0)
+  /* transform-origin: top left; */
+  /* transform: translateX(-90px) translateY(-30px); */
 }
 
 foreignObject > h5 {
+  margin: 0;
   font-size: 22px;
   color: #fff;
   text-align: center;
@@ -346,9 +351,14 @@ foreignObject > h5 {
   font-family: SimplexNeue;
   line-height: 1.2;
   text-overflow: ellipsis;
+  transform: translate(-50%, -50%);
   /* max-height: 30px; */
-  /* max-width: 300px; */
+  /* max-width: 300px; */;
+  width: 200px; // needs to be set by js
+  backface-visibility: visible;
+  will-change: transform
 }
+
 foreignObject > h5.hovered {
   color: var(--highlightColorHover);
   cursor: pointer;

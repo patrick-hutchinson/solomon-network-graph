@@ -449,15 +449,15 @@ function D3Chart() {
     // Add the Text
     elementEnter
       .append("foreignObject")
-      .attr("width", (d) => {
-        nodeSizes(d);
-      })
-      .attr("height", (d) => {
-        nodeSizes(d);
-      })
-      .attr("height", "180px")
-      .attr("width", "180px")
-
+      // .attr("width", (d) => {
+      //   nodeSizes(d);
+      // })
+      // .attr("height", (d) => {
+      //   nodeSizes(d);
+      // })
+      // .attr("height", "180px")
+      // .attr("width", "180px")
+      // set width and height to ~80% of the node size
       .append("xhtml:h5")
       .attr("class", "nodeTextElement")
       .call(drag(simulation))
@@ -795,11 +795,11 @@ function D3Chart() {
         } else {
           positionVariable = 0;
         }
-        foreignObject.style.transform = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
-        foreignObject.style["-webkit-transform"] = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
-        foreignObject.style["-moz-transform"] = `translate(${-90}px ${-40 - positionVariable * 1.1}px)`;
-        foreignObject.style["-o-transform"] = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
-        foreignObject.style["-ms-transform"] = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
+        // foreignObject.style.transform = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
+        // foreignObject.style["-webkit-transform"] = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
+        // foreignObject.style["-moz-transform"] = `translate(${-90}px ${-40 - positionVariable * 1.1}px)`;
+        // foreignObject.style["-o-transform"] = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
+        // foreignObject.style["-ms-transform"] = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
       });
     });
 
