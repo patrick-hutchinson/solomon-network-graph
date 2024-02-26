@@ -458,6 +458,7 @@ function D3Chart() {
     // Add the Text
     let text = elementEnter
       .append("text")
+      .call( drag( simulation ) )
       .attr("dominant-baseline", "central")
       .style("fill", "#fff")
       .each(function(d) {
