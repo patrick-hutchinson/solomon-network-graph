@@ -464,12 +464,18 @@ function D3Chart() {
       .attr("dominant-baseline", "central")
       .style("fill", "#fff")
       .each(function (d) {
-        let fontsize = 13;
+        let fontsize = 16;
         let maxLength = 20;
         let separation = 18;
 
         // larger nodes get larger text
         if (d.data.type === "person" || d.data.type === "company") {
+          fontsize = 18;
+          maxLength = 1;
+          separation = 25;
+        }
+
+        if (d.data.type === "sector") {
           fontsize = 18;
           maxLength = 1;
           separation = 25;
@@ -493,12 +499,42 @@ function D3Chart() {
             .append("tspan")
             .attr("dy", separation)
             .attr("text-anchor", "middle")
+
             .style("font-size", `${fontsize}px`)
             .text(lines[i].trim());
 
           d3.select(this).attr("transform", "translate(0," + ((separation * lines.length) / 2) * -1 + ")");
         }
       });
+
+    // Change the color of the text on hover (mousenter and mouseleave)
+    // d3.selectAll("circle") //
+    //   .on("mouseenter", (e, d) => {
+    //     const textElement = d3.select(e.target.parentNode).select("text");
+
+    //     textElement.style("fill", (d) => {
+    //       if (d.data.type === "mothercompany") {
+    //         return nodeColors(d.data.group);
+    //       } else if (d.data.type === "sector") {
+    //         return nodeColors(d.data.group);
+    //       } else if (d.data.type === "company") {
+    //         return "#fff";
+    //       }
+    //     });
+    //   });
+    // d3.selectAll("circle").on("mouseleave", (e, d) => {
+    //   const textElement = d3.select(e.target.parentNode).select("text");
+
+    //   textElement.style("fill", (d) => {
+    //     if (d.data.type === "mothercompany") {
+    //       return "#fff";
+    //     } else if (d.data.type === "sector") {
+    //       return nodeColors(d.data.group);
+    //     } else if (d.data.type === "company") {
+    //       return "#fff";
+    //     }
+    //   });
+    // });
 
     // Give all foreignObject elements that are small Nodes a class for easier selection
     document.querySelectorAll(".smallNode").forEach(function (smallNode) {
@@ -562,7 +598,7 @@ function D3Chart() {
     // UPDATE & INTERACTION
     // Cirlces
     d3.selectAll("circle")
-      .on("mouseover", function (e, d) {
+      .on("mouseenter", function (e, d) {
         d3.select(this) //
           .transition()
           .duration("200")
@@ -571,7 +607,7 @@ function D3Chart() {
 
         document.documentElement.style.setProperty("--highlightColorHover", nodeColors(d.data.group));
         // Change the text color contained in the node
-        d.depth > 1 ? e.target.parentElement.querySelector("text").classList.add("hovered") : null;
+        // d.depth > 1 ? e.target.parentElement.querySelector("text").classList.add("hovered") : null;
 
         setNodeInfo((prevNodeInfo) => {
           return {
@@ -584,6 +620,20 @@ function D3Chart() {
           };
         });
         setNodePath(findAncestorsManually(d));
+
+        const textElement = d3.select(e.target.parentNode).select("text");
+
+        textElement.style("fill", (d) => {
+          if (d.data.type === "mothercompany") {
+            return nodeColors(d.data.group);
+          } else if (d.data.type === "sector") {
+            return nodeColors(d.data.group);
+          } else if (d.data.type === "company") {
+            return "#fff";
+          } else {
+            return nodeColors(d.data.group);
+          }
+        });
       })
       .on("mouseleave", function (e) {
         d3.select(this) //
@@ -600,7 +650,21 @@ function D3Chart() {
           )
 
           .attr("cursor", "default");
-        e.target.parentElement.querySelector("text").classList.remove("hovered");
+        // e.target.parentElement.querySelector("text").classList.remove("hovered");
+
+        const textElement = d3.select(e.target.parentNode).select("text");
+
+        textElement.style("fill", (d) => {
+          if (d.data.type === "mothercompany") {
+            return "#fff";
+          } else if (d.data.type === "sector") {
+            return nodeColors(d.data.group);
+          } else if (d.data.type === "company") {
+            return "#fff";
+          } else {
+            return "#fff";
+          }
+        });
       })
 
       .on("click", handleNodeClick);
