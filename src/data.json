@@ -82,7 +82,8 @@
                           "group": 1,
                           "on": false,
                           "date": "",
-                          "description": ""
+                          "description": "",
+                          "sector": "none"
                         },
                         {
                           "name": "ΣΚΑΙ 100,3 FM",
@@ -1355,7 +1356,8 @@
                                   "group": 3,
                                   "on": false,
                                   "date": "",
-                                  "description": "Το Open TV ή Open Beyond είναι ένας από τους μεγαλύτερους ελληνικούς ιδιωτικούς τηλεοπτικούς σταθμούς πανελλαδικής εμβέλειας. Ανήκει στον επιχειρηματία Ιβάν Σαββίδη και εδρεύει στον Καρελλά, στη βιομηχανική ζώνη της Παιανίας.Ξεκίνησε τη λειτουργία του στις 24 Οκτωβρίου του 2018 αντικαθιστώντας το Epsilon TV μετά την πώλησή του από τον προηγούμενο ιδιοκτήτη, επιχειρηματία και διαφημιστή Φίλιππο Βρυώνη."
+                                  "description": "Το Open TV ή Open Beyond είναι ένας από τους μεγαλύτερους ελληνικούς ιδιωτικούς τηλεοπτικούς σταθμούς πανελλαδικής εμβέλειας. Ανήκει στον επιχειρηματία Ιβάν Σαββίδη και εδρεύει στον Καρελλά, στη βιομηχανική ζώνη της Παιανίας.Ξεκίνησε τη λειτουργία του στις 24 Οκτωβρίου του 2018 αντικαθιστώντας το Epsilon TV μετά την πώλησή του από τον προηγούμενο ιδιοκτήτη, επιχειρηματία και διαφημιστή Φίλιππο Βρυώνη.",
+                                  "sector": "none"
                                 },
                                 {
                                   "name": "TVOPEN.GR",
@@ -1381,7 +1383,8 @@
                                   "group": 3,
                                   "on": false,
                                   "date": "",
-                                  "description": ""
+                                  "description": "",
+                                  "sector": "none"
                                 }
                               ]
                             }
@@ -1413,7 +1416,8 @@
                           "group": 3,
                           "on": false,
                           "date": "",
-                          "description": ""
+                          "description": "",
+                          "sector": "none"
                         }
                       ]
                     },
@@ -1450,6 +1454,7 @@
                       "on": false,
                       "date": "",
                       "description": "",
+                      "sector": "none",
                       "shareholders": [
                         {
                           "shareholder": "BELTERRA INVESTMENTS LIMITED",
@@ -1463,7 +1468,8 @@
                           "group": 3,
                           "on": false,
                           "date": "",
-                          "description": ""
+                          "description": "",
+                          "sector": "none"
                         }
                       ]
                     },
@@ -1646,7 +1652,8 @@
                   "group": 2,
                   "on": false,
                   "date": "",
-                  "description": ""
+                  "description": "",
+                  "sector": "none"
                 },
                 {
                   "name": "ZOFRANK HOLDINGS",
@@ -1655,6 +1662,7 @@
                   "on": false,
                   "date": "",
                   "description": "",
+                  "sector": "none",
                   "shareholders": [
                     {
                       "shareholder": "ΜΕΛΙΣΣΑΝΙΔΗΣ ΓΙΩΡΓΟΣ",
@@ -1668,7 +1676,8 @@
                       "group": 2,
                       "on": false,
                       "date": "",
-                      "description": ""
+                      "description": "",
+                      "sector": "none"
                     },
                     {
                       "name": "TOMOSIDA TRADING",
@@ -1676,7 +1685,8 @@
                       "group": 2,
                       "on": false,
                       "date": "",
-                      "description": ""
+                      "description": "",
+                      "sector": "none"
                     },
                     {
                       "name": "HEDASE TRADING",
@@ -1684,7 +1694,8 @@
                       "group": 2,
                       "on": false,
                       "date": "",
-                      "description": ""
+                      "description": "",
+                      "sector": "none"
                     },
                     {
                       "name": "NAFTEMPORIKI.GR",
@@ -1704,6 +1715,7 @@
                   "on": false,
                   "date": "",
                   "description": "",
+                  "sector": "none",
                   "shareholders": [
                     {
                       "shareholder": "ΜΕΛΙΣΣΑΝΙΔΗΣ ΓΙΩΡΓΟΣ",
@@ -1928,6 +1940,7 @@
                               "on": false,
                               "date": "",
                               "description": "",
+                              "sector": "none",
                               "shareholders": [
                                 {
                                   "shareholder": "L.P.C ΑΝΩΝΥΜΗ ΕΤΑΙΡΙΑ ΕΠΕΞΕΡΓΑΣΙΑΣ ΚΑΙ, ΕΜΠΟΡΙΑΣ ΛΙΠΑΝΤΙΚΩΝ ΚΑΙ ΠΕΤΡΕΛΑΙΟΕΙΔΩΝ ΠΡΟΙΟΝΤΩΝ",
@@ -2010,6 +2023,7 @@
                                       "on": false,
                                       "date": "",
                                       "description": "",
+                                      "sector": "none",
                                       "shareholders": [
                                         {
                                           "shareholder": "MEDIAMAX HOLDINGS LIMITED",
@@ -2160,7 +2174,8 @@
                           "group": 4,
                           "on": false,
                           "date": "",
-                          "description": ""
+                          "description": "",
+                          "sector": "none"
                         },
                         {
                           "name": "ΑΛΚΜΑΙΩΝ ON LINE MEDIA",
@@ -2177,7 +2192,8 @@
                           "group": 4,
                           "on": false,
                           "date": "",
-                          "description": ""
+                          "description": "",
+                          "sector": "none"
                         },
                         {
                           "name": "PRODUCTIONS ALTEBARAN",
