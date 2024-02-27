@@ -237,12 +237,14 @@ function D3Chart() {
   };
 
   function wordwrap(str, width, brk, cut) {
-    brk = brk || '\n';
+    brk = brk || "\n";
     width = width || 75;
     cut = cut || false;
-    if (!str) { return str; }
-    var regex = '.{0,' + width + '}(\\s|$)' + (cut ? '|.{' + width + '}|.+$' : '|\\S+?(\\s|$)');
-    return str.match(RegExp(regex, 'g')).join(brk);
+    if (!str) {
+      return str;
+    }
+    var regex = ".{0," + width + "}(\\s|$)" + (cut ? "|.{" + width + "}|.+$" : "|\\S+?(\\s|$)");
+    return str.match(RegExp(regex, "g")).join(brk);
   }
 
   useEffect(() => {
@@ -458,46 +460,51 @@ function D3Chart() {
     // Add the Text
     let text = elementEnter
       .append("text")
-      .call( drag( simulation ) )
+      .call(drag(simulation))
       .attr("dominant-baseline", "central")
       .style("fill", "#fff")
-      .each(function(d) {
-
-        let fontsize = 15;
-        let maxLength = 10;
+      .each(function (d) {
+        let fontsize = 13;
+        let maxLength = 20;
         let separation = 18;
 
         // larger nodes get larger text
-        if ( d.data.type === "person" || d.data.type === "company" || d.data.type === "mothercompany" ) {
-          fontsize = 20;
-          maxLength = 17;
+        if (d.data.type === "person" || d.data.type === "company") {
+          fontsize = 18;
+          maxLength = 1;
           separation = 25;
         }
 
-        const lines = wordwrap(d.data.name, maxLength).split('\n');
-        
+        if (d.data.type === "mothercompany") {
+          fontsize = 16;
+          maxLength = 1;
+          separation = 22;
+        }
+
+        const lines = wordwrap(d.data.name, maxLength).split("\n");
+
         // add the number of children to the text
-        if (d.children && d.data.type !== "connector" && d.depth > 2){
+        if (d.children && d.data.type !== "connector" && d.depth > 2) {
           lines.push(`[${d.children.length}]`);
         }
 
         for (var i = 0; i < lines.length; i++) {
           d3.select(this)
-          .append("tspan")
-          .attr("dy", separation)
-          .attr("text-anchor", "middle")
-          .style("font-size", `${fontsize}px`)
-          .text(lines[i].trim())
+            .append("tspan")
+            .attr("dy", separation)
+            .attr("text-anchor", "middle")
+            .style("font-size", `${fontsize}px`)
+            .text(lines[i].trim());
 
-          d3.select(this).attr("transform", "translate(0," + (separation * lines.length / 2 * -1) + ")");
+          d3.select(this).attr("transform", "translate(0," + ((separation * lines.length) / 2) * -1 + ")");
         }
-      })
+      });
 
     // Give all foreignObject elements that are small Nodes a class for easier selection
     document.querySelectorAll(".smallNode").forEach(function (smallNode) {
       smallNode.parentElement.querySelector("text").classList.add("smallText");
     });
-    
+
     // Turn on Pointer Events for smaller Text
     document.querySelectorAll(".smallText").forEach(function (smallTextContainer) {
       smallTextContainer.style.pointerEvents = "all";
@@ -801,9 +808,7 @@ function D3Chart() {
         .attr("cy", (d) => d.y);
       // circle.call(drag(simulation));
 
-      elementEnter
-        .selectAll("tspan")
-        .attr("x", (d) => d.x)
+      elementEnter.selectAll("tspan").attr("x", (d) => d.x);
 
       document.querySelectorAll("text").forEach(function (text) {
         let circle = text.parentElement.querySelector("circle");
@@ -812,7 +817,6 @@ function D3Chart() {
           text.setAttribute("x", circle.getAttribute("cx"));
           text.setAttribute("y", circle.getAttribute("cy"));
         }
-
       });
     });
 
