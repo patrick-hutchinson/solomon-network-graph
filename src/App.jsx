@@ -236,6 +236,17 @@ function D3Chart() {
     return d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended);
   };
 
+  function wordwrap(str, width, brk, cut) {
+    brk = brk || "\n";
+    width = width || 75;
+    cut = cut || false;
+    if (!str) {
+      return str;
+    }
+    var regex = ".{0," + width + "}(\\s|$)" + (cut ? "|.{" + width + "}|.+$" : "|\\S+?(\\s|$)");
+    return str.match(RegExp(regex, "g")).join(brk);
+  }
+
   useEffect(() => {
     let allActiveNodes = nodes.filter((node) => node.data.on);
     let allActiveLinks = links.filter((link) => link.source.data.on);
@@ -447,44 +458,65 @@ function D3Chart() {
       .call(drag(simulation));
 
     // Add the Text
-    elementEnter
-      .append("foreignObject")
-      .attr("width", (d) => {
-        nodeSizes(d);
-      })
-      .attr("height", (d) => {
-        nodeSizes(d);
-      })
-      .attr("height", "180px")
-      .attr("width", "180px")
-
-      .append("xhtml:h5")
-      .attr("class", "nodeTextElement")
+    let text = elementEnter
+      .append("text")
       .call(drag(simulation))
-      .html((d) => {
-        return `<p>${d.data.name}<br> ${
-          d.children && d.data.type !== "connector" && d.depth > 2 ? `[${d.children.length}]` : ""
-        }</p>`;
-      })
-      .attr("xmlns", "http://www.w3.org/1999/xhtml");
+      .attr("dominant-baseline", "central")
+      .style("fill", "#fff")
+      .each(function (d) {
+        let fontsize = 13;
+        let maxLength = 20;
+        let separation = 18;
+
+        // larger nodes get larger text
+        if (d.data.type === "person" || d.data.type === "company") {
+          fontsize = 18;
+          maxLength = 1;
+          separation = 25;
+        }
+
+        if (d.data.type === "mothercompany") {
+          fontsize = 16;
+          maxLength = 1;
+          separation = 22;
+        }
+
+        const lines = wordwrap(d.data.name, maxLength).split("\n");
+
+        // add the number of children to the text
+        if (d.children && d.data.type !== "connector" && d.depth > 2) {
+          lines.push(`[${d.children.length}]`);
+        }
+
+        for (var i = 0; i < lines.length; i++) {
+          d3.select(this)
+            .append("tspan")
+            .attr("dy", separation)
+            .attr("text-anchor", "middle")
+            .style("font-size", `${fontsize}px`)
+            .text(lines[i].trim());
+
+          d3.select(this).attr("transform", "translate(0," + ((separation * lines.length) / 2) * -1 + ")");
+        }
+      });
 
     // Give all foreignObject elements that are small Nodes a class for easier selection
     document.querySelectorAll(".smallNode").forEach(function (smallNode) {
-      smallNode.parentElement.querySelector("foreignObject").classList.add("smallText");
+      smallNode.parentElement.querySelector("text").classList.add("smallText");
     });
 
     // Turn on Pointer Events for smaller Text
     document.querySelectorAll(".smallText").forEach(function (smallTextContainer) {
-      smallTextContainer.querySelector("h5").style.pointerEvents = "all";
+      smallTextContainer.style.pointerEvents = "all";
     });
 
     // Style the color of the text
     d3.selectAll("circle").each(function (d) {
       if (this.classList.contains("smallNode")) {
         if (d.children !== undefined) {
-          d3.select(this.parentElement).select("h5").style("color", nodeColors(d.data.group));
+          d3.select(this.parentElement).select("text").style("fill", nodeColors(d.data.group));
         } else {
-          d3.select(this.parentElement).select("h5").style("color", "#000");
+          d3.select(this.parentElement).select("text").style("fill", "#000");
         }
       }
       if (d.depth === 0) {
@@ -539,7 +571,7 @@ function D3Chart() {
 
         document.documentElement.style.setProperty("--highlightColorHover", nodeColors(d.data.group));
         // Change the text color contained in the node
-        d.depth > 1 ? e.target.parentElement.querySelector("h5").classList.add("hovered") : null;
+        d.depth > 1 ? e.target.parentElement.querySelector("text").classList.add("hovered") : null;
 
         setNodeInfo((prevNodeInfo) => {
           return {
@@ -568,7 +600,7 @@ function D3Chart() {
           )
 
           .attr("cursor", "default");
-        e.target.parentElement.querySelector("h5").classList.remove("hovered");
+        e.target.parentElement.querySelector("text").classList.remove("hovered");
       })
 
       .on("click", handleNodeClick);
@@ -695,7 +727,7 @@ function D3Chart() {
     }
 
     // SMALL TEXT NODES
-    d3.selectAll(".smallText > h5") //
+    d3.selectAll(".smallText > text") //
       .on("mouseover", function (e, d) {
         setNodeInfo((prevNodeInfo) => {
           return {
@@ -776,30 +808,15 @@ function D3Chart() {
         .attr("cy", (d) => d.y);
       // circle.call(drag(simulation));
 
-      elementEnter
-        .select("text")
-        .attr("x", (d) => d.x)
-        .attr("y", (d) => d.y);
+      elementEnter.selectAll("tspan").attr("x", (d) => d.x);
 
-      document.querySelectorAll("foreignObject").forEach(function (foreignObject) {
-        let circle = foreignObject.parentElement.querySelector("circle");
+      document.querySelectorAll("text").forEach(function (text) {
+        let circle = text.parentElement.querySelector("circle");
 
         if (circle.getAttribute("cx") !== null || circle.getAttribute("cy") !== null) {
-          foreignObject.setAttribute("x", circle.getAttribute("cx"));
-          foreignObject.setAttribute("y", circle.getAttribute("cy"));
+          text.setAttribute("x", circle.getAttribute("cx"));
+          text.setAttribute("y", circle.getAttribute("cy"));
         }
-
-        let positionVariable;
-        if (foreignObject.textContent.length > 1) {
-          positionVariable = foreignObject.textContent.length;
-        } else {
-          positionVariable = 0;
-        }
-        foreignObject.style.transform = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
-        foreignObject.style["-webkit-transform"] = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
-        foreignObject.style["-moz-transform"] = `translate(${-90}px ${-40 - positionVariable * 1.1}px)`;
-        foreignObject.style["-o-transform"] = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
-        foreignObject.style["-ms-transform"] = `translate(${-90}px, ${-40 - positionVariable * 1.1}px)`;
       });
     });
 
