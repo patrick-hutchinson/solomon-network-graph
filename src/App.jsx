@@ -727,7 +727,7 @@ function D3Chart() {
     }
 
     // SMALL TEXT NODES
-    d3.selectAll(".smallText > text") //
+    d3.selectAll(".smallText") //
       .on("mouseover", function (e, d) {
         setNodeInfo((prevNodeInfo) => {
           return {

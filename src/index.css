@@ -358,21 +358,16 @@ foreignObject > h5.hovered {
   border-radius: 2px;
 }
 
-foreignObject {
+/* text {
   pointer-events: none;
-}
+} */
 
-foreignObject:hover {
+text:hover {
   cursor: pointer;
 }
 
-foreignObject > h5 > p {
-  margin: 0;
-  padding: 0;
-}
-
-.smallNode > h5 {
-  color: #f00;
+g:hover {
+  cursor: pointer;
 }
 
 .zoomButtonContainer {
