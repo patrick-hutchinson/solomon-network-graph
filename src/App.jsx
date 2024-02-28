@@ -463,6 +463,7 @@ function D3Chart() {
       .call(drag(simulation))
       .attr("dominant-baseline", "central")
       .style("fill", "#fff")
+
       .each(function (d) {
         let fontsize = 16;
         let maxLength = 20;
@@ -506,35 +507,6 @@ function D3Chart() {
           d3.select(this).attr("transform", "translate(0," + ((separation * lines.length) / 2) * -1 + ")");
         }
       });
-
-    // Change the color of the text on hover (mousenter and mouseleave)
-    // d3.selectAll("circle") //
-    //   .on("mouseenter", (e, d) => {
-    //     const textElement = d3.select(e.target.parentNode).select("text");
-
-    //     textElement.style("fill", (d) => {
-    //       if (d.data.type === "mothercompany") {
-    //         return nodeColors(d.data.group);
-    //       } else if (d.data.type === "sector") {
-    //         return nodeColors(d.data.group);
-    //       } else if (d.data.type === "company") {
-    //         return "#fff";
-    //       }
-    //     });
-    //   });
-    // d3.selectAll("circle").on("mouseleave", (e, d) => {
-    //   const textElement = d3.select(e.target.parentNode).select("text");
-
-    //   textElement.style("fill", (d) => {
-    //     if (d.data.type === "mothercompany") {
-    //       return "#fff";
-    //     } else if (d.data.type === "sector") {
-    //       return nodeColors(d.data.group);
-    //     } else if (d.data.type === "company") {
-    //       return "#fff";
-    //     }
-    //   });
-    // });
 
     // Give all foreignObject elements that are small Nodes a class for easier selection
     document.querySelectorAll(".smallNode").forEach(function (smallNode) {
@@ -596,7 +568,7 @@ function D3Chart() {
       });
 
     // UPDATE & INTERACTION
-    // Cirlces
+    // Cirlces and Circle Text
     d3.selectAll("circle")
       .on("mouseenter", function (e, d) {
         d3.select(this) //
