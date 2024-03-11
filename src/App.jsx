@@ -125,12 +125,6 @@ function D3Chart() {
   let [clickedGroupFilterNode, setClickedGroupFilterNode] = React.useState();
 
   // Declare Scales and Values
-  let nodeSizesArray = [10, 135, 95, 85, 85, 0, 0];
-  let nodeSizes = d3
-    .scaleOrdinal() //
-    .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
-    .range(nodeSizesArray);
-
   let arrowThicknessArray = [2, 2, 6, 5, 5, 3, 3];
   let arrowThickness = d3
     .scaleOrdinal() //
@@ -142,17 +136,10 @@ function D3Chart() {
   let [minDescendants, maxDescendants] = d3.extent(allNodes, (node) => node.descendants().length);
 
   // Create the scale based on the range of descendants
-  let startingNodeSizes = [100, 500];
-  let descendantsScale = d3.scaleLinear().domain([minDescendants, maxDescendants]).range(startingNodeSizes);
-
-  let nodeColorsArray = ["transparent", "#FF295B", "#AF1BF5", "#44B0FF", "#20AE98", "#FEA800"];
-  let nodeColors = d3
-    .scaleOrdinal() //
-    .domain([...new Set(nodes.map((d) => d.data.group))])
-    .range(nodeColorsArray);
+  let rootNodeSizeScale = [100, 500];
+  let descendantsScale = d3.scaleLinear().domain([minDescendants, maxDescendants]).range(rootNodeSizeScale);
 
   // Show a PopUp when trying to zoom without pressing Command
-
   function showZoomNotice(e) {
     let zoomNoticeCursor = document.querySelector(".zoomNoticeCursor");
     zoomNoticeCursor.classList.add("visible");
@@ -362,7 +349,7 @@ function D3Chart() {
         "collision",
         d3
           .forceCollide()
-          .radius((d) => (d.depth !== 1 ? nodeSizes(d.data.type) : descendantsScale(findDescendantsManually(d).length)))
+          .radius((d) => (d.depth !== 1 ? d.data.radius : descendantsScale(findDescendantsManually(d).length)))
       );
 
     // Element Creation
@@ -412,12 +399,12 @@ function D3Chart() {
       .append("marker")
       .attr("id", (d, i) => "arrowhead" + i)
       // Calculation is tailormade to place all arrowheads correctly.
-      .attr("refX", (d) => nodeSizes(d.data.type) / 32)
+      .attr("refX", (d) => (d.data.radius > 0 ? d.data.radius / 32 : 0))
       .attr("refY", 3)
       .attr("markerWidth", 10)
       .attr("markerHeight", 10)
       .attr("orient", "auto-start-reverse")
-      .attr("fill", (d) => nodeColors(d.data.group))
+      .attr("fill", (d) => d.data.color)
       .append("path")
       .attr("d", "M0,0 L0,6 L4,3 z");
 
@@ -438,15 +425,13 @@ function D3Chart() {
     // Create the circles
     let circle = elementEnter
       .append("circle")
-      // if the node is not the group node, apply the nodeSizes table. Else, base size on amount of descendants
-      .attr("r", (d) => (d.depth !== 1 ? nodeSizes(d.data.type) : descendantsScale(findDescendantsManually(d).length)))
+      // if the node is not the root node, apply the nodeSizes table. Else, base size on amount of descendants
+      .attr("r", (d) => (d.depth !== 1 ? d.data.radius : descendantsScale(findDescendantsManually(d).length)))
 
-      .attr("stroke", (d) => nodeColors(d.data.group))
+      .attr("stroke", (d) => d.data.color)
       //if the depth of the node is smaller than three, fill it. Else, white.
       .attr("fill", (d) =>
-        d.data.type === "person" || d.data.type === "company" || d.data.type === "mothercompany"
-          ? nodeColors(d.data.group)
-          : "#fff"
+        d.data.type === "person" || d.data.type === "company" || d.data.type === "mothercompany" ? d.data.color : "#fff"
       )
       .attr("stroke-opacity", (d) => (d.data.on ? 0.6 : 0.1))
 
@@ -522,7 +507,7 @@ function D3Chart() {
     d3.selectAll("circle").each(function (d) {
       if (this.classList.contains("smallNode")) {
         if (d.children !== undefined) {
-          d3.select(this.parentElement).select("text").style("fill", nodeColors(d.data.group));
+          d3.select(this.parentElement).select("text").style("fill", d.data.color);
         } else {
           d3.select(this.parentElement).select("text").style("fill", "#000");
         }
@@ -560,8 +545,12 @@ function D3Chart() {
       .attr("stroke", (d) => {
         let nodeColor;
         d3.selectAll("circle").each(function (f) {
-          if (d.target === f) {
-            nodeColor = nodeColors(f.data.group);
+          //we're applying the color of the target node to the line, but the connector has a transparent color.
+          //so if the target is a connector, use the color of the source node instead.
+          if (d.target === f && d.target.data.type === "connector") {
+            nodeColor = d.source.data.color;
+          } else if (d.target === f) {
+            nodeColor = f.data.color;
           }
         });
         return nodeColor;
@@ -574,10 +563,10 @@ function D3Chart() {
         d3.select(this) //
           .transition()
           .duration("200")
-          .attr("fill", (d) => (d.depth === 1 ? nodeColors(d.data.group) : "#fff"))
+          .attr("fill", (d) => (d.depth === 1 ? d.data.color : "#fff"))
           .attr("cursor", "pointer");
 
-        document.documentElement.style.setProperty("--highlightColorHover", nodeColors(d.data.group));
+        document.documentElement.style.setProperty("--highlightColorHover", d.data.color);
         // Change the text color contained in the node
         // d.depth > 1 ? e.target.parentElement.querySelector("text").classList.add("hovered") : null;
 
@@ -597,13 +586,13 @@ function D3Chart() {
 
         textElement.style("fill", (d) => {
           if (d.data.type === "mothercompany") {
-            return nodeColors(d.data.group);
+            return d.data.color;
           } else if (d.data.type === "sector") {
-            return nodeColors(d.data.group);
+            return d.data.color;
           } else if (d.data.type === "company") {
             return "#fff";
           } else {
-            return nodeColors(d.data.group);
+            return d.data.color;
           }
         });
       })
@@ -617,7 +606,7 @@ function D3Chart() {
             d.data.type === "person" ||
             d.data.type === "company" ||
             d.data.type === "mothercompany"
-              ? nodeColors(d.data.group)
+              ? d.data.color
               : "#fff"
           )
 
@@ -630,7 +619,7 @@ function D3Chart() {
           if (d.data.type === "mothercompany") {
             return "#fff";
           } else if (d.data.type === "sector") {
-            return nodeColors(d.data.group);
+            return d.data.color;
           } else if (d.data.type === "company") {
             return "#fff";
           } else {
@@ -882,7 +871,7 @@ function D3Chart() {
   function hoverFilteredNode(IDText) {
     nodes.forEach(function (node) {
       if (node.data.name === IDText) {
-        document.documentElement.style.setProperty("--highlightColorHover", nodeColors(node.data.group));
+        document.documentElement.style.setProperty("--highlightColorHover", node.data.color);
       }
     });
   }
@@ -898,7 +887,7 @@ function D3Chart() {
         setTimeout(() => {
           panToNode(node);
         }, 500);
-        document.documentElement.style.setProperty("--highlightColorClick", nodeColors(node.data.group));
+        document.documentElement.style.setProperty("--highlightColorClick", node.data.color);
       }
     });
 
@@ -915,7 +904,7 @@ function D3Chart() {
         let matchingNode = nodes.find((node) => node.data.name === IDText);
         if (matchingNode) {
           updatedFilter.push(matchingNode.data.group);
-          event.target.style.color = nodeColors(matchingNode.data.group);
+          event.target.style.color = matchingNode.data.color;
         }
 
         return updatedFilter;
@@ -1052,7 +1041,7 @@ function D3Chart() {
 
         function updateNodeColor() {
           if (groupFilterItem.classList.contains("active")) {
-            groupFilterItem.style.color = nodeColors(node.data.group);
+            groupFilterItem.style.color = node.data.color;
           } else {
             groupFilterItem.style.color = "";
           }
