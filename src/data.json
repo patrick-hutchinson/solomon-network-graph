@@ -1,8 +1,10 @@
 {
-  "name": "",
   "type": "project",
-  "group": 0,
   "on": true,
+  "name": "",
+  "group": 0,
+  "color": "none",
+  "radius": 10,
   "children": [
     {
       "name": "ΟΜΙΛΟΣ ΑΛΑΦΟΥΖΟΥ",
@@ -11,6 +13,7 @@
       "on": true,
       "date": "",
       "description": "",
+      "color": "#FF295B",
       "children": [
         {
           "name": "ΓΙΑΝΝΗΣ ΑΛΑΦΟΥΖΟΣ",
@@ -19,6 +22,8 @@
           "on": true,
           "date": "02/07/1957",
           "description": "Ο Γιάννης Αλαφούζος είναι Έλληνας επιχειρηματίας, εφοπλιστής, πρόεδρος της ΠΑΕ Παναθηναϊκός και μέλος της οικογένειας Αλαφούζου από τη Σαντορίνη. Είναι γιος του επιχειρηματία, εφοπλιστή και εκδότη εφημερίδας Αριστείδη Αλαφούζου.Στις αρχές της δεκαετίας του 1980, ο Γιάννης Αλαφούζος ακολούθησε τα βήματα του πατέρα του στη ναυτιλία και εργάστηκε για την ναυτιλιακή εταιρεία της οικογένειάς του, Glafki Maritime Company, με τον στόλο πετρελαιοφόρων ΕΡΜΗΣ Ναυτιλιακή και, στη συνέχεια, διατελεί Διευθύνων Σύμβουλος του στόλου της Kyklades Ναυτιλιακή μέχρι σήμερα.Το 1989 ανέλαβε τον ειδησεογραφικό ραδιοφωνικό σταθμό ΣΚΑΪ 100.3 και εν συνεχεία ίδρυσε τον ομώνυμο τηλεοπτικό σταθμό τον οποίο πούλησε το 1999 για να μετατραπεί στον σημερινό Alpha TV. Σήμερα είναι πρόεδρος του ομώνυμου ομίλου μέσων ενημέρωσης, που περιλαμβάνει τον τηλεοπτικό σταθμό του ΣΚΑΪ και 2 ραδιοφωνικούς σταθμούς με έδρα το Νέο Φάληρο, τον ΣΚΑΪ 100.3 και τον BwinΣΠΟΡ FM 94.6.Τον Μάιο του 2012, ο Γιάννης Αλαφούζος, μαζί με παίκτες και οπαδούς της ΠΑΕ Παναθηναϊκός, ίδρυσαν το σωματείο Παναθηναϊκή Συμμαχία 2012 που πήρε το πλειοψηφικό μερίδιο της ποδοσφαιρικής ομάδας. Τον Σεπτέμβριο του 2012 εξελέγη πρόεδρος του Παναθηναϊκού.",
+          "color": "#FF295B",
+          "radius": 95,
           "children": [
             {
               "name": "ΜΜΕ",
@@ -27,6 +32,8 @@
               "on": true,
               "date": "",
               "description": "",
+              "color": "#FF295B",
+              "radius": 85,
               "children": [
                 {
                   "name": "ΣΚΑΪ",
@@ -50,6 +57,8 @@
                     }
                   ],
                   "sector": "ΜΜΕ",
+                  "color": "#FF295B",
+                  "radius": 85,
                   "children": [
                     {
                       "name": "",
@@ -57,6 +66,8 @@
                       "group": 1,
                       "on": false,
                       "date": "",
+                      "color": "none",
+                      "radius": 0,
                       "children": [
                         {
                           "name": "ΣΚΑΪ TV",
@@ -65,7 +76,9 @@
                           "on": false,
                           "date": "",
                           "description": "Ο ΣΚΑΪ είναι ελληνικός ιδιωτικός τηλεοπτικός σταθμός πανελλαδικής εμβέλειας, με έδρα το Νέο Φάληρο. Λειτούργησε για πρώτη φορά το 1993 μέχρι το 1999, οπότε και πωλήθηκε και μετονομάστηκε στον Alpha. Επανήλθε το 2006, με πρόγραμμα προσανατολισμένο στις ξένες σειρές, στα ντοκιμαντέρ και στα δελτία ειδήσεων.",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "SKAITV.GR",
@@ -74,7 +87,9 @@
                           "on": false,
                           "date": "",
                           "description": "Το 2006 δημιουργήθηκε η ιστοσελίδα του σταθμού, skai.gr που παρέχει υπηρεσίες ζωντανής αναμετάδοσης, ενώ διατίθεται και ειδησεογραφικό υλικό, καθώς και περιεχόμενο του ραδιοτηλεοπτικού ΣΚΑΪ.",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "SKAI.GR",
@@ -83,7 +98,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "κανένα"
+                          "sector": "κανένα",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "ΣΚΑΙ 100,3 FM",
@@ -92,7 +109,9 @@
                           "on": false,
                           "date": "",
                           "description": "Ο ΣΚΑΪ 100,3 είναι ιδιωτικός ενημερωτικός ραδιοφωνικός σταθμός που ιδρύθηκε και ξεκίνησε να εκπέμπει το 1989 στη συχνότητα των 100.4 MHz. Σήμερα, εκπέμπει στους 100.3 MHz καλύπτοντας την περιφέρεια Αττικής και μεγάλο μέρος της Περιφερειακής Ενότητας Ευβοίας και έχει έδρα το Νέο Φάληρο, στον Πειραιά.",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "SKAIRADIO.GR",
@@ -101,7 +120,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "TVPEDIA",
@@ -110,7 +131,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "ΣΕΛΗΝΑΙΑ",
@@ -119,7 +142,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "REAL ESTATE"
+                          "sector": "REAL ESTATE",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "ΕΡΓΑ ΔΙΟΝΥΣΟΥ",
@@ -128,7 +153,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "REAL ESTATE"
+                          "sector": "REAL ESTATE",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "104 FM",
@@ -137,7 +164,9 @@
                           "on": false,
                           "date": "",
                           "description": "Ο πρώην Party FM που βρισκόταν στην κατοχή του Μένιου Φουρθιώτη αγοράστηκε από τον Γιάννη Αλαφούζο για 800.000 ευρώ.",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "bwinΣΠΟΡ FM 94,6",
@@ -168,7 +197,9 @@
                               "percentage": "0,10%"
                             }
                           ],
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "ΘΑΝΑΛΕ",
@@ -177,7 +208,9 @@
                           "on": false,
                           "date": "",
                           "description": "Η εταιρεία ιδρύθηκε το 2006. Σκοπός της εταιρείας είναι η επένδυση και η συμμετοχή σε εταιρείες που δραστηριοποιούνται στην Ελλάδα και στο εξωτερικό.Στις δραστηριότητες της ΘΑΝΑΛΕ συμπεριλαμβάνονται η αγορά χώρων και εγκαταστάσεων για περαιτέρω αξιοποίηση, όπως επίσης και η εγκατάσταση δικτυακών και τηλεπικοινωνιακών υποδομών για την παροχή και διανομή υπηρεσιών που εντάσσονται στους σκοπούς της εταιρείας.",
-                          "sector": "ΣΥΜΜΕΤΟΧΩΝ"
+                          "sector": "ΣΥΜΜΕΤΟΧΩΝ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "ΜΕΝΤΑ 88 FM",
@@ -186,7 +219,9 @@
                           "on": false,
                           "date": "",
                           "description": "Βγήκε στον αέρα το 2013 εστιάζοντας στα παλιά ελληνικά τραγούδια και στην παρουσίαση νέων τραγουδοποιών. Μερικά από τα ονόματα που συμμετείχαν στο πρώτο σχήμα είναι οι Μαργαρίτα Μυτιληναίου, Κωνσταντίνος Παντζόγλου, Πάνος Σουρούνης, Θανάσης Βούτσινος, Αντώνης Ανδρικάκης.",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "PEPPER 96,6 FM",
@@ -195,7 +230,9 @@
                           "on": false,
                           "date": "",
                           "description": "Ο ραδιοφωνικός σταθμός Radio Pepper 96.6 εκπέμπει από την Αθήνα, Ελλάδα και απευθύνεται σε μια ευρεία γκάμα ακροατών στην περιοχή.",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         }
                       ]
                     }
@@ -210,6 +247,8 @@
               "on": true,
               "date": "",
               "description": "",
+              "color": "#FF295B",
+              "radius": 85,
               "children": [
                 {
                   "name": "OKEANIS ENERGY",
@@ -218,7 +257,9 @@
                   "on": false,
                   "date": "",
                   "description": "",
-                  "sector": "ΕΝΕΡΓΕΙΑ"
+                  "sector": "ΕΝΕΡΓΕΙΑ",
+                  "color": "#FF295B",
+                  "radius": 0
                 }
               ]
             },
@@ -229,6 +270,8 @@
               "on": true,
               "date": "",
               "description": "",
+              "color": "#FF295B",
+              "radius": 85,
               "children": [
                 {
                   "name": "ΠΑΕ ΠΑΝΑΘΗΝΑΪΚΟΣ",
@@ -238,7 +281,10 @@
                   "date": "",
                   "description": "Ο Παναθηναϊκός Αθλητικός Όμιλος (Π.Α.Ο.) είναι ελληνικό αθλητικό σωματείο το οποίο εδρεύει στην Αθήνα. Ιδρύθηκε στις 3 Φεβρουαρίου 1908 και είναι από τους μεγαλύτερους αθλητικούς συλλόγους στην Ελλάδα. Το τμήμα ποδοσφαίρου του Π.Α.Ο. αγωνίζεται στο επαγγελματικό πρωτάθλημα της Super League 1",
                   "shareholders": [
-                    { "shareholder": "Ιωάννης Αλαφούζος", "percentage": "60,39%" },
+                    {
+                      "shareholder": "Ιωάννης Αλαφούζος",
+                      "percentage": "60,39%"
+                    },
                     {
                       "shareholder": "Sortivo International",
                       "percentage": "27,04%"
@@ -257,27 +303,43 @@
                     }
                   ],
                   "sector": "ΑΘΛΗΤΙΣΜΟΣ",
+                  "color": "#FF295B",
+                  "radius": 85,
                   "children": [
                     {
                       "name": "",
                       "type": "connector",
                       "group": 1,
                       "on": false,
+                      "color": "none",
+                      "radius": 0,
                       "children": [
                         {
                           "name": "ΓΗΠΕΔΟ ΕΛΑΙΩΝΑ",
                           "type": "subcompany",
                           "group": 1,
                           "on": false,
-                          "sector": "ΑΘΛΗΤΙΣΜΟΣ"
+                          "sector": "ΑΘΛΗΤΙΣΜΟΣ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
-                        { "name": "GREEN TEAM", "type": "subcompany", "group": 1, "on": false, "sector": "ΕΜΠΟΡΙΟ" },
+                        {
+                          "name": "GREEN TEAM",
+                          "type": "subcompany",
+                          "group": 1,
+                          "on": false,
+                          "sector": "ΕΜΠΟΡΙΟ",
+                          "color": "#FF295B",
+                          "radius": 0
+                        },
                         {
                           "name": "ΣΧΟΛΕΣ ΠΟΔΟΣΦΑΙΡΟΥ ΠΑΝΑΘΗΝΑΪΚΟΥ",
                           "type": "subcompany",
                           "group": 1,
                           "on": false,
-                          "sector": "ΑΘΛΗΤΙΣΜΟΣ"
+                          "sector": "ΑΘΛΗΤΙΣΜΟΣ",
+                          "color": "#FF295B",
+                          "radius": 0
                         }
                       ]
                     }
@@ -291,10 +353,18 @@
                   "date": "",
                   "description": "",
                   "shareholders": [
-                    { "shareholder": "Ιωάννης Αλαφούζος", "percentage": "97,73%" },
-                    { "shareholder": "Ιωάννης Σπανολιός", "percentage": "2,27%" }
+                    {
+                      "shareholder": "Ιωάννης Αλαφούζος",
+                      "percentage": "97,73%"
+                    },
+                    {
+                      "shareholder": "Ιωάννης Σπανολιός",
+                      "percentage": "2,27%"
+                    }
                   ],
-                  "sector": "ΑΘΛΗΤΙΣΜΟΣ"
+                  "sector": "ΑΘΛΗΤΙΣΜΟΣ",
+                  "color": "#FF295B",
+                  "radius": 85
                 }
               ]
             },
@@ -305,6 +375,8 @@
               "on": true,
               "date": "",
               "description": "",
+              "color": "#FF295B",
+              "radius": 85,
               "children": [
                 {
                   "name": "OKEANIS ECO TANKERS",
@@ -314,19 +386,54 @@
                   "date": "",
                   "description": "",
                   "shareholders": [
-                    { "shareholder": "Οικογένεια Αλαφούζου", "percentage": "56,82%" },
-                    { "shareholder": "BNP PARIBAS", "percentage": "6,39%" },
-                    { "shareholder": "THE BANK OF NEW YORK MELLON", "percentage": "3,63%" },
-                    { "shareholder": "AVANZA BANK AB", "percentage": "3,22%" },
-                    { "shareholder": "INTERACTIVE BROKERS LLC", "percentage": "2,34%" },
-                    { "shareholder": "CLEARSTREAM BANKING S.A.", "percentage": "1,88%" },
-                    { "shareholder": "BROWN BROTHERS HARRIMAN (LUX.)", "percentage": "1,49%" },
-                    { "shareholder": "CACEIS BANK SPAIN SA", "percentage": "1,22%" },
-                    { "shareholder": "NORDNET BANK AB", "percentage": "1,09%" },
-                    { "shareholder": "VERDIPAPIRFONDET KLP AKSJENORGE", "percentage": "1%" },
-                    { "shareholder": "OKEANIS ECO TANKERS", "percentage": "2.12%" }
+                    {
+                      "shareholder": "Οικογένεια Αλαφούζου",
+                      "percentage": "56,82%"
+                    },
+                    {
+                      "shareholder": "BNP PARIBAS",
+                      "percentage": "6,39%"
+                    },
+                    {
+                      "shareholder": "THE BANK OF NEW YORK MELLON",
+                      "percentage": "3,63%"
+                    },
+                    {
+                      "shareholder": "AVANZA BANK AB",
+                      "percentage": "3,22%"
+                    },
+                    {
+                      "shareholder": "INTERACTIVE BROKERS LLC",
+                      "percentage": "2,34%"
+                    },
+                    {
+                      "shareholder": "CLEARSTREAM BANKING S.A.",
+                      "percentage": "1,88%"
+                    },
+                    {
+                      "shareholder": "BROWN BROTHERS HARRIMAN (LUX.)",
+                      "percentage": "1,49%"
+                    },
+                    {
+                      "shareholder": "CACEIS BANK SPAIN SA",
+                      "percentage": "1,22%"
+                    },
+                    {
+                      "shareholder": "NORDNET BANK AB",
+                      "percentage": "1,09%"
+                    },
+                    {
+                      "shareholder": "VERDIPAPIRFONDET KLP AKSJENORGE",
+                      "percentage": "1%"
+                    },
+                    {
+                      "shareholder": "OKEANIS ECO TANKERS",
+                      "percentage": "2.12%"
+                    }
                   ],
                   "sector": "ΝΑΥΤΙΛΙΑ",
+                  "color": "#FF295B",
+                  "radius": 85,
                   "children": [
                     {
                       "name": "",
@@ -334,6 +441,8 @@
                       "group": 1,
                       "on": false,
                       "date": "",
+                      "color": "none",
+                      "radius": 0,
                       "children": [
                         {
                           "name": "OET CHARTERING INC.",
@@ -342,7 +451,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΝΑΥΤΙΛΙΑ"
+                          "sector": "ΝΑΥΤΙΛΙΑ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "THERASSIA MARINE",
@@ -351,7 +462,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΝΑΥΤΙΛΙΑ"
+                          "sector": "ΝΑΥΤΙΛΙΑ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "MILOS MARINE",
@@ -360,7 +473,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΝΑΥΤΙΛΙΑ"
+                          "sector": "ΝΑΥΤΙΛΙΑ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "IOS MARITIME",
@@ -369,7 +484,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΝΑΥΤΙΛΙΑ"
+                          "sector": "ΝΑΥΤΙΛΙΑ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "OMEGA ONE MARINE",
@@ -378,7 +495,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΝΑΥΤΙΛΙΑ"
+                          "sector": "ΝΑΥΤΙΛΙΑ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "OMEGA TWO MARINE",
@@ -387,7 +506,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΝΑΥΤΙΛΙΑ"
+                          "sector": "ΝΑΥΤΙΛΙΑ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "OMEGA THREE MARINE",
@@ -396,7 +517,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΝΑΥΤΙΛΙΑ"
+                          "sector": "ΝΑΥΤΙΛΙΑ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "OMEGA FOUR MARINE",
@@ -405,7 +528,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΝΑΥΤΙΛΙΑ"
+                          "sector": "ΝΑΥΤΙΛΙΑ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "OMEGA FIVE MARINE",
@@ -414,7 +539,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΝΑΥΤΙΛΙΑ"
+                          "sector": "ΝΑΥΤΙΛΙΑ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "OMEGA SIX MARINE",
@@ -423,7 +550,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΝΑΥΤΙΛΙΑ"
+                          "sector": "ΝΑΥΤΙΛΙΑ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "OMEGA SEVEN MARINE",
@@ -432,7 +561,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΝΑΥΤΙΛΙΑ"
+                          "sector": "ΝΑΥΤΙΛΙΑ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "OMEGA NINE MARINE",
@@ -441,7 +572,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΝΑΥΤΙΛΙΑ"
+                          "sector": "ΝΑΥΤΙΛΙΑ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "OMEGA TEN MARINE",
@@ -450,7 +583,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΝΑΥΤΙΛΙΑ"
+                          "sector": "ΝΑΥΤΙΛΙΑ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "OMEGA ELEVEN MARINE",
@@ -459,7 +594,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΝΑΥΤΙΛΙΑ"
+                          "sector": "ΝΑΥΤΙΛΙΑ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "NELLMARE MARINE",
@@ -468,7 +605,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΝΑΥΤΙΛΙΑ"
+                          "sector": "ΝΑΥΤΙΛΙΑ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "ANASSA NAVIGATION SA",
@@ -477,7 +616,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΝΑΥΤΙΛΙΑ"
+                          "sector": "ΝΑΥΤΙΛΙΑ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "ARETHUSA SHIPPING",
@@ -486,7 +627,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΝΑΥΤΙΛΙΑ"
+                          "sector": "ΝΑΥΤΙΛΙΑ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "MOONSPRITE SHIPPING",
@@ -495,7 +638,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΝΑΥΤΙΛΙΑ"
+                          "sector": "ΝΑΥΤΙΛΙΑ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "THETA NAVIGATION",
@@ -504,7 +649,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΝΑΥΤΙΛΙΑ"
+                          "sector": "ΝΑΥΤΙΛΙΑ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "ARK MARINE SA",
@@ -513,7 +660,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΝΑΥΤΙΛΙΑ"
+                          "sector": "ΝΑΥΤΙΛΙΑ",
+                          "color": "#FF295B",
+                          "radius": 0
                         }
                       ]
                     }
@@ -530,12 +679,16 @@
           "on": true,
           "date": "24/05/1958",
           "description": "Ο Θεμιστοκλής Αλαφούζος, ο μικρότερος αδερφός του Γιάννη Αλαφούζου, είναι ο κύριος μέτοχος και διευθύνων σύμβουλος του ομίλου Καθημερινή. Η μητρική εταιρεία Νέες Καθημερινές εκδόσεις συμμετέχει σε άλλες εταιρείες (θυγατρικές) που ασχολούνται με την έκδοση εφημερίδων (Καθημερινή, Καθημερινή Αγγλική Έκδοση και τις αντίστοιχες ιστοσελίδες τους) και περιοδικών (όπως π.χ. Magazine K, Traveling, Vogue Greece, Greece is, Γαστρονόμος κ.λπ.). Πέρα από τα ΜΜΕ έχει μεγάλη επιχειρηματική δραστηριότητα και στο χώρο της ναυτιλίας.",
+          "color": "#FF295B",
+          "radius": 95,
           "children": [
             {
               "name": "ΜΜΕ",
               "type": "sector",
               "group": 1,
               "on": true,
+              "color": "#FF295B",
+              "radius": 85,
               "children": [
                 {
                   "name": "ΝΕΕΣ ΚΑΘΗΜΕΡΙΝΕΣ ΕΚΔΟΣΕΙΣ",
@@ -545,12 +698,16 @@
                   "date": "",
                   "description": "",
                   "sector": "ΜΜΕ",
+                  "color": "#FF295B",
+                  "radius": 85,
                   "children": [
                     {
                       "name": "",
                       "type": "connector",
                       "group": 1,
                       "on": false,
+                      "color": "none",
+                      "radius": 0,
                       "children": [
                         {
                           "name": "ΚΑΘΗΜΕΡΙΝΗ",
@@ -559,7 +716,9 @@
                           "on": false,
                           "date": "",
                           "description": "Η Καθημερινή είναι ημερήσια πολιτική και οικονομική εφημερίδα με πανελλαδική κυκλοφορία. Ιδρύθηκε από τον Γεώργιο Α. Βλάχο και το πρώτο της φύλλο κυκλοφόρησε στις 15 Σεπτεμβρίου 1919.Διευθυντής της, από το 2007, είναι ο Αλέξης Παπαχελάς.",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "KATHIMERINI.GR",
@@ -568,7 +727,9 @@
                           "on": false,
                           "date": "",
                           "description": "Το kathimerini.gr είναι η ψηφιακή έκδοση της Καθημερινής και ιδρύθηκε το 1996.",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "EKATHIMERINI.COM",
@@ -577,7 +738,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "MONEYREVIEW.GR",
@@ -586,7 +749,9 @@
                           "on": false,
                           "date": "",
                           "description": "Το moneyreview.gr ιδρύθηκε στις 02 Δεκεμβρίου 2020 με έδρα την Αθήνα. Στοχεύει στην ενημέρωση γύρω από τις εξελίξεις που αφορούν την επιχειρηματικότητα και τις επενδύσεις, το χρηματιστήριο και τις αγορές, τα δημόσια οικονομικά και τη φορολόγηση, την εργασία, τον τουρισμό και την ενέργεια.",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "ΓΑΣΤΡΟΝΟΜΟΣ",
@@ -595,7 +760,9 @@
                           "on": false,
                           "date": "",
                           "description": "Ο «Γαστρονόμος» κυκλοφορεί κάθε μήνα με την \"Καθημερινή\" της Κυριακής.",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "GASTRONOMOS.GR",
@@ -604,7 +771,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "VOGUE",
@@ -613,7 +782,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "VOGUE.GR",
@@ -622,7 +793,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "GREECE-IS.COM",
@@ -631,7 +804,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "BLUEKEY.GR",
@@ -640,7 +815,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "HOURS",
@@ -649,7 +826,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "KESTATE.GR",
@@ -658,7 +837,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "OINOXOOS.NET",
@@ -667,7 +848,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "NEW YORK TIMES FRANCE",
@@ -687,6 +870,8 @@
                             }
                           ],
                           "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0,
                           "children": [
                             {
                               "name": "",
@@ -695,6 +880,8 @@
                               "on": false,
                               "date": "",
                               "description": "",
+                              "color": "#FF295B",
+                              "radius": 0,
                               "children": [
                                 {
                                   "name": "THE NEW YORK TIMES INTERNATIONAL EDITION",
@@ -703,7 +890,9 @@
                                   "on": false,
                                   "date": "",
                                   "description": "",
-                                  "sector": "ΜΜΕ"
+                                  "sector": "ΜΜΕ",
+                                  "color": "#FF295B",
+                                  "radius": 0
                                 },
                                 {
                                   "name": "KATHIMERINI ENGLISH EDITION",
@@ -712,7 +901,9 @@
                                   "on": false,
                                   "date": "",
                                   "description": "",
-                                  "sector": "ΜΜΕ"
+                                  "sector": "ΜΜΕ",
+                                  "color": "#FF295B",
+                                  "radius": 0
                                 }
                               ]
                             }
@@ -725,7 +916,6 @@
                           "on": false,
                           "date": "",
                           "description": "Το neolaia.gr δημιουργήθηκε το 2007 από φοιτητές για φοιτητές. Στόχος είναι η ενημέρωση για όλες τις εξελίξεις που αφορούν τη φοιτητική ζωή (σεμινάρια, υποτροφίες, πρακτικές, e-learning προγράμματα), τις Πανελλήνιες, τα νέα Σχολών και Πανεπιστημίων, τις κινητοποιήσεις των φοιτητών και τις αλλαγές που περιλαμβάνουν τα νομοσχέδια των αρμόδιων Υπουργείων.",
-                          "sector": "ΜΜΕ",
                           "shareholders": [
                             {
                               "shareholder": "Νέες Καθημερινές Εκδόσεις",
@@ -735,7 +925,10 @@
                               "shareholder": "Hangover Media",
                               "percentage": "50%"
                             }
-                          ]
+                          ],
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "ΑΛΚΟ PRINT",
@@ -744,7 +937,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FF295B",
+                          "radius": 0
                         },
                         {
                           "name": "ΜΟΝΟΠΡΟΣΩΠΗ ΑΝΩΝΥΜΟΣ ΤΕΧΝΙΚΗ ΕΤΑΙΡΙΑ ΕΡΓΩΝ",
@@ -753,7 +948,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΚΑΤΑΣΚΕΥΕΣ"
+                          "sector": "ΚΑΤΑΣΚΕΥΕΣ",
+                          "color": "#FF295B",
+                          "radius": 0
                         }
                       ]
                     }
@@ -766,6 +963,8 @@
               "type": "sector",
               "group": 1,
               "on": true,
+              "color": "#FF295B",
+              "radius": 85,
               "children": [
                 {
                   "name": "ΑΡΓΟΝΑΥΤΗΣ",
@@ -774,13 +973,15 @@
                   "on": false,
                   "date": "",
                   "description": "Ναυτιλιακή εταιρεία της οικογένειας Αλαφούζου και μία από τις μεγαλύτερες ναυτιλικές παγκοσμίως.",
-                  "sector": "ΑΡΓΟΝΑΥΤΗΣ",
                   "shareholders": [
                     {
                       "shareholder": "Θεμιστοκλής Αλαφούζος",
                       "percentage": "100%"
                     }
                   ],
+                  "sector": "ΑΡΓΟΝΑΥΤΗΣ",
+                  "color": "#FF295B",
+                  "radius": 85,
                   "children": [
                     {
                       "name": "SEA SHELL ENTERPRISES",
@@ -789,7 +990,9 @@
                       "on": false,
                       "date": "",
                       "description": "",
-                      "sector": "ΑΡΓΟΝΑΥΤΗΣ"
+                      "sector": "ΑΡΓΟΝΑΥΤΗΣ",
+                      "color": "#FF295B",
+                      "radius": 0
                     },
                     {
                       "name": "SEA PEARL ENTERPRISES",
@@ -798,7 +1001,9 @@
                       "on": false,
                       "date": "",
                       "description": "",
-                      "sector": "ΑΡΓΟΝΑΥΤΗΣ"
+                      "sector": "ΑΡΓΟΝΑΥΤΗΣ",
+                      "color": "#FF295B",
+                      "radius": 0
                     },
                     {
                       "name": "BIGAL SHIPPING",
@@ -808,6 +1013,8 @@
                       "date": "",
                       "description": "",
                       "sector": "ΑΡΓΟΝΑΥΤΗΣ",
+                      "color": "#FF295B",
+                      "radius": 0,
                       "children": [
                         {
                           "name": "NISSOS DELOS",
@@ -816,7 +1023,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΑΡΓΟΝΑΥΤΗΣ"
+                          "sector": "ΑΡΓΟΝΑΥΤΗΣ",
+                          "color": "#FF295B",
+                          "radius": 0
                         }
                       ]
                     },
@@ -828,6 +1037,8 @@
                       "date": "",
                       "description": "",
                       "sector": "ΑΡΓΟΝΑΥΤΗΣ",
+                      "color": "#FF295B",
+                      "radius": 0,
                       "children": [
                         {
                           "name": "NISSOS PAROS",
@@ -836,7 +1047,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΑΡΓΟΝΑΥΤΗΣ"
+                          "sector": "ΑΡΓΟΝΑΥΤΗΣ",
+                          "color": "#FF295B",
+                          "radius": 0
                         }
                       ]
                     },
@@ -848,6 +1061,8 @@
                       "date": "",
                       "description": "",
                       "sector": "ΑΡΓΟΝΑΥΤΗΣ",
+                      "color": "#FF295B",
+                      "radius": 0,
                       "children": [
                         {
                           "name": "NISSOS CHRISTIANA",
@@ -856,7 +1071,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΑΡΓΟΝΑΥΤΗΣ"
+                          "sector": "ΑΡΓΟΝΑΥΤΗΣ",
+                          "color": "#FF295B",
+                          "radius": 0
                         }
                       ]
                     },
@@ -868,6 +1085,8 @@
                       "date": "",
                       "description": "",
                       "sector": "ΑΡΓΟΝΑΥΤΗΣ",
+                      "color": "#FF295B",
+                      "radius": 0,
                       "children": [
                         {
                           "name": "NISSOS KOUFONISSI",
@@ -876,7 +1095,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΑΡΓΟΝΑΥΤΗΣ"
+                          "sector": "ΑΡΓΟΝΑΥΤΗΣ",
+                          "color": "#FF295B",
+                          "radius": 0
                         }
                       ]
                     }
@@ -895,6 +1116,7 @@
       "on": true,
       "date": "",
       "description": "",
+      "color": "#AF1BF5",
       "children": [
         {
           "name": "ΒΑΓΓΕΛΗΣ ΜΑΡΙΝΑΚΗΣ",
@@ -903,6 +1125,8 @@
           "on": true,
           "date": "",
           "description": "ΒΑΓΓΕΛΗΣ ΜΑΡΙΝΑΚΗΣ<br>Ο Βαγγέλης Μαρινάκης γεννήθηκε τον Ιούλιο του 1967 στον Πειραιά. Ο πατέρας του, Μιλτιάδης Μαρινάκης, ήταν πολιτικός και εφοπλιστής με καταγωγή από την Κρήτη. Σπούδασε διοίκηση διεθνών επιχειρήσεων στο Λονδίνο.O Βαγγέλης Μαρινάκης είναι ιδρυτής του ναυτιλιακού ομίλου Capital και βρίσκεται στη λίστα “One Hundred People” του βρετανικού ναυτιλιακού περιοδικού Lloyd’s List από το 2010. Το 2022, ο στόλος της Capital Group ανερχόταν στα 100 πλοία, με τη συνολική αξία να υπολογίζεται στα 9 δισεκατομμύρια δολάρια. Βραβεία της ίδιας έκδοσης ανέδειξαν το 2017 ως την προσωπικότητα της χρονιάς στην ελληνική ναυτιλία.Από το 2010 είναι ο ιδιοκτήτης της ΠΑΕ Ολυμπιακός, εξαγοράζοντας την πλειοψηφία των μετοχών της από τον Σωκράτη Κόκκαλη. Το 2017, ο Βαγγέλης Μαρινάκης εξαγόρασε και την Notigham Forest, μία από τις παλαιότερες ποδοσφαιρικές ομάδες στην Αγγλία.Πέρα από τη ναυτιλία και τον αθλητισμό, ο Βαγγέλης Μαρινάκης έχει έντονη επιχειρηματική δραστηριότητα και στην εγχώρια βιομηχανία των media. Μέσω του ομίλου Alter Ego ελέγχει, μεταξύ άλλων, το τηλεοπτικό σταθμό Mega, τις εκδόσεις Νέα και Βήμα, καθώς και το ενημερωτικό σάιτ in.gr. Η Alter Ego συμμετέχει, επίσης, στην εταιρεία πρακτόρευσης και διανομής περιοδικών και εφημερίδων Άργος.Το 2011, το όνομα του Βαγγέλη Μαρινάκη ενεπλάκη σε σκάνδαλο στημένων αγώνων (γνωστό και ως σκάνδαλο Κοριόπολις). Κατηγορήθηκε, μεταξύ άλλων, για απλή συνέργεια σε εγκληματική οργάνωση και δωροδοκία για αλλοίωση αποτελέσματος αθλητικού αγώνα. Από το σύνολο των 187 υπόπτων, τελικά ένοχοι κρίθηκαν 11 κατηγορούμενοι. Ανάμεσά τους ο Αχιλλέας Μπέος και ο Δημήτρης Μπάκος. Ο Βαγγέλης Μαρινάκης τελικά απαλλάχθηκε από τις κατηγορίες.Το καλοκαίρι του 2014, οι ελληνικές αρχές σε κοινή επιχείρηση με την Αμερικάνικη Δίωξη Ναρκωτικών εντόπισαν 2,1 τόνους ηρωίνης στην Αθήνα. Είχαν μεταφερθεί με το πλοίο Noor 1, ιδιοκτησία του εφοπλιστή Μάκη Γιαννουσάκη. Οι ποσότητες εντοπίστηκαν στο σπίτι του Γιαννουσάκη στη Φιλοθέη, σε αποθήκη στο Κορωπί και στα αμπάρια του πλοίου. Πρόκειται για τη μεγαλύτερη μεταφορά ηρωίνης στην ιστορία της Ευρώπης.  Η δίκη ξεκίνησε τον Οκτώβριο του 2015, όπου πρωτόδικα από το σύνολο των 32 κατηγορουμένων, οι 17 αθωώθηκαν. Το 2017, ο Βαγγέλης Μαρινάκης κλήθηκε ως ύποπτος να δώσει εξηγήσεις για συναλλαγές ύψους περίπου 500,000 έκαστη. Πραγματοποιήθηκαν από τη ναυτιλιακή εταιρεία του Μαρινάκη Capital Ship Management προς την εταιρεία του Γιαννουσάκη G-Tankers Petroleum, πλοιοκτήτρια εταιρεία του Noor 1. To 2018, η εισαγγελέας Πειραιά Ειρήνη Τζίβα άσκησε ποινική δίωξη εις βάρος του Βαγγέλη Μαρινάκη, δύο συνεργατών του και ενός ναυτασφαλιστή για συγκρότηση εγκληματικής οργάνωσης, χρηματοδότηση και αποθήκευση ναρκωτικών.O Βαγγέλης Μαρινάκη εξελέγη πρώτος σε σταυρούς ως δημοτικός σύμβουλος το 2014 και το 2019 στο Δήμο Πειραιά με τον συνδυασμό Πειραιάς Νικητής του Γιάννη Μώραλη. Είναι παντρεμένος με την Αθανασία Κασσιώτη κι έχει τέσσερα παιδιά.",
+          "color": "#AF1BF5",
+          "radius": 95,
           "children": [
             {
               "name": "REAL ESTATE",
@@ -911,6 +1135,8 @@
               "on": true,
               "date": "",
               "description": "",
+              "color": "#AF1BF5",
+              "radius": 85,
               "children": [
                 {
                   "name": "POMACON",
@@ -920,6 +1146,8 @@
                   "date": "",
                   "description": "",
                   "sector": "REAL ESTATE",
+                  "color": "#AF1BF5",
+                  "radius": 85,
                   "children": [
                     {
                       "name": "ΚΥΚΛΑΔΕΣ",
@@ -928,7 +1156,9 @@
                       "on": false,
                       "date": "",
                       "description": "",
-                      "sector": "REAL ESTATE"
+                      "sector": "REAL ESTATE",
+                      "color": "#AF1BF5",
+                      "radius": 0
                     }
                   ]
                 },
@@ -940,6 +1170,8 @@
                   "date": "",
                   "description": "",
                   "sector": "REAL ESTATE",
+                  "color": "#AF1BF5",
+                  "radius": 85,
                   "children": [
                     {
                       "name": "AMOR",
@@ -948,7 +1180,9 @@
                       "on": false,
                       "date": "",
                       "description": "",
-                      "sector": "REAL ESTATE"
+                      "sector": "REAL ESTATE",
+                      "color": "#AF1BF5",
+                      "radius": 0
                     }
                   ]
                 },
@@ -959,7 +1193,9 @@
                   "on": false,
                   "date": "",
                   "description": "",
-                  "sector": "REAL ESTATE"
+                  "sector": "REAL ESTATE",
+                  "color": "#AF1BF5",
+                  "radius": 85
                 },
                 {
                   "name": "SMALLRIDGE ΕΠΕΝΔΥΣΕΙΣ",
@@ -968,7 +1204,9 @@
                   "on": false,
                   "date": "",
                   "description": "",
-                  "sector": "REAL ESTATE"
+                  "sector": "REAL ESTATE",
+                  "color": "#AF1BF5",
+                  "radius": 85
                 },
                 {
                   "name": "LIONPORT",
@@ -977,8 +1215,15 @@
                   "on": false,
                   "date": "",
                   "description": "",
-                  "shareholders": [{ "shareholder": "CAVILEN HOLDING LIMITED", "percentage": "100%" }],
-                  "sector": "REAL ESTATE"
+                  "shareholders": [
+                    {
+                      "shareholder": "CAVILEN HOLDING LIMITED",
+                      "percentage": "100%"
+                    }
+                  ],
+                  "sector": "REAL ESTATE",
+                  "color": "#AF1BF5",
+                  "radius": 85
                 }
               ]
             },
@@ -989,6 +1234,8 @@
               "on": true,
               "date": "",
               "description": "",
+              "color": "#AF1BF5",
+              "radius": 85,
               "children": [
                 {
                   "name": "ALTER EGO",
@@ -998,10 +1245,18 @@
                   "date": "",
                   "description": "",
                   "shareholders": [
-                    { "shareholder": "Ευάγγελος Μαρινάκης", "percentage": "70,85%" },
-                    { "shareholder": "POMACON", "percentage": "29,15%" }
+                    {
+                      "shareholder": "Ευάγγελος Μαρινάκης",
+                      "percentage": "70,85%"
+                    },
+                    {
+                      "shareholder": "POMACON",
+                      "percentage": "29,15%"
+                    }
                   ],
                   "sector": "ΜΜΕ",
+                  "color": "#AF1BF5",
+                  "radius": 85,
                   "children": [
                     {
                       "name": "",
@@ -1009,6 +1264,8 @@
                       "group": 5,
                       "on": false,
                       "date": "",
+                      "color": "none",
+                      "radius": 0,
                       "children": [
                         {
                           "name": "MEGA",
@@ -1017,7 +1274,9 @@
                           "on": false,
                           "date": "",
                           "description": "Το Mega Channel είναι ο πρώτος ελληνικός ιδιωτικός τηλεοπτικός σταθμός πανελλαδικής εμβέλειας. Εξέπεμψε για πρώτη φορά στις 20 Νοεμβρίου 1989 υπό την ιδιοκτησία της Τηλέτυπος Α.Ε. ενώ από την 1η Νοεμβρίου 2019 ανήκει στην Alter Ego Επιχείρηση Μέσων Μαζικής Ενημέρωσης Α.Ε. και έχει έδρα την Καλλιθέα.",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#AF1BF5",
+                          "radius": 0
                         },
                         {
                           "name": "MEGATV.com",
@@ -1026,7 +1285,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#AF1BF5",
+                          "radius": 0
                         },
                         {
                           "name": "Το Βήμα",
@@ -1035,7 +1296,9 @@
                           "on": false,
                           "date": "",
                           "description": "Εβδομαδιαία εφημερίδα που εκδίδεται από την Alter Ego και κυκλοφορεί πανελλαδικά. Το Βήμα πρωτοεκδόθηκε στις 6 Φεβρουαρίου 1922 υπό το όνομα Ελεύθερον Βήμα. Ιδρυτές του ήταν ο πολιτικός και διπλωμάτης Αλέξανδρος Καραπάνος, ο Γεώργιος Ρούσσος, ο Αλέξανδρος Διομήδης, ο Εμμανουήλ Τσουδερός, ο Γεώργιος Εξηντάρης, ο Κωνσταντίνος Ρέντης και ο Δημήτριος ΛαμπράκηςΜετά το θάνατο του Χρήστου Λαμπράκη, εκδότης ανέλαβε ο Σταύρος Ψυχάρης, και τη θέση του ως Διευθυντή πήρε ο Παντελής Καψής. Κάθε Κυριακή εκδίδεται ως Το Βήμα της Κυριακής.",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#AF1BF5",
+                          "radius": 0
                         },
                         {
                           "name": "TOVIMA.GR",
@@ -1044,7 +1307,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#AF1BF5",
+                          "radius": 0
                         },
                         {
                           "name": "TOVIMA.COM",
@@ -1053,7 +1318,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#AF1BF5",
+                          "radius": 0
                         },
                         {
                           "name": "TA NEA",
@@ -1061,7 +1328,10 @@
                           "group": 5,
                           "on": false,
                           "date": "",
-                          "description": "Τα Νέα είναι ελληνική ημερήσια απογευματινή εφημερίδα, η οποία εκδίδεται από την Alter Ego Επιχείρηση Μέσων Μαζικής Ενημέρωσης Α.Ε. Για πρώτη φορά εκδόθηκε στις 28 Μαΐου 1931 με την ονομασία Αθηναϊκά Νέα ενώ το 1945 έλαβε τη σημερινή ονομασία της. Κυκλοφορεί αδιάλειπτα από τότε έως και σήμερα και τα πρόσφατα χρόνια αποτελεί σταθερά την πρώτη σε κυκλοφορία ημερήσια απογευματινή εφημερίδα."
+                          "description": "Τα Νέα είναι ελληνική ημερήσια απογευματινή εφημερίδα, η οποία εκδίδεται από την Alter Ego Επιχείρηση Μέσων Μαζικής Ενημέρωσης Α.Ε. Για πρώτη φορά εκδόθηκε στις 28 Μαΐου 1931 με την ονομασία Αθηναϊκά Νέα ενώ το 1945 έλαβε τη σημερινή ονομασία της. Κυκλοφορεί αδιάλειπτα από τότε έως και σήμερα και τα πρόσφατα χρόνια αποτελεί σταθερά την πρώτη σε κυκλοφορία ημερήσια απογευματινή εφημερίδα.",
+                          "sector": "ΜΜΕ",
+                          "color": "#AF1BF5",
+                          "radius": 0
                         },
                         {
                           "name": "TANEA.GR",
@@ -1070,7 +1340,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#AF1BF5",
+                          "radius": 0
                         },
                         {
                           "name": "MOREMEDIA",
@@ -1079,7 +1351,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#AF1BF5",
+                          "radius": 0
                         },
                         {
                           "name": "MY RADIO",
@@ -1088,7 +1362,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#AF1BF5",
+                          "radius": 0
                         },
                         {
                           "name": "ONE DIGITAL SERVICES",
@@ -1097,7 +1373,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#AF1BF5",
+                          "radius": 0
                         },
                         {
                           "name": "RED PRODUCTIONS",
@@ -1106,7 +1384,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#AF1BF5",
+                          "radius": 0
                         }
                       ]
                     }
@@ -1119,7 +1399,9 @@
                   "on": false,
                   "date": "",
                   "description": "",
-                  "sector": "ΜΜΕ"
+                  "sector": "ΜΜΕ",
+                  "color": "#AF1BF5",
+                  "radius": 85
                 }
               ]
             },
@@ -1129,6 +1411,8 @@
               "group": 5,
               "on": true,
               "date": "",
+              "color": "#AF1BF5",
+              "radius": 85,
               "description": "",
               "children": [
                 {
@@ -1138,13 +1422,27 @@
                   "on": false,
                   "date": "",
                   "description": "Πειραιά. Ιδρύθηκε στις 10 Μαρτίου 1925 και είναι από τους μεγαλύτερους αθλητικούς συλλόγους στην Ελλάδα. Το τμήμα ποδοσφαίρου του Ολυμπιακού Συνδέσμου Φιλάθλων Πειραιώς αγωνίζεται στο επαγγελματικό πρωτάθλημα της Super League 1.",
-                  "sector": "ΑΘΛΗΤΙΣΜΟΣ",
                   "shareholders": [
-                    { "shareholder": "Ευάγγελος Μαρινάκης", "percentage": "86,42%" },
-                    { "shareholder": "Ολυμπιακός ΣΠΦ", "percentage": "10%" },
-                    { "shareholder": "Σωκράτης Κόκκαλης", "percentage": "2,48%" },
-                    { "shareholder": "Λοιποί μικρομέτοχοι", "percentage": "1.1%" }
-                  ]
+                    {
+                      "shareholder": "Ευάγγελος Μαρινάκης",
+                      "percentage": "86,42%"
+                    },
+                    {
+                      "shareholder": "Ολυμπιακός ΣΠΦ",
+                      "percentage": "10%"
+                    },
+                    {
+                      "shareholder": "Σωκράτης Κόκκαλης",
+                      "percentage": "2,48%"
+                    },
+                    {
+                      "shareholder": "Λοιποί μικρομέτοχοι",
+                      "percentage": "1.1%"
+                    }
+                  ],
+                  "sector": "ΑΘΛΗΤΙΣΜΟΣ",
+                  "color": "#AF1BF5",
+                  "radius": 85
                 }
               ]
             },
@@ -1154,6 +1452,8 @@
               "group": 5,
               "on": true,
               "date": "",
+              "color": "#AF1BF5",
+              "radius": 85,
               "description": "",
               "children": [
                 {
@@ -1177,7 +1477,9 @@
                       "percentage": "1,67%"
                     }
                   ],
-                  "sector": "ΕΜΠΟΡΙΟ"
+                  "sector": "ΕΜΠΟΡΙΟ",
+                  "color": "#AF1BF5",
+                  "radius": 85
                 }
               ]
             },
@@ -1187,6 +1489,8 @@
               "group": 5,
               "on": true,
               "date": "",
+              "color": "#AF1BF5",
+              "radius": 85,
               "description": "",
               "children": [
                 {
@@ -1196,7 +1500,9 @@
                   "on": false,
                   "date": "",
                   "description": "",
-                  "sector": "κανένα"
+                  "sector": "κανένα",
+                  "color": "#AF1BF5",
+                  "radius": 85
                 }
               ]
             }
@@ -1210,6 +1516,7 @@
       "group": 3,
       "on": true,
       "date": "",
+      "color": "#44B0FF",
       "description": "",
       "children": [
         {
@@ -1218,6 +1525,8 @@
           "group": 3,
           "on": true,
           "date": "",
+          "color": "#44B0FF",
+          "radius": 95,
           "description": "",
           "children": [
             {
@@ -1226,6 +1535,8 @@
               "group": 3,
               "on": true,
               "date": "",
+              "color": "#44B0FF",
+              "radius": 85,
               "description": "",
               "children": [
                 {
@@ -1246,6 +1557,8 @@
                     }
                   ],
                   "sector": "ΣΥΜΜΕΤΟΧΩΝ",
+                  "color": "#44B0FF",
+                  "radius": 85,
                   "children": [
                     {
                       "name": "DIMERA LAND & PROPERTY INVESTMENTS",
@@ -1264,7 +1577,9 @@
                           "percentage": "9%"
                         }
                       ],
-                      "sector": "ΣΥΜΜΕΤΟΧΩΝ"
+                      "sector": "ΣΥΜΜΕΤΟΧΩΝ",
+                      "color": "#44B0FF",
+                      "radius": 0
                     },
                     {
                       "name": "BELTERRA INVESTMENTS LIMITED",
@@ -1273,7 +1588,9 @@
                       "on": false,
                       "date": "",
                       "description": "",
-                      "sector": "REAL ESTATE"
+                      "sector": "REAL ESTATE",
+                      "color": "#44B0FF",
+                      "radius": 0
                     },
                     {
                       "name": "DIMERA LTD",
@@ -1289,6 +1606,8 @@
                         }
                       ],
                       "sector": "ΑΘΛΗΤΙΣΜΟΣ",
+                      "color": "#44B0FF",
+                      "radius": 0,
                       "children": [
                         {
                           "name": "ΠΑΟΚ",
@@ -1297,7 +1616,7 @@
                           "on": false,
                           "date": "",
                           "description": "Ο Πανθεσσαλονίκειος Αθλητικός Όμιλος Κωνσταντινουπολιτών είναι ελληνικό αθλητικό σωματείο το οποίο εδρεύει στη Θεσσαλονίκη. Ιδρύθηκε στις 20 Απριλίου 1926 και είναι από τους μεγαλύτερους αθλητικούς συλλόγους στην Ελλάδα. Το τμήμα ποδοσφαίρου του Π.Α.Ο.Κ. αγωνίζεται στο επαγγελματικό πρωτάθλημα της Super League 1.",
-                          "sector": "ΑΘΛΗΤΙΣΜΟΣ",
+
                           "shareholders": [
                             {
                               "shareholder": "DIMERA LIMITED",
@@ -1307,7 +1626,10 @@
                               "shareholder": "ΑΘΛΗΤΙΚΟ ΣΩΜΑΤΕΙΟ ΠΑΟΚ",
                               "percentage": "10%"
                             }
-                          ]
+                          ],
+                          "sector": "ΑΘΛΗΤΙΣΜΟΣ",
+                          "color": "#44B0FF",
+                          "radius": 0
                         },
                         {
                           "name": "DIMERA MEDIA INVESTMENTS LIMITED",
@@ -1317,12 +1639,16 @@
                           "date": "",
                           "description": "",
                           "sector": "ΜΜΕ",
+                          "color": "#44B0FF",
+                          "radius": 0,
                           "children": [
                             {
                               "name": "",
                               "type": "connector",
                               "group": 3,
                               "on": false,
+                              "color": "none",
+                              "radius": 0,
                               "children": [
                                 {
                                   "name": "ΕΘΝΟΣ",
@@ -1331,7 +1657,9 @@
                                   "on": false,
                                   "date": "",
                                   "description": "Το Έθνος υπήρξε καθημερινή πανελλαδική απογευματινή πολιτική εφημερίδα που εκδίδετο στην Αθήνα. Κυκλοφόρησε για πρώτη φορά στις 26 Οκτωβρίου 1913 από τον Σπύρο Νικολόπουλο. Από τις 10 Αυγούστου 2020 είναι μια αποκλειστικά διαδικτυακή εφημερίδα.",
-                                  "sector": "ΜΜΕ"
+                                  "sector": "ΜΜΕ",
+                                  "radius": 0,
+                                  "color": "#44B0FF"
                                 },
                                 {
                                   "name": "ETHNOS.GR",
@@ -1339,7 +1667,10 @@
                                   "group": 3,
                                   "on": false,
                                   "date": "",
-                                  "description": "Το Έθνος υπήρξε καθημερινή πανελλαδική απογευματινή πολιτική εφημερίδα που εκδίδετο στην Αθήνα. Κυκλοφόρησε για πρώτη φορά στις 26 Οκτωβρίου 1913 από τον Σπύρο Νικολόπουλο. Από τις 10 Αυγούστου 2020 είναι μια αποκλειστικά διαδικτυακή εφημερίδα."
+                                  "description": "Το Έθνος υπήρξε καθημερινή πανελλαδική απογευματινή πολιτική εφημερίδα που εκδίδετο στην Αθήνα. Κυκλοφόρησε για πρώτη φορά στις 26 Οκτωβρίου 1913 από τον Σπύρο Νικολόπουλο. Από τις 10 Αυγούστου 2020 είναι μια αποκλειστικά διαδικτυακή εφημερίδα.",
+                                  "sector": "none",
+                                  "color": "#44B0FF",
+                                  "radius": 0
                                 },
                                 {
                                   "name": "ΗΜΕΡΗΣΙΑ",
@@ -1348,7 +1679,9 @@
                                   "on": false,
                                   "date": "",
                                   "description": "Η Ημερησία ήταν ελληνική καθημερινή πρωινή οικονομική εφημερίδα, πανελλαδικής κυκλοφορίας, που εκδιδόταν στην Αθήνα από το 1947 έως το 2017.Η γενική ύλη της εφημερίδας ήταν οικονομικού ενδιαφέροντος (τραπεζικού, εμπορικού, ναυτιλιακού, χρηματιστηριακού κ.λπ.).Η εφημερίδα ανήκε στην Πήγασος Εκδοτική Α.Ε. του Γιώργου Μπόμπολα μέχρι το 2017. Στις 26 Ιουλίου 2017, ανακοινώθηκε πως το Έθνος και η Ημερησία, τα έντυπα της Πήγασος, η οποία αντιμετωπίζει οικονομικά προβλήματα από το 2015, θα βγουν σε πλειστηριασμό, για την ανάδειξη νέου ιδιοκτήτη. Ο πλειστηριασμός διεξήχθη και νέος ιδιοκτήτης αναδείχθηκε η Dimera Media Investments Limited, με συνολικό κόστος 3.580.000 ευρώ.Από τις 12 Νοεμβρίου 2017 μέχρι τις 9 Αυγούστου 2020 που σταμάτησε η εφημερίδα επανακυκλοφορούσε με το Έθνος της Κυριακής ως ένθετο.Στις 10 Δεκεμβρίου 2020 ξεκίνησε η λειτουργία της ιστοσελίδας της Ημερησίας υπό την ιδιοκτησία του Open Digital Group.",
-                                  "sector": "ΜΜΕ"
+                                  "sector": "ΜΜΕ",
+                                  "color": "#44B0FF",
+                                  "radius": 0
                                 },
                                 {
                                   "name": "OPEN",
@@ -1357,7 +1690,9 @@
                                   "on": false,
                                   "date": "",
                                   "description": "Το Open TV ή Open Beyond είναι ένας από τους μεγαλύτερους ελληνικούς ιδιωτικούς τηλεοπτικούς σταθμούς πανελλαδικής εμβέλειας. Ανήκει στον επιχειρηματία Ιβάν Σαββίδη και εδρεύει στον Καρελλά, στη βιομηχανική ζώνη της Παιανίας.Ξεκίνησε τη λειτουργία του στις 24 Οκτωβρίου του 2018 αντικαθιστώντας το Epsilon TV μετά την πώλησή του από τον προηγούμενο ιδιοκτήτη, επιχειρηματία και διαφημιστή Φίλιππο Βρυώνη.",
-                                  "sector": "κανένα"
+                                  "sector": "κανένα",
+                                  "color": "#44B0FF",
+                                  "radius": 0
                                 },
                                 {
                                   "name": "TVOPEN.GR",
@@ -1366,7 +1701,9 @@
                                   "on": false,
                                   "date": "",
                                   "description": "",
-                                  "sector": "ΜΜΕ"
+                                  "sector": "ΜΜΕ",
+                                  "color": "#44B0FF",
+                                  "radius": 0
                                 },
                                 {
                                   "name": "IMERISIA.GR",
@@ -1375,7 +1712,9 @@
                                   "on": false,
                                   "date": "",
                                   "description": "",
-                                  "sector": "ΜΜΕ"
+                                  "sector": "ΜΜΕ",
+                                  "color": "#44B0FF",
+                                  "radius": 0
                                 },
                                 {
                                   "name": "DIMERA ΕΚΔΟΤΙΚΗ",
@@ -1384,7 +1723,9 @@
                                   "on": false,
                                   "date": "",
                                   "description": "",
-                                  "sector": "κανένα"
+                                  "sector": "κανένα",
+                                  "color": "#44B0FF",
+                                  "radius": 0
                                 }
                               ]
                             }
@@ -1398,6 +1739,8 @@
                           "date": "",
                           "description": "",
                           "sector": "ΕΜΠΟΡΙΟ",
+                          "color": "#44B0FF",
+                          "radius": 0,
                           "children": [
                             {
                               "name": "OPEN-MARKET.GR",
@@ -1406,7 +1749,9 @@
                               "on": false,
                               "date": "",
                               "description": "",
-                              "sector": "ΕΜΠΟΡΙΟ"
+                              "sector": "ΕΜΠΟΡΙΟ",
+                              "color": "#44B0FF",
+                              "radius": 0
                             }
                           ]
                         },
@@ -1417,7 +1762,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "κανένα"
+                          "sector": "κανένα",
+                          "color": "#44B0FF",
+                          "radius": 0
                         }
                       ]
                     },
@@ -1435,6 +1782,8 @@
                         }
                       ],
                       "sector": "ΞΕΝΟΔΟΧΕΙΑ",
+                      "color": "#44B0FF",
+                      "radius": 85,
                       "children": [
                         {
                           "name": "ΜΑΚΕΔΟΝΙΑ ΠΑΛΛΑΣ",
@@ -1443,7 +1792,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΞΕΝΟΔΟΧΕΙΑ"
+                          "sector": "ΞΕΝΟΔΟΧΕΙΑ",
+                          "color": "#44B0FF",
+                          "radius": 0
                         }
                       ]
                     },
@@ -1454,13 +1805,15 @@
                       "on": false,
                       "date": "",
                       "description": "",
-                      "sector": "κανένα",
                       "shareholders": [
                         {
                           "shareholder": "BELTERRA INVESTMENTS LIMITED",
                           "percentage": "66,5%"
                         }
                       ],
+                      "sector": "κανένα",
+                      "color": "#44B0FF",
+                      "radius": 0,
                       "children": [
                         {
                           "name": "ΣΟΥΡΩΤΗ",
@@ -1469,7 +1822,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "κανένα"
+                          "sector": "κανένα",
+                          "color": "#44B0FF",
+                          "radius": 0
                         }
                       ]
                     },
@@ -1494,7 +1849,9 @@
                           "percentage": "4,85%"
                         }
                       ],
-                      "sector": "ΥΠΗΡΕΣΙΕΣ"
+                      "sector": "ΥΠΗΡΕΣΙΕΣ",
+                      "color": "#44B0FF",
+                      "radius": 0
                     }
                   ]
                 }
@@ -1510,6 +1867,7 @@
       "group": 2,
       "on": true,
       "date": "",
+      "color": "#20AE98",
       "description": "",
       "children": [
         {
@@ -1518,6 +1876,8 @@
           "group": 2,
           "on": true,
           "date": "",
+          "color": "#20AE98",
+          "radius": 95,
           "description": "Ο Γιώργος Μελισσανίδης είναι γιος του Δημήτρη και της Τζένης Μελισσανίδη. Έχει κάνει Ναυτιλιακές Σπουδές στο Southampton Solent University και από νεαρή ηλικία εργάστηκε σε πλοία εταιρείας του πατέρα του. Είναι Πρόεδρος της Aegean Shipping από το 2007 και το 2021 μαζί με τον πατέρα του έκαναν είσοδο στα ελληνικά ΜΜΕ μέσω της Ναυτεμπορικής.",
           "children": [
             {
@@ -1527,6 +1887,8 @@
               "on": true,
               "date": "",
               "description": "",
+              "color": "#20AE98",
+              "radius": 85,
               "children": [
                 {
                   "name": "MEQENA HOLDINGS",
@@ -1536,6 +1898,8 @@
                   "date": "",
                   "description": "",
                   "sector": "ΑΘΛΗΤΙΣΜΟΣ",
+                  "color": "#20AE98",
+                  "radius": 85,
                   "children": [
                     {
                       "name": "DIKEFALOS HOLDINGS CO. LIMITED",
@@ -1545,6 +1909,8 @@
                       "date": "",
                       "description": "",
                       "sector": "ΑΘΛΗΤΙΣΜΟΣ",
+                      "color": "#20AE98",
+                      "radius": 0,
                       "children": [
                         {
                           "name": "ΑΕΚ",
@@ -1571,7 +1937,9 @@
                               "percentage": "2,42%"
                             }
                           ],
-                          "sector": "ΑΘΛΗΤΙΣΜΟΣ"
+                          "sector": "ΑΘΛΗΤΙΣΜΟΣ",
+                          "color": "#20AE98",
+                          "radius": 0
                         },
                         {
                           "name": "ΠΑΕ AEK ΜΠΟΥΤΙΚ",
@@ -1580,7 +1948,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΕΜΠΟΡΙΟ"
+                          "sector": "ΕΜΠΟΡΙΟ",
+                          "color": "#20AE98",
+                          "radius": 0
                         }
                       ]
                     }
@@ -1594,6 +1964,8 @@
                   "date": "",
                   "description": "",
                   "sector": "ΑΘΛΗΤΙΣΜΟΣ",
+                  "color": "#20AE98",
+                  "radius": 85,
                   "children": [
                     {
                       "name": "ΜΑΡΚΟΠΟΥΛΟ ΑΘΛΗΤΙΚΕΣ ΕΓΚΑΤΑΣΤΑΣΕΙΣ",
@@ -1608,7 +1980,9 @@
                           "percentage": "90%"
                         }
                       ],
-                      "sector": "ΑΘΛΗΤΙΣΜΟΣ"
+                      "sector": "ΑΘΛΗΤΙΣΜΟΣ",
+                      "color": "#20AE98",
+                      "radius": 0
                     }
                   ]
                 }
@@ -1620,6 +1994,8 @@
               "group": 2,
               "on": true,
               "date": "",
+              "color": "#20AE98",
+              "radius": 85,
               "description": "",
               "children": [
                 {
@@ -1634,7 +2010,10 @@
                       "shareholder": "ΜΕΛΙΣΣΑΝΙΔΗΣ ΓΙΩΡΓΟΣ",
                       "percentage": "4%"
                     }
-                  ]
+                  ],
+                  "sector": "ΚΑΤΑΣΚΕΥΕΣ",
+                  "color": "#20AE98",
+                  "radius": 85
                 }
               ]
             },
@@ -1644,6 +2023,8 @@
               "group": 2,
               "on": true,
               "date": "",
+              "color": "#20AE98",
+              "radius": 85,
               "description": "",
               "children": [
                 {
@@ -1653,7 +2034,9 @@
                   "on": false,
                   "date": "",
                   "description": "",
-                  "sector": "κανένα"
+                  "sector": "κανένα",
+                  "color": "#20AE98",
+                  "radius": 85
                 },
                 {
                   "name": "ZOFRANK HOLDINGS",
@@ -1662,13 +2045,15 @@
                   "on": false,
                   "date": "",
                   "description": "",
-                  "sector": "κανένα",
                   "shareholders": [
                     {
                       "shareholder": "ΜΕΛΙΣΣΑΝΙΔΗΣ ΓΙΩΡΓΟΣ",
                       "percentage": "100%"
                     }
                   ],
+                  "sector": "κανένα",
+                  "color": "#20AE98",
+                  "radius": 85,
                   "children": [
                     {
                       "name": "PHALETRA",
@@ -1677,7 +2062,9 @@
                       "on": false,
                       "date": "",
                       "description": "",
-                      "sector": "κανένα"
+                      "sector": "κανένα",
+                      "color": "#20AE98",
+                      "radius": 0
                     },
                     {
                       "name": "TOMOSIDA TRADING",
@@ -1686,7 +2073,9 @@
                       "on": false,
                       "date": "",
                       "description": "",
-                      "sector": "κανένα"
+                      "sector": "κανένα",
+                      "color": "#20AE98",
+                      "radius": 0
                     },
                     {
                       "name": "HEDASE TRADING",
@@ -1695,7 +2084,9 @@
                       "on": false,
                       "date": "",
                       "description": "",
-                      "sector": "κανένα"
+                      "sector": "κανένα",
+                      "color": "#20AE98",
+                      "radius": 0
                     },
                     {
                       "name": "NAFTEMPORIKI.GR",
@@ -1704,7 +2095,9 @@
                       "on": false,
                       "date": "",
                       "description": "",
-                      "sector": "ΜΜΕ"
+                      "sector": "ΜΜΕ",
+                      "color": "#20AE98",
+                      "radius": 0
                     }
                   ]
                 },
@@ -1715,13 +2108,15 @@
                   "on": false,
                   "date": "",
                   "description": "",
-                  "sector": "κανένα",
                   "shareholders": [
                     {
                       "shareholder": "ΜΕΛΙΣΣΑΝΙΔΗΣ ΓΙΩΡΓΟΣ",
                       "percentage": "100%"
                     }
                   ],
+                  "sector": "κανένα",
+                  "color": "#20AE98",
+                  "radius": 85,
                   "children": [
                     {
                       "name": "",
@@ -1729,6 +2124,8 @@
                       "group": 2,
                       "on": false,
                       "date": "",
+                      "color": "none",
+                      "radius": 0,
                       "children": [
                         {
                           "name": "VEGATA HOLDINGS",
@@ -1737,7 +2134,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "κανένα"
+                          "sector": "κανένα",
+                          "color": "#20AE98",
+                          "radius": 0
                         },
                         {
                           "name": "VAMBINCO HOLDINGS",
@@ -1746,7 +2145,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "κανένα"
+                          "sector": "κανένα",
+                          "color": "#20AE98",
+                          "radius": 0
                         },
                         {
                           "name": "YEONAMA HOLDINGS",
@@ -1755,7 +2156,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "κανένα"
+                          "sector": "κανένα",
+                          "color": "#20AE98",
+                          "radius": 0
                         },
                         {
                           "name": "AEGEAN NET FUELS",
@@ -1764,7 +2167,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΕΝΕΡΓΕΙΑ"
+                          "sector": "ΕΝΕΡΓΕΙΑ",
+                          "color": "#20AE98",
+                          "radius": 0
                         },
                         {
                           "name": "AEGEAN LUBRICANTS",
@@ -1773,7 +2178,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΕΝΕΡΓΕΙΑ"
+                          "sector": "ΕΝΕΡΓΕΙΑ",
+                          "color": "#20AE98",
+                          "radius": 0
                         }
                       ]
                     }
@@ -1792,6 +2199,7 @@
       "on": true,
       "date": "",
       "description": "",
+      "color": "#FEA800",
       "children": [
         {
           "name": "ΒΑΡΔΗΣ ΒΑΡΔΙΝΟΓΙΑΝΝΗΣ",
@@ -1800,6 +2208,8 @@
           "on": true,
           "date": "",
           "description": "Γεννήθηκε το 1933. Μετά την αποφοίτησή του από τη Σχολή Ναυτικών Δοκίμων εντάχθηκε στη δύναμη του Πολεμικού Ναυτικού από όπου αποστρατεύτηκε με το βαθμό του επίτιμου υποναυάρχου. Είναι από τα ιδρυτικά μέλη της Εταιρείας και επικεφαλής της διοίκησής της από το 1972. Πέραν της ΜΟΤΟΡ ΟΙΛ (ΕΛΛΑΣ) Α.Ε. έχει αναπτύξει ένα ευρύ φάσμα επιχειρηματικών δραστηριοτήτων στην Ελλάδα και στο εξωτερικό. Επιπρόσθετα, είναι Πρόεδρος Δ.Σ. εταιρείας που δραστηριοποιείται στον Ξενοδοχειακό κλάδο.",
+          "color": "#FEA800",
+          "radius": 95,
           "children": [
             {
               "name": "ΕΝΕΡΓΕΙΑ",
@@ -1808,6 +2218,8 @@
               "on": true,
               "date": "",
               "description": "",
+              "color": "#FEA800",
+              "radius": 85,
               "children": [
                 {
                   "name": "PETROVENTURE HOLDINGS LIMITED",
@@ -1817,6 +2229,8 @@
                   "date": "",
                   "description": "",
                   "sector": "ΕΝΕΡΓΕΙΑ",
+                  "color": "#FEA800",
+                  "radius": 85,
                   "children": [
                     {
                       "name": "MOTOR OIL",
@@ -1832,6 +2246,8 @@
                         }
                       ],
                       "sector": "ΕΝΕΡΓΕΙΑ",
+                      "color": "#FEA800",
+                      "radius": 85,
                       "children": [
                         {
                           "name": "",
@@ -1839,6 +2255,8 @@
                           "group": 4,
                           "on": false,
                           "date": "",
+                          "color": "none",
+                          "radius": 0,
                           "children": [
                             {
                               "name": "AVIN",
@@ -1853,7 +2271,9 @@
                                   "percentage": "100%"
                                 }
                               ],
-                              "sector": "ΕΝΕΡΓΕΙΑ"
+                              "sector": "ΕΝΕΡΓΕΙΑ",
+                              "color": "#FEA800",
+                              "radius": 0
                             },
                             {
                               "name": "CYCLON",
@@ -1868,7 +2288,9 @@
                                   "percentage": "100%"
                                 }
                               ],
-                              "sector": "ΕΝΕΡΓΕΙΑ"
+                              "sector": "ΕΝΕΡΓΕΙΑ",
+                              "color": "#FEA800",
+                              "radius": 0
                             },
                             {
                               "name": "ΜΑΚΡΑΙΩΝ",
@@ -1883,7 +2305,9 @@
                                   "percentage": "100%"
                                 }
                               ],
-                              "sector": "ΕΝΕΡΓΕΙΑ"
+                              "sector": "ΕΝΕΡΓΕΙΑ",
+                              "color": "#FEA800",
+                              "radius": 0
                             },
                             {
                               "name": "OFC ΥΠΗΡΕΣΙΕΣ ΑΕΡΟΠΟΡΙΚΟΥ ΚΑΥΣΙΜΟΥ",
@@ -1898,7 +2322,9 @@
                                   "percentage": "48,97%"
                                 }
                               ],
-                              "sector": "ΕΝΕΡΓΕΙΑ"
+                              "sector": "ΕΝΕΡΓΕΙΑ",
+                              "color": "#FEA800",
+                              "radius": 0
                             },
                             {
                               "name": "OFC ΤΕΧΝΙΚΗ",
@@ -1907,7 +2333,9 @@
                               "on": false,
                               "date": "",
                               "description": "",
-                              "sector": "ΥΠΗΡΕΣΙΕΣ"
+                              "sector": "ΥΠΗΡΕΣΙΕΣ",
+                              "color": "#FEA800",
+                              "radius": 0
                             },
                             {
                               "name": "CORAL",
@@ -1916,7 +2344,9 @@
                               "on": false,
                               "date": "",
                               "description": "",
-                              "sector": "ΕΝΕΡΓΕΙΑ"
+                              "sector": "ΕΝΕΡΓΕΙΑ",
+                              "color": "#FEA800",
+                              "radius": 0
                             },
                             {
                               "name": "SHELL & MOH AVIATION FUELS",
@@ -1931,7 +2361,9 @@
                                   "percentage": "49%"
                                 }
                               ],
-                              "sector": "ΕΝΕΡΓΕΙΑ"
+                              "sector": "ΕΝΕΡΓΕΙΑ",
+                              "color": "#FEA800",
+                              "radius": 0
                             },
                             {
                               "name": "ARCELIA HOLDINGS",
@@ -1940,13 +2372,15 @@
                               "on": false,
                               "date": "",
                               "description": "",
-                              "sector": "κανένα",
                               "shareholders": [
                                 {
                                   "shareholder": "L.P.C ΑΝΩΝΥΜΗ ΕΤΑΙΡΙΑ ΕΠΕΞΕΡΓΑΣΙΑΣ ΚΑΙ, ΕΜΠΟΡΙΑΣ ΛΙΠΑΝΤΙΚΩΝ ΚΑΙ ΠΕΤΡΕΛΑΙΟΕΙΔΩΝ ΠΡΟΙΟΝΤΩΝ",
                                   "percentage": "100%"
                                 }
-                              ]
+                              ],
+                              "sector": "κανένα",
+                              "color": "#FEA800",
+                              "radius": 0
                             },
                             {
                               "name": "OPTIMA BANK",
@@ -1977,7 +2411,9 @@
                                   "percentage": "76%"
                                 }
                               ],
-                              "sector": "ΧΡΗΜΑΤΟΠΙΣΤΩΤΙΚΑ"
+                              "sector": "ΧΡΗΜΑΤΟΠΙΣΤΩΤΙΚΑ",
+                              "color": "#FEA800",
+                              "radius": 0
                             },
                             {
                               "name": "MEDIAMAX HOLDINGS",
@@ -1993,6 +2429,8 @@
                                 }
                               ],
                               "sector": "ΜΜΕ",
+                              "color": "#FEA800",
+                              "radius": 85,
                               "children": [
                                 {
                                   "name": "",
@@ -2000,6 +2438,8 @@
                                   "group": 4,
                                   "on": false,
                                   "date": "",
+                                  "color": "none",
+                                  "radius": 0,
                                   "children": [
                                     {
                                       "name": "ALPHATV.GR",
@@ -2014,7 +2454,9 @@
                                           "percentage": "25%"
                                         }
                                       ],
-                                      "sector": "ΜΜΕ"
+                                      "sector": "ΜΜΕ",
+                                      "color": "#FEA800",
+                                      "radius": 0
                                     },
                                     {
                                       "name": "NEVINE HOLDINGS",
@@ -2023,13 +2465,15 @@
                                       "on": false,
                                       "date": "",
                                       "description": "",
-                                      "sector": "κανένα",
                                       "shareholders": [
                                         {
                                           "shareholder": "MEDIAMAX HOLDINGS LIMITED",
                                           "percentage": "50%"
                                         }
-                                      ]
+                                      ],
+                                      "sector": "κανένα",
+                                      "color": "#FEA800",
+                                      "radius": 0
                                     }
                                   ]
                                 },
@@ -2047,6 +2491,8 @@
                                     }
                                   ],
                                   "sector": "ΜΜΕ",
+                                  "color": "#FEA800",
+                                  "radius": 85,
                                   "children": [
                                     {
                                       "name": "GREEN PIXEL PRODUCTIONS A.E.",
@@ -2062,6 +2508,8 @@
                                         }
                                       ],
                                       "sector": "ΜΜΕ",
+                                      "color": "#FEA800",
+                                      "radius": 85,
                                       "children": [
                                         {
                                           "name": "KLEIN MIND",
@@ -2076,7 +2524,9 @@
                                               "percentage": "50,5%"
                                             }
                                           ],
-                                          "sector": "ΜΜΕ"
+                                          "sector": "ΜΜΕ",
+                                          "color": "#FEA800",
+                                          "radius": 0
                                         }
                                       ]
                                     }
@@ -2097,7 +2547,9 @@
                                   "percentage": "29,87%"
                                 }
                               ],
-                              "sector": "ΚΑΤΑΣΚΕΥΕΣ"
+                              "sector": "ΚΑΤΑΣΚΕΥΕΣ",
+                              "color": "#FEA800",
+                              "radius": 0
                             }
                           ]
                         }
@@ -2114,6 +2566,8 @@
               "on": true,
               "date": "",
               "description": "",
+              "color": "#FEA800",
+              "radius": 85,
               "children": [
                 {
                   "name": "AUDIOMAX HOLDINGS",
@@ -2123,6 +2577,8 @@
                   "date": "",
                   "description": "",
                   "sector": "ΜΜΕ",
+                  "color": "#FEA800",
+                  "radius": 85,
                   "children": [
                     {
                       "name": "",
@@ -2130,6 +2586,8 @@
                       "group": 4,
                       "on": false,
                       "date": "",
+                      "color": "none",
+                      "radius": 0,
                       "description": "",
                       "children": [
                         {
@@ -2139,7 +2597,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FEA800",
+                          "radius": 0
                         },
                         {
                           "name": "TALKRADIO989.GR",
@@ -2148,7 +2608,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FEA800",
+                          "radius": 0
                         },
                         {
                           "name": "ΔΡΟΜΟΣ 89.8",
@@ -2157,7 +2619,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FEA800",
+                          "radius": 0
                         },
                         {
                           "name": "ΔΙΕΣΗ 101.3",
@@ -2166,7 +2630,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FEA800",
+                          "radius": 0
                         },
                         {
                           "name": "ZARKONA TRADING",
@@ -2175,7 +2641,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "κανένα"
+                          "sector": "κανένα",
+                          "color": "#FEA800",
+                          "radius": 0
                         },
                         {
                           "name": "ΑΛΚΜΑΙΩΝ ON LINE MEDIA",
@@ -2184,7 +2652,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FEA800",
+                          "radius": 0
                         },
                         {
                           "name": "NEOACT INVESTMENTS",
@@ -2193,7 +2663,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "κανένα"
+                          "sector": "κανένα",
+                          "color": "#FEA800",
+                          "radius": 0
                         },
                         {
                           "name": "PRODUCTIONS ALTEBARAN",
@@ -2202,7 +2674,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FEA800",
+                          "radius": 0
                         },
                         {
                           "name": "PERCAPITA",
@@ -2211,7 +2685,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "REAL ESTATE"
+                          "sector": "REAL ESTATE",
+                          "color": "#FEA800",
+                          "radius": 0
                         },
                         {
                           "name": "POD.GR",
@@ -2246,7 +2722,9 @@
                               "percentage": " 4,997%"
                             }
                           ],
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FEA800",
+                          "radius": 0
                         }
                       ]
                     }
@@ -2270,6 +2748,8 @@
                     }
                   ],
                   "sector": "ΜΜΕ",
+                  "color": "#FEA800",
+                  "radius": 85,
                   "children": [
                     {
                       "name": "",
@@ -2277,6 +2757,8 @@
                       "group": 4,
                       "on": false,
                       "date": "",
+                      "color": "none",
+                      "radius": 0,
                       "description": "",
                       "children": [
                         {
@@ -2286,7 +2768,9 @@
                           "on": false,
                           "date": "",
                           "description": "",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FEA800",
+                          "radius": 0
                         },
                         {
                           "name": "NEWPOST.GR",
@@ -2305,7 +2789,9 @@
                               "percentage": "49%"
                             }
                           ],
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FEA800",
+                          "radius": 0
                         },
                         {
                           "name": "STAR",
@@ -2314,7 +2800,9 @@
                           "on": false,
                           "date": "",
                           "description": "Το Star Channel είναι ελληνικός ιδιωτικός τηλεοπτικός σταθμός πανελλαδικής εμβέλειας, με έδρα την Κηφισιά. Ξεκίνησε να εκπέμπει το 1993 και ανήκει στη Νέα Τηλεόραση Α.Ε. της οικογένειας Βαρδινογιάννη. Είναι ενημερωτικού και ψυχαγωγικού χαρακτήρα.Η Νέα Τηλεόραση Ανώνυμη Εταιρεία είναι ο δεύτερος από τους δύο πρώτους τηλεοπτικούς φορείς που ιδρύθηκαν στην Ελλάδα (ο πρώτος ήταν η Τηλέτυπος Α.Ε. - Mega Channel). Συστάθηκε στις 24 Αυγούστου 1989, αρχικά ως τηλεοπτικός σταθμός, λαμβάνοντας άδεια πανελλαδικής εμβέλειας. Στη συνέχεια, εξελίχθηκε σε εταιρεία, αφού την άδεια που κατείχε, δεν την αξιοποίησε για να ανοίξει δικό της τηλεοπτικό σταθμό, αλλά αγόρασε εκ των υστέρων και με την καθοδήγηση του Νίκου Μαστοράκη το Κανάλι 29, το οποίο και μετονόμασε σε Star Channel.Πρόεδρος του σταθμού είναι ο Κάρολος Αλκαλάϊ, αντιπρόεδρος ο Νικόλαος Τσεβάς, διευθυντής ενημέρωσης και ειδήσεων ο Κώστας Σιακανίκας.",
-                          "sector": "ΜΜΕ"
+                          "sector": "ΜΜΕ",
+                          "color": "#FEA800",
+                          "radius": 0
                         }
                       ]
                     }
