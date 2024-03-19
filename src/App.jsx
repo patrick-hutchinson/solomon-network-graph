@@ -125,6 +125,12 @@ function D3Chart() {
   let [clickedGroupFilterNode, setClickedGroupFilterNode] = React.useState();
 
   // Declare Scales and Values
+  let nodeSizesArray = [10, 135, 95, 85, 85, 0, 0];
+  let nodeSizes = d3
+    .scaleOrdinal() //
+    .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
+    .range(nodeSizesArray);
+
   let arrowThicknessArray = [2, 2, 6, 5, 5, 3, 3];
   let arrowThickness = d3
     .scaleOrdinal() //
@@ -136,8 +142,14 @@ function D3Chart() {
   let [minDescendants, maxDescendants] = d3.extent(allNodes, (node) => node.descendants().length);
 
   // Create the scale based on the range of descendants
-  let rootNodeSizeScale = [100, 500];
-  let descendantsScale = d3.scaleLinear().domain([minDescendants, maxDescendants]).range(rootNodeSizeScale);
+  let startingNodeSizes = [100, 500];
+  let descendantsScale = d3.scaleLinear().domain([minDescendants, maxDescendants]).range(startingNodeSizes);
+
+  let nodeColorsArray = ["transparent", "#FF295B", "#AF1BF5", "#44B0FF", "#20AE98", "#FEA800"];
+  let nodeColors = d3
+    .scaleOrdinal() //
+    .domain([...new Set(nodes.map((d) => d.data.group))])
+    .range(nodeColorsArray);
 
   // Show a PopUp when trying to zoom without pressing Command
   function showZoomNotice(e) {
@@ -246,11 +258,15 @@ function D3Chart() {
           .forceLink(allActiveLinks, (d) => d)
           .id((d) => d.id)
           .distance((d) => {
-            let group1 = d.source.data.group === 1;
-            let group2 = d.source.data.group === 2;
-            let group3 = d.source.data.group === 3;
-            let group4 = d.source.data.group === 4;
-            let group5 = d.source.data.group === 5;
+            if (d.source.depth === 1) {
+              console.log(
+                "the amount of descendants are",
+                findDescendantsManually(d.source).length,
+                "the group is",
+                d.source.data.group
+              );
+            }
+
             let sourceNodeIsRoot = d.source.depth == 1;
             let targetNodeIsLarge = d.target.data.type !== "subcompany";
             let sourceNodeIsLarge = d.source.data.type !== "subcompany";
@@ -259,16 +275,7 @@ function D3Chart() {
             let sourceNodeIsSector = d.source.data.type === "sector";
             let targetNodeIsSector = d.target.data.type === "sector";
 
-            // 1 is red
-            // 2 is green
-            // 3 is blue
-            // 4 is yellow
-            // 5 is pink
-
-            if (d.target.depth === 0) {
-              return 40;
-            }
-            if (d.target.depth === 1) {
+            if (d.target.depth === 0 || d.target.depth === 1) {
               return 40;
             }
             if (sourceNodeIsLarge && targetNodeIsConnector) {
@@ -278,50 +285,29 @@ function D3Chart() {
               return 380;
             }
             // Group One
-            if (group1 && sourceNodeIsRoot) {
-              return 400;
-            } else if (group1 && sourceNodeIsLarge && targetNodeIsSector) {
-              return 200;
-            } else if (group1 && sourceNodeIsSector && targetNodeIsLarge) {
-              return 200;
+            if (sourceNodeIsLarge && targetNodeIsSector) {
+              return 250;
+            } else if (sourceNodeIsSector && targetNodeIsLarge) {
+              return 350;
             }
-            // Group Two
-            if (group2 && sourceNodeIsRoot) {
-              return 400;
-            } else if (group2 && sourceNodeIsSector && targetNodeIsLarge) {
-              return 500;
-            } else if (group2 && sourceNodeIsLarge && targetNodeIsLarge) {
+
+            if (sourceNodeIsRoot) {
+              return 350;
+            }
+            if (sourceNodeIsLarge && targetNodeIsLarge) {
               return 300;
             }
-            if (group3 && sourceNodeIsRoot) {
-              return 400;
-            } else if (group3 && sourceNodeIsLarge && targetNodeIsLarge) {
-              return 300;
-            }
-            if (group4 && sourceNodeIsRoot) {
-              return 300;
-            } else if (group4 && sourceNodeIsLarge && targetNodeIsLarge) {
-              return 300;
-            } else if (group4 && sourceNodeIsConnector && targetNodeIsLarge) {
-              return -100;
-            }
-            if (group5 && sourceNodeIsRoot) {
-              return 300;
-            }
-            if (group5 && sourceNodeIsSector && targetNodeIsLarge) {
-              return 300;
-            } else if (group5 && sourceNodeIsLarge && targetNodeIsSector) {
-              return 300;
-            } else if (
+
+            if (
               // Spacing for: smaller groups, large nodes
-              (d.target.data.group === 5 || d.target.data.group === 2 || d.target.data.group === 3) &&
+              findDescendantsManually(d.source).length < 40 &&
               targetNodeIsLarge &&
               d.target.data.type !== "connector"
             ) {
               return 200;
             } else if (
               // Spacing for: larger groups, large nodes
-              (d.target.data.group === 1 || d.target.data.group === 4) &&
+              findDescendantsManually(d.source).length > 40 &&
               d.target.data.type !== "subcompany" &&
               d.target.data.type !== "connector"
             ) {
@@ -344,12 +330,11 @@ function D3Chart() {
           }
         })
       )
-      // .force("center", d3.forceCenter(width / 2, height / 2).strength(1))
       .force(
         "collision",
         d3
           .forceCollide()
-          .radius((d) => (d.depth !== 1 ? d.data.radius : descendantsScale(findDescendantsManually(d).length)))
+          .radius((d) => (d.depth !== 1 ? nodeSizes(d.data.type) : descendantsScale(findDescendantsManually(d).length)))
       );
 
     // Element Creation
@@ -359,7 +344,6 @@ function D3Chart() {
       .attr("width", width)
       .attr("height", height)
       .call(zoom)
-
       .call(
         zoom.transform,
         hasBeenZoomed ? zoomTransform : d3.zoomIdentity.translate(initialZoom.x, initialZoom.y).scale(initialZoom.k)
@@ -399,7 +383,7 @@ function D3Chart() {
       .append("marker")
       .attr("id", (d, i) => "arrowhead" + i)
       // Calculation is tailormade to place all arrowheads correctly.
-      .attr("refX", (d) => (d.data.radius > 0 ? d.data.radius / 32 : 0))
+      .attr("refX", (d) => nodeSizes(d.data.type) / 32)
       .attr("refY", 3)
       .attr("markerWidth", 10)
       .attr("markerHeight", 10)
@@ -426,7 +410,7 @@ function D3Chart() {
     let circle = elementEnter
       .append("circle")
       // if the node is not the root node, apply the nodeSizes table. Else, base size on amount of descendants
-      .attr("r", (d) => (d.depth !== 1 ? d.data.radius : descendantsScale(findDescendantsManually(d).length)))
+      .attr("r", (d) => (d.depth !== 1 ? nodeSizes(d.data.type) : descendantsScale(findDescendantsManually(d).length)))
 
       .attr("stroke", (d) => d.data.color)
       //if the depth of the node is smaller than three, fill it. Else, white.
