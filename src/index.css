@@ -147,8 +147,12 @@ body {
 }
 .shareholderContainer {
   font-size: 13.5px;
-  line-height: 0.7;
   text-align: left;
+}
+.shareholderContainer br {
+  display: block;
+  margin: 4px 0;
+  line-height: 1.1;
 }
 .shareholderTitle {
   margin: 0;
@@ -170,9 +174,13 @@ body {
 }
 
 .textElement {
+  pointer-events: none;
   font-family: helvetica;
   font-size: 8px;
   text-align: center;
+}
+tspan {
+  pointer-events: none;
 }
 
 .navigationContainer {
@@ -259,6 +267,7 @@ body {
   grid-column-end: 3;
   box-sizing: border-box;
   margin-top: 10px;
+  pointer-events: none;
 }
 .progress-container > .progressMarks {
   width: 100%;
@@ -286,6 +295,19 @@ body {
   mix-blend-mode: difference;
   color: #fff;
   top: -2px;
+}
+
+.progress-scrubber {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: red;
+  transform: translate(-50%, -6px);
+  left: 100%;
+  cursor: pointer;
+  z-index: 10;
+  pointer-events: all !important;
 }
 
 .graphCanvas {
@@ -392,6 +414,10 @@ circle.largeNode + text {
 
 .zoomNoticeCursor.blocked {
   opacity: 0 !important;
+}
+
+.activated {
+  opacity: 1;
 }
 
 @media only screen and (max-width: 900px) {

@@ -15,15 +15,25 @@ d.depth > 1 ? e.target.parentElement.querySelector("h5").classList.add("hovered"
 
 > > > > > > > Stashed changes
 
-END: Disable right click
-
 New:
 
-- remove sector nodes
-- more info on click (not on hover)
-- nodes should not hide/collapse, they should fade instead, so the network is always completely visible/expanded
-- names in first groups should be bigger (2x?)
+Clicking A node when all children are on should turn it off?
+
 - make zoom bar draggable
 - show type of connections between the first persons in a group
 - opening scene shouldnt have crossed groups
 - intro animation (zoom)
+
+— Perhaps:
+if all nodes of a certain sector are on, the filter lights up at the top
+That way you know if if you're missing something: If its not lit up, click to light all, if it is, click to dim
+
+—On Launch: MME Filter only turns black upon interacting w the graph
+
+Update: To not Find filter based on index but on Tag
+let sectorFilters = document.querySelectorAll(".sectorFilter");
+if (isFirstLoad) {
+if (sectorFilters.length > 1) {
+sectorFilters[1].classList.add("active");
+}
+}

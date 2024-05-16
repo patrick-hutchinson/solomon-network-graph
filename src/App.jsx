@@ -21,10 +21,7 @@ function D3Chart() {
   let [links, setLinks] = React.useState(root.links());
   let [nodes, setNodes] = React.useState(root.descendants());
 
-  let nodesRef = useRef(nodes);
-  useEffect(() => {
-    nodesRef.current = nodes;
-  }, [nodes]);
+  let [dataLoaded, setDataLoaded] = React.useState(false);
 
   // Fetch the Data
   React.useEffect(() => {
@@ -38,11 +35,9 @@ function D3Chart() {
       });
   }, []);
 
-  let [dataLoaded, setDataLoaded] = React.useState(false);
-
   // Create hierarchy and set links and nodes when data changes
   React.useEffect(() => {
-    let root = d3.hierarchy(data); // Wrap data in an object with a "children" property
+    // let root = d3.hierarchy(data); // Wrap data in an object with a "children" property
     setLinks(root.links());
     setNodes(root.descendants());
 
@@ -144,6 +139,8 @@ function D3Chart() {
   // Create the scale based on the range of descendants
   let startingNodeSizes = [100, 500];
   let descendantsScale = d3.scaleLinear().domain([minDescendants, maxDescendants]).range(startingNodeSizes);
+  // *
+  // *
 
   let nodeColorsArray = ["transparent", "#FF295B", "#AF1BF5", "#44B0FF", "#20AE98", "#FEA800"];
   let nodeColors = d3
@@ -178,11 +175,15 @@ function D3Chart() {
     let zoomNoticeCursor = document.querySelector(".zoomNoticeCursor");
     zoomNoticeCursor.classList.remove("visible");
 
-    d3.selectAll("svg g").attr("transform", e.transform);
     setZoomTransform(d3.zoomTransform(chartRef.current));
 
+    d3.selectAll("svg g").attr("transform", e.transform);
+
     setZoomAmount(e.transform.k);
+
     setHasBeenZoomed(true);
+
+    // updateZoomTransform();
   }
 
   document.addEventListener("keyup", (e) => {
@@ -191,19 +192,11 @@ function D3Chart() {
       zoomNoticeCursor.classList.add("blocked");
 
       setTimeout(() => {
-        console.log("removing blockage");
         zoomNoticeCursor.classList.remove("visible");
         zoomNoticeCursor.classList.remove("blocked");
       }, 2000);
     }
   });
-
-  // document.addEventListener("keydown", (e) => {
-  //   // let zoomNoticeCursor = document.querySelector(".zoomNoticeCursor");
-  //   if (e.keyCode === 224) {
-  //     console.log("pressed command key!");
-  //   }
-  // });
 
   function commandFilter(event) {
     return (
@@ -247,52 +240,32 @@ function D3Chart() {
   }
 
   useEffect(() => {
-    let allActiveNodes = nodes.filter((node) => node.data.on);
-    let allActiveLinks = links.filter((link) => link.source.data.on);
-
+    const groupDistance = 300;
     let simulation = d3
-      .forceSimulation(allActiveNodes, (d) => d)
+      .forceSimulation(nodes, (d) => d)
       .force(
         "link",
         d3
-          .forceLink(allActiveLinks, (d) => d)
+          .forceLink(links, (d) => d)
           .id((d) => d.id)
           .distance((d) => {
-            if (d.source.depth === 1) {
-              console.log(
-                "the amount of descendants are",
-                findDescendantsManually(d.source).length,
-                "the group is",
-                d.source.data.group
-              );
-            }
-
             let sourceNodeIsRoot = d.source.depth == 1;
             let targetNodeIsLarge = d.target.data.type !== "subcompany";
             let sourceNodeIsLarge = d.source.data.type !== "subcompany";
             let targetNodeIsConnector = d.target.data.type === "connector";
             let sourceNodeIsConnector = d.source.data.type === "connector";
-            let sourceNodeIsSector = d.source.data.type === "sector";
-            let targetNodeIsSector = d.target.data.type === "sector";
 
+            if (d.source.depth === 0) {
+              return -500;
+            }
+            if (sourceNodeIsRoot) {
+              return 10;
+            }
             if (d.target.depth === 0 || d.target.depth === 1) {
               return 40;
             }
-            if (sourceNodeIsLarge && targetNodeIsConnector) {
-              return 40;
-            }
-            if (sourceNodeIsConnector && targetNodeIsLarge) {
-              return 380;
-            }
-            // Group One
-            if (sourceNodeIsLarge && targetNodeIsSector) {
-              return 250;
-            } else if (sourceNodeIsSector && targetNodeIsLarge) {
-              return 350;
-            }
-
-            if (sourceNodeIsRoot) {
-              return 350;
+            if (sourceNodeIsConnector) {
+              return 480;
             }
             if (sourceNodeIsLarge && targetNodeIsLarge) {
               return 300;
@@ -324,23 +297,39 @@ function D3Chart() {
         "charge",
         d3.forceManyBody().strength((d) => {
           if (d.depth === 0) {
-            return 10;
+            return 7000;
           } else {
             return -7000;
           }
         })
       )
+      .force("center", d3.forceCenter(0, 0))
       .force(
         "collision",
         d3
           .forceCollide()
           .radius((d) => (d.depth !== 1 ? nodeSizes(d.data.type) : descendantsScale(findDescendantsManually(d).length)))
+      )
+
+      .force(
+        "x",
+        d3.forceX().x((d) => {
+          if (d.depth === 0) return d.x;
+          return (d.data.group - 3) * groupDistance * 2; // Adjusting the distance dynamically based on the group number
+        })
+      )
+      .force(
+        "y",
+        d3.forceY().y((d) => {
+          if (d.depth === 0) return d.y;
+          return Math.abs(d.data.group - 3) * groupDistance * 2; // Adjusting the distance dynamically based on the group number
+        })
       );
 
     // Element Creation
     // Create the Canvas
     let svg = d3
-      .select(chartRef.current) //
+      .select(chartRef.current)
       .attr("width", width)
       .attr("height", height)
       .call(zoom)
@@ -353,23 +342,19 @@ function D3Chart() {
       .on("contextmenu", function (event) {
         event.preventDefault();
       })
-
       .attr("class", "graphCanvas")
       .on("mouseover", function (e) {
-        d3.select(this).attr("cursor", "grab"); //
+        d3.select(this).attr("cursor", "grab");
       });
 
     // Ensure there is no double rendering of nodes, clear before redrawing
     svg.selectAll("*").remove();
 
     // Create a container to hold node and text
-    let nodeElement = svg
-      .selectAll("g")
-      .data(
-        nodes.filter((d) => d.data.on === true),
-        (d) => d
-      )
-      .attr("class", "nodeContainer");
+    let nodeElement = svg.selectAll("g").data(
+      nodes.filter((d) => d.data.on === true || d.data.on === false || d.data.on === null),
+      (d) => d
+    );
 
     let arrowheads = svg
       .append("defs")
@@ -381,7 +366,7 @@ function D3Chart() {
       // .join("marker")
       .enter()
       .append("marker")
-      .attr("id", (d, i) => "arrowhead" + i)
+      .attr("id", (d, i) => i)
       // Calculation is tailormade to place all arrowheads correctly.
       .attr("refX", (d) => nodeSizes(d.data.type) / 32)
       .attr("refY", 3)
@@ -390,7 +375,8 @@ function D3Chart() {
       .attr("orient", "auto-start-reverse")
       .attr("fill", (d) => d.data.color)
       .append("path")
-      .attr("d", "M0,0 L0,6 L4,3 z");
+      .attr("d", "M0,0 L0,6 L4,3 z")
+      .attr("opacity", 0.1);
 
     // Create and draw the Links
     let link = svg
@@ -401,7 +387,7 @@ function D3Chart() {
       .append("line")
       .attr("class", "link")
       .attr("stroke", "#999")
-      .attr("stroke-opacity", 1)
+      .attr("stroke-opacity", 0.1)
       .attr("stroke-width", (d) => arrowThickness(d.target.data.type));
 
     let elementEnter = nodeElement.enter().append("g");
@@ -417,15 +403,18 @@ function D3Chart() {
       .attr("fill", (d) =>
         d.data.type === "person" || d.data.type === "company" || d.data.type === "mothercompany" ? d.data.color : "#fff"
       )
-      .attr("stroke-opacity", (d) => (d.data.on ? 0.6 : 0.1))
+      .attr("stroke-opacity", 0.1)
 
       .attr("class", (d) =>
         d.data.type === "person" || d.data.type === "company" || d.data.type === "mothercompany"
           ? "largeNode"
           : "smallNode"
       )
-      .call(drag(simulation));
+      .attr("id", (d) => d.index)
 
+      //Set Opacity to be low by default
+      .attr("opacity", 0.1)
+      .call(drag(simulation));
     // Add the Text
     let text = elementEnter
       .append("text")
@@ -439,13 +428,12 @@ function D3Chart() {
         let separation = 18;
 
         // larger nodes get larger text
-        if (d.data.type === "person" || d.data.type === "company") {
-          fontsize = 18;
+        if (d.data.type === "company") {
+          fontsize = 32;
           maxLength = 1;
-          separation = 25;
+          separation = 38;
         }
-
-        if (d.data.type === "sector") {
+        if (d.data.type === "person") {
           fontsize = 18;
           maxLength = 1;
           separation = 25;
@@ -494,19 +482,20 @@ function D3Chart() {
           d3.select(this.parentElement).select("text").style("fill", d.data.color);
         } else {
           d3.select(this.parentElement).select("text").style("fill", "#000");
+          d3.select(this.parentElement).select("text").style("opacity", "0.1");
         }
       }
-      if (d.depth === 0) {
-        //hide the first node's links
-        d3.select(this.parentElement).attr("display", "none");
-      }
+      // if (d.depth === 0) {
+      //   //hide the first node's links
+      //   d3.select(this.parentElement).attr("display", "none");
+      // }
     });
     // hide the first node's links
-    d3.selectAll("line").each(function (d) {
-      if (d.source.depth === 0) {
-        d3.select(this).attr("display", "none");
-      }
-    });
+    // d3.selectAll("line").each(function (d) {
+    //   if (d.source.depth === 0) {
+    //     d3.select(this).attr("display", "none");
+    //   }
+    // });
 
     // Arrow Heads
     // Correctly assign an url("arrowheadX") tag to position the arrowhead based on the target node's radius
@@ -517,7 +506,7 @@ function D3Chart() {
         d3.selectAll("circle").each(function (f) {
           // Add an arrowtop to the line if it the target is a large enough node
           if (d.target === f) {
-            markerUrl = `url(#arrowhead${i + 1})`;
+            markerUrl = `url(#${i + 1})`;
           } else {
             null;
           }
@@ -551,27 +540,13 @@ function D3Chart() {
           .attr("cursor", "pointer");
 
         document.documentElement.style.setProperty("--highlightColorHover", d.data.color);
-        // Change the text color contained in the node
-        // d.depth > 1 ? e.target.parentElement.querySelector("text").classList.add("hovered") : null;
 
-        setNodeInfo((prevNodeInfo) => {
-          return {
-            ...prevNodeInfo,
-            title: d.data.name,
-            date: d.data.date,
-            description: d.data.description,
-            sector: d.data.sector,
-            shareholders: d.data.shareholders ? d.data.shareholders : "null",
-          };
-        });
         setNodePath(findAncestorsManually(d));
 
         const textElement = d3.select(e.target.parentNode).select("text");
 
         textElement.style("fill", (d) => {
           if (d.data.type === "mothercompany") {
-            return d.data.color;
-          } else if (d.data.type === "sector") {
             return d.data.color;
           } else if (d.data.type === "company") {
             return "#fff";
@@ -602,23 +577,37 @@ function D3Chart() {
         textElement.style("fill", (d) => {
           if (d.data.type === "mothercompany") {
             return "#fff";
-          } else if (d.data.type === "sector") {
-            return d.data.color;
-          } else if (d.data.type === "company") {
+          } else if (d.data.type === "company" || d.data.type === "person") {
             return "#fff";
           } else {
-            return "#fff";
+            return "#000";
           }
         });
       })
 
       .on("click", handleNodeClick);
 
-    // Apply the current zoomTransform to each node (on each rerender)
     d3.selectAll("svg g").attr("transform", zoomTransform);
 
     // Event Handling
     function handleNodeClick(event, clickedNode) {
+      console.log("clicked a node!");
+      activateNodes(clickedNode.children);
+      activateNodes(findAncestorsManually(clickedNode));
+
+      // console.log(findAncestorsManually(clickedNode));
+
+      setNodeInfo((prevNodeInfo) => {
+        return {
+          ...prevNodeInfo,
+          title: clickedNode.data.name,
+          date: clickedNode.data.date,
+          description: clickedNode.data.description,
+          sector: clickedNode.data.sector,
+          shareholders: clickedNode.data.shareholders ? clickedNode.data.shareholders : "null",
+        };
+      });
+
       setUpdateCameFromClickedNode(true);
       setGroupFilterWasClicked(false);
       let nodesToActivate = [];
@@ -628,57 +617,51 @@ function D3Chart() {
         let nodeWillBeExpanded = node.data.on === false;
         let nodeWillBeClosed = node.data.on === true;
 
-        //check if any of the clicked node's children is on, meaning that the clicked node is already expanded
-        if (clickedNode.children) {
-          clickedNode.children.forEach(function (clickedNodeChild) {
-            if (node.index === clickedNodeChild.index && clickedNode.depth !== 1) {
-              if (nodeWillBeClosed) {
-                hideDescendantsIfOpen(clickedNode);
-              } else if (nodeWillBeExpanded) {
-                skipConnectorAndAddChildren();
-              }
-            }
-          });
-        } else {
-          console.log("Cannot expand leaf node, you've reached the end!");
+        // check if any of the clicked node's children is on, meaning that the clicked node is already expanded
+
+        if (node.children && node.children[0].data.type === "connector") {
+          skipConnectorAndAddChildren();
         }
 
         // If a node is clicked and expanded, add it to the activeGroupFilter
         updateActiveGroupFilter();
 
         function updateActiveGroupFilter() {
-          clickedNode.children.forEach(function (clickedNodeChild) {
-            if (clickedNodeChild.index === node.index) {
-              // Only handlegroupFilter if the node is one of the 2 lower levels
-              if (clickedNode.depth < 3 && clickedNode.depth !== 1) {
-                if (nodeWillBeExpanded) {
-                  setActiveGroupFilter((prevActiveGroupFilter) => {
-                    let updatedFilter = [...new Set(prevActiveGroupFilter)];
-
-                    if (!updatedFilter.includes(clickedNode.data.group)) {
-                      updatedFilter.push(clickedNode.data.group);
-                    }
-
-                    return updatedFilter;
-                  });
-                } else if (nodeWillBeClosed) {
-                  console.log("Deactivating the filter for the clicked node!");
-
-                  // Add a statement here: If there is no other node with a depth of 3 of the same group open
-                  // if the group of the clickednode contains on nodes at depth 3 that are not the child of the clicked node
-
-                  // Essentially, only if both of the lavel 2 red nodes dont have active chilrdren
-                  console.log("allBranchesAreClosed:", allBranchesAreClosed(clickedNode));
-                  if (allBranchesAreClosed(clickedNode)) {
+          if (clickedNode.children) {
+            clickedNode.children.forEach(function (clickedNodeChild) {
+              if (clickedNodeChild.index === node.index) {
+                // Only handlegroupFilter if the node is one of the 2 lower levels
+                if (clickedNode.depth < 3 && clickedNode.depth !== 1) {
+                  if (nodeWillBeExpanded) {
                     setActiveGroupFilter((prevActiveGroupFilter) => {
-                      let updatedFilter = prevActiveGroupFilter.filter((group) => group !== clickedNode.data.group);
+                      let updatedFilter = [...new Set(prevActiveGroupFilter)];
+
+                      if (!updatedFilter.includes(clickedNode.data.group)) {
+                        updatedFilter.push(clickedNode.data.group);
+                      }
+
                       return updatedFilter;
                     });
+                  } else if (nodeWillBeClosed) {
+                    console.log("Deactivating the filter for the clicked node!");
+
+                    // Add a statement here: If there is no other node with a depth of 3 of the same group open
+                    // if the group of the clickednode contains on nodes at depth 3 that are not the child of the clicked node
+
+                    // Essentially, only if both of the lavel 2 red nodes dont have active chilrdren
+                    console.log("allBranchesAreClosed:", allBranchesAreClosed(clickedNode));
+                    if (allBranchesAreClosed(clickedNode)) {
+                      setActiveGroupFilter((prevActiveGroupFilter) => {
+                        let updatedFilter = prevActiveGroupFilter.filter((group) => group !== clickedNode.data.group);
+                        return updatedFilter;
+                      });
+                    }
+                    console.log("activeGroupFilter", activeGroupFilter);
                   }
                 }
               }
-            }
-          });
+            });
+          }
         }
       });
       function allBranchesAreClosed(clickedNode) {
@@ -686,25 +669,22 @@ function D3Chart() {
           return (
             node.data.group === clickedNode.data.group &&
             node.depth === 3 &&
-            node.data.on === false &&
+            // node.data.on === false &&
             !clickedNode.children.includes(node)
           );
         });
       }
 
       function skipConnectorAndAddChildren() {
-        if (clickedNode.children[0].data.type == "connector") {
-          nodesToActivate.push(clickedNode.children[0]);
-          // This here represents the children of the found connector node
-          clickedNode.children[0].children.forEach((skippedNodeChild) => {
-            // Check if the children of the found connector node match one of the current filters
-            if (activeSectorFilterRef.current.includes(skippedNodeChild.data.sector)) {
+        if (clickedNode.children) {
+          if (clickedNode.children[0].data.type == "connector") {
+            // This here represents the children of the found connector node
+            nodesToActivate.push(clickedNode.children[0]);
+            clickedNode.children[0].children.forEach((skippedNodeChild) => {
               nodesToActivate.push(skippedNodeChild);
-            }
+            });
             activateNodes(nodesToActivate);
-          });
-        } else {
-          showChildren(clickedNode);
+          }
         }
       }
     }
@@ -738,34 +718,34 @@ function D3Chart() {
     // SMALL TEXT NODES
     d3.selectAll(".smallText") //
       .on("mouseover", function (e, d) {
-        setNodeInfo((prevNodeInfo) => {
-          return {
-            ...prevNodeInfo,
-            title: d.data.name,
-            date: d.data.date,
-            description: d.data.description,
-            sector: d.data.sector,
-            shareholders: d.data.shareholders ? d.data.shareholders : "null",
-          };
-        });
         setNodePath(findAncestorsManually(d));
       })
       .on("click", function (e, clickedNode) {
         if (clickedNode.children !== undefined) {
           nodes.forEach(function (node) {
             if (node.index === clickedNode.children[0].index) {
-              if (node.data.on === true) {
-                //close all descendants
-                hideDescendantsIfOpen(clickedNode);
-              } else {
-                //show all children
-                showChildren(clickedNode);
-              }
+              // if (node.data.on === true) {
+              //close all descendants
+              hideDescendantsIfOpen(clickedNode);
+            } else {
+              //show all children
+              showChildren(clickedNode);
             }
           });
         } else {
           console.log("cannot expant a leaf node, you've reached the end!");
         }
+
+        setNodeInfo((prevNodeInfo) => {
+          return {
+            ...prevNodeInfo,
+            title: clickedNode.data.name,
+            date: clickedNode.data.date,
+            description: clickedNode.data.description,
+            sector: clickedNode.data.sector,
+            shareholders: clickedNode.data.shareholders ? clickedNode.data.shareholders : "null",
+          };
+        });
       });
 
     // Set the position attributes of links and nodes each time the simulation ticks.
@@ -868,9 +848,6 @@ function D3Chart() {
       if (node.data.name === IDText) {
         handleNodeFiltering(node.index);
         setClickedGroupFilterNode(node.data.group);
-        setTimeout(() => {
-          panToNode(node);
-        }, 500);
         document.documentElement.style.setProperty("--highlightColorClick", node.data.color);
       }
     });
@@ -946,16 +923,8 @@ function D3Chart() {
     toggleFilter(IDText, all);
   }
 
+  // HANDLE THE SECTOR FILTER ARRAS
   function toggleFilter(IDText, allSectorFilters) {
-    // if (isFirstLoad) {
-    //   console.log("running this function");
-    //   allSectorFilters.forEach((allSectorFilter) => {
-    //     setActiveSectorFilter((prevActiveSectorFilter) => {
-    //       return [...prevActiveSectorFilter, allSectorFilter];
-    //     });
-    //   });
-    // }
-
     // If Statement Declarations
     let filterIsActive = event.target.classList.contains("active");
 
@@ -1038,21 +1007,16 @@ function D3Chart() {
 
   // Based on the newest state of the activeSectorFilter and activeGroupFilter, hide all nodes that are not part of the active filter
   function handleNodeFiltering(groupNodeIndex) {
-    console.log("handling nodefiltering!");
     let nodesToDisable = [];
     let nodesToEnable = [];
 
     nodes.forEach((node) => {
       // If Statement declarations
-      let nodeIsOn = node.data.on;
-      let nodeIsOff = !nodeIsOn;
       let groupIsAllowed = activeGroupFilter.includes(node.data.group);
       let nodeIsSubcompany = node.data.type === "subcompany";
-      let nodeIsSector = node.data.type === "sector";
       let nodeIsConnector = node.data.type === "connector";
       let nodeIsMotherCompany = node.data.type === "mothercompany";
       let nodeMatchesSectorFilter = activeSectorFilterRef.current.includes(node.data.sector);
-      let nodeMatchesSector = activeSectorFilterRef.current.includes(node.data.name);
 
       function nodeDescendantsIncludesActiveSectorNode() {
         return findDescendantsManually(node).some((nodeDescendant) => {
@@ -1062,29 +1026,23 @@ function D3Chart() {
 
       // Disabling Nodes
       if (
-        nodeIsOn &&
         // Statement One
-        ((!groupIsAllowed && node.depth > 2) ||
-          // Statement Two
-          (node.depth > 3 &&
-            nodeIsMotherCompany &&
-            !nodeMatchesSectorFilter &&
-            !nodeDescendantsIncludesActiveSectorNode()) ||
-          //Statement Three
-          (nodeIsSubcompany && !nodeMatchesSectorFilter && !nodeDescendantsIncludesActiveSectorNode()) ||
-          // Statement Four
-          (nodeIsConnector && !nodeDescendantsIncludesActiveSectorNode()))
+        (!groupIsAllowed && node.depth > 2) ||
+        // Statement Two
+        (node.depth > 3 &&
+          nodeIsMotherCompany &&
+          !nodeMatchesSectorFilter &&
+          !nodeDescendantsIncludesActiveSectorNode()) ||
+        //Statement Three
+        (nodeIsSubcompany && !nodeMatchesSectorFilter && !nodeDescendantsIncludesActiveSectorNode()) ||
+        // Statement Four
+        (nodeIsConnector && !nodeDescendantsIncludesActiveSectorNode()) ||
+        (node.depth > 2 && !nodeMatchesSectorFilter && !nodeDescendantsIncludesActiveSectorNode())
       ) {
         nodesToDisable.push(node);
       }
       // Enabling Nodes
-      if (
-        nodeIsOff &&
-        nodeMatchesSectorFilter &&
-        !updateCameFromClickedNode &&
-        !groupFilterWasClicked &&
-        groupIsAllowed
-      ) {
+      if ((nodeMatchesSectorFilter && !updateCameFromClickedNode && !groupFilterWasClicked) || groupIsAllowed) {
         nodesToEnable.push(node);
       }
 
@@ -1112,40 +1070,6 @@ function D3Chart() {
       }
       activateNodes(sectorNodeArray);
     });
-  }
-
-  // Apply the zoom transform to the SVG
-  function panToNode(filterNode) {
-    let filterXPositions = [];
-    let filterYPositions = [];
-
-    let descendantAmount;
-
-    if (filterNode.descendants() && filterNode.descendants().length > 0) {
-      descendantAmount = filterNode.descendants().length;
-    }
-
-    filterNode.descendants().forEach(function (filterDescendant) {
-      filterXPositions.push(filterDescendant.x);
-      filterYPositions.push(filterDescendant.y);
-    });
-
-    let filterXMin = d3.min(filterXPositions);
-    let filterXMax = d3.max(filterXPositions);
-    let filterYMin = d3.min(filterYPositions);
-    let filterYMax = d3.max(filterYPositions);
-
-    let filterXMidPoint = (filterXMin + filterXMax) / 2;
-    let filterYMidPoint = (filterYMin + filterYMax) / 2;
-
-    // Create a D3 zoom transform with the new coordinates
-    let newZoomTransform = d3.zoomIdentity.translate(width / 2, height / 2).scale(0.15);
-
-    // Apply the zoom transform with a smooth transition
-    d3.select(chartRef.current)
-      .transition()
-      .duration(750) // Adjust the duration as needed
-      .call(zoom.transform, newZoomTransform);
   }
 
   function findDescendantsManually(node) {
@@ -1178,49 +1102,72 @@ function D3Chart() {
     return ancestors;
   }
 
-  // Change the on value of nodes passed into this function.
+  // Change the on opacity of nodes passed into this function.
   function activateNodes(connectedNodes) {
-    setNodes((prevNodes) => {
-      let updatedNodes = prevNodes.map((node) => {
-        // match the node from the data to the input node via index
-        let isConnectedNode = connectedNodes.some((connectedNode) => connectedNode.index === node.index);
+    let circle = d3.selectAll("circle");
 
-        // return the node with the new on value. Return every other node unchanged.
-        return isConnectedNode ? { ...node, data: { ...node.data, on: true } } : node;
-      });
-      // Call updateLinks once after updating all nodes
-      updateLinks(updatedNodes);
-      // Return the updatedNodes to the stateSetter function
-      return updatedNodes;
+    circle.each(function (circle) {
+      if (connectedNodes !== undefined) {
+        if (connectedNodes.some((node) => node.index === circle.index)) {
+          d3.select(this).attr("opacity", 1);
+          d3.select(this).attr("stroke-opacity", 1);
+          d3.select(this.parentElement).select("text").style("opacity", 1);
+        }
+      }
     });
+
+    let links = d3.selectAll("line");
+    links.each(function (link) {
+      if (connectedNodes) {
+        if (connectedNodes.some((node) => node.index === link.target.index)) {
+          d3.select(this).attr("stroke-opacity", 1);
+        }
+      }
+    });
+
+    let arrowheads = d3.selectAll("marker");
+
+    arrowheads.each(function (arrowhead) {
+      let arrowheadID = d3.select(this).attr("id");
+      if (connectedNodes) {
+        if (connectedNodes.some((node) => node.index === parseInt(arrowheadID))) {
+          console.log("arrowhead marthces");
+          d3.select(this).select("path").attr("opacity", 1);
+        }
+      }
+    });
+
+    // arrowheads.each(function(arrowhead){
+
+    // })
+
+    // If the link has the target node that is the connecter node, change its opacity
   }
 
   function deactivateNodes(connectedNodes) {
-    setNodes((prevNodes) => {
-      let updatedNodes = prevNodes.map((node) => {
-        let isConnectedNode = connectedNodes.some((connectedNode) => connectedNode.index === node.index);
+    let circle = d3.selectAll("circle");
 
-        return isConnectedNode ? { ...node, data: { ...node.data, on: false } } : node;
-      });
-      updateLinks(updatedNodes);
-      return updatedNodes;
+    circle.each(function (circle) {
+      if (connectedNodes.some((node) => node.index === circle.index)) {
+        d3.select(this).attr("opacity", 0.1);
+        d3.select(this).attr("stroke-opacity", 0.1);
+        d3.select(this.parentElement).select("text").style("opacity", 0.1);
+      }
     });
-  }
 
-  function updateLinks(updatedNodes) {
-    setLinks((prevLinks) => {
-      return prevLinks.map((link) => {
-        let findUpdatedNode = (node) => updatedNodes.find((updatedNode) => updatedNode.index === node.index);
-
-        let updatedTargetNode = findUpdatedNode(link.target);
-        let updatedSourceNode = findUpdatedNode(link.source);
-
-        return {
-          ...link,
-          target: updatedTargetNode || link.target,
-          source: updatedSourceNode || link.source,
-        };
-      });
+    let links = d3.selectAll("line");
+    links.each(function (link) {
+      if (connectedNodes.some((node) => node.index === link.target.index)) {
+        d3.select(this).attr("stroke-opacity", 0.1);
+      }
+    });
+    let arrowheads = d3.selectAll("marker");
+    arrowheads.each(function (arrowhead) {
+      let arrowheadID = d3.select(this).attr("id");
+      if (connectedNodes.some((node) => node.index === parseInt(arrowheadID))) {
+        console.log("arrowhead marthces");
+        d3.select(this).select("path").attr("opacity", 0.1);
+      }
     });
   }
 
@@ -1253,6 +1200,11 @@ function D3Chart() {
     d3.select(".graphCanvas").transition().call(zoom.scaleBy, 0.66);
   }
 
+  let scrubberNumber;
+  function handleZoomScrubbing(scrubberAdvance) {
+    d3.select(".graphCanvas").call(zoom.scaleTo, scrubberAdvance);
+  }
+
   return (
     <div
       className="componentContainer"
@@ -1270,7 +1222,13 @@ function D3Chart() {
         showAllSectors={showAllSectors}
         nodePath={nodePath}
       />
-      <Zoombar className="zoombar" zoomAmount={zoomAmount} zoomRange={zoomRange} />
+      <Zoombar
+        className="zoombar"
+        zoomAmount={zoomAmount}
+        zoomRange={zoomRange}
+        handleZoomScrubbing={handleZoomScrubbing}
+        scrubberNumber={scrubberNumber}
+      />
       <InfoBox className="" nodeInfo={nodeInfo} />
       <svg ref={chartRef}></svg>
       <div className="showInfo hidden" onClick={handleShowInfoClick}>

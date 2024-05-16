@@ -749,7 +749,7 @@
                     },
                     {
                       "name": "NEW YORK TIMES FRANCE",
-                      "type": "subcompany",
+                      "type": "company",
                       "group": 1,
                       "on": null,
                       "date": "",
@@ -1682,7 +1682,7 @@
               "children": [
                 {
                   "name": "DIKEFALOS HOLDINGS CO. LIMITED",
-                  "type": "subcompany",
+                  "type": "company",
                   "group": 2,
                   "on": null,
                   "date": "",
