@@ -4,7 +4,6 @@ d.depth > 1 ? e.target.parentElement.querySelector("h5").classList.add("hovered"
 
 New:
 
-- make zoom bar draggable
 - show type of connections between the first persons in a group
 
 — Perhaps:

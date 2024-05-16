@@ -106,6 +106,25 @@ function D3Chart() {
     setActiveSectorFilter(["ΜΜΕ"]);
   }, [dataLoaded]);
 
+  useEffect(() => {
+    console.log(links, "links");
+
+    let sourceNode;
+    let targetNode;
+    links.forEach((link) => {
+      if (link.source.data.name === "ΓΙΑΝΝΗΣ ΑΛΑΦΟΥΖΟΣ") {
+        console.log("linksource");
+        sourceNode = link.source;
+      }
+      if (link.source.data.name === "ΘΕΜΙΣΤΟΚΛΗΣ ΑΛΑΦΟΥΖΟΣ") {
+        console.log("linksource");
+        targetNode = link.source;
+      }
+    });
+
+    setLinks((prevLinks) => [...prevLinks, { source: sourceNode, target: targetNode }]);
+  }, [dataLoaded]);
+
   let activeSectorFilterRef = useRef(activeSectorFilter);
 
   // Update the activeSectorFilter Ref
@@ -373,6 +392,7 @@ function D3Chart() {
       .attr("refY", 3)
       .attr("markerWidth", 10)
       .attr("markerHeight", 10)
+      .attr("class", "arrowhead")
       .attr("orient", "auto-start-reverse")
       .attr("fill", (d) => d.data.color)
       .append("path")
@@ -390,6 +410,7 @@ function D3Chart() {
       .attr("stroke", "#999")
       .attr("stroke-opacity", 0.1)
       .attr("stroke-width", (d) => arrowThickness(d.target.data.type));
+    console.log("links", links);
 
     let elementEnter = nodeElement.enter().append("g");
 
@@ -829,7 +850,7 @@ function D3Chart() {
 
     // circle.exit().remove();
     simulation.nodes(nodes);
-  }, [nodes]);
+  }, [links]);
 
   if (isFirstLoad) {
     openingAnimation();
@@ -838,7 +859,7 @@ function D3Chart() {
   // Intro Animation
 
   function openingAnimation() {
-    d3.select(".graphCanvas").transition().delay(850).duration(850).ease(d3.easeCubic).call(zoom.scaleTo, 0.1);
+    d3.select(".graphCanvas").transition().delay(850).duration(850).ease(d3.easeCubic).call(zoom.scaleTo, 0.109);
   }
 
   // Graph Interaction
@@ -1205,10 +1226,10 @@ function D3Chart() {
   }
 
   function zoomIn() {
-    d3.select(".graphCanvas").transition().call(zoom.scaleBy, 1.33);
+    d3.select(".graphCanvas").transition().call(zoom.scaleBy, 1.5);
   }
   function zoomOut() {
-    d3.select(".graphCanvas").transition().call(zoom.scaleBy, 0.66);
+    d3.select(".graphCanvas").transition().call(zoom.scaleBy, 0.5);
   }
 
   let scrubberNumber;
@@ -1247,10 +1268,10 @@ function D3Chart() {
       </div>
       <div className="zoomButtonContainer">
         {/* <span className="zoomNotice">(Press CMD/CTRL + Scroll to zoom)</span> */}
-        <div className="zoomButton" onClick={zoomIn}>
+        <div className="zoomButton mobile" onClick={zoomIn}>
           +
         </div>
-        <div className="zoomButton" onClick={zoomOut}>
+        <div className="zoomButton mobile" onClick={zoomOut}>
           -
         </div>
       </div>

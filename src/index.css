@@ -141,6 +141,10 @@ body {
   -webkit-text-stroke-color: black;
 }
 
+.arrowhead {
+  mix-blend-mode: color-dodge;
+}
+
 .shareholder,
 .percentage {
   display: inline;
@@ -298,17 +302,25 @@ tspan {
   top: -2px;
 }
 
+.mobile {
+  display: none;
+}
+
 .progress-scrubber {
   position: relative;
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: red;
+  background: #fff;
+  border: 1px solid #000;
   transform: translate(-50%, -6px);
   left: 100%;
   cursor: pointer;
   z-index: 10;
   pointer-events: all !important;
+}
+.progress-scruber:hover {
+  background: #000;
 }
 
 .graphCanvas {
@@ -434,6 +446,9 @@ circle.largeNode + text {
 /* Phones and Tablets */
 @media only screen and (max-width: 600px),
   only screen and (min-device-width: 601px) and (max-device-width: 1080px) and (-webkit-min-device-pixel-ratio: 1) {
+  .mobile {
+    display: block;
+  }
   .nodePath {
     display: none;
   }
@@ -552,6 +567,9 @@ circle.largeNode + text {
 
 /* Tablets */
 @media only screen and (min-device-width: 601px) and (max-device-width: 1080px) and (-webkit-min-device-pixel-ratio: 1) {
+  .mobile {
+    display: block;
+  }
   .dropdownButton.groups {
     margin-left: 10%;
   }
