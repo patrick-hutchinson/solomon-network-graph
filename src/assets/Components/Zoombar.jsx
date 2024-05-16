@@ -9,12 +9,12 @@ export default function Zoombar(props) {
 
   const myBarRef = useRef(null);
   const zoomValues = props.zoomRange;
-  const scale = d3.scaleLinear().domain(d3.extent(zoomValues)).range([0, 100]);
+  const scale = d3.scaleLinear().range([0, 100]);
 
   // Set Advance of Zoombar based on d3's zoom event.transform.k value
   useEffect(() => {
     myBarRef.current.style.width = scale(props.zoomAmount) + "%";
-  }, [props.zoomAmount]);
+  }, [props.zoomAmount, scale]);
 
   // Move the scrubber and determine a new advance value
   function handleScrubberDrag(e) {
@@ -33,19 +33,23 @@ export default function Zoombar(props) {
     props.handleZoomScrubbing(scrubberAdvance);
   }
 
+  // Function to add mousemove and mouseup listeners
+  function handleMouseDown() {
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+  }
+
+  // Function to remove mousemove and mouseup listeners
+  function handleMouseUp() {
+    window.removeEventListener("mousemove", handleMouseMove);
+    window.removeEventListener("mouseup", handleMouseUp);
+  }
+
   return (
     <div className="progress-container">
       <div className="progressMarks">
         <div className="progress-bar" ref={myBarRef}>
-          <div
-            className="progress-scrubber"
-            onMouseDown={() => {
-              window.addEventListener("mousemove", handleMouseMove);
-            }}
-            onMouseUp={() => {
-              window.removeEventListener("mousemove", handleMouseMove);
-            }}
-          ></div>
+          <div className="progress-scrubber" onMouseDown={handleMouseDown}></div>
         </div>
         <span>10</span>
         <span>20</span>

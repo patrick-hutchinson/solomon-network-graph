@@ -61,9 +61,9 @@ function D3Chart() {
   let [hasBeenZoomed, setHasBeenZoomed] = React.useState(false);
 
   let [initialZoom, setInitialZoom] = React.useState({
-    x: 500,
-    y: 300,
-    k: 0.4,
+    x: 0,
+    y: 0,
+    k: 0.8,
   });
 
   let [zoomTransform, setZoomTransform] = React.useState(
@@ -76,7 +76,7 @@ function D3Chart() {
     zoomRange = [0.05, 4];
   } else {
     // Set the zoom range for non-mobile (tablet and desktop)
-    zoomRange = [0.1, 1];
+    zoomRange = [0.05, 1];
   }
 
   // Set state values for the InfoBox component
@@ -830,6 +830,16 @@ function D3Chart() {
     // circle.exit().remove();
     simulation.nodes(nodes);
   }, [nodes]);
+
+  if (isFirstLoad) {
+    openingAnimation();
+  }
+
+  // Intro Animation
+
+  function openingAnimation() {
+    d3.select(".graphCanvas").transition().delay(850).duration(850).ease(d3.easeCubic).call(zoom.scaleTo, 0.1);
+  }
 
   // Graph Interaction
   // Change the text highlighing color in the menu to that of the currently hovered node
