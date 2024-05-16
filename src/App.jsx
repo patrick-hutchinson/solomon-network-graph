@@ -310,7 +310,8 @@ function D3Chart() {
           .forceCollide()
           .radius((d) => (d.depth !== 1 ? nodeSizes(d.data.type) : descendantsScale(findDescendantsManually(d).length)))
       )
-
+      // In order to not overlap, each group should be forced into a x and y direction.
+      // Based on the group number, generate a x and y value to move into.
       .force(
         "x",
         d3.forceX().x((d) => {
