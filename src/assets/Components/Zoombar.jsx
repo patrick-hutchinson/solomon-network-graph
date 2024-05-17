@@ -27,29 +27,46 @@ export default function Zoombar(props) {
     scrubberAdvance = (mouseX - scrubberWidth / 2) / progressContainerWidth;
   }
 
-  // Event listener function for mousemove event
-  function handleMouseMove(e) {
-    handleScrubberDrag(e);
+  // Event listener function for mousemove and touchmove events
+  function handleMove(e) {
+    e.preventDefault(); // Prevent scrolling on touch
+    let event = e.type === "mousemove" ? e : e.touches[0];
+    handleScrubberDrag(event);
     props.handleZoomScrubbing(scrubberAdvance);
   }
 
-  // Function to add mousemove and mouseup listeners
+  // Function to add mousemove and mouseup listeners for mouse events
   function handleMouseDown() {
-    window.addEventListener("mousemove", handleMouseMove);
+    console.log("clicked the scrubber");
+    window.addEventListener("mousemove", handleMove);
     window.addEventListener("mouseup", handleMouseUp);
   }
 
-  // Function to remove mousemove and mouseup listeners
+  // Function to add touchmove and touchend listeners for touch events
+  function handleTouchStart(e) {
+    console.log("touched the scrubber");
+    e.preventDefault(); // Prevent default touch behavior
+    window.addEventListener("touchmove", handleMove);
+    window.addEventListener("touchend", handleTouchEnd);
+  }
+
+  // Function to remove mousemove and mouseup listeners for mouse events
   function handleMouseUp() {
-    window.removeEventListener("mousemove", handleMouseMove);
+    window.removeEventListener("mousemove", handleMove);
     window.removeEventListener("mouseup", handleMouseUp);
+  }
+
+  // Function to remove touchmove and touchend listeners for touch events
+  function handleTouchEnd() {
+    window.removeEventListener("touchmove", handleMove);
+    window.removeEventListener("touchend", handleTouchEnd);
   }
 
   return (
     <div className="progress-container">
       <div className="progressMarks">
         <div className="progress-bar" ref={myBarRef}>
-          <div className="progress-scrubber" onMouseDown={handleMouseDown}></div>
+          <div className="progress-scrubber" onMouseDown={handleMouseDown} onTouchStart={handleTouchStart}></div>
         </div>
         <span>10</span>
         <span>20</span>

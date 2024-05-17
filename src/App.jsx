@@ -62,9 +62,9 @@ function D3Chart() {
   let [hasBeenZoomed, setHasBeenZoomed] = React.useState(false);
 
   let [initialZoom, setInitialZoom] = React.useState({
-    x: 0,
-    y: 0,
-    k: 0.8,
+    x: isOnDesktop ? 0 : 200,
+    y: isOnDesktop ? 0 : 200,
+    k: isOnDesktop ? 0.8 : 0.1,
   });
 
   let [zoomTransform, setZoomTransform] = React.useState(
@@ -867,7 +867,7 @@ function D3Chart() {
     simulation.nodes(nodes);
   }, [links]);
 
-  if (isFirstLoad) {
+  if (isFirstLoad && isOnDesktop) {
     openingAnimation();
   }
 
