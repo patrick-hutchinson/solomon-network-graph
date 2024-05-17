@@ -87,8 +87,6 @@ function D3Chart() {
     description: "Περάστε πάνω από ένα Σημείο Δεδομένων για να μάθετε περισσότερα γι' αυτό.",
     sector: "",
     shareholders: "",
-    relatedTo: "",
-    relation: "",
   });
 
   let [nodePath, setNodePath] = React.useState(["Root"]);
@@ -109,6 +107,7 @@ function D3Chart() {
     setActiveSectorFilter(["ΜΜΕ"]);
   }, [dataLoaded]);
 
+  // Create new links based on the relationships between people in the graph
   useEffect(() => {
     console.log(links, "links");
 
@@ -120,11 +119,8 @@ function D3Chart() {
           const sourceNode = link.source;
           let targetNode = null;
 
-          console.log("relatedTo:", relationship.relatedTo);
-
           linkArray.forEach((altLink) => {
             if (relationship.relatedTo === altLink.source.data.name) {
-              console.log("linktarget", altLink);
               targetNode = altLink.source;
             }
           });
@@ -643,8 +639,6 @@ function D3Chart() {
           description: clickedNode.data.description,
           sector: clickedNode.data.sector,
           shareholders: clickedNode.data.shareholders ? clickedNode.data.shareholders : "null",
-          relatedTo: clickedNode.data.relationships ? clickedNode.data.relationships.relatedTo : null,
-          relation: clickedNode.data.relationships ? clickedNode.data.relationships.relation : null,
         };
       });
 
@@ -783,9 +777,7 @@ function D3Chart() {
             date: clickedNode.data.date,
             description: clickedNode.data.description,
             sector: clickedNode.data.sector,
-            shareholders: clickedNode.data.shareholders ? clickedNode.data.shareholders : "null",
-            relatedTo: clickedNode.data.relationships ? clickedNode.data.relationships.relatedTo : null,
-            relation: clickedNode.data.relationships ? clickedNode.data.relationships.relation : null,
+            shareholders: clickedNode.data.shareholders ? clickedNode.data.shareholders : null,
           };
         });
       });
