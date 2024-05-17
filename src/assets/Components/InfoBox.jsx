@@ -53,7 +53,9 @@ export default function InfoBox(props) {
           {props.nodeInfo.sector ? "Sector:" : ""} {props.nodeInfo.sector}
         </h5>
         <p className="relatedTo">
-          {props.nodeInfo.relationships ? "is the brother of " + props.nodeInfo.relationships.relatedTo : null}
+          {props.nodeInfo.relationships
+            ? "is the " + props.nodeInfo.relationships.relation + "of " + props.nodeInfo.relationships.relatedTo
+            : null}
         </p>
         <p className="infoText" dangerouslySetInnerHTML={nodeDescription} />
         <br />

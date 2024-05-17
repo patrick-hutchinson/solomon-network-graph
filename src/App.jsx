@@ -43,6 +43,7 @@ function D3Chart() {
 
     if (data.length !== 0) {
       setDataLoaded(true);
+      console.log("data", data);
     }
   }, [data]);
 
@@ -111,24 +112,32 @@ function D3Chart() {
   useEffect(() => {
     console.log(links, "links");
 
-    let sourceNode = null;
-    let targetNode = null;
+    let newLinks = [];
 
     links.forEach((link, linkIndex, linkArray) => {
-      if (link.source.data.relatedTo) {
-        sourceNode = link.source;
+      if (link.source.data.relationships) {
+        link.source.data.relationships.forEach((relationship) => {
+          const sourceNode = link.source;
+          let targetNode = null;
 
-        linkArray.forEach((altLink) => {
-          if (link.source.data.relatedTo === altLink.source.data.name) {
-            targetNode = altLink.source; // Ensure targetNode is correctly referenced
+          console.log("relatedTo:", relationship.relatedTo);
+
+          linkArray.forEach((altLink) => {
+            if (relationship.relatedTo === altLink.source.data.name) {
+              console.log("linktarget", altLink);
+              targetNode = altLink.source;
+            }
+          });
+
+          if (sourceNode && targetNode) {
+            newLinks.push({ source: sourceNode, target: targetNode });
           }
         });
       }
     });
 
-    if (sourceNode && targetNode) {
-      // Only update links if both nodes are found
-      setLinks((prevLinks) => [...prevLinks, { source: sourceNode, target: targetNode }]);
+    if (newLinks.length > 0) {
+      setLinks((prevLinks) => [...prevLinks, ...newLinks]);
     }
   }, [dataLoaded]);
 
