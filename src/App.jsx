@@ -86,6 +86,8 @@ function D3Chart() {
     description: "Περάστε πάνω από ένα Σημείο Δεδομένων για να μάθετε περισσότερα γι' αυτό.",
     sector: "",
     shareholders: "",
+    relatedTo: "",
+    relation: "",
   });
 
   let [nodePath, setNodePath] = React.useState(["Root"]);
@@ -109,20 +111,25 @@ function D3Chart() {
   useEffect(() => {
     console.log(links, "links");
 
-    let sourceNode;
-    let targetNode;
-    links.forEach((link) => {
-      if (link.source.data.name === "ΓΙΑΝΝΗΣ ΑΛΑΦΟΥΖΟΣ") {
-        console.log("linksource");
+    let sourceNode = null;
+    let targetNode = null;
+
+    links.forEach((link, linkIndex, linkArray) => {
+      if (link.source.data.relatedTo) {
         sourceNode = link.source;
-      }
-      if (link.source.data.name === "ΘΕΜΙΣΤΟΚΛΗΣ ΑΛΑΦΟΥΖΟΣ") {
-        console.log("linksource");
-        targetNode = link.source;
+
+        linkArray.forEach((altLink) => {
+          if (link.source.data.relatedTo === altLink.source.data.name) {
+            targetNode = altLink.source; // Ensure targetNode is correctly referenced
+          }
+        });
       }
     });
 
-    setLinks((prevLinks) => [...prevLinks, { source: sourceNode, target: targetNode }]);
+    if (sourceNode && targetNode) {
+      // Only update links if both nodes are found
+      setLinks((prevLinks) => [...prevLinks, { source: sourceNode, target: targetNode }]);
+    }
   }, [dataLoaded]);
 
   let activeSectorFilterRef = useRef(activeSectorFilter);
@@ -627,6 +634,8 @@ function D3Chart() {
           description: clickedNode.data.description,
           sector: clickedNode.data.sector,
           shareholders: clickedNode.data.shareholders ? clickedNode.data.shareholders : "null",
+          relatedTo: clickedNode.data.relationships ? clickedNode.data.relationships.relatedTo : null,
+          relation: clickedNode.data.relationships ? clickedNode.data.relationships.relation : null,
         };
       });
 
@@ -766,6 +775,8 @@ function D3Chart() {
             description: clickedNode.data.description,
             sector: clickedNode.data.sector,
             shareholders: clickedNode.data.shareholders ? clickedNode.data.shareholders : "null",
+            relatedTo: clickedNode.data.relationships ? clickedNode.data.relationships.relatedTo : null,
+            relation: clickedNode.data.relationships ? clickedNode.data.relationships.relation : null,
           };
         });
       });
