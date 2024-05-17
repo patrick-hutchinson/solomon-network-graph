@@ -152,7 +152,7 @@ function D3Chart() {
   let [clickedGroupFilterNode, setClickedGroupFilterNode] = React.useState();
 
   // Declare Scales and Values
-  let nodeSizesArray = [10, 135, 95, 85, 85, 0, 0];
+  let nodeSizesArray = [10, 135, 105, 105, 105, 0, 0];
   let nodeSizes = d3
     .scaleOrdinal() //
     .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
