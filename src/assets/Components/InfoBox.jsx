@@ -53,18 +53,15 @@ export default function InfoBox(props) {
           {props.nodeInfo.sector ? "Sector:" : ""} {props.nodeInfo.sector}
         </h5>
         <p className="relatedTo">
-          {props.nodeInfo.relationships ? (
-            props.nodeInfo.relationships.map((relationship, index) => (
-              <span key={index}>
-                {"is the " + relationship.relation + " of " + relationship.relatedTo}
-                <br />
-              </span>
-            ))
-          ) : (
-            <span>
-              <span className="relatedToArrow">→ </span>ΓΙΑΝΝΗΣ ΑΛΑΦΟΥΖΟΣ is the brother of ΘΕΜΙΣΤΟΚΛΗΣ ΑΛΑΦΟΥΖΟΣ
-            </span>
-          )}
+          {props.nodeInfo.relationships
+            ? props.nodeInfo.relationships.map((relationship, index) => (
+                <span key={index}>
+                  <span className="relatedToArrow">→ </span>
+                  {props.nodeInfo.title + " is the " + relationship.relation + " of " + relationship.relatedTo}
+                  <br />
+                </span>
+              ))
+            : null}
         </p>
 
         <p className="infoText" dangerouslySetInnerHTML={nodeDescription} />

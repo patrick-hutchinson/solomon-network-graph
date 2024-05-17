@@ -87,6 +87,7 @@ function D3Chart() {
     description: "Περάστε πάνω από ένα Σημείο Δεδομένων για να μάθετε περισσότερα γι' αυτό.",
     sector: "",
     shareholders: "",
+    relationships: "",
   });
 
   let [nodePath, setNodePath] = React.useState(["Root"]);
@@ -638,7 +639,8 @@ function D3Chart() {
           date: clickedNode.data.date,
           description: clickedNode.data.description,
           sector: clickedNode.data.sector,
-          shareholders: clickedNode.data.shareholders ? clickedNode.data.shareholders : "null",
+          shareholders: clickedNode.data.shareholders ? clickedNode.data.shareholders : null,
+          relationships: clickedNode.data.relationships ? clickedNode.data.relationships : null,
         };
       });
 
@@ -778,6 +780,7 @@ function D3Chart() {
             description: clickedNode.data.description,
             sector: clickedNode.data.sector,
             shareholders: clickedNode.data.shareholders ? clickedNode.data.shareholders : null,
+            relationships: clickedNode.data.relationships ? clickedNode.data.relationships : null,
           };
         });
       });
