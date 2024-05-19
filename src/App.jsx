@@ -409,8 +409,7 @@ function D3Chart() {
       .attr("orient", "auto-start-reverse")
       .attr("fill", (d) => d.data.color)
       .append("path")
-      .attr("d", "M0,0 L0,6 L4,3 z")
-      .attr("opacity", 0.1);
+      .attr("d", "M0,0 L0,6 L4,3 z");
 
     // Create and draw the Links
     let link = svg
@@ -420,6 +419,8 @@ function D3Chart() {
       .enter()
       .append("line")
       .attr("class", "link")
+      .attr("z-index", 10)
+      .attr("position", "relative")
       .attr("stroke", "#999")
       .attr("stroke-opacity", 0.1)
       .attr("stroke-width", (d) => arrowThickness(d.target.data.type));
@@ -433,22 +434,23 @@ function D3Chart() {
       // if the node is not the root node, apply the nodeSizes table. Else, base size on amount of descendants
       .attr("r", (d) => (d.depth !== 1 ? nodeSizes(d.data.type) : descendantsScale(findDescendantsManually(d).length)))
 
-      .attr("stroke", (d) => d.data.color)
+      .attr("stroke", (d) => (d.data.color === "transparent" ? null : lightenHex(d.data.color)))
       //if the depth of the node is smaller than three, fill it. Else, white.
       .attr("fill", (d) =>
-        d.data.type === "person" || d.data.type === "company" || d.data.type === "mothercompany" ? d.data.color : "#fff"
+        d.data.type === "person" || d.data.type === "company" || d.data.type === "mothercompany"
+          ? lightenHex(d.data.color, 0.8)
+          : "#fff"
       )
-      .attr("stroke-opacity", 0.1)
-
       .attr("class", (d) =>
         d.data.type === "person" || d.data.type === "company" || d.data.type === "mothercompany"
           ? "largeNode"
           : "smallNode"
       )
-      .attr("id", (d) => d.index)
+      .attr("z-index", 1)
+      .attr("position", "relative")
 
       //Set Opacity to be low by default
-      .attr("opacity", 0.1)
+      // .attr("opacity", 0.1)
       .call(drag(simulation));
     // Add the Text
     let text = elementEnter
@@ -517,7 +519,7 @@ function D3Chart() {
           d3.select(this.parentElement).select("text").style("fill", d.data.color);
         } else {
           d3.select(this.parentElement).select("text").style("fill", "#000");
-          d3.select(this.parentElement).select("text").style("opacity", "0.1");
+          // d3.select(this.parentElement).select("text").style("opacity", "0.1");
         }
       }
       // if (d.depth === 0) {
@@ -566,13 +568,25 @@ function D3Chart() {
 
     // UPDATE & INTERACTION
     // Cirlces and Circle Text
+    let currentFill;
     d3.selectAll("circle")
       .on("mouseenter", function (e, d) {
+        currentFill = d3.select(this).attr("fill");
         d3.select(this) //
           .transition()
           .duration("200")
-          .attr("fill", (d) => (d.depth === 1 ? d.data.color : "#fff"))
-          .attr("cursor", "pointer");
+          .attr("cursor", "pointer")
+          .attr("fill", (d) => {
+            if (d.depth === 1) {
+              return d.data.color;
+            } else {
+              return "#fff";
+            }
+          });
+
+        d3.select(this).attr("stroke", (d) => {
+          return currentFill;
+        });
 
         document.documentElement.style.setProperty("--highlightColorHover", d.data.color);
 
@@ -594,18 +608,9 @@ function D3Chart() {
         d3.select(this) //
           .transition()
           .duration("200")
-
-          .attr("fill", (d) =>
-            d.data.type === "group" ||
-            d.data.type === "person" ||
-            d.data.type === "company" ||
-            d.data.type === "mothercompany"
-              ? d.data.color
-              : "#fff"
-          )
-
-          .attr("cursor", "default");
-        // e.target.parentElement.querySelector("text").classList.remove("hovered");
+          .attr("cursor", "default")
+          .attr("fill", (d) => currentFill)
+          .attr("stroke", (d) => currentFill);
 
         const textElement = d3.select(e.target.parentNode).select("text");
 
@@ -1155,9 +1160,26 @@ function D3Chart() {
 
     circle.each(function (circle) {
       if (connectedNodes !== undefined) {
-        if (connectedNodes.some((node) => node.index === circle.index)) {
-          d3.select(this).attr("opacity", 1);
-          d3.select(this).attr("stroke-opacity", 1);
+        // Find the node that matches the current circle
+        const matchedNode = connectedNodes.find((node) => node.index === circle.index);
+        if (matchedNode) {
+          d3.select(this).attr("fill", () => {
+            if (
+              matchedNode.data.type === "person" ||
+              matchedNode.data.type === "company" ||
+              matchedNode.data.type === "mothercompany"
+            ) {
+              if (matchedNode.data.color !== "transparent") {
+                return matchedNode.data.color; // Return the color
+              } else {
+                return null; // Explicitly return null
+              }
+            } else {
+              return "#fff"; // Return default color for other types
+            }
+          });
+
+          d3.select(this).attr("stroke", matchedNode.data.color === "transparent" ? null : matchedNode.data.color);
           d3.select(this.parentElement).select("text").style("opacity", 1);
         }
       }
@@ -1177,28 +1199,47 @@ function D3Chart() {
     arrowheads.each(function (arrowhead) {
       let arrowheadID = d3.select(this).attr("id");
       if (connectedNodes) {
-        if (connectedNodes.some((node) => node.index === parseInt(arrowheadID))) {
-          console.log("arrowhead marthces");
-          d3.select(this).select("path").attr("opacity", 1);
+        const matchedNode = connectedNodes.find((node) => node.index === parseInt(arrowheadID));
+        if (matchedNode) {
+          console.log("yehaha colorarrow");
+          d3.select(this)
+            .select("path")
+            .attr("fill", matchedNode.data.color === "transparent" ? null : matchedNode.data.color);
         }
       }
     });
-
-    // arrowheads.each(function(arrowhead){
-
-    // })
-
-    // If the link has the target node that is the connecter node, change its opacity
   }
 
   function deactivateNodes(connectedNodes) {
     let circle = d3.selectAll("circle");
 
     circle.each(function (circle) {
-      if (connectedNodes.some((node) => node.index === circle.index)) {
-        d3.select(this).attr("opacity", 0.1);
-        d3.select(this).attr("stroke-opacity", 0.1);
-        d3.select(this.parentElement).select("text").style("opacity", 0.1);
+      if (connectedNodes !== undefined) {
+        // Find the node that matches the current circle
+        const matchedNode = connectedNodes.find((node) => node.index === circle.index);
+        if (matchedNode) {
+          d3.select(this).attr("fill", () => {
+            if (
+              matchedNode.data.type === "person" ||
+              matchedNode.data.type === "company" ||
+              matchedNode.data.type === "mothercompany"
+            ) {
+              if (matchedNode.data.color !== "transparent") {
+                return lightenHex(matchedNode.data.color, 0.8); // Return the color
+              } else {
+                return null;
+              }
+            } else {
+              return "#fff";
+            }
+          });
+
+          d3.select(this).attr(
+            "stroke",
+            matchedNode.data.color === "transparent" ? null : lightenHex(matchedNode.data.color, 0.8)
+          );
+          d3.select(this.parentElement).select("text").style("opacity", 0.2);
+        }
       }
     });
 
@@ -1211,11 +1252,47 @@ function D3Chart() {
     let arrowheads = d3.selectAll("marker");
     arrowheads.each(function (arrowhead) {
       let arrowheadID = d3.select(this).attr("id");
-      if (connectedNodes.some((node) => node.index === parseInt(arrowheadID))) {
-        console.log("arrowhead marthces");
-        d3.select(this).select("path").attr("opacity", 0.1);
+      const matchedNode = connectedNodes.find((node) => node.index === parseInt(arrowheadID));
+      if (matchedNode) {
+        d3.select(this)
+          .select("path")
+          .attr("fill", matchedNode.data.color === "transparent" ? null : lightenHex(matchedNode.data.color, 0.8));
       }
     });
+  }
+
+  function lightenHex(hex, intensity = 0.2) {
+    // Ensure the hex code is valid
+    if (!/^#([0-9A-F]{3}){1,2}$/i.test(hex)) {
+      throw new Error("Invalid hex color code");
+    }
+
+    // Remove the '#' if present
+    hex = hex.replace("#", "");
+
+    // Convert 3-digit hex to 6-digit hex
+    if (hex.length === 3) {
+      hex = hex
+        .split("")
+        .map((char) => char + char)
+        .join("");
+    }
+
+    // Convert hex to RGB
+    let r = parseInt(hex.substring(0, 2), 16);
+    let g = parseInt(hex.substring(2, 4), 16);
+    let b = parseInt(hex.substring(4, 6), 16);
+
+    // Lighten the color
+    r = Math.min(255, Math.floor(r + (255 - r) * intensity));
+    g = Math.min(255, Math.floor(g + (255 - g) * intensity));
+    b = Math.min(255, Math.floor(b + (255 - b) * intensity));
+
+    // Convert RGB back to hex
+    const toHex = (value) => value.toString(16).padStart(2, "0");
+    const lightenedHex = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+
+    return lightenedHex;
   }
 
   function handleShowInfoClick() {
