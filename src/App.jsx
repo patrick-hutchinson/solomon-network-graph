@@ -600,8 +600,7 @@ function D3Chart() {
         currentFill = d3.select(this).attr("fill");
         currentStroke = d3.select(this).attr("stroke");
         d3.select(this) //
-          .transition()
-          .duration("200")
+
           .attr("cursor", "pointer")
           .attr("fill", (d) => {
             if (d.depth === 1) {
@@ -637,7 +636,7 @@ function D3Chart() {
         currentElement
           .transition()
           .duration(200) // Set the duration as a number
-          .style("cursor", "default") // Use style for setting cursor
+          // .style("cursor", "default") // Use style for setting cursor
           .attr("fill", function (d) {
             return currentElement.classed("nodeIsClicked") ? currentElement.attr("fill") : currentFill;
           })
