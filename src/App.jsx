@@ -568,17 +568,17 @@ function D3Chart() {
           // d3.select(this.parentElement).select("text").style("opacity", "0.1");
         }
       }
-      // if (d.depth === 0) {
-      //   //hide the first node's links
-      //   d3.select(this.parentElement).attr("display", "none");
-      // }
+      if (d.depth === 0) {
+        //hide the first node's links
+        d3.select(this.parentElement).attr("display", "none");
+      }
     });
     // hide the first node's links
-    // d3.selectAll("line").each(function (d) {
-    //   if (d.source.depth === 0) {
-    //     d3.select(this).attr("display", "none");
-    //   }
-    // });
+    d3.selectAll("line").each(function (d) {
+      if (d.source.depth === 0) {
+        d3.select(this).attr("display", "none");
+      }
+    });
 
     // Arrow Heads
     // Correctly assign an url("arrowheadX") tag to position the arrowhead based on the target node's radius
