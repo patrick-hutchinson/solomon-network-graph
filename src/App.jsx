@@ -108,6 +108,51 @@ function D3Chart() {
     setActiveSectorFilter(["ΜΜΕ"]);
   }, [dataLoaded]);
 
+  React.useEffect(() => {
+    // Working Example
+    // nodes.forEach((node, nodeIndex, nodeArray) => {
+    //   if (node.data.relationships) {
+    //     node.data.relationships.forEach((relationship) => {
+    //       console.log(relationship.relatedTo, "relationship");
+    //       let isRelatedNode = nodeArray.some((node) => node.data.name === relationship.relatedTo);
+    //       // return isRelatedNode ? {...node, relationships: [{ relation: relationship.relation, relatedTo: originalRelative }]} : node}
+    //     });
+    //   }
+    // });
+
+    // SetUp;
+    // setNodes((prevNodes) => {
+    //   let updatedNodes = prevNodes.map((node) => {
+    //   });
+    // });
+
+    setNodes((prevNodes) => {
+      let updatedNodes = [...prevNodes]; // Create a copy of prevNodes
+
+      updatedNodes.forEach((node) => {
+        if (node.data.relationships) {
+          node.data.relationships.forEach((relationship) => {
+            let isRelatedNode = updatedNodes.find((altNode) => altNode.data.name === relationship.relatedTo);
+            if (isRelatedNode) {
+              console.log("Node changed:", isRelatedNode);
+              if (!isRelatedNode.data.relationships) {
+                isRelatedNode.data.relationships = []; // Initialize relationships array if not already present
+              }
+              // Add the new relationship to the related node
+              isRelatedNode.data.relationships.push({
+                relatedTo: node.data.name,
+                relation: relationship.relation,
+              });
+            }
+          });
+        }
+      });
+
+      console.log("returning ", updatedNodes);
+      return updatedNodes;
+    });
+  }, [dataLoaded]);
+
   // Create new links based on the relationships between people in the graph
   useEffect(() => {
     console.log(links, "links");
@@ -446,6 +491,7 @@ function D3Chart() {
           ? "largeNode"
           : "smallNode"
       )
+      .attr("id", (d) => d.index)
       .attr("z-index", 1)
       .attr("position", "relative")
 
@@ -870,7 +916,7 @@ function D3Chart() {
 
     // circle.exit().remove();
     simulation.nodes(nodes);
-  }, [links]);
+  }, [nodes]);
 
   if (isFirstLoad && isOnDesktop) {
     openingAnimation();

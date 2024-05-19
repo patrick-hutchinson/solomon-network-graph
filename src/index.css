@@ -148,8 +148,8 @@ body {
   -webkit-text-stroke-color: black;
 }
 .relatedToArrow {
-  color: #ff295b;
-  -webkit-text-stroke-color: #ff295b;
+  /* color: #ff295b;
+  -webkit-text-stroke-color: #ff295b; */
   position: relative;
   top: -2px;
 }
