@@ -108,24 +108,8 @@ function D3Chart() {
     setActiveSectorFilter(["ΜΜΕ"]);
   }, [dataLoaded]);
 
+  // Add a relationship object to the node that is the target of the object, so it shows up in the info panel also
   React.useEffect(() => {
-    // Working Example
-    // nodes.forEach((node, nodeIndex, nodeArray) => {
-    //   if (node.data.relationships) {
-    //     node.data.relationships.forEach((relationship) => {
-    //       console.log(relationship.relatedTo, "relationship");
-    //       let isRelatedNode = nodeArray.some((node) => node.data.name === relationship.relatedTo);
-    //       // return isRelatedNode ? {...node, relationships: [{ relation: relationship.relation, relatedTo: originalRelative }]} : node}
-    //     });
-    //   }
-    // });
-
-    // SetUp;
-    // setNodes((prevNodes) => {
-    //   let updatedNodes = prevNodes.map((node) => {
-    //   });
-    // });
-
     setNodes((prevNodes) => {
       let updatedNodes = [...prevNodes]; // Create a copy of prevNodes
 
@@ -615,9 +599,11 @@ function D3Chart() {
     // UPDATE & INTERACTION
     // Cirlces and Circle Text
     let currentFill;
+    let currentStroke;
     d3.selectAll("circle")
       .on("mouseenter", function (e, d) {
         currentFill = d3.select(this).attr("fill");
+        currentStroke = d3.select(this).attr("stroke");
         d3.select(this) //
           .transition()
           .duration("200")
@@ -631,7 +617,7 @@ function D3Chart() {
           });
 
         d3.select(this).attr("stroke", (d) => {
-          return currentFill;
+          return currentStroke;
         });
 
         document.documentElement.style.setProperty("--highlightColorHover", d.data.color);
@@ -656,7 +642,7 @@ function D3Chart() {
           .duration("200")
           .attr("cursor", "default")
           .attr("fill", (d) => currentFill)
-          .attr("stroke", (d) => currentFill);
+          .attr("stroke", (d) => currentStroke);
 
         const textElement = d3.select(e.target.parentNode).select("text");
 
@@ -1226,7 +1212,16 @@ function D3Chart() {
           });
 
           d3.select(this).attr("stroke", matchedNode.data.color === "transparent" ? null : matchedNode.data.color);
-          d3.select(this.parentElement).select("text").style("opacity", 1);
+
+          d3.select(this.parentElement)
+            .select("text")
+            .style("fill", () => {
+              if (matchedNode.data.type !== "subcompany") {
+                return "#fff";
+              } else {
+                return "#000";
+              }
+            });
         }
       }
     });
@@ -1284,7 +1279,7 @@ function D3Chart() {
             "stroke",
             matchedNode.data.color === "transparent" ? null : lightenHex(matchedNode.data.color, 0.8)
           );
-          d3.select(this.parentElement).select("text").style("opacity", 0.2);
+          // d3.select(this.parentElement).select("text").style("opacity", 0.2);
         }
       }
     });
