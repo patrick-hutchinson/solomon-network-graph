@@ -43,7 +43,6 @@ function D3Chart() {
 
     if (data.length !== 0) {
       setDataLoaded(true);
-      console.log("data", data);
     }
   }, [data]);
 
@@ -118,7 +117,6 @@ function D3Chart() {
           node.data.relationships.forEach((relationship) => {
             let isRelatedNode = updatedNodes.find((altNode) => altNode.data.name === relationship.relatedTo);
             if (isRelatedNode) {
-              console.log("Node changed:", isRelatedNode);
               if (!isRelatedNode.data.relationships) {
                 isRelatedNode.data.relationships = []; // Initialize relationships array if not already present
               }
@@ -132,15 +130,12 @@ function D3Chart() {
         }
       });
 
-      console.log("returning ", updatedNodes);
       return updatedNodes;
     });
   }, [dataLoaded]);
 
   // Create new links based on the relationships between people in the graph
   useEffect(() => {
-    console.log(links, "links");
-
     let newLinks = [];
 
     links.forEach((link, linkIndex, linkArray) => {
@@ -453,7 +448,6 @@ function D3Chart() {
       .attr("stroke", "#999")
       .attr("stroke-opacity", 0.1)
       .attr("stroke-width", (d) => arrowThickness(d.target.data.type));
-    console.log("links", links);
 
     let elementEnter = nodeElement.enter().append("g");
 
@@ -478,6 +472,7 @@ function D3Chart() {
       .attr("id", (d) => d.index)
       .attr("z-index", 1)
       .attr("position", "relative")
+      // .on("click")
 
       //Set Opacity to be low by default
       // .attr("opacity", 0.1)
@@ -637,12 +632,20 @@ function D3Chart() {
         });
       })
       .on("mouseleave", function (e) {
-        d3.select(this) //
+        const currentElement = d3.select(this);
+
+        currentElement
           .transition()
-          .duration("200")
-          .attr("cursor", "default")
-          .attr("fill", (d) => currentFill)
-          .attr("stroke", (d) => currentStroke);
+          .duration(200) // Set the duration as a number
+          .style("cursor", "default") // Use style for setting cursor
+          .attr("fill", function (d) {
+            return currentElement.classed("nodeIsClicked") ? currentElement.attr("fill") : currentFill;
+          })
+          .attr("stroke", currentStroke)
+          .on("end", function () {
+            // Transition ends before removing the class
+            currentElement.classed("nodeIsClicked", false);
+          });
 
         const textElement = d3.select(e.target.parentNode).select("text");
 
@@ -663,11 +666,9 @@ function D3Chart() {
 
     // Event Handling
     function handleNodeClick(event, clickedNode) {
-      console.log("clicked a node!");
       activateNodes(clickedNode.children);
       activateNodes(findAncestorsManually(clickedNode));
-
-      // console.log(findAncestorsManually(clickedNode));
+      d3.select(this).classed("nodeIsClicked", true);
 
       setNodeInfo((prevNodeInfo) => {
         return {
@@ -716,20 +717,16 @@ function D3Chart() {
                       return updatedFilter;
                     });
                   } else if (nodeWillBeClosed) {
-                    console.log("Deactivating the filter for the clicked node!");
-
                     // Add a statement here: If there is no other node with a depth of 3 of the same group open
                     // if the group of the clickednode contains on nodes at depth 3 that are not the child of the clicked node
 
                     // Essentially, only if both of the lavel 2 red nodes dont have active chilrdren
-                    console.log("allBranchesAreClosed:", allBranchesAreClosed(clickedNode));
                     if (allBranchesAreClosed(clickedNode)) {
                       setActiveGroupFilter((prevActiveGroupFilter) => {
                         let updatedFilter = prevActiveGroupFilter.filter((group) => group !== clickedNode.data.group);
                         return updatedFilter;
                       });
                     }
-                    console.log("activeGroupFilter", activeGroupFilter);
                   }
                 }
               }
@@ -1222,6 +1219,13 @@ function D3Chart() {
                 return "#000";
               }
             });
+          d3.select(this.parentElement)
+            .select("text")
+            .style("opacity", () => {
+              if (matchedNode.data.type == "subcompany") {
+                return 1;
+              }
+            });
         }
       }
     });
@@ -1242,7 +1246,6 @@ function D3Chart() {
       if (connectedNodes) {
         const matchedNode = connectedNodes.find((node) => node.index === parseInt(arrowheadID));
         if (matchedNode) {
-          console.log("yehaha colorarrow");
           d3.select(this)
             .select("path")
             .attr("fill", matchedNode.data.color === "transparent" ? null : matchedNode.data.color);
@@ -1279,7 +1282,22 @@ function D3Chart() {
             "stroke",
             matchedNode.data.color === "transparent" ? null : lightenHex(matchedNode.data.color, 0.8)
           );
-          // d3.select(this.parentElement).select("text").style("opacity", 0.2);
+          d3.select(this.parentElement)
+            .select("text")
+            .style("fill", () => {
+              if (matchedNode.data.type !== "subcompany") {
+                return "#fff";
+              } else {
+                return "#000";
+              }
+            });
+          d3.select(this.parentElement)
+            .select("text")
+            .style("opacity", () => {
+              if (matchedNode.data.type == "subcompany") {
+                return 0.2;
+              }
+            });
         }
       }
     });
