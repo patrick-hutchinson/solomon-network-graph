@@ -56,7 +56,7 @@ export default function InfoBox(props) {
           {props.nodeInfo.relationships
             ? props.nodeInfo.relationships.map((relationship, index) => (
                 <span key={index}>
-                  <span className="relatedToArrow">→ </span>
+                  <span className="relatedToArrow">… </span>
                   {props.nodeInfo.title + " is the " + relationship.relation + " of " + relationship.relatedTo}
                   <br />
                 </span>
