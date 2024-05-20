@@ -82,6 +82,11 @@ body {
   opacity: 0;
   padding: 0;
 }
+.link {
+}
+.relationLink {
+  stroke-dasharray: 20, 20;
+}
 
 .closeInfoContainer {
   position: absolute;

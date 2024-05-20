@@ -442,7 +442,10 @@ function D3Chart() {
       .data(links, (d) => d)
       .enter()
       .append("line")
-      .attr("class", "link")
+      .classed("link", true)
+      .classed("relationLink", (d) =>
+        d.source.data.type === "person" && d.target.data.type === "person" ? true : false
+      )
       .attr("z-index", 10)
       .attr("position", "relative")
       .attr("stroke", "#999")
