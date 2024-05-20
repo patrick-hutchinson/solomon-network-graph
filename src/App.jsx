@@ -605,6 +605,8 @@ function D3Chart() {
         d3.select(this) //
 
           .attr("cursor", "pointer")
+          // .transition()
+          // .delay(100)
           .attr("fill", (d) => {
             if (d.depth === 1) {
               return d.data.color;
@@ -637,17 +639,18 @@ function D3Chart() {
         const currentElement = d3.select(this);
 
         currentElement
-          .transition()
-          .duration(200) // Set the duration as a number
+          .classed("nodeIsClicked", false)
+          // .transition()
+          // .duration(200) // Set the duration as a number
           // .style("cursor", "default") // Use style for setting cursor
           .attr("fill", function (d) {
             return currentElement.classed("nodeIsClicked") ? currentElement.attr("fill") : currentFill;
           })
-          .attr("stroke", currentStroke)
-          .on("end", function () {
-            // Transition ends before removing the class
-            currentElement.classed("nodeIsClicked", false);
-          });
+          .attr("stroke", currentStroke);
+        // .on("end", function () {
+        //   // Transition ends before removing the class
+        //   currentElement.classed("nodeIsClicked", false);
+        // });
 
         const textElement = d3.select(e.target.parentNode).select("text");
 
