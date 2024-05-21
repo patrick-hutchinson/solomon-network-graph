@@ -906,11 +906,13 @@ function D3Chart() {
     simulation.nodes(nodes);
   }, [nodes]);
 
-  if (isFirstLoad && isOnDesktop) {
-    openingAnimation();
-  }
+  // if (isFirstLoad && isOnDesktop) {
+  //   openingAnimation();
+  // }
 
   // Intro Animation
+
+  window.openingAnimation = openingAnimation;
 
   function openingAnimation() {
     d3.select(".graphCanvas").transition().delay(850).duration(850).ease(d3.easeCubic).call(zoom.scaleTo, 0.109);
