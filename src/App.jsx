@@ -639,13 +639,13 @@ function D3Chart() {
         const currentElement = d3.select(this);
 
         currentElement
-          .classed("nodeIsClicked", false)
           // .transition()
           // .duration(200) // Set the duration as a number
           // .style("cursor", "default") // Use style for setting cursor
           .attr("fill", function (d) {
             return currentElement.classed("nodeIsClicked") ? currentElement.attr("fill") : currentFill;
           })
+          .classed("nodeIsClicked", false)
           .attr("stroke", currentStroke);
         // .on("end", function () {
         //   // Transition ends before removing the class
