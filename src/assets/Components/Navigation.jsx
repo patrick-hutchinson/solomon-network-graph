@@ -25,14 +25,14 @@ export default function Navigation(props) {
       </li>
     ));
 
-  // Add "ΔΙΚΤΙΟ /" as the first item
+  // Add "ΔΙΚΤΥΟ /" as the first item
   nodePathItems.unshift(
     <li className="filterItem" key="root">
-      ΔΙΚΤΙΟ /
+      ΔΙΚΤΥΟ /
     </li>
   );
 
-  // Reverse the order of items (excluding "ΔΙΚΤΙΟ /")
+  // Reverse the order of items (excluding "ΔΙΚΤΥΟ /")
   nodePathItems = [nodePathItems[0], ...nodePathItems.slice(1).reverse()];
 
   // Add all "Sectors" as Filter Items
