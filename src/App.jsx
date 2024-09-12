@@ -105,6 +105,13 @@ function D3Chart() {
 
   useEffect(() => {
     setActiveSectorFilter(["ΜΜΕ"]);
+
+    // Populate the setActiveGroupFilter with the groups that are present in the data
+    // Should be an array of numbers
+    if ( nodes.length > 0 ) {
+      const groupNodes = nodes.filter( ( n ) => n.depth === 1 ).map( ( n, i ) => i + 1 );
+      setActiveGroupFilter( groupNodes );
+    }
   }, [dataLoaded]);
 
   // Add a relationship object to the node that is the target of the object, so it shows up in the info panel also
@@ -171,7 +178,7 @@ function D3Chart() {
 
   //we need to set to active group filter to the dynamically added nodes from the navigation component, otherwise it stays empty
 
-  let [activeGroupFilter, setActiveGroupFilter] = useState([1, 2, 3, 4, 5]);
+  let [activeGroupFilter, setActiveGroupFilter] = useState([]);
 
   let [clickedGroupFilterNode, setClickedGroupFilterNode] = useState();
 

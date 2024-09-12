@@ -163,7 +163,7 @@ body {
 .percentage {
   display: inline;
 }
-.shareholderContainer {
+.shareholderContainer * {
   font-size: 13.5px;
   text-align: left;
 }
