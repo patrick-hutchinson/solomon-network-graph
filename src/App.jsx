@@ -193,7 +193,7 @@ function D3Chart() {
   let [minDescendants, maxDescendants] = d3.extent(allNodes, (node) => node.descendants().length);
 
   // Create the scale based on the range of descendants
-  let startingNodeSizes = [100, 500];
+  let startingNodeSizes = [200, 700];
   let descendantsScale = d3.scaleLinear().domain([minDescendants, maxDescendants]).range(startingNodeSizes);
   // *
   // *
@@ -490,27 +490,33 @@ function D3Chart() {
       .each(function (d) {
         let fontsize = 16;
         let maxLength = 20;
+        let maxLines = 6;
         let separation = 18;
 
         // larger nodes get larger text
         if (d.data.type === "company") {
           fontsize = 32;
-          maxLength = 1;
+          maxLength = 16;
           separation = 38;
         }
         if (d.data.type === "person") {
           fontsize = 18;
-          maxLength = 1;
+          maxLength = 16;
           separation = 25;
         }
 
         if (d.data.type === "mothercompany") {
           fontsize = 16;
-          maxLength = 1;
+          maxLength = 16;
           separation = 22;
         }
 
         const lines = wordwrap(d.data.name, maxLength).split("\n");
+
+        if ( lines.length > maxLines ) {
+          lines.splice( maxLines, lines.length - maxLines );
+          lines.push( '...' );
+      }
 
         // add the number of children to the text
         if (d.children && d.data.type !== "connector" && d.depth > 2) {
