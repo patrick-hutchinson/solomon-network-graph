@@ -176,16 +176,17 @@ function D3Chart() {
   let [clickedGroupFilterNode, setClickedGroupFilterNode] = useState();
 
   // Declare Scales and Values
+  const nodeDomain = ['project', 'company', 'person', 'mothercompany', 'subcompany', 'connector'];
   let nodeSizesArray = [10, 145, 115, 115, 115, 0, 0];
   let nodeSizes = d3
     .scaleOrdinal() //
-    .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
+    .domain(nodeDomain)
     .range(nodeSizesArray);
 
   let arrowThicknessArray = [2, 2, 6, 5, 5, 3, 3];
   let arrowThickness = d3
     .scaleOrdinal() //
-    .domain(Array.from(new Set(nodes.map((d) => d.data.type))))
+    .domain(nodeDomain)
     .range(arrowThicknessArray);
 
   let allNodes = root.descendants();
