@@ -197,8 +197,10 @@ body {
   font-size: 8px;
   text-align: center;
 }
+
 tspan {
   pointer-events: none;
+  letter-spacing: 0.05em;
 }
 
 .navigationContainer {
