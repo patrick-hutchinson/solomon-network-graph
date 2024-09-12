@@ -108,9 +108,9 @@ function D3Chart() {
 
     // Populate the setActiveGroupFilter with the groups that are present in the data
     // Should be an array of numbers
-    if ( nodes.length > 0 ) {
-      const groupNodes = nodes.filter( ( n ) => n.depth === 1 ).map( ( n, i ) => i + 1 );
-      setActiveGroupFilter( groupNodes );
+    if (nodes.length > 0) {
+      const groupNodes = nodes.filter((n) => n.depth === 1).map((n, i) => i + 1);
+      setActiveGroupFilter(groupNodes);
     }
   }, [dataLoaded]);
 
@@ -183,7 +183,7 @@ function D3Chart() {
   let [clickedGroupFilterNode, setClickedGroupFilterNode] = useState();
 
   // Declare Scales and Values
-  const nodeDomain = ['project', 'company', 'person', 'mothercompany', 'subcompany', 'connector'];
+  const nodeDomain = ["project", "company", "person", "mothercompany", "subcompany", "connector"];
   let nodeSizesArray = [10, 145, 115, 115, 115, 0, 0];
   let nodeSizes = d3
     .scaleOrdinal() //
@@ -521,10 +521,10 @@ function D3Chart() {
 
         const lines = wordwrap(d.data.name, maxLength).split("\n");
 
-        if ( lines.length > maxLines ) {
-          lines.splice( maxLines, lines.length - maxLines );
-          lines.push( '...' );
-      }
+        if (lines.length > maxLines) {
+          lines.splice(maxLines, lines.length - maxLines);
+          lines.push("...");
+        }
 
         // add the number of children to the text
         if (d.children && d.data.type !== "connector" && d.depth > 2) {
@@ -997,10 +997,8 @@ function D3Chart() {
   }
 
   let sectorFilters = document.querySelectorAll(".sectorFilter");
-  if (isFirstLoad) {
-    if (sectorFilters.length > 1) {
-      sectorFilters[1].classList.add("active");
-    }
+  if (isFirstLoad && sectorFilters.length > 1) {
+    sectorFilters.forEach((filter) => filter.innerText.includes("ΜΜΕ") && filter.classList.add("active"));
   }
 
   // Handle Functionality when clicking a SECTOR Filter
@@ -1025,7 +1023,7 @@ function D3Chart() {
     toggleFilter(IDText, all);
   }
 
-  // HANDLE THE SECTOR FILTER ARRAS
+  // HANDLE THE SECTOR FILTER ARRAY
   function toggleFilter(IDText, allSectorFilters) {
     // If Statement Declarations
     let filterIsActive = event.target.classList.contains("active");
