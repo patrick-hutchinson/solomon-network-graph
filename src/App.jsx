@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import InfoBox from "./assets/Components/InfoBox";
 import Navigation from "./assets/Components/Navigation";
@@ -15,16 +15,16 @@ function D3Chart() {
 
   let chartRef = useRef(null);
 
-  let [data, setData] = React.useState([]); // Initialize with an array
+  let [data, setData] = useState([]); // Initialize with an array
   // Set state values for the data graph
   let root = d3.hierarchy(data);
-  let [links, setLinks] = React.useState(root.links());
-  let [nodes, setNodes] = React.useState(root.descendants());
+  let [links, setLinks] = useState(root.links());
+  let [nodes, setNodes] = useState(root.descendants());
 
-  let [dataLoaded, setDataLoaded] = React.useState(false);
+  let [dataLoaded, setDataLoaded] = useState(false);
 
   // Fetch the Data
-  React.useEffect(() => {
+  useEffect(() => {
     fetch("https://raw.githubusercontent.com/patrick-hutchinson/solomon-network-graph/main/src/data.json")
       .then((res) => res.json())
       .then((dataArray) => {
@@ -36,7 +36,7 @@ function D3Chart() {
   }, []);
 
   // Create hierarchy and set links and nodes when data changes
-  React.useEffect(() => {
+  useEffect(() => {
     // let root = d3.hierarchy(data); // Wrap data in an object with a "children" property
     setLinks(root.links());
     setNodes(root.descendants());
@@ -46,27 +46,27 @@ function D3Chart() {
     }
   }, [data]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setFilterInfo(nodes);
   }, [nodes]);
 
   let width = window.innerWidth * 0.8;
   let height = window.innerHeight * 0.95;
 
-  let [isFirstLoad, setIsFirstLoad] = React.useState(true);
+  let [isFirstLoad, setIsFirstLoad] = useState(true);
 
   // Set state values for the Zoombar component
-  let [zoomAmount, setZoomAmount] = React.useState(0);
+  let [zoomAmount, setZoomAmount] = useState(0);
 
-  let [hasBeenZoomed, setHasBeenZoomed] = React.useState(false);
+  let [hasBeenZoomed, setHasBeenZoomed] = useState(false);
 
-  let [initialZoom, setInitialZoom] = React.useState({
+  let [initialZoom, setInitialZoom] = useState({
     x: isOnDesktop ? 0 : 200,
     y: isOnDesktop ? 0 : 200,
     k: isOnDesktop ? 0.8 : 0.1,
   });
 
-  let [zoomTransform, setZoomTransform] = React.useState(
+  let [zoomTransform, setZoomTransform] = useState(
     `translate(${initialZoom.x}, ${initialZoom.y}) scale(${initialZoom.k})`
   );
 
@@ -80,7 +80,7 @@ function D3Chart() {
   }
 
   // Set state values for the InfoBox component
-  let [nodeInfo, setNodeInfo] = React.useState({
+  let [nodeInfo, setNodeInfo] = useState({
     title: "Δεν έχει επιλεγεί κόμβος!",
     date: "dd/mm/yyyy",
     description: "Περάστε πάνω από ένα Σημείο Δεδομένων για να μάθετε περισσότερα γι' αυτό.",
@@ -89,26 +89,26 @@ function D3Chart() {
     relationships: "",
   });
 
-  let [nodePath, setNodePath] = React.useState(["Root"]);
+  let [nodePath, setNodePath] = useState(["Root"]);
 
-  let [filterInfo, setFilterInfo] = React.useState(nodes);
+  let [filterInfo, setFilterInfo] = useState(nodes);
 
-  let [updateCameFromClickedNode, setUpdateCameFromClickedNode] = React.useState(false);
-  let [groupFilterWasClicked, setGroupFilterWasClicked] = React.useState(false);
+  let [updateCameFromClickedNode, setUpdateCameFromClickedNode] = useState(false);
+  let [groupFilterWasClicked, setGroupFilterWasClicked] = useState(false);
 
   let groupFilterWasClickedRef = useRef(groupFilterWasClicked);
   useEffect(() => {
     groupFilterWasClickedRef.current = groupFilterWasClicked;
   }, [groupFilterWasClicked]);
 
-  let [activeSectorFilter, setActiveSectorFilter] = React.useState([]);
+  let [activeSectorFilter, setActiveSectorFilter] = useState([]);
 
   useEffect(() => {
     setActiveSectorFilter(["ΜΜΕ"]);
   }, [dataLoaded]);
 
   // Add a relationship object to the node that is the target of the object, so it shows up in the info panel also
-  React.useEffect(() => {
+  useEffect(() => {
     setNodes((prevNodes) => {
       let updatedNodes = [...prevNodes]; // Create a copy of prevNodes
 
@@ -171,9 +171,9 @@ function D3Chart() {
 
   //we need to set to active group filter to the dynamically added nodes from the navigation component, otherwise it stays empty
 
-  let [activeGroupFilter, setActiveGroupFilter] = React.useState([1, 2, 3, 4, 5]);
+  let [activeGroupFilter, setActiveGroupFilter] = useState([1, 2, 3, 4, 5]);
 
-  let [clickedGroupFilterNode, setClickedGroupFilterNode] = React.useState();
+  let [clickedGroupFilterNode, setClickedGroupFilterNode] = useState();
 
   // Declare Scales and Values
   let nodeSizesArray = [10, 145, 115, 115, 115, 0, 0];
