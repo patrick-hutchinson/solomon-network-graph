@@ -24,7 +24,7 @@ export default function InfoBox(props) {
   }
 
   if (props.nodeInfo.description === "") {
-    nodeDescription = { __html: "Προς το παρόν δεν υπάρχουν διαθέσιμες πληροφορίες." };
+    nodeDescription = { __html: "" };
   } else {
     nodeDescription = { __html: props.nodeInfo.description };
   }
