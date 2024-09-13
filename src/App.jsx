@@ -106,6 +106,10 @@ function D3Chart() {
   useEffect(() => {
     setActiveSectorFilter(["ΜΜΕ"]);
 
+    let sectorFilters = document.querySelectorAll( '.sectorFilter' );
+    if ( isFirstLoad && sectorFilters.length > 1 ) {
+      sectorFilters.forEach( ( filter ) => filter.innerText.includes( 'ΜΜΕ' ) && filter.classList.add( 'active' ) );
+    }
     // Populate the setActiveGroupFilter with the groups that are present in the data
     // Should be an array of numbers
     if (nodes.length > 0) {
@@ -469,6 +473,7 @@ function D3Chart() {
       .attr("r", (d) => (d.depth !== 1 ? nodeSizes(d.data.type) : descendantsScale(findDescendantsManually(d).length)))
 
       .attr("stroke", (d) => (d.data.color === "transparent" ? null : lightenHex(d.data.color)))
+      .attr( 'stroke-width', ( d ) => ( d.data.color === 'transparent' ? 0 : 2 )  )
       //if the depth of the node is smaller than three, fill it. Else, white.
       .attr("fill", (d) =>
         d.data.type === "person" || d.data.type === "company" || d.data.type === "mothercompany"
@@ -997,9 +1002,6 @@ function D3Chart() {
   }
 
   let sectorFilters = document.querySelectorAll(".sectorFilter");
-  if (isFirstLoad && sectorFilters.length > 1) {
-    sectorFilters.forEach((filter) => filter.innerText.includes("ΜΜΕ") && filter.classList.add("active"));
-  }
 
   // Handle Functionality when clicking a SECTOR Filter
   function findFilteredSectorNode(IDText, all) {
