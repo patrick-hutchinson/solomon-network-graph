@@ -5,8 +5,6 @@ import Navigation from "./assets/Components/Navigation";
 import Zoombar from "./assets/Components/Zoombar";
 
 function D3Chart() {
-  // http://localhost:5173/
-
   let isOnMobile = window.innerWidth < 600;
   let isOnTablet = window.matchMedia(
     "(min-device-width: 601px) and (max-device-width: 1080px) and (-webkit-min-device-pixel-ratio: 1)"
@@ -15,7 +13,8 @@ function D3Chart() {
 
   let chartRef = useRef(null);
 
-  let [data, setData] = useState([]); // Initialize with an array
+  let [data, setData] = useState([]);
+
   // Set state values for the data graph
   let root = d3.hierarchy(data);
   let [links, setLinks] = useState(root.links());
@@ -25,7 +24,9 @@ function D3Chart() {
 
   // Fetch the Data
   useEffect(() => {
-    fetch("https://raw.githubusercontent.com/patrick-hutchinson/solomon-network-graph/main/src/data.json")
+    fetch(
+      "https://gist.githubusercontent.com/patrick-hutchinson/46054204fbf311364b678598e40335a6/raw/fd0dc1c4c1f10b93529b154d0a4b7f9993d87c24/data.json"
+    )
       .then((res) => res.json())
       .then((dataArray) => {
         setData(dataArray);
@@ -37,9 +38,8 @@ function D3Chart() {
 
   // Create hierarchy and set links and nodes when data changes
   useEffect(() => {
-    // let root = d3.hierarchy(data); // Wrap data in an object with a "children" property
-    setLinks(root.links());
-    setNodes(root.descendants());
+    setLinks(Array.from(root.links()));
+    setNodes(Array.from(root.descendants()));
 
     if (data.length !== 0) {
       setDataLoaded(true);
@@ -73,13 +73,13 @@ function D3Chart() {
   let zoomRange;
   if (isOnMobile) {
     // Set the zoom range for mobile
-    zoomRange = [0.05, 4];
+    zoomRange = [0.01, 4];
   } else {
     // Set the zoom range for non-mobile (tablet and desktop)
     zoomRange = [0.05, 1];
   }
 
-  // Set state values for the InfoBox component
+  // Unset values for the InfoBox component
   let [nodeInfo, setNodeInfo] = useState({
     title: "Δεν έχει επιλεγεί κόμβος!",
     date: "dd/mm/yyyy",
@@ -106,9 +106,9 @@ function D3Chart() {
   useEffect(() => {
     setActiveSectorFilter(["ΜΜΕ"]);
 
-    let sectorFilters = document.querySelectorAll( '.sectorFilter' );
-    if ( isFirstLoad && sectorFilters.length > 1 ) {
-      sectorFilters.forEach( ( filter ) => filter.innerText.includes( 'ΜΜΕ' ) && filter.classList.add( 'active' ) );
+    let sectorFilters = document.querySelectorAll(".sectorFilter");
+    if (isFirstLoad && sectorFilters.length > 1) {
+      sectorFilters.forEach((filter) => filter.innerText.includes("ΜΜΕ") && filter.classList.add("active"));
     }
     // Populate the setActiveGroupFilter with the groups that are present in the data
     // Should be an array of numbers
@@ -118,6 +118,7 @@ function D3Chart() {
     }
   }, [dataLoaded]);
 
+  // Adding relationships (brother, partner...) to nodes
   // Add a relationship object to the node that is the target of the object, so it shows up in the info panel also
   useEffect(() => {
     setNodes((prevNodes) => {
@@ -181,10 +182,7 @@ function D3Chart() {
   }, [activeSectorFilter]);
 
   //we need to set to active group filter to the dynamically added nodes from the navigation component, otherwise it stays empty
-
   let [activeGroupFilter, setActiveGroupFilter] = useState([]);
-
-  let [clickedGroupFilterNode, setClickedGroupFilterNode] = useState();
 
   // Declare Scales and Values
   const nodeDomain = ["project", "company", "person", "mothercompany", "subcompany", "connector"];
@@ -308,75 +306,38 @@ function D3Chart() {
   }
 
   useEffect(() => {
-    const groupDistance = 300;
+    const groupDistance = 600;
     let simulation = d3
       .forceSimulation(nodes, (d) => d)
       .force(
         "link",
         d3
-          .forceLink(links, (d) => d)
+          .forceLink(links)
           .id((d) => d.id)
           .distance((d) => {
-            let sourceNodeIsRoot = d.source.depth == 1;
-            let targetNodeIsLarge = d.target.data.type !== "subcompany";
             let sourceNodeIsLarge = d.source.data.type !== "subcompany";
-            let targetNodeIsConnector = d.target.data.type === "connector";
-            let sourceNodeIsConnector = d.source.data.type === "connector";
+            let targetNodeIsLarge = d.target.data.type !== "subcompany";
 
-            if (d.source.depth === 0) {
-              return -500;
-            }
-            if (sourceNodeIsRoot) {
-              return 10;
-            }
-            if (d.target.depth === 0 || d.target.depth === 1) {
-              return 40;
-            }
-            if (sourceNodeIsConnector) {
-              return 480;
+            if (d.source.depth === 0 || d.target.depth === 0) {
+              return 50; // Closer to the center
             }
             if (sourceNodeIsLarge && targetNodeIsLarge) {
-              return 300;
+              return 400; // Larger distance for big nodes
             }
-
-            if (
-              // Spacing for: smaller groups, large nodes
-              findDescendantsManually(d.source).length < 40 &&
-              targetNodeIsLarge &&
-              d.target.data.type !== "connector"
-            ) {
-              return 200;
-            } else if (
-              // Spacing for: larger groups, large nodes
-              findDescendantsManually(d.source).length > 40 &&
-              d.target.data.type !== "subcompany" &&
-              d.target.data.type !== "connector"
-            ) {
-              return 100;
-            } else {
-              return 300;
-            }
+            return 150; // Default distance for others
           })
-          .strength(1)
+          .strength(0.8) // Strength slightly reduced to keep links flexible
       )
-      .force("x", d3.forceX())
-      .force("y", d3.forceY())
       .force(
         "charge",
         d3.forceManyBody().strength((d) => {
-          if (d.depth === 0) {
-            return 7000;
-          } else {
-            return -7000;
-          }
+          return -7000;
         })
       )
       .force("center", d3.forceCenter(0, 0))
       .force(
         "collision",
-        d3
-          .forceCollide()
-          .radius((d) => (d.depth !== 1 ? nodeSizes(d.data.type) : descendantsScale(findDescendantsManually(d).length)))
+        d3.forceCollide().radius((d) => nodeSizes(d.data.type) + 10) // Add a bit more padding to ensure spacing
       )
       // In order to not overlap, each group should be forced into a x and y direction.
       // Based on the group number, generate a x and y value to move into.
@@ -384,14 +345,14 @@ function D3Chart() {
         "x",
         d3.forceX().x((d) => {
           if (d.depth === 0) return d.x;
-          return (d.data.group - 3) * groupDistance * 2; // Adjusting the distance dynamically based on the group number
+          return (d.data.group - 3) * groupDistance; // Adjusting the distance dynamically based on the group number
         })
       )
       .force(
         "y",
         d3.forceY().y((d) => {
           if (d.depth === 0) return d.y;
-          return Math.abs(d.data.group - 3) * groupDistance * 2; // Adjusting the distance dynamically based on the group number
+          return Math.abs(d.data.group - 3) * groupDistance; // Adjusting the distance dynamically based on the group number
         })
       );
 
@@ -421,7 +382,7 @@ function D3Chart() {
 
     // Create a container to hold node and text
     let nodeElement = svg.selectAll("g").data(
-      nodes.filter((d) => d.data.on === true || d.data.on === false || d.data.on === null),
+      nodes.filter((d) => d.data.on !== undefined),
       (d) => d
     );
 
@@ -470,10 +431,10 @@ function D3Chart() {
     let circle = elementEnter
       .append("circle")
       // if the node is not the root node, apply the nodeSizes table. Else, base size on amount of descendants
-      .attr("r", (d) => (d.depth !== 1 ? nodeSizes(d.data.type) : descendantsScale(findDescendantsManually(d).length)))
+      .attr("r", (d) => (d.depth !== 1 ? nodeSizes(d.data.type) : descendantsScale(d.descendants.length)))
 
       .attr("stroke", (d) => (d.data.color === "transparent" ? null : lightenHex(d.data.color)))
-      .attr( 'stroke-width', ( d ) => ( d.data.color === 'transparent' ? 0 : 2 )  )
+      .attr("stroke-width", (d) => (d.data.color === "transparent" ? 0 : 2))
       //if the depth of the node is smaller than three, fill it. Else, white.
       .attr("fill", (d) =>
         d.data.type === "person" || d.data.type === "company" || d.data.type === "mothercompany"
@@ -491,7 +452,7 @@ function D3Chart() {
       // .on("click")
 
       //Set Opacity to be low by default
-      // .attr("opacity", 0.1)
+
       .call(drag(simulation));
     // Add the Text
     let text = elementEnter
@@ -536,17 +497,17 @@ function D3Chart() {
           lines.push(`[${d.children.length}]`);
         }
 
-        for (var i = 0; i < lines.length; i++) {
-          d3.select(this)
-            .append("tspan")
-            .attr("dy", separation)
-            .attr("text-anchor", "middle")
+        // for (var i = 0; i < lines.length; i++) {
+        //   d3.select(this)
+        //     .append("tspan")
+        //     .attr("dy", separation)
+        //     .attr("text-anchor", "middle")
 
-            .style("font-size", `${fontsize}px`)
-            .text(lines[i].trim());
+        //     .style("font-size", `${fontsize}px`)
+        //     .text(lines[i].trim());
 
-          d3.select(this).attr("transform", "translate(0," + ((separation * lines.length) / 2) * -1 + ")");
-        }
+        //   d3.select(this).attr("transform", "translate(0," + ((separation * lines.length) / 2) * -1 + ")");
+        // }
       });
 
     // Give all foreignObject elements that are small Nodes a class for easier selection
@@ -574,116 +535,128 @@ function D3Chart() {
         d3.select(this.parentElement).attr("display", "none");
       }
     });
-    // hide the first node's links
-    d3.selectAll("line").each(function (d) {
-      if (d.source.depth === 0) {
-        d3.select(this).attr("display", "none");
+    let lines = d3.selectAll("line");
+    let circles = d3.selectAll("circle");
+
+    // Create a map of circles by their data property (e.g., name or id)
+    let circleMap = new Map();
+    circles.each(function (d) {
+      circleMap.set(d.data.name, this); // Assuming d.data.name is a unique identifier
+    });
+
+    // Style the color of the text and hide links for specific nodes
+    circles.each(function (d) {
+      let circle = d3.select(this);
+      let parentElement = circle.node().parentElement;
+
+      if (this.classList.contains("smallNode")) {
+        let textElement = d3.select(parentElement).select("text");
+        if (d.children !== undefined) {
+          textElement.style("fill", d.data.color);
+        } else {
+          textElement.style("fill", "#000");
+        }
+      }
+
+      if (d.depth === 0) {
+        d3.select(parentElement).attr("display", "none");
       }
     });
 
-    // Arrow Heads
-    // Correctly assign an url("arrowheadX") tag to position the arrowhead based on the target node's radius
-    d3.selectAll("line") //
-      .attr("marker-end", (d, i) => {
-        let markerUrl;
+    // Process lines after circles
+    lines.each(function (d) {
+      // Hide the first node's links
+      if (d.source.depth === 0) {
+        d3.select(this).attr("display", "none");
+      }
 
-        d3.selectAll("circle").each(function (f) {
-          // Add an arrowtop to the line if it the target is a large enough node
-          if (d.target === f) {
-            markerUrl = `url(#${i + 1})`;
-          } else {
-            null;
-          }
-        });
+      // Arrow Heads
+      let markerUrl;
+      let targetCircle = circleMap.get(d.target.data.name);
 
-        return markerUrl;
-      })
+      if (targetCircle) {
+        markerUrl = `url(#${d3.select(targetCircle).attr("id")})`;
+      }
+
+      d3.select(this).attr("marker-end", markerUrl);
+
       // Match the stroke color to the node group
-      .attr("stroke", (d) => {
-        let nodeColor;
-        d3.selectAll("circle").each(function (f) {
-          //we're applying the color of the target node to the line, but the connector has a transparent color.
-          //so if the target is a connector, use the color of the source node instead.
-          if (d.target === f && d.target.data.type === "connector") {
-            nodeColor = d.source.data.color;
-          } else if (d.target === f) {
-            nodeColor = f.data.color;
-          }
-        });
-        return nodeColor;
-      });
+      let nodeColor;
+      if (targetCircle) {
+        let targetNodeData = d3.select(targetCircle).datum();
+        if (targetNodeData.data.type === "connector") {
+          nodeColor = d.source.data.color;
+        } else {
+          nodeColor = targetNodeData.data.color;
+        }
+      }
+      d3.select(this).attr("stroke", nodeColor);
+    });
 
     // UPDATE & INTERACTION
     // Cirlces and Circle Text
     let currentFill;
     let currentStroke;
-    d3.selectAll("circle")
-      .on("mouseenter", function (e, d) {
-        currentFill = d3.select(this).attr("fill");
-        currentStroke = d3.select(this).attr("stroke");
-        d3.select(this) //
 
-          .attr("cursor", "pointer")
-          // .transition()
-          // .delay(100)
-          .attr("fill", (d) => {
-            if (d.depth === 1) {
-              return d.data.color;
-            } else {
-              return "#fff";
-            }
-          });
+    function handleMouseEnter(e, d) {
+      // Save current fill and stroke attributes
+      currentFill = d3.select(this).attr("fill");
+      currentStroke = d3.select(this).attr("stroke");
 
-        d3.select(this).attr("stroke", (d) => {
-          return currentStroke;
-        });
+      // Update circle attributes
+      d3.select(this)
+        .attr("cursor", "pointer")
+        .attr("fill", (d) => (d.depth === 1 ? d.data.color : "#fff"))
+        .attr("stroke", currentStroke);
 
-        document.documentElement.style.setProperty("--highlightColorHover", d.data.color);
+      // Update highlight color
+      document.documentElement.style.setProperty("--highlightColorHover", d.data.color);
 
-        setNodePath(findAncestorsManually(d));
+      // Update node path
+      setNodePath(d.ancestors());
 
-        const textElement = d3.select(e.target.parentNode).select("text");
-
-        textElement.style("fill", (d) => {
-          if (d.data.type === "mothercompany") {
+      // Update text color
+      const textElement = d3.select(e.target.parentNode).select("text");
+      textElement.style("fill", (d) => {
+        switch (d.data.type) {
+          case "mothercompany":
             return d.data.color;
-          } else if (d.data.type === "company") {
+          case "company":
             return "#fff";
-          } else {
+          default:
             return d.data.color;
-          }
-        });
-      })
-      .on("mouseleave", function (e) {
-        const currentElement = d3.select(this);
+        }
+      });
+    }
 
-        currentElement
-          // .transition()
-          // .duration(200) // Set the duration as a number
-          // .style("cursor", "default") // Use style for setting cursor
-          .attr("fill", function (d) {
-            return currentElement.classed("nodeIsClicked") ? currentElement.attr("fill") : currentFill;
-          })
-          .classed("nodeIsClicked", false)
-          .attr("stroke", currentStroke);
-        // .on("end", function () {
-        //   // Transition ends before removing the class
-        //   currentElement.classed("nodeIsClicked", false);
-        // });
+    function handleMouseLeave(e, d) {
+      const currentElement = d3.select(this);
 
-        const textElement = d3.select(e.target.parentNode).select("text");
+      currentElement
 
-        textElement.style("fill", (d) => {
-          if (d.data.type === "mothercompany") {
-            return "#fff";
-          } else if (d.data.type === "company" || d.data.type === "person") {
-            return "#fff";
-          } else {
-            return "#000";
-          }
-        });
-      })
+        .attr("fill", function (d) {
+          return currentElement.classed("nodeIsClicked") ? currentElement.attr("fill") : currentFill;
+        })
+        .classed("nodeIsClicked", false)
+        .attr("stroke", currentStroke);
 
+      const textElement = d3.select(e.target.parentNode).select("text");
+
+      textElement.style("fill", (d) => {
+        if (d.data.type === "mothercompany") {
+          return "#fff";
+        } else if (d.data.type === "company" || d.data.type === "person") {
+          return "#fff";
+        } else {
+          return "#000";
+        }
+      });
+    }
+
+    // Apply the event handler to circles
+    circles
+      .on("mouseenter", handleMouseEnter) //
+      .on("mouseleave", handleMouseLeave) //
       .on("click", handleNodeClick);
 
     d3.selectAll("svg g").attr("transform", zoomTransform);
@@ -691,7 +664,7 @@ function D3Chart() {
     // Event Handling
     function handleNodeClick(event, clickedNode) {
       activateNodes(clickedNode.children);
-      activateNodes(findAncestorsManually(clickedNode));
+      activateNodes(clickedNode.ancestors());
       d3.select(this).classed("nodeIsClicked", true);
 
       setNodeInfo((prevNodeInfo) => {
@@ -709,89 +682,31 @@ function D3Chart() {
       setUpdateCameFromClickedNode(true);
       setGroupFilterWasClicked(false);
       let nodesToActivate = [];
+
       //
-      nodes.forEach(function (node) {
-        // If Statement Declarations
-        let nodeWillBeExpanded = node.data.on === false;
-        let nodeWillBeClosed = node.data.on === true;
+      // Create a map to easily check if a node's group is in the activeGroupFilter
 
-        // check if any of the clicked node's children is on, meaning that the clicked node is already expanded
+      nodes.forEach((node) => {
+        // Determine if the node will be expanded or closed
 
+        // Check if any of the clicked node's children are "connector" type
         if (node.children && node.children[0].data.type === "connector") {
-          skipConnectorAndAddChildren();
-        }
-
-        // If a node is clicked and expanded, add it to the activeGroupFilter
-        updateActiveGroupFilter();
-
-        function updateActiveGroupFilter() {
-          if (clickedNode.children) {
-            clickedNode.children.forEach(function (clickedNodeChild) {
-              if (clickedNodeChild.index === node.index) {
-                // Only handlegroupFilter if the node is one of the 2 lower levels
-                if (clickedNode.depth < 3 && clickedNode.depth !== 1) {
-                  if (nodeWillBeExpanded) {
-                    setActiveGroupFilter((prevActiveGroupFilter) => {
-                      let updatedFilter = [...new Set(prevActiveGroupFilter)];
-
-                      if (!updatedFilter.includes(clickedNode.data.group)) {
-                        updatedFilter.push(clickedNode.data.group);
-                      }
-
-                      return updatedFilter;
-                    });
-                  } else if (nodeWillBeClosed) {
-                    // Add a statement here: If there is no other node with a depth of 3 of the same group open
-                    // if the group of the clickednode contains on nodes at depth 3 that are not the child of the clicked node
-
-                    // Essentially, only if both of the lavel 2 red nodes dont have active chilrdren
-                    if (allBranchesAreClosed(clickedNode)) {
-                      setActiveGroupFilter((prevActiveGroupFilter) => {
-                        let updatedFilter = prevActiveGroupFilter.filter((group) => group !== clickedNode.data.group);
-                        return updatedFilter;
-                      });
-                    }
-                  }
-                }
-              }
-            });
-          }
+          skipConnectorAndAddChildren(node);
         }
       });
-      function allBranchesAreClosed(clickedNode) {
-        return nodes.some((node) => {
-          return (
-            node.data.group === clickedNode.data.group &&
-            node.depth === 3 &&
-            // node.data.on === false &&
-            !clickedNode.children.includes(node)
-          );
-        });
-      }
-
-      function skipConnectorAndAddChildren() {
-        if (clickedNode.children) {
-          if (clickedNode.children[0].data.type == "connector") {
-            // This here represents the children of the found connector node
-            nodesToActivate.push(clickedNode.children[0]);
-            clickedNode.children[0].children.forEach((skippedNodeChild) => {
-              nodesToActivate.push(skippedNodeChild);
-            });
-            activateNodes(nodesToActivate);
-          }
-        }
-      }
     }
 
-    function hideDescendantsIfOpen(clickedNode) {
-      let descendantNodesArray = [];
-
-      findDescendantsManually(clickedNode).forEach(function (descendantNode) {
-        if (descendantNode !== clickedNode) {
-          descendantNodesArray.push(descendantNode);
+    function skipConnectorAndAddChildren(clickedNode) {
+      if (clickedNode.children) {
+        if (clickedNode.children[0].data.type == "connector") {
+          // This here represents the children of the found connector node
+          nodesToActivate.push(clickedNode.children[0]);
+          clickedNode.children[0].children.forEach((skippedNodeChild) => {
+            nodesToActivate.push(skippedNodeChild);
+          });
+          activateNodes(nodesToActivate);
         }
-        deactivateNodes(descendantNodesArray);
-      });
+      }
     }
 
     function showChildren(clickedNode) {
@@ -812,19 +727,13 @@ function D3Chart() {
     // SMALL TEXT NODES
     d3.selectAll(".smallText") //
       .on("mouseover", function (e, d) {
-        setNodePath(findAncestorsManually(d));
+        setNodePath(d.ancestors());
       })
       .on("click", function (e, clickedNode) {
         if (clickedNode.children !== undefined) {
           nodes.forEach(function (node) {
-            if (node.index === clickedNode.children[0].index) {
-              // if (node.data.on === true) {
-              //close all descendants
-              hideDescendantsIfOpen(clickedNode);
-            } else {
-              //show all children
-              showChildren(clickedNode);
-            }
+            //show all children
+            showChildren(clickedNode);
           });
         } else {
           console.log("cannot expant a leaf node, you've reached the end!");
@@ -874,7 +783,6 @@ function D3Chart() {
             return shortenLink(d.source.x, d.target.x);
           }
         })
-
         .attr("y2", (d) => {
           if (d.target.data.type === "connector") {
             return d.source.y, d.target.y;
@@ -884,24 +792,18 @@ function D3Chart() {
             return shortenLink(d.source.y, d.target.y);
           }
         });
-
       //
-
       circle
         .attr("cx", (d) => d.x) //
         .attr("cy", (d) => d.y);
-      // circle.call(drag(simulation));
-
-      elementEnter.selectAll("tspan").attr("x", (d) => d.x);
-
-      document.querySelectorAll("text").forEach(function (text) {
-        let circle = text.parentElement.querySelector("circle");
-
-        if (circle.getAttribute("cx") !== null || circle.getAttribute("cy") !== null) {
-          text.setAttribute("x", circle.getAttribute("cx"));
-          text.setAttribute("y", circle.getAttribute("cy"));
-        }
-      });
+      // elementEnter.selectAll("tspan").attr("x", (d) => d.x);
+      // document.querySelectorAll("text").forEach(function (text) {
+      //   let circle = text.parentElement.querySelector("circle");
+      //   if (circle.getAttribute("cx") !== null || circle.getAttribute("cy") !== null) {
+      //     text.setAttribute("x", circle.getAttribute("cx"));
+      //     text.setAttribute("y", circle.getAttribute("cy"));
+      //   }
+      // });
     });
 
     function shortenLink(sourceCoord, targetCoord, factor = 0.75) {
@@ -924,10 +826,6 @@ function D3Chart() {
     // circle.exit().remove();
     simulation.nodes(nodes);
   }, [nodes]);
-
-  // if (isFirstLoad && isOnDesktop) {
-  //   openingAnimation();
-  // }
 
   // Intro Animation
 
@@ -954,7 +852,6 @@ function D3Chart() {
     nodes.forEach(function (node) {
       if (node.data.name === IDText) {
         handleNodeFiltering(node.index);
-        setClickedGroupFilterNode(node.data.group);
         document.documentElement.style.setProperty("--highlightColorClick", node.data.color);
       }
     });
@@ -1070,38 +967,42 @@ function D3Chart() {
   }
 
   useEffect(() => {
-    // In this function, based on activeGroupFilter:
-    // Give the filter the active class if its groupnumber is contained in the array
-    // Give the filter the correct color if its groupnumber is contained in the array
-    nodes.forEach((node) => {
-      // If Statement Declarations
-      let isTopLevel = node.depth === 1;
+    // Cache the active group filter in a Set for faster lookups
+    const activeGroupSet = new Set(activeGroupFilter);
 
-      let groupFilterItems = document.querySelectorAll(".groupFilters > .filterItem");
+    // Query all groupFilterItems once, outside the node loop
+    let groupFilterItems = document.querySelectorAll(".groupFilters > .filterItem");
 
-      groupFilterItems.forEach((groupFilterItem) => {
-        let includesNodeName = groupFilterItem.innerText.includes(node.data.name);
+    groupFilterItems.forEach((groupFilterItem) => {
+      // Cache innerText to avoid reflow on every access
+      const groupItemText = groupFilterItem.innerText;
 
-        if (isTopLevel && activeGroupFilter.includes(node.data.group)) {
+      // Track whether the filter should be active
+      let shouldBeActive = false;
+
+      // Iterate through the nodes once
+      nodes.forEach((node) => {
+        // Check only for top-level nodes
+        if (node.depth === 1) {
+          // Check if the node's group is active and if its name is part of the filter item
+          const includesNodeName = groupItemText.includes(node.data.name);
+
           if (includesNodeName) {
-            groupFilterItem.classList.add("active");
-            updateNodeColor();
-          }
-        } else if (isTopLevel && !activeGroupFilter.includes(node.data.group)) {
-          if (includesNodeName) {
-            groupFilterItem.classList.remove("active");
-            updateNodeColor();
-          }
-        }
-
-        function updateNodeColor() {
-          if (groupFilterItem.classList.contains("active")) {
-            groupFilterItem.style.color = node.data.color;
-          } else {
-            groupFilterItem.style.color = "";
+            shouldBeActive = activeGroupSet.has(node.data.group);
+            // Exit the loop early if found, as this won't change
+            if (shouldBeActive) return;
           }
         }
       });
+
+      // Update classes and colors only once after looping
+      if (shouldBeActive) {
+        groupFilterItem.classList.add("active");
+        groupFilterItem.style.color = nodes.find((node) => groupItemText.includes(node.data.name)).data.color;
+      } else {
+        groupFilterItem.classList.remove("active");
+        groupFilterItem.style.color = "";
+      }
     });
 
     handleNodeFiltering();
@@ -1121,7 +1022,7 @@ function D3Chart() {
       let nodeMatchesSectorFilter = activeSectorFilterRef.current.includes(node.data.sector);
 
       function nodeDescendantsIncludesActiveSectorNode() {
-        return findDescendantsManually(node).some((nodeDescendant) => {
+        return node.descendants().some((nodeDescendant) => {
           return activeSectorFilterRef.current.includes(nodeDescendant.data.sector);
         });
       }
@@ -1150,15 +1051,15 @@ function D3Chart() {
 
       // Group filtering
       if (node.index === groupNodeIndex) {
-        findDescendantsManually(node).forEach((descendantNode) => {
+        node.descendants().forEach((descendantNode) => {
           if (activeSectorFilterRef.current.includes(descendantNode.data.sector)) {
+            console.log("time to update this node!");
             nodesToEnable.push(descendantNode);
           }
         });
       }
     });
 
-    nodesToEnable.forEach((enabledNode) => activateNodes(findAncestorsManually(enabledNode)));
     activateNodes(nodesToEnable);
     deactivateNodes(nodesToDisable);
   }
@@ -1174,166 +1075,114 @@ function D3Chart() {
     });
   }
 
-  function findDescendantsManually(node) {
-    let descendants = [];
-    function traverse(currentNode) {
-      descendants.push(currentNode);
-
-      if (currentNode.children) {
-        currentNode.children.forEach((child) => {
-          traverse(child);
-        });
-      }
-    }
-    traverse(node);
-    return descendants;
-  }
-
-  function findAncestorsManually(node) {
-    let ancestors = [];
-    function traverse(currentNode) {
-      if (currentNode.parent) {
-        ancestors.push(currentNode.parent);
-        traverse(currentNode.parent);
-      }
-    }
-    // Include the starting node itself in the ancestors array
-    ancestors.push(node);
-
-    traverse(node);
-    return ancestors;
-  }
-
   // Change the on opacity of nodes passed into this function.
-  function activateNodes(connectedNodes) {
-    let circle = d3.selectAll("circle");
+  function activateNodes(nodesToActivate) {
+    if (!nodesToActivate || nodesToActivate.length === 0) return;
 
-    circle.each(function (circle) {
-      if (connectedNodes !== undefined) {
-        // Find the node that matches the current circle
-        const matchedNode = connectedNodes.find((node) => node.index === circle.index);
-        if (matchedNode) {
-          d3.select(this).attr("fill", () => {
-            if (
-              matchedNode.data.type === "person" ||
-              matchedNode.data.type === "company" ||
-              matchedNode.data.type === "mothercompany"
-            ) {
-              if (matchedNode.data.color !== "transparent") {
-                return matchedNode.data.color; // Return the color
-              } else {
-                return null; // Explicitly return null
-              }
+    // Create a lookup map for nodes by index
+    const nodeMap = new Map(nodesToActivate.map((node) => [node.index, node]));
+
+    // Update the circle (node) elements
+    d3.selectAll("circle").each(function (d) {
+      const matchedNode = nodeMap.get(d.index);
+
+      if (matchedNode) {
+        const currentCircle = d3.select(this);
+
+        // Set fill and stroke colors
+        currentCircle
+          .attr("fill", () => {
+            const { type, color } = matchedNode.data;
+            if (type === "person" || type === "company" || type === "mothercompany") {
+              return color !== "transparent" ? color : null;
             } else {
-              return "#fff"; // Return default color for other types
+              return "#fff"; // Default color for other types
             }
-          });
+          })
+          .attr("stroke", matchedNode.data.color === "transparent" ? null : matchedNode.data.color);
 
-          d3.select(this).attr("stroke", matchedNode.data.color === "transparent" ? null : matchedNode.data.color);
-
-          d3.select(this.parentElement)
-            .select("text")
-            .style("fill", () => {
-              if (matchedNode.data.type !== "subcompany") {
-                return "#fff";
-              } else {
-                return "#000";
-              }
-            });
-          d3.select(this.parentElement)
-            .select("text")
-            .style("opacity", () => {
-              if (matchedNode.data.type == "subcompany") {
-                return 1;
-              }
-            });
-        }
+        // Update the associated text element
+        const parentGroup = d3.select(this.parentElement);
+        parentGroup
+          .select("text")
+          .style("fill", matchedNode.data.type !== "subcompany" ? "#fff" : "#000")
+          .style("opacity", matchedNode.data.type === "subcompany" ? 1 : null);
       }
     });
 
-    let links = d3.selectAll("line");
-    links.each(function (link) {
-      if (connectedNodes) {
-        if (connectedNodes.some((node) => node.index === link.target.index)) {
-          d3.select(this).attr("stroke-opacity", 1);
-        }
+    // Update the link (line) elements
+    d3.selectAll("line").each(function (d) {
+      // Show links for active nodes
+      if (nodeMap.has(d.target.index)) {
+        d3.select(this).attr("stroke-opacity", 1); // Show the link
+      } else {
+        d3.select(this).attr("stroke-opacity", 0.2); // Set lower opacity for inactive links
       }
     });
 
-    let arrowheads = d3.selectAll("marker");
+    // Update the arrowhead markers
+    d3.selectAll("marker").each(function () {
+      const arrowheadID = parseInt(d3.select(this).attr("id"));
 
-    arrowheads.each(function (arrowhead) {
-      let arrowheadID = d3.select(this).attr("id");
-      if (connectedNodes) {
-        const matchedNode = connectedNodes.find((node) => node.index === parseInt(arrowheadID));
-        if (matchedNode) {
-          d3.select(this)
-            .select("path")
-            .attr("fill", matchedNode.data.color === "transparent" ? null : matchedNode.data.color);
-        }
+      const matchedNode = nodeMap.get(arrowheadID);
+      if (matchedNode) {
+        // Update the color of the arrowhead
+        d3.select(this)
+          .select("path")
+          .attr("fill", matchedNode.data.color === "transparent" ? null : matchedNode.data.color);
       }
     });
   }
 
-  function deactivateNodes(connectedNodes) {
-    let circle = d3.selectAll("circle");
+  function deactivateNodes(nodesToActivate) {
+    if (!nodesToActivate || nodesToActivate.length === 0) return;
 
-    circle.each(function (circle) {
-      if (connectedNodes !== undefined) {
-        // Find the node that matches the current circle
-        const matchedNode = connectedNodes.find((node) => node.index === circle.index);
-        if (matchedNode) {
-          d3.select(this).attr("fill", () => {
-            if (
-              matchedNode.data.type === "person" ||
-              matchedNode.data.type === "company" ||
-              matchedNode.data.type === "mothercompany"
-            ) {
-              if (matchedNode.data.color !== "transparent") {
-                return lightenHex(matchedNode.data.color, 0.8); // Return the color
-              } else {
-                return null;
-              }
+    // Create a lookup map for nodes by index
+    const nodeMap = new Map(nodesToActivate.map((node) => [node.index, node]));
+
+    // Update the circle (node) elements
+    d3.selectAll("circle").each(function (d) {
+      const matchedNode = nodeMap.get(d.index);
+
+      if (matchedNode) {
+        const currentCircle = d3.select(this);
+
+        // Set fill and stroke colors with lighter shade
+        currentCircle
+          .attr("fill", () => {
+            const { type, color } = matchedNode.data;
+            if (type === "person" || type === "company" || type === "mothercompany") {
+              return color !== "transparent" ? lightenHex(color, 0.8) : null;
             } else {
-              return "#fff";
+              return "#fff"; // Default color for other types
             }
-          });
+          })
+          .attr("stroke", matchedNode.data.color === "transparent" ? null : lightenHex(matchedNode.data.color, 0.8));
 
-          d3.select(this).attr(
-            "stroke",
-            matchedNode.data.color === "transparent" ? null : lightenHex(matchedNode.data.color, 0.8)
-          );
-          d3.select(this.parentElement)
-            .select("text")
-            .style("fill", () => {
-              if (matchedNode.data.type !== "subcompany") {
-                return "#fff";
-              } else {
-                return "#000";
-              }
-            });
-          d3.select(this.parentElement)
-            .select("text")
-            .style("opacity", () => {
-              if (matchedNode.data.type == "subcompany") {
-                return 0.2;
-              }
-            });
-        }
+        // Update the associated text element
+        const parentGroup = d3.select(this.parentElement);
+        parentGroup
+          .select("text")
+          .style("fill", matchedNode.data.type !== "subcompany" ? "#fff" : "#000")
+          .style("opacity", matchedNode.data.type === "subcompany" ? 0.2 : null);
       }
     });
 
-    let links = d3.selectAll("line");
-    links.each(function (link) {
-      if (connectedNodes.some((node) => node.index === link.target.index)) {
+    // Update the link (line) elements
+    d3.selectAll("line").each(function (d) {
+      // Decrease opacity for links connected to deactivated nodes
+      if (nodeMap.has(d.target.index)) {
         d3.select(this).attr("stroke-opacity", 0.1);
       }
     });
-    let arrowheads = d3.selectAll("marker");
-    arrowheads.each(function (arrowhead) {
-      let arrowheadID = d3.select(this).attr("id");
-      const matchedNode = connectedNodes.find((node) => node.index === parseInt(arrowheadID));
+
+    // Update the arrowhead markers
+    d3.selectAll("marker").each(function () {
+      const arrowheadID = parseInt(d3.select(this).attr("id"));
+
+      const matchedNode = nodeMap.get(arrowheadID);
       if (matchedNode) {
+        // Update the color of the arrowhead with lighter shade
         d3.select(this)
           .select("path")
           .attr("fill", matchedNode.data.color === "transparent" ? null : lightenHex(matchedNode.data.color, 0.8));
