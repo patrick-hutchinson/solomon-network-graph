@@ -1,18 +1,15 @@
+import { filter } from "d3";
 import React, { useEffect } from "react";
 
 export default function Navigation(props) {
-  // Might have to use a copy of the filterItems here
-
   let groupFilterItemArray = [];
   let sectorFilterItemsArray = [];
 
-  let isOnMobile = window.innerWidth < 600;
+  let isOnMobile = props.isOnMobile;
 
-  let isOnTablet = window.matchMedia(
-    "(min-device-width: 601px) and (max-device-width: 1080px) and (-webkit-min-device-pixel-ratio: 1)"
-  ).matches;
+  let isOnTablet = props.isOnTablet;
 
-  let isOnDesktop = !isOnMobile && !isOnTablet;
+  let isOnDesktop = props.isOnDesktop;
 
   // Add the Path Navigation
   let nodePathItems = props.nodePath
@@ -72,16 +69,22 @@ export default function Navigation(props) {
       groupFilterItemArray.push(filterItem.data.name);
     }
   });
-  let groupFilterItems = groupFilterItemArray.map((item, index) => (
-    <li
-      className="filterItem"
-      key={item}
-      onClick={() => props.findFilteredGroup(item)}
-      onMouseEnter={() => props.hoverFilteredNode(item)}
-    >
-      {item} {index !== groupFilterItemArray.length - 1 && isOnDesktop && <span className="dividerLine">|</span>}
-    </li>
-  ));
+  let groupFilterItems = props.filterItems
+    .filter((filterItem) => filterItem.data.type === "company")
+    .map((filterItem, index) => (
+      <li
+        className="filterItem"
+        key={filterItem.data.name}
+        group={filterItem.data.group} // Add the custom attribute here
+        onClick={() => props.findFilteredGroup(filterItem.data.name, filterItem.data.group, filterItem.data.color)}
+        onMouseEnter={() => props.hoverFilteredNode(filterItem.data.name)}
+      >
+        {filterItem.data.name}
+        {index !== props.filterItems.filter((item) => item.data.type === "company").length - 1 && isOnDesktop && (
+          <span className="dividerLine">|</span>
+        )}
+      </li>
+    ));
 
   //
   // Highlight current filter item on hover

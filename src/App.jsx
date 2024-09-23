@@ -665,6 +665,7 @@ function D3Chart() {
     function handleNodeClick(event, clickedNode) {
       activateNodes(clickedNode.children);
       activateNodes(clickedNode.ancestors());
+
       d3.select(this).classed("nodeIsClicked", true);
 
       setNodeInfo((prevNodeInfo) => {
@@ -681,64 +682,26 @@ function D3Chart() {
 
       setUpdateCameFromClickedNode(true);
       setGroupFilterWasClicked(false);
-      let nodesToActivate = [];
 
-      //
-      // Create a map to easily check if a node's group is in the activeGroupFilter
-
-      nodes.forEach((node) => {
-        // Determine if the node will be expanded or closed
-
-        // Check if any of the clicked node's children are "connector" type
-        if (node.children && node.children[0].data.type === "connector") {
-          skipConnectorAndAddChildren(node);
-        }
-      });
+      skipNodeIfConnector(clickedNode);
     }
 
-    function skipConnectorAndAddChildren(clickedNode) {
+    let skipNodeIfConnector = (clickedNode) => {
       if (clickedNode.children) {
-        if (clickedNode.children[0].data.type == "connector") {
-          // This here represents the children of the found connector node
-          nodesToActivate.push(clickedNode.children[0]);
-          clickedNode.children[0].children.forEach((skippedNodeChild) => {
-            nodesToActivate.push(skippedNodeChild);
-          });
-          activateNodes(nodesToActivate);
-        }
-      }
-    }
-
-    function showChildren(clickedNode) {
-      let childNodes = clickedNode.children;
-      if (childNodes !== undefined) {
-        activateNodes(childNodes);
-        // Check for child nodes with data.type === "connector" and open their children
-        childNodes.forEach((childNode) => {
-          if (childNode.data.type === "connector") {
-            showChildren(childNode);
+        clickedNode.children.forEach((child) => {
+          if (child.data.type === "connector") {
+            activateNodes(child.children); // Activate the connector's children (if any)
           }
         });
-      } else {
-        showChildren(clickedNode);
       }
-    }
+    };
 
     // SMALL TEXT NODES
     d3.selectAll(".smallText") //
-      .on("mouseover", function (e, d) {
-        setNodePath(d.ancestors());
+      .on("mouseover", function (e, hoveredNode) {
+        setNodePath(hoveredNode.ancestors());
       })
       .on("click", function (e, clickedNode) {
-        if (clickedNode.children !== undefined) {
-          nodes.forEach(function (node) {
-            //show all children
-            showChildren(clickedNode);
-          });
-        } else {
-          console.log("cannot expant a leaf node, you've reached the end!");
-        }
-
         setNodeInfo((prevNodeInfo) => {
           return {
             ...prevNodeInfo,
@@ -828,7 +791,6 @@ function D3Chart() {
   }, [nodes]);
 
   // Intro Animation
-
   window.openingAnimation = openingAnimation;
 
   function openingAnimation() {
@@ -837,112 +799,111 @@ function D3Chart() {
 
   // Graph Interaction
   // Change the text highlighing color in the menu to that of the currently hovered node
-  function hoverFilteredNode(IDText) {
+  function hoverFilteredNode(filtername) {
     nodes.forEach(function (node) {
-      if (node.data.name === IDText) {
+      if (node.data.name === filtername) {
         document.documentElement.style.setProperty("--highlightColorHover", node.data.color);
       }
     });
   }
 
   // Handle Functionality when clicking a GROUP Filter
-  function findFilteredGroup(IDText) {
+  function findFilteredGroup(groupname, groupnumber, groupcolor) {
     setGroupFilterWasClicked(true);
     setUpdateCameFromClickedNode(false);
+
+    // I have DOUBTS about this
     nodes.forEach(function (node) {
-      if (node.data.name === IDText) {
-        handleNodeFiltering(node.index);
+      if (node.data.name === groupname) {
+        handleNodeFiltering(groupnumber);
         document.documentElement.style.setProperty("--highlightColorClick", node.data.color);
       }
     });
+    //
 
     let filterIsActive = event.target.classList.contains("active");
 
+    // Filter is not active yet
     if (!filterIsActive) {
-      // Filter is not active Yet
       // Add Active Class
       event.target.classList.add("active");
-      // add the group number of the filter node to the active group array
+
+      // Add the group number to the active group filter array
       setActiveGroupFilter((prevActiveGroupFilter) => {
-        let updatedFilter = [...prevActiveGroupFilter];
-
-        let matchingNode = nodes.find((node) => node.data.name === IDText);
-        if (matchingNode) {
-          updatedFilter.push(matchingNode.data.group);
-          event.target.style.color = matchingNode.data.color;
-        }
-
+        const updatedFilter = [...prevActiveGroupFilter, groupnumber];
+        event.target.style.color = groupcolor;
         return updatedFilter;
       });
-      //Filter is already active
     } else {
+      // Filter is already active, so remove it
       event.target.classList.remove("active");
 
-      const updateFilter = (filter, group) => {
-        const groupExists = filter.includes(group);
-        return groupExists ? filter.filter((num) => num !== group) : [...filter, group];
-      };
-
       setActiveGroupFilter((prevActiveGroupFilter) => {
-        let updatedFilter = [...prevActiveGroupFilter];
-
-        let matchingNode = nodes.find((node) => node.data.name === IDText);
-        if (matchingNode) {
-          updatedFilter = updateFilter(updatedFilter, matchingNode.data.group);
-        }
-
+        // Remove the group number from the filter array
+        const updatedFilter = prevActiveGroupFilter.filter((num) => num !== groupnumber);
         return updatedFilter;
       });
 
-      event.target.style.color = "#000";
+      event.target.style.color = "#000"; // reset color to default
     }
   }
 
   let sectorFilters = document.querySelectorAll(".sectorFilter");
 
   // Handle Functionality when clicking a SECTOR Filter
-  function findFilteredSectorNode(IDText, all) {
+  function findFilteredSectorNode(filtername, allSectorFilters) {
     setGroupFilterWasClicked(false);
     setUpdateCameFromClickedNode(false);
-    // Disable the active class from the first Filter Item if any other one is clicked
+    // Disable the active class from the all Filter Item if any other one is clicked
+    const allFilter = Array.from(sectorFilters).find((filter) => filter.textContent.includes("Όλα"));
+
     if (!event.target.innerText.includes("Όλα")) {
-      sectorFilters[0].classList.remove("active");
+      allFilter.classList.remove("active");
     }
 
     // When clicking the all button, disable all individual filters
     if (event.target.innerText.includes("Όλα")) {
       sectorFilters.forEach((altListItem) => {
-        if (event.target !== altListItem) {
-          altListItem.classList.remove("active");
-        }
+        altListItem.classList.remove("active");
       });
     }
 
     // Toggle the clicked Filter Item and Add/Remove it from the clicked filter array
-    toggleFilter(IDText, all);
+    // toggleFilter(IDText, allSectorFilters);
+
+    // Toggle the clicked Filter Item
+    toggleFilter(filtername, allSectorFilters);
   }
 
   // HANDLE THE SECTOR FILTER ARRAY
-  function toggleFilter(IDText, allSectorFilters) {
+  function toggleFilter(filtername, allSectorFilters) {
     // If Statement Declarations
     let filterIsActive = event.target.classList.contains("active");
 
+    // The clicked Filter is not active yet
     if (!filterIsActive) {
       event.target.classList.add("active");
 
-      // Add the clicked filter to the array
-      if (!event.target.innerText.includes("Όλα")) {
-        // array is not full, add to it
-        if (activeSectorFilter.length < allSectorFilters.length) {
+      let clickedAllFilter = event.target.innerText.includes("Όλα");
+      let everyFilterActive = activeSectorFilter.length === allSectorFilters.length;
+
+      // The target is not the "All" filter
+      if (!clickedAllFilter) {
+        // The "All" was not previously selected (The array is not full)
+        if (!everyFilterActive) {
+          // Add the Filter to the Array
           setActiveSectorFilter((prevActiveSectorFilter) => {
-            return [...prevActiveSectorFilter, IDText];
+            return [...prevActiveSectorFilter, filtername];
           });
-          // array was full, remove all and start fresh
-        } else if (activeSectorFilter.length === allSectorFilters.length) {
+
+          // The "All" was previously selected (The array is full)
+        } else if (everyFilterActive) {
+          // Clear the Array and add the Selected Filter
           setActiveSectorFilter((prevActiveSectorFilter) => {
-            return [IDText];
+            return [filtername];
           });
         }
+        // all filter is clicked, add all missing filters
       } else {
         allSectorFilters.forEach((allSectorFilter) => {
           if (!activeSectorFilter.includes(allSectorFilter)) {
@@ -952,13 +913,15 @@ function D3Chart() {
           }
         });
       }
-    } else {
+    }
+
+    if (filterIsActive) {
       event.target.classList.remove("active");
 
       // Remove the clicked filter from the array
-      if (!event.target.innerText.includes("Όλα")) {
+      if (!clickedAllFilter) {
         setActiveSectorFilter((prevActiveSectorFilter) => {
-          return prevActiveSectorFilter.filter((sector) => sector !== IDText);
+          return prevActiveSectorFilter.filter((sector) => sector !== filtername);
         });
       } else {
         setActiveSectorFilter("");
@@ -967,10 +930,6 @@ function D3Chart() {
   }
 
   useEffect(() => {
-    // Cache the active group filter in a Set for faster lookups
-    const activeGroupSet = new Set(activeGroupFilter);
-
-    // Query all groupFilterItems once, outside the node loop
     let groupFilterItems = document.querySelectorAll(".groupFilters > .filterItem");
 
     groupFilterItems.forEach((groupFilterItem) => {
@@ -988,7 +947,7 @@ function D3Chart() {
           const includesNodeName = groupItemText.includes(node.data.name);
 
           if (includesNodeName) {
-            shouldBeActive = activeGroupSet.has(node.data.group);
+            shouldBeActive = activeGroupFilter.includes(node.data.group);
             // Exit the loop early if found, as this won't change
             if (shouldBeActive) return;
           }
@@ -1009,7 +968,7 @@ function D3Chart() {
   }, [activeSectorFilter, activeGroupFilter]);
 
   // Based on the newest state of the activeSectorFilter and activeGroupFilter, hide all nodes that are not part of the active filter
-  function handleNodeFiltering(groupNodeIndex) {
+  function handleNodeFiltering(groupnumber) {
     let nodesToDisable = [];
     let nodesToEnable = [];
 
@@ -1050,10 +1009,9 @@ function D3Chart() {
       }
 
       // Group filtering
-      if (node.index === groupNodeIndex) {
+      if (node.index === groupnumber) {
         node.descendants().forEach((descendantNode) => {
           if (activeSectorFilterRef.current.includes(descendantNode.data.sector)) {
-            console.log("time to update this node!");
             nodesToEnable.push(descendantNode);
           }
         });
@@ -1064,18 +1022,7 @@ function D3Chart() {
     deactivateNodes(nodesToDisable);
   }
 
-  //Expand all the sector nodes (the actual ones) when a filter is clicked
-  let sectorNodeArray = [];
-  function showAllSectors() {
-    nodes.forEach(function (node) {
-      if (node.data.type === "sector") {
-        sectorNodeArray.push(node);
-      }
-      activateNodes(sectorNodeArray);
-    });
-  }
-
-  // Change the on opacity of nodes passed into this function.
+  // Change the opacity of nodes passed into this function.
   function activateNodes(nodesToActivate) {
     if (!nodesToActivate || nodesToActivate.length === 0) return;
 
@@ -1272,8 +1219,10 @@ function D3Chart() {
         // handleFilteredSectorChange={handleFilteredSectorChange}
         findFilteredSectorNode={findFilteredSectorNode}
         hoverFilteredNode={hoverFilteredNode}
-        showAllSectors={showAllSectors}
         nodePath={nodePath}
+        isOnMobile={isOnMobile}
+        isOnTablet={isOnTablet}
+        isOnDesktop={isOnDesktop}
       />
       <Zoombar
         className="zoombar"
