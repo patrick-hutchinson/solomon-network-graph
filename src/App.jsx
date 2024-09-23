@@ -53,8 +53,6 @@ function D3Chart() {
   let width = window.innerWidth * 0.8;
   let height = window.innerHeight * 0.95;
 
-  let [isFirstLoad, setIsFirstLoad] = useState(true);
-
   // Set state values for the Zoombar component
   let [zoomAmount, setZoomAmount] = useState(0);
 
@@ -107,7 +105,7 @@ function D3Chart() {
     setActiveSectorFilter(["ΜΜΕ"]);
 
     let sectorFilters = document.querySelectorAll(".sectorFilter");
-    if (isFirstLoad && sectorFilters.length > 1) {
+    if (sectorFilters.length > 1) {
       sectorFilters.forEach((filter) => filter.innerText.includes("ΜΜΕ") && filter.classList.add("active"));
     }
     // Populate the setActiveGroupFilter with the groups that are present in the data
@@ -1177,22 +1175,6 @@ function D3Chart() {
     document.querySelector(".showInfo").classList.add("hidden");
   }
 
-  function handleCompClick() {
-    if (isFirstLoad === true) {
-      setIsFirstLoad(false);
-    }
-  }
-  function handleCompWheel() {
-    if (isFirstLoad === true) {
-      setIsFirstLoad(false);
-    }
-  }
-  function handleCompMouseMove() {
-    if (isFirstLoad === true) {
-      setIsFirstLoad(false);
-    }
-  }
-
   function zoomIn() {
     d3.select(".graphCanvas").transition().call(zoom.scaleBy, 1.5);
   }
@@ -1206,17 +1188,11 @@ function D3Chart() {
   }
 
   return (
-    <div
-      className="componentContainer"
-      onClick={handleCompClick}
-      onWheel={handleCompWheel}
-      onMouseMove={handleCompMouseMove}
-    >
+    <div className="componentContainer">
       <Navigation
         className="navigationContainer"
         filterItems={filterInfo}
         findFilteredGroup={findFilteredGroup}
-        // handleFilteredSectorChange={handleFilteredSectorChange}
         findFilteredSectorNode={findFilteredSectorNode}
         hoverFilteredNode={hoverFilteredNode}
         nodePath={nodePath}
@@ -1237,7 +1213,6 @@ function D3Chart() {
         Show Info
       </div>
       <div className="zoomButtonContainer">
-        {/* <span className="zoomNotice">(Press CMD/CTRL + Scroll to zoom)</span> */}
         <div className="zoomButton mobile" onClick={zoomIn}>
           +
         </div>

@@ -81,7 +81,7 @@ export default function Navigation(props) {
       >
         {filterItem.data.name}
         {index !== props.filterItems.filter((item) => item.data.type === "company").length - 1 && isOnDesktop && (
-          <span className="dividerLine">|</span>
+          <span className="dividerLine"> |</span>
         )}
       </li>
     ));
