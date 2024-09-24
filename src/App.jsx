@@ -230,6 +230,7 @@ function D3Chart() {
     zoomNoticeCursor.style.top = e.clientY + zoomNoticeCursor.getBoundingClientRect().height / 2 + "px";
   }
 
+  // Old Zoom transform function
   function handleZoom(e) {
     if (!isOnDesktop && e.sourceEvent !== null) {
       if (e.sourceEvent.touches.length === 1) {
@@ -246,8 +247,25 @@ function D3Chart() {
     setZoomAmount(e.transform.k);
 
     setHasBeenZoomed(true);
+  }
 
-    // updateZoomTransform();
+  // New Zoom transform function
+  function handleZoom(e) {
+    if (!isOnDesktop && e.sourceEvent !== null) {
+      if (e.sourceEvent.touches.length === 1) {
+        return d3.event.sourceEvent.stopPropagation();
+      }
+    }
+
+    let zoomNoticeCursor = document.querySelector(".zoomNoticeCursor");
+    zoomNoticeCursor.classList.remove("visible");
+
+    // Store the current zoom transform
+    setZoomTransform(d3.zoomTransform(chartRef.current));
+
+    // Update the zoom state without directly applying it here
+    setZoomAmount(e.transform.k);
+    setHasBeenZoomed(true);
   }
 
   document.addEventListener("keyup", (e) => {
@@ -424,14 +442,13 @@ function D3Chart() {
       .attr("stroke-width", (d) => arrowThickness(d.target.data.type));
 
     let elementEnter = nodeElement.enter().append("g");
-    // elementEnter.attr("transform", (d) => `translate(${d.x},${d.y})`);
+    elementEnter.attr("transform", (d) => `translate(${d.x},${d.y})`);
 
     // Create the circles
     let circle = elementEnter
       .append("circle")
       // if the node is not the root node, apply the nodeSizes table. Else, base size on amount of descendants
       .attr("r", (d) => (d.depth !== 1 ? nodeSizes(d.data.type) : descendantsScale(d.descendants.length)))
-
       .attr("stroke", (d) => (d.data.color === "transparent" ? null : lightenHex(d.data.color)))
       .attr("stroke-width", (d) => (d.data.color === "transparent" ? 0 : 2))
       //if the depth of the node is smaller than three, fill it. Else, white.
@@ -448,9 +465,6 @@ function D3Chart() {
       .attr("id", (d) => d.index)
       .attr("z-index", 1)
       .attr("position", "relative")
-      // .on("click")
-
-      //Set Opacity to be low by default
 
       .call(drag(simulation));
     // Add the Text
@@ -496,17 +510,17 @@ function D3Chart() {
           lines.push(`[${d.children.length}]`);
         }
 
-        for (var i = 0; i < lines.length; i++) {
-          d3.select(this)
-            .append("tspan")
-            .attr("dy", separation)
-            .attr("text-anchor", "middle")
+        // for (var i = 0; i < lines.length; i++) {
+        //   d3.select(this)
+        //     .append("tspan")
+        //     .attr("dy", separation)
+        //     .attr("text-anchor", "middle")
 
-            .style("font-size", `${fontsize}px`)
-            .text(lines[i].trim());
+        //     .style("font-size", `${fontsize}px`)
+        //     .text(lines[i].trim());
 
-          d3.select(this).attr("transform", "translate(0," + ((separation * lines.length) / 2) * -1 + ")");
-        }
+        //   d3.select(this).attr("transform", "translate(0," + ((separation * lines.length) / 2) * -1 + ")");
+        // }
       });
 
     // Give all foreignObject elements that are small Nodes a class for easier selection
@@ -658,8 +672,6 @@ function D3Chart() {
       .on("mouseleave", handleMouseLeave) //
       .on("click", handleNodeClick);
 
-    d3.selectAll("svg g").attr("transform", zoomTransform);
-
     // Event Handling
     function handleNodeClick(event, clickedNode) {
       activateNodes(clickedNode.children);
@@ -716,75 +728,27 @@ function D3Chart() {
 
     // Set the position attributes of links and nodes each time the simulation ticks.
     simulation.on("tick", () => {
+      // Get the current zoom transform
+      let currentZoom = d3.zoomTransform(chartRef.current);
+
+      // Update link positions
       link
-        .attr("x1", (d) => {
-          if (d.source.data.type === "subcompany") {
-            return shortenLinkBeginning(d.source.x, d.target.x);
-          } else if (d.source.data.type === "connector") {
-            return fullLengthLink(d.source.x, d.target.x);
-          } else {
-            return shortenLinkDefault(d.source.x, d.target.x);
-          }
-        })
-        .attr("y1", (d) => {
-          if (d.source.data.type === "subcompany") {
-            return shortenLinkBeginning(d.source.y, d.target.y);
-          } else if (d.source.data.type === "connector") {
-            return fullLengthLink(d.source.y, d.target.y);
-          } else {
-            return shortenLinkDefault(d.source.y, d.target.y);
-          }
-        })
-        // Shorten the arrow slightly if it is pointing at a lower level node
-        .attr("x2", (d) => {
-          if (d.target.data.type === "connector") {
-            return d.source.x, d.target.x;
-          } else if (d.target.data.type === "subcompany") {
-            return shortenEndLink(d.source.x, d.target.x);
-          } else {
-            return shortenLink(d.source.x, d.target.x);
-          }
-        })
-        .attr("y2", (d) => {
-          if (d.target.data.type === "connector") {
-            return d.source.y, d.target.y;
-          } else if (d.target.data.type === "subcompany") {
-            return shortenEndLink(d.source.y, d.target.y);
-          } else {
-            return shortenLink(d.source.y, d.target.y);
-          }
+        .attr("x1", (d) => currentZoom.applyX(d.source.x))
+        .attr("y1", (d) => currentZoom.applyY(d.source.y))
+        .attr("x2", (d) => currentZoom.applyX(d.target.x))
+        .attr("y2", (d) => currentZoom.applyY(d.target.y));
+
+      // Update node positions and scale
+      elementEnter
+        .attr("transform", (d) => `translate(${currentZoom.applyX(d.x)}, ${currentZoom.applyY(d.y)})`)
+        .select("circle")
+        .attr("r", (d) => {
+          // Scale the radius according to the zoom level
+          const originalRadius = d.depth !== 1 ? nodeSizes(d.data.type) : descendantsScale(d.descendants.length);
+
+          return originalRadius * currentZoom.k; // Adjust based on zoom scale
         });
-      //
-      circle
-        .attr("cx", (d) => d.x) //
-        .attr("cy", (d) => d.y);
-      elementEnter.selectAll("tspan").attr("x", (d) => d.x);
-      document.querySelectorAll("text").forEach(function (text) {
-        let circle = text.parentElement.querySelector("circle");
-        if (circle.getAttribute("cx") !== null || circle.getAttribute("cy") !== null) {
-          text.setAttribute("x", circle.getAttribute("cx"));
-          text.setAttribute("y", circle.getAttribute("cy"));
-        }
-      });
-      // elementEnter.attr("transform", (d) => `translate(${d.x},${d.y})`);
     });
-
-    function shortenLink(sourceCoord, targetCoord, factor = 0.75) {
-      return sourceCoord + (targetCoord - sourceCoord) * factor;
-    }
-    function shortenEndLink(sourceCoord, targetCoord, factor = 0.82) {
-      return sourceCoord + (targetCoord - sourceCoord) * factor;
-    }
-
-    function shortenLinkBeginning(sourceCoord, targetCoord, factor = 0.2) {
-      return sourceCoord + (targetCoord - sourceCoord) * factor;
-    }
-    function shortenLinkDefault(sourceCoord, targetCoord, factor = 0.25) {
-      return sourceCoord + (targetCoord - sourceCoord) * factor;
-    }
-    function fullLengthLink(sourceCoord, targetCoord, factor = 0) {
-      return sourceCoord + (targetCoord - sourceCoord) * factor;
-    }
 
     // circle.exit().remove();
     simulation.nodes(nodes);
