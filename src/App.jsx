@@ -238,15 +238,26 @@ function D3Chart() {
       }
     }
 
+    d3.selectAll(".elementEnter").attr("transform", (d) => {
+      const translateX = e.transform.applyX(d.x);
+      const translateY = e.transform.applyY(d.y);
+      const scale = e.transform.k;
+
+      return `translate(${translateX}, ${translateY}) scale(${scale})`;
+    });
+
+    let links = d3.selectAll(".link");
+
+    links.attr("x1", (d) => e.transform.applyX(d.source.x));
+    links.attr("y1", (d) => e.transform.applyY(d.source.y));
+    links.attr("x2", (d) => e.transform.applyX(d.target.x));
+    links.attr("y2", (d) => e.transform.applyY(d.target.y));
+
     let zoomNoticeCursor = document.querySelector(".zoomNoticeCursor");
     zoomNoticeCursor.classList.remove("visible");
 
-    // Store the current zoom transform
-    setZoomTransform(d3.zoomTransform(chartRef.current));
-    //OLD:
-    // d3.selectAll("svg g").attr("transform", e.transform);
-
-    console.log("zoom event:", e.transform);
+    // Store the current zoom transform in state
+    setZoomTransform(e.transform); // Updated line
 
     // Update the zoom state without directly applying it here
     setZoomAmount(e.transform.k);
@@ -426,8 +437,8 @@ function D3Chart() {
       .attr("stroke-opacity", 0.1)
       .attr("stroke-width", (d) => arrowThickness(d.target.data.type));
 
-    let elementEnter = nodeElement.enter().append("g");
-    elementEnter.attr("transform", (d) => `translate(${d.x},${d.y})`);
+    let elementEnter = nodeElement.enter().append("g").classed("elementEnter", true);
+    // elementEnter.attr("transform", (d) => `translate(${d.x},${d.y})`);
 
     // Create the circles
     let circle = elementEnter
