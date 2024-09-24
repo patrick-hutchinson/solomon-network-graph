@@ -424,6 +424,7 @@ function D3Chart() {
       .attr("stroke-width", (d) => arrowThickness(d.target.data.type));
 
     let elementEnter = nodeElement.enter().append("g");
+    // elementEnter.attr("transform", (d) => `translate(${d.x},${d.y})`);
 
     // Create the circles
     let circle = elementEnter
@@ -495,17 +496,17 @@ function D3Chart() {
           lines.push(`[${d.children.length}]`);
         }
 
-        // for (var i = 0; i < lines.length; i++) {
-        //   d3.select(this)
-        //     .append("tspan")
-        //     .attr("dy", separation)
-        //     .attr("text-anchor", "middle")
+        for (var i = 0; i < lines.length; i++) {
+          d3.select(this)
+            .append("tspan")
+            .attr("dy", separation)
+            .attr("text-anchor", "middle")
 
-        //     .style("font-size", `${fontsize}px`)
-        //     .text(lines[i].trim());
+            .style("font-size", `${fontsize}px`)
+            .text(lines[i].trim());
 
-        //   d3.select(this).attr("transform", "translate(0," + ((separation * lines.length) / 2) * -1 + ")");
-        // }
+          d3.select(this).attr("transform", "translate(0," + ((separation * lines.length) / 2) * -1 + ")");
+        }
       });
 
     // Give all foreignObject elements that are small Nodes a class for easier selection
@@ -757,14 +758,15 @@ function D3Chart() {
       circle
         .attr("cx", (d) => d.x) //
         .attr("cy", (d) => d.y);
-      // elementEnter.selectAll("tspan").attr("x", (d) => d.x);
-      // document.querySelectorAll("text").forEach(function (text) {
-      //   let circle = text.parentElement.querySelector("circle");
-      //   if (circle.getAttribute("cx") !== null || circle.getAttribute("cy") !== null) {
-      //     text.setAttribute("x", circle.getAttribute("cx"));
-      //     text.setAttribute("y", circle.getAttribute("cy"));
-      //   }
-      // });
+      elementEnter.selectAll("tspan").attr("x", (d) => d.x);
+      document.querySelectorAll("text").forEach(function (text) {
+        let circle = text.parentElement.querySelector("circle");
+        if (circle.getAttribute("cx") !== null || circle.getAttribute("cy") !== null) {
+          text.setAttribute("x", circle.getAttribute("cx"));
+          text.setAttribute("y", circle.getAttribute("cy"));
+        }
+      });
+      // elementEnter.attr("transform", (d) => `translate(${d.x},${d.y})`);
     });
 
     function shortenLink(sourceCoord, targetCoord, factor = 0.75) {
@@ -1193,6 +1195,7 @@ function D3Chart() {
         className="navigationContainer"
         filterItems={filterInfo}
         findFilteredGroup={findFilteredGroup}
+        // handleFilteredSectorChange={handleFilteredSectorChange}
         findFilteredSectorNode={findFilteredSectorNode}
         hoverFilteredNode={hoverFilteredNode}
         nodePath={nodePath}
@@ -1213,6 +1216,7 @@ function D3Chart() {
         Show Info
       </div>
       <div className="zoomButtonContainer">
+        {/* <span className="zoomNotice">(Press CMD/CTRL + Scroll to zoom)</span> */}
         <div className="zoomButton mobile" onClick={zoomIn}>
           +
         </div>
