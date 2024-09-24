@@ -230,25 +230,6 @@ function D3Chart() {
     zoomNoticeCursor.style.top = e.clientY + zoomNoticeCursor.getBoundingClientRect().height / 2 + "px";
   }
 
-  // Old Zoom transform function
-  function handleZoom(e) {
-    if (!isOnDesktop && e.sourceEvent !== null) {
-      if (e.sourceEvent.touches.length === 1) {
-        return d3.event.sourceEvent.stopPropagation();
-      }
-    }
-    let zoomNoticeCursor = document.querySelector(".zoomNoticeCursor");
-    zoomNoticeCursor.classList.remove("visible");
-
-    setZoomTransform(d3.zoomTransform(chartRef.current));
-
-    d3.selectAll("svg g").attr("transform", e.transform);
-
-    setZoomAmount(e.transform.k);
-
-    setHasBeenZoomed(true);
-  }
-
   // New Zoom transform function
   function handleZoom(e) {
     if (!isOnDesktop && e.sourceEvent !== null) {
@@ -262,6 +243,10 @@ function D3Chart() {
 
     // Store the current zoom transform
     setZoomTransform(d3.zoomTransform(chartRef.current));
+    //OLD:
+    // d3.selectAll("svg g").attr("transform", e.transform);
+
+    console.log("zoom event:", e.transform);
 
     // Update the zoom state without directly applying it here
     setZoomAmount(e.transform.k);
@@ -470,6 +455,7 @@ function D3Chart() {
     // Add the Text
     let text = elementEnter
       .append("text")
+      .text("nodeName")
       .call(drag(simulation))
       .attr("dominant-baseline", "central")
       .style("fill", "#fff")
@@ -498,17 +484,17 @@ function D3Chart() {
           separation = 22;
         }
 
-        const lines = wordwrap(d.data.name, maxLength).split("\n");
+        // const lines = wordwrap(d.data.name, maxLength).split("\n");
 
-        if (lines.length > maxLines) {
-          lines.splice(maxLines, lines.length - maxLines);
-          lines.push("...");
-        }
+        // if (lines.length > maxLines) {
+        //   lines.splice(maxLines, lines.length - maxLines);
+        //   lines.push("...");
+        // }
 
-        // add the number of children to the text
-        if (d.children && d.data.type !== "connector" && d.depth > 2) {
-          lines.push(`[${d.children.length}]`);
-        }
+        // // add the number of children to the text
+        // if (d.children && d.data.type !== "connector" && d.depth > 2) {
+        //   lines.push(`[${d.children.length}]`);
+        // }
 
         // for (var i = 0; i < lines.length; i++) {
         //   d3.select(this)
@@ -726,7 +712,6 @@ function D3Chart() {
         });
       });
 
-    // Set the position attributes of links and nodes each time the simulation ticks.
     simulation.on("tick", () => {
       // Get the current zoom transform
       let currentZoom = d3.zoomTransform(chartRef.current);
@@ -738,16 +723,15 @@ function D3Chart() {
         .attr("x2", (d) => currentZoom.applyX(d.target.x))
         .attr("y2", (d) => currentZoom.applyY(d.target.y));
 
-      // Update node positions and scale
-      elementEnter
-        .attr("transform", (d) => `translate(${currentZoom.applyX(d.x)}, ${currentZoom.applyY(d.y)})`)
-        .select("circle")
-        .attr("r", (d) => {
-          // Scale the radius according to the zoom level
-          const originalRadius = d.depth !== 1 ? nodeSizes(d.data.type) : descendantsScale(d.descendants.length);
+      // Update node positions and scale the entire `g` element
+      elementEnter.attr("transform", (d) => {
+        // Apply both translation and scaling to the `g` element
+        const translateX = currentZoom.applyX(d.x);
+        const translateY = currentZoom.applyY(d.y);
+        const scale = currentZoom.k;
 
-          return originalRadius * currentZoom.k; // Adjust based on zoom scale
-        });
+        return `translate(${translateX}, ${translateY}) scale(${scale})`;
+      });
     });
 
     // circle.exit().remove();
