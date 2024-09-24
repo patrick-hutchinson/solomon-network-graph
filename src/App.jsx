@@ -306,16 +306,16 @@ function D3Chart() {
     return d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended);
   };
 
-  function wordwrap(str, width, brk, cut) {
-    brk = brk || "\n";
-    width = width || 75;
-    cut = cut || false;
-    if (!str) {
-      return str;
-    }
-    var regex = ".{0," + width + "}(\\s|$)" + (cut ? "|.{" + width + "}|.+$" : "|\\S+?(\\s|$)");
-    return str.match(RegExp(regex, "g")).join(brk);
-  }
+  // function wordwrap(str, width, brk, cut) {
+  //   brk = brk || "\n";
+  //   width = width || 75;
+  //   cut = cut || false;
+  //   if (!str) {
+  //     return str;
+  //   }
+  //   var regex = ".{0," + width + "}(\\s|$)" + (cut ? "|.{" + width + "}|.+$" : "|\\S+?(\\s|$)");
+  //   return str.match(RegExp(regex, "g")).join(brk);
+  // }
 
   useEffect(() => {
     const groupDistance = 600;
@@ -466,59 +466,58 @@ function D3Chart() {
     // Add the Text
     let text = elementEnter
       .append("text")
-      .text("nodeName")
-      .call(drag(simulation))
+      .text((d) => d.data.name)
       .attr("dominant-baseline", "central")
-      .style("fill", "#fff")
+      .style("fill", "#fff");
 
-      .each(function (d) {
-        let fontsize = 16;
-        let maxLength = 20;
-        let maxLines = 6;
-        let separation = 18;
+    // .each(function (d) {
+    //   let fontsize = 16;
+    //   let maxLength = 20;
+    //   let maxLines = 6;
+    //   let separation = 18;
 
-        // larger nodes get larger text
-        if (d.data.type === "company") {
-          fontsize = 32;
-          maxLength = 16;
-          separation = 38;
-        }
-        if (d.data.type === "person") {
-          fontsize = 18;
-          maxLength = 16;
-          separation = 25;
-        }
+    //   // larger nodes get larger text
+    //   if (d.data.type === "company") {
+    //     fontsize = 32;
+    //     maxLength = 16;
+    //     separation = 38;
+    //   }
+    //   if (d.data.type === "person") {
+    //     fontsize = 18;
+    //     maxLength = 16;
+    //     separation = 25;
+    //   }
 
-        if (d.data.type === "mothercompany") {
-          fontsize = 16;
-          maxLength = 16;
-          separation = 22;
-        }
+    //   if (d.data.type === "mothercompany") {
+    //     fontsize = 16;
+    //     maxLength = 16;
+    //     separation = 22;
+    //   }
 
-        // const lines = wordwrap(d.data.name, maxLength).split("\n");
+    // const lines = wordwrap(d.data.name, maxLength).split("\n");
 
-        // if (lines.length > maxLines) {
-        //   lines.splice(maxLines, lines.length - maxLines);
-        //   lines.push("...");
-        // }
+    // if (lines.length > maxLines) {
+    //   lines.splice(maxLines, lines.length - maxLines);
+    //   lines.push("...");
+    // }
 
-        // // add the number of children to the text
-        // if (d.children && d.data.type !== "connector" && d.depth > 2) {
-        //   lines.push(`[${d.children.length}]`);
-        // }
+    // // add the number of children to the text
+    // if (d.children && d.data.type !== "connector" && d.depth > 2) {
+    //   lines.push(`[${d.children.length}]`);
+    // }
 
-        // for (var i = 0; i < lines.length; i++) {
-        //   d3.select(this)
-        //     .append("tspan")
-        //     .attr("dy", separation)
-        //     .attr("text-anchor", "middle")
+    // for (var i = 0; i < lines.length; i++) {
+    //   d3.select(this)
+    //     .append("tspan")
+    //     .attr("dy", separation)
+    //     .attr("text-anchor", "middle")
 
-        //     .style("font-size", `${fontsize}px`)
-        //     .text(lines[i].trim());
+    //     .style("font-size", `${fontsize}px`)
+    //     .text(lines[i].trim());
 
-        //   d3.select(this).attr("transform", "translate(0," + ((separation * lines.length) / 2) * -1 + ")");
-        // }
-      });
+    //   d3.select(this).attr("transform", "translate(0," + ((separation * lines.length) / 2) * -1 + ")");
+    // }
+    // });
 
     // Give all foreignObject elements that are small Nodes a class for easier selection
     document.querySelectorAll(".smallNode").forEach(function (smallNode) {

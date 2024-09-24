@@ -203,6 +203,11 @@ tspan {
   letter-spacing: 0.05em;
 }
 
+text {
+  max-width: 200px;
+  white-space: unset;
+}
+
 .navigationContainer {
   width: 100%;
   grid-row-start: 0;
