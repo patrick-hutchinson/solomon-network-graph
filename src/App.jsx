@@ -468,59 +468,58 @@ function D3Chart() {
     // Add the Text
     let text = elementEnter
       .append("text")
-      .text((d) => d.data.name)
+      // .text((d) => d.data.name)
       .attr("dominant-baseline", "central")
       .style("fill", "#fff")
-      .attr("transform", (d) => `translateX(42px)`);
 
-    // .each(function (d) {
-    //   let fontsize = 16;
-    //   let maxLength = 20;
-    //   let maxLines = 6;
-    //   let separation = 18;
+      .each(function (d) {
+        let fontsize = 16;
+        let maxLength = 20;
+        let maxLines = 6;
+        let separation = 18;
 
-    //   // larger nodes get larger text
-    //   if (d.data.type === "company") {
-    //     fontsize = 32;
-    //     maxLength = 16;
-    //     separation = 38;
-    //   }
-    //   if (d.data.type === "person") {
-    //     fontsize = 18;
-    //     maxLength = 16;
-    //     separation = 25;
-    //   }
+        // larger nodes get larger text
+        if (d.data.type === "company") {
+          fontsize = 32;
+          maxLength = 16;
+          separation = 38;
+        }
+        if (d.data.type === "person") {
+          fontsize = 18;
+          maxLength = 16;
+          separation = 25;
+        }
 
-    //   if (d.data.type === "mothercompany") {
-    //     fontsize = 16;
-    //     maxLength = 16;
-    //     separation = 22;
-    //   }
+        if (d.data.type === "mothercompany") {
+          fontsize = 16;
+          maxLength = 16;
+          separation = 22;
+        }
 
-    //   const lines = wordwrap(d.data.name, maxLength).split("\n");
+        const lines = wordwrap(d.data.name, maxLength).split("\n");
 
-    //   if (lines.length > maxLines) {
-    //     lines.splice(maxLines, lines.length - maxLines);
-    //     lines.push("...");
-    //   }
+        if (lines.length > maxLines) {
+          lines.splice(maxLines, lines.length - maxLines);
+          lines.push("...");
+        }
 
-    //   // add the number of children to the text
-    //   if (d.children && d.data.type !== "connector" && d.depth > 2) {
-    //     lines.push(`[${d.children.length}]`);
-    //   }
+        // add the number of children to the text
+        if (d.children && d.data.type !== "connector" && d.depth > 2) {
+          lines.push(`[${d.children.length}]`);
+        }
 
-    //   for (var i = 0; i < lines.length; i++) {
-    //     d3.select(this)
-    //       .append("tspan")
-    //       .attr("dy", separation)
-    //       .attr("text-anchor", "middle")
+        for (var i = 0; i < lines.length; i++) {
+          d3.select(this)
+            .append("tspan")
+            .attr("dy", separation)
+            .attr("text-anchor", "middle")
+            .attr("x", 0)
+            .style("font-size", `${fontsize}px`)
+            .text(lines[i].trim());
 
-    //       .style("font-size", `${fontsize}px`)
-    //       .text(lines[i].trim());
-
-    //     d3.select(this).attr("transform", "translate(0," + ((separation * lines.length) / 2) * -1 + ")");
-    //   }
-    // });
+          d3.select(this).attr("transform", "translate(0," + ((separation * lines.length) / 2) * -1 + ")");
+        }
+      });
 
     // Give all foreignObject elements that are small Nodes a class for easier selection
     document.querySelectorAll(".smallNode").forEach(function (smallNode) {
@@ -981,6 +980,10 @@ function D3Chart() {
 
     activateNodes(nodesToEnable);
     deactivateNodes(nodesToDisable);
+  }
+
+  if (sectorFilters.length > 1) {
+    sectorFilters[1].classList.add("active");
   }
 
   // Change the opacity of nodes passed into this function.
