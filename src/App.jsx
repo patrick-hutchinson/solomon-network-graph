@@ -253,6 +253,8 @@ function D3Chart() {
     links.attr("x2", (d) => e.transform.applyX(d.target.x));
     links.attr("y2", (d) => e.transform.applyY(d.target.y));
 
+    links.attr("stroke-width", (d) => arrowThickness(d.target.data.type) * e.transform.k);
+
     let zoomNoticeCursor = document.querySelector(".zoomNoticeCursor");
     zoomNoticeCursor.classList.remove("visible");
 
@@ -306,16 +308,16 @@ function D3Chart() {
     return d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended);
   };
 
-  // function wordwrap(str, width, brk, cut) {
-  //   brk = brk || "\n";
-  //   width = width || 75;
-  //   cut = cut || false;
-  //   if (!str) {
-  //     return str;
-  //   }
-  //   var regex = ".{0," + width + "}(\\s|$)" + (cut ? "|.{" + width + "}|.+$" : "|\\S+?(\\s|$)");
-  //   return str.match(RegExp(regex, "g")).join(brk);
-  // }
+  function wordwrap(str, width, brk, cut) {
+    brk = brk || "\n";
+    width = width || 75;
+    cut = cut || false;
+    if (!str) {
+      return str;
+    }
+    var regex = ".{0," + width + "}(\\s|$)" + (cut ? "|.{" + width + "}|.+$" : "|\\S+?(\\s|$)");
+    return str.match(RegExp(regex, "g")).join(brk);
+  }
 
   useEffect(() => {
     const groupDistance = 600;
@@ -398,27 +400,27 @@ function D3Chart() {
       (d) => d
     );
 
-    let arrowheads = svg
-      .append("defs")
-      .selectAll("marker")
-      // Linking the nodes data will create a def element for each element in nodes.
-      // The refX and fill values will associate to each node, creating an arrowhead that fits for each.
-      // Since it goes through from start to finish, we can incremement the id number and later match that with the made arrows.
-      .data(nodes, (d) => d)
-      // .join("marker")
-      .enter()
-      .append("marker")
-      .attr("id", (d, i) => i)
-      // Calculation is tailormade to place all arrowheads correctly.
-      .attr("refX", (d) => nodeSizes(d.data.type) / 32)
-      .attr("refY", 3)
-      .attr("markerWidth", 10)
-      .attr("markerHeight", 10)
-      .attr("class", "arrowhead")
-      .attr("orient", "auto-start-reverse")
-      .attr("fill", (d) => d.data.color)
-      .append("path")
-      .attr("d", "M0,0 L0,6 L4,3 z");
+    // let arrowheads = svg
+    //   .append("defs")
+    //   .selectAll("marker")
+    //   // Linking the nodes data will create a def element for each element in nodes.
+    //   // The refX and fill values will associate to each node, creating an arrowhead that fits for each.
+    //   // Since it goes through from start to finish, we can incremement the id number and later match that with the made arrows.
+    //   .data(nodes, (d) => d)
+    //   // .join("marker")
+    //   .enter()
+    //   .append("marker")
+    //   .attr("id", (d, i) => i)
+    //   // Calculation is tailormade to place all arrowheads correctly.
+    //   .attr("refX", (d) => nodeSizes(d.data.type) / 32)
+    //   .attr("refY", 3)
+    //   .attr("markerWidth", 10)
+    //   .attr("markerHeight", 10)
+    //   .attr("class", "arrowhead")
+    //   .attr("orient", "auto-start-reverse")
+    //   .attr("fill", (d) => d.data.color)
+    //   .append("path")
+    //   .attr("d", "M0,0 L0,6 L4,3 z");
 
     // Create and draw the Links
     let link = svg
@@ -436,8 +438,9 @@ function D3Chart() {
       .attr("stroke", "#999")
       .attr("stroke-opacity", 0.1)
       .attr("stroke-width", (d) => arrowThickness(d.target.data.type));
+    // .attr("stroke-width", "3");
 
-    let elementEnter = nodeElement.enter().append("g").classed("elementEnter", true);
+    let elementEnter = nodeElement.enter().append("g").classed("elementEnter", true).call(drag(simulation));
     // elementEnter.attr("transform", (d) => `translate(${d.x},${d.y})`);
 
     // Create the circles
@@ -460,15 +463,15 @@ function D3Chart() {
       )
       .attr("id", (d) => d.index)
       .attr("z-index", 1)
-      .attr("position", "relative")
+      .attr("position", "relative");
 
-      .call(drag(simulation));
     // Add the Text
     let text = elementEnter
       .append("text")
       .text((d) => d.data.name)
       .attr("dominant-baseline", "central")
-      .style("fill", "#fff");
+      .style("fill", "#fff")
+      .attr("transform", (d) => `translateX(42px)`);
 
     // .each(function (d) {
     //   let fontsize = 16;
@@ -494,29 +497,29 @@ function D3Chart() {
     //     separation = 22;
     //   }
 
-    // const lines = wordwrap(d.data.name, maxLength).split("\n");
+    //   const lines = wordwrap(d.data.name, maxLength).split("\n");
 
-    // if (lines.length > maxLines) {
-    //   lines.splice(maxLines, lines.length - maxLines);
-    //   lines.push("...");
-    // }
+    //   if (lines.length > maxLines) {
+    //     lines.splice(maxLines, lines.length - maxLines);
+    //     lines.push("...");
+    //   }
 
-    // // add the number of children to the text
-    // if (d.children && d.data.type !== "connector" && d.depth > 2) {
-    //   lines.push(`[${d.children.length}]`);
-    // }
+    //   // add the number of children to the text
+    //   if (d.children && d.data.type !== "connector" && d.depth > 2) {
+    //     lines.push(`[${d.children.length}]`);
+    //   }
 
-    // for (var i = 0; i < lines.length; i++) {
-    //   d3.select(this)
-    //     .append("tspan")
-    //     .attr("dy", separation)
-    //     .attr("text-anchor", "middle")
+    //   for (var i = 0; i < lines.length; i++) {
+    //     d3.select(this)
+    //       .append("tspan")
+    //       .attr("dy", separation)
+    //       .attr("text-anchor", "middle")
 
-    //     .style("font-size", `${fontsize}px`)
-    //     .text(lines[i].trim());
+    //       .style("font-size", `${fontsize}px`)
+    //       .text(lines[i].trim());
 
-    //   d3.select(this).attr("transform", "translate(0," + ((separation * lines.length) / 2) * -1 + ")");
-    // }
+    //     d3.select(this).attr("transform", "translate(0," + ((separation * lines.length) / 2) * -1 + ")");
+    //   }
     // });
 
     // Give all foreignObject elements that are small Nodes a class for easier selection

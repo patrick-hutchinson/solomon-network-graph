@@ -201,11 +201,12 @@ body {
 tspan {
   pointer-events: none;
   letter-spacing: 0.05em;
+  /* text-align: center; */
 }
 
 text {
-  max-width: 200px;
-  white-space: unset;
+  /* max-width: 200px; */
+  /* white-space: unset; */
 }
 
 .navigationContainer {
