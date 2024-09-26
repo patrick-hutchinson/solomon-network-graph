@@ -116,6 +116,10 @@ function D3Chart() {
     }
   }, [dataLoaded]);
 
+  document
+    .querySelectorAll(".sectorFilter")
+    .forEach((filter) => filter.innerText.includes("ΜΜΕ") && filter.classList.add("active"));
+
   // Adding relationships (brother, partner...) to nodes
   // Add a relationship object to the node that is the target of the object, so it shows up in the info panel also
   useEffect(() => {
@@ -982,9 +986,9 @@ function D3Chart() {
     deactivateNodes(nodesToDisable);
   }
 
-  if (sectorFilters.length > 1) {
-    sectorFilters[1].classList.add("active");
-  }
+  // if (sectorFilters.length > 1) {
+  //   sectorFilters[1].classList.add("active");
+  // }
 
   // Change the opacity of nodes passed into this function.
   function activateNodes(nodesToActivate) {
