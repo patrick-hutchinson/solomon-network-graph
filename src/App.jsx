@@ -324,7 +324,11 @@ function D3Chart() {
   }
 
   useEffect(() => {
+    if ( !nodes[0].children ) return;
+
     const groupDistance = 600;
+    const groupsNum = nodes[0].children.length;
+
     let simulation = d3
       .forceSimulation(nodes, (d) => d)
       .force(
@@ -337,12 +341,12 @@ function D3Chart() {
             let targetNodeIsLarge = d.target.data.type !== "subcompany";
 
             if (d.source.depth === 0 || d.target.depth === 0) {
-              return 50; // Closer to the center
+              return -600; // Closer to the center
             }
             if (sourceNodeIsLarge && targetNodeIsLarge) {
               return 400; // Larger distance for big nodes
             }
-            return 150; // Default distance for others
+            return 100; // Default distance for others
           })
           .strength(0.8) // Strength slightly reduced to keep links flexible
       )
@@ -362,15 +366,27 @@ function D3Chart() {
       .force(
         "x",
         d3.forceX().x((d) => {
-          if (d.depth === 0) return d.x;
-          return (d.data.group - 3) * groupDistance; // Adjusting the distance dynamically based on the group number
+          if ( d.depth === 0 ) {
+            return d.x;
+          }
+          if ( d.depth === 1 ) {
+            return Math.cos( ( d.data.group * 2 * Math.PI ) / groupsNum ) * -groupDistance * 10;
+          }
+          return Math.cos( ( d.data.group * 2 * Math.PI ) / groupsNum ) * groupDistance * (d.depth * .5);
+          // return ( d.data.group ) * groupDistance; // Adjusting the distance dynamically based on the group number
         })
       )
       .force(
         "y",
         d3.forceY().y((d) => {
-          if (d.depth === 0) return d.y;
-          return Math.abs(d.data.group - 3) * groupDistance; // Adjusting the distance dynamically based on the group number
+          if ( d.depth === 0 ) {
+            return d.y
+          } 
+          if ( d.depth === 1 ) {
+            return Math.sin( ( d.data.group * 2 * Math.PI ) / groupsNum ) * -groupDistance * 10;
+          }
+          return Math.sin( ( d.data.group * 2 * Math.PI ) / groupsNum ) * groupDistance * d.depth;
+          // return Math.abs( d.data.group ) * groupDistance; // Adjusting the distance dynamically based on the group number
         })
       );
 
@@ -451,7 +467,7 @@ function D3Chart() {
     let circle = elementEnter
       .append("circle")
       // if the node is not the root node, apply the nodeSizes table. Else, base size on amount of descendants
-      .attr("r", (d) => (d.depth !== 1 ? nodeSizes(d.data.type) : descendantsScale(d.descendants.length)))
+      .attr("r", (d) => (d.depth !== 1 ? nodeSizes(d.data.type) : descendantsScale(d.descendants().length)))
       .attr("stroke", (d) => (d.data.color === "transparent" ? null : lightenHex(d.data.color)))
       .attr("stroke-width", (d) => (d.data.color === "transparent" ? 0 : 2))
       //if the depth of the node is smaller than three, fill it. Else, white.
