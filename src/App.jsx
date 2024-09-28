@@ -61,7 +61,7 @@ function D3Chart() {
   let [initialZoom, setInitialZoom] = useState({
     x: isOnDesktop ? 0 : 200,
     y: isOnDesktop ? 0 : 200,
-    k: isOnDesktop ? 0.8 : 0.1,
+    k: isOnDesktop ? 0.4 : 0.1,
   });
 
   let [zoomTransform, setZoomTransform] = useState(
@@ -321,7 +321,7 @@ function D3Chart() {
   }
 
   useEffect(() => {
-    if ( !nodes[0].children ) return;
+    if (!nodes[0].children) return;
 
     const groupDistance = 600;
     const groupsNum = nodes[0].children.length;
@@ -363,26 +363,26 @@ function D3Chart() {
       .force(
         "x",
         d3.forceX().x((d) => {
-          if ( d.depth === 0 ) {
+          if (d.depth === 0) {
             return d.x;
           }
-          if ( d.depth === 1 ) {
-            return Math.cos( ( d.data.group * 2 * Math.PI ) / groupsNum ) * -groupDistance * 10;
+          if (d.depth === 1) {
+            return Math.cos((d.data.group * 2 * Math.PI) / groupsNum) * -groupDistance * 10;
           }
-          return Math.cos( ( d.data.group * 2 * Math.PI ) / groupsNum ) * groupDistance * (d.depth * .5);
+          return Math.cos((d.data.group * 2 * Math.PI) / groupsNum) * groupDistance * (d.depth * 0.5);
           // return ( d.data.group ) * groupDistance; // Adjusting the distance dynamically based on the group number
         })
       )
       .force(
         "y",
         d3.forceY().y((d) => {
-          if ( d.depth === 0 ) {
-            return d.y
-          } 
-          if ( d.depth === 1 ) {
-            return Math.sin( ( d.data.group * 2 * Math.PI ) / groupsNum ) * -groupDistance * 10;
+          if (d.depth === 0) {
+            return d.y;
           }
-          return Math.sin( ( d.data.group * 2 * Math.PI ) / groupsNum ) * groupDistance * d.depth;
+          if (d.depth === 1) {
+            return Math.sin((d.data.group * 2 * Math.PI) / groupsNum) * -groupDistance * 10;
+          }
+          return Math.sin((d.data.group * 2 * Math.PI) / groupsNum) * groupDistance * d.depth;
           // return Math.abs( d.data.group ) * groupDistance; // Adjusting the distance dynamically based on the group number
         })
       );
