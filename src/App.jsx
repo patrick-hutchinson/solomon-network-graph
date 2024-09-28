@@ -104,10 +104,6 @@ function D3Chart() {
   useEffect(() => {
     setActiveSectorFilter(["ΜΜΕ"]);
 
-    let sectorFilters = document.querySelectorAll(".sectorFilter");
-    if (sectorFilters.length > 1) {
-      sectorFilters.forEach((filter) => filter.innerText.includes("ΜΜΕ") && filter.classList.add("active"));
-    }
     // Populate the setActiveGroupFilter with the groups that are present in the data
     // Should be an array of numbers
     if (nodes.length > 0) {
@@ -116,9 +112,10 @@ function D3Chart() {
     }
   }, [dataLoaded]);
 
-  document
-    .querySelectorAll(".sectorFilter")
-    .forEach((filter) => filter.innerText.includes("ΜΜΕ") && filter.classList.add("active"));
+  useEffect(() => {
+    let sectorFilters = document.querySelectorAll(".sectorFilter");
+    sectorFilters.forEach((filter) => filter.innerText.includes("ΜΜΕ") && filter.classList.add("active"));
+  }, [nodes]);
 
   // Adding relationships (brother, partner...) to nodes
   // Add a relationship object to the node that is the target of the object, so it shows up in the info panel also
@@ -843,12 +840,12 @@ function D3Chart() {
   function toggleFilter(filtername, allSectorFilters) {
     // If Statement Declarations
     let filterIsActive = event.target.classList.contains("active");
+    let clickedAllFilter = event.target.innerText.includes("Όλα");
 
     // The clicked Filter is not active yet
     if (!filterIsActive) {
       event.target.classList.add("active");
 
-      let clickedAllFilter = event.target.innerText.includes("Όλα");
       let everyFilterActive = activeSectorFilter.length === allSectorFilters.length;
 
       // The target is not the "All" filter
